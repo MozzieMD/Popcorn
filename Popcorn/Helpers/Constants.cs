@@ -105,12 +105,12 @@ namespace Popcorn.Helpers
         /// <summary>
         /// Version of the application
         /// </summary>
-        public const string ApplicationVersion = "0.0.2";
+        public const string ApplicationVersion = "0.0.1";
 
         /// <summary>
         /// Url of the server updates
         /// </summary>
-        public const string UpdateServerUrl = "https://popcorn.blob.core.windows.net/releases";
+        public const string UpdateServerUrl = "https://popcornreleases.blob.core.windows.net/releases";
 
         /// <summary>
         /// Name of the application
