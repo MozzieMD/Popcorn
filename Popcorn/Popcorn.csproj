@@ -1,0 +1,1805 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{5BFADF51-CE11-45CF-8E36-DC9DC061C274}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Popcorn</RootNamespace>
+    <AssemblyName>Popcorn</AssemblyName>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+    <TargetFrameworkProfile />
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>CODE_ANALYSIS;DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>icon.ico</ApplicationIcon>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="DeltaCompressionDotNet, Version=2.0.0.0, Culture=neutral, PublicKeyToken=1d14d6e5194e7f4a, processorArchitecture=MSIL">
+      <HintPath>..\packages\DeltaCompressionDotNet.2.0.0.0-rc1\lib\net20\DeltaCompressionDotNet.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServerCompact, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.SqlServerCompact.6.1.3\lib\net45\EntityFramework.SqlServerCompact.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="GalaSoft.MvvmLight">
+      <HintPath>..\packages\MvvmLightLibs.5.1.1.0\lib\net45\GalaSoft.MvvmLight.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="GalaSoft.MvvmLight.Extras">
+      <HintPath>..\packages\MvvmLightLibs.5.1.1.0\lib\net45\GalaSoft.MvvmLight.Extras.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="GalaSoft.MvvmLight.Platform">
+      <HintPath>..\packages\MvvmLightLibs.5.1.1.0\lib\net45\GalaSoft.MvvmLight.Platform.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="ICSharpCode.SharpZipLib, Version=0.86.0.518, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\squirrel.windows.0.99.2\lib\Net45\ICSharpCode.SharpZipLib.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="MahApps.Metro">
+      <HintPath>..\packages\MahApps.Metro.1.1.3-ALPHA028\lib\net45\MahApps.Metro.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Practices.ServiceLocation">
+      <HintPath>..\packages\CommonServiceLocator.1.3\lib\portable-net4+sl5+netcore45+wpa81+wp8\Microsoft.Practices.ServiceLocation.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Web.XmlTransform">
+      <HintPath>..\packages\Microsoft.Web.Xdt.2.1.1\lib\net40\Microsoft.Web.XmlTransform.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Mono.Cecil, Version=0.9.6.0, Culture=neutral, PublicKeyToken=0738eb9f132ed756, processorArchitecture=MSIL">
+      <HintPath>..\packages\Mono.Cecil.0.9.6.1\lib\net45\Mono.Cecil.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Mono.Cecil.Mdb, Version=0.9.6.0, Culture=neutral, PublicKeyToken=0738eb9f132ed756, processorArchitecture=MSIL">
+      <HintPath>..\packages\Mono.Cecil.0.9.6.1\lib\net45\Mono.Cecil.Mdb.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Mono.Cecil.Pdb, Version=0.9.6.0, Culture=neutral, PublicKeyToken=0738eb9f132ed756, processorArchitecture=MSIL">
+      <HintPath>..\packages\Mono.Cecil.0.9.6.1\lib\net45\Mono.Cecil.Pdb.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Mono.Cecil.Rocks, Version=0.9.6.0, Culture=neutral, PublicKeyToken=0738eb9f132ed756, processorArchitecture=MSIL">
+      <HintPath>..\packages\Mono.Cecil.0.9.6.1\lib\net45\Mono.Cecil.Rocks.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=7.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.7.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
+      <HintPath>..\packages\NLog.4.0.1\lib\net45\NLog.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="NuGet.Core, Version=2.8.60717.93, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\NuGet.Core.2.8.6\lib\net40-Client\NuGet.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Ragnar, Version=0.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <HintPath>..\packages\Ragnar.0.6.0\lib\net45\Ragnar.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="RestSharp, Version=105.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\RestSharp.105.1.0\lib\net452\RestSharp.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Splat, Version=1.6.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Splat.1.6.2\lib\Net45\Splat.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Squirrel, Version=0.99.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\squirrel.windows.0.99.2\lib\Net45\Squirrel.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Data.SqlServerCe, Version=4.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.SqlServer.Compact.4.0.8876.1\lib\net40\System.Data.SqlServerCe.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Drawing.Design" />
+    <Reference Include="System.IO.Compression" />
+    <Reference Include="System.IO.Compression.FileSystem" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Windows.Interactivity">
+      <HintPath>..\packages\MvvmLightLibs.5.1.1.0\lib\net45\System.Windows.Interactivity.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xaml">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="TMDbLib, Version=0.8.2.3, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\TMDbLib.0.8.2.3-alpha\lib\net45\TMDbLib.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="WPFLocalizeExtension, Version=2.3.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\WpfLocalizeExtension.2.3.2\lib\net35\WPFLocalizeExtension.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="XAMLMarkupExtensions, Version=1.2.1.3, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\XAMLMarkupExtensions.1.2.1.3\lib\net40\XAMLMarkupExtensions.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="YoutubeExtractor">
+      <HintPath>..\packages\YoutubeExtractor.0.10.6\lib\net35\YoutubeExtractor.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <ApplicationDefinition Include="App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </ApplicationDefinition>
+    <Compile Include="Comparers\MovieComparer.cs" />
+    <Compile Include="Converters\InverseBooleanConverter.cs" />
+    <Compile Include="Converters\BoolToInverseVisibilityConverter.cs" />
+    <Compile Include="Converters\GenresConverter.cs" />
+    <Compile Include="Converters\BoolToVisibilityConverter.cs" />
+    <Compile Include="Converters\MultiBooleanToBoolConverter.cs" />
+    <Compile Include="Converters\MultiBooleanToVisibilityConverter.cs" />
+    <Compile Include="Converters\UriToCachedImageConverter.cs" />
+    <Compile Include="Converters\RatioConverter.cs" />
+    <Compile Include="Converters\RuntimeConverter.cs" />
+    <Compile Include="Converters\StringRatingToIntRatingConverter.cs" />
+    <Compile Include="CustomPanels\ElasticWrapPanel.cs" />
+    <Compile Include="Entity\Localization\Language.cs" />
+    <Compile Include="Entity\Settings\ApplicationSettings.cs" />
+    <Compile Include="Entity\User\UserData.cs" />
+    <Compile Include="Events\ConnectionErrorEventArgs.cs" />
+    <Compile Include="Events\NumberOfColumnsChangedEventArgs.cs" />
+    <Compile Include="Helpers\Constants.cs" />
+    <Compile Include="Helpers\LocalizationProviderHelper.cs" />
+    <Compile Include="Helpers\VisualHierarchyHelper.cs" />
+    <Compile Include="Messaging\ChangeLanguageMessage.cs" />
+    <Compile Include="Messaging\ChangeScreenModeMessage.cs" />
+    <Compile Include="Messaging\ConnectionErrorMessage.cs" />
+    <Compile Include="Messaging\LoadMovieMessage.cs" />
+    <Compile Include="Messaging\SearchMovieMessage.cs" />
+    <Compile Include="Messaging\StopPlayingTrailerMessage.cs" />
+    <Compile Include="Migrations\201507151433289_Initial.cs" />
+    <Compile Include="Migrations\201507151433289_Initial.Designer.cs">
+      <DependentUpon>201507151433289_Initial.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201507202042572_Add-EnglishName.cs" />
+    <Compile Include="Migrations\201507202042572_Add-EnglishName.Designer.cs">
+      <DependentUpon>201507202042572_Add-EnglishName.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Model\Cast\Actor.cs" />
+    <Compile Include="Model\Cast\Director.cs" />
+    <Compile Include="Model\Cast\Json\ActorDeserialized.cs" />
+    <Compile Include="Model\Cast\Json\DirectorDeserialized.cs" />
+    <Compile Include="Model\Localization\CustomLanguage.cs" />
+    <Compile Include="Model\Localization\EnglishLanguage.cs" />
+    <Compile Include="Model\Localization\FrenchLanguage.cs" />
+    <Compile Include="Model\Localization\ILanguage.cs" />
+    <Compile Include="Helpers\NoKeepAliveWebClient.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Helpers\TabContent.cs" />
+    <Compile Include="Messaging\MovieBufferedMessage.cs" />
+    <Compile Include="Messaging\StopPlayingMovieMessage.cs" />
+    <Compile Include="Entity\ApplicationDbContext.cs" />
+    <Compile Include="Entity\User\MovieHistory.cs" />
+    <Compile Include="Model\Localization\Language.cs" />
+    <Compile Include="Model\Movie\MovieFull.cs" />
+    <Compile Include="Model\Movie\Json\DataMovieShortDeserialized.cs" />
+    <Compile Include="Model\Movie\Json\MetaDeserialized.cs" />
+    <Compile Include="Model\Movie\MovieShort.cs" />
+    <Compile Include="Model\Movie\Json\MovieFullDeserialized.cs" />
+    <Compile Include="Model\Movie\Json\MovieImagesDeserialized.cs" />
+    <Compile Include="Model\Movie\Json\MovieShortDeserialized.cs" />
+    <Compile Include="Model\Movie\Json\WrapperMovieFullDeserialized.cs" />
+    <Compile Include="Model\Movie\Json\WrapperMovieShortDeserialized.cs" />
+    <Compile Include="Model\Subtitle\Json\SubtitleDeserialized.cs" />
+    <Compile Include="Model\Subtitle\Json\SubtitlesWrapperDeserialized.cs" />
+    <Compile Include="Model\Subtitle\Subtitle.cs" />
+    <Compile Include="Model\Torrent\Torrent.cs" />
+    <Compile Include="Service\Api\ApiService.cs" />
+    <Compile Include="Service\Api\ApiServiceException.cs" />
+    <Compile Include="Service\Api\IApiService.cs" />
+    <Compile Include="Model\Torrent\Deserialized\TorrentDeserialized.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.fr.Designer.cs">
+      <DependentUpon>Resources.fr.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Properties\Resources.en.Designer.cs">
+      <DependentUpon>Resources.en.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\Styles\Rating.xaml.cs">
+      <DependentUpon>Rating.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+    <Compile Include="Service\Language\ILanguageService.cs" />
+    <Compile Include="Service\Language\LanguageService.cs" />
+    <Compile Include="Service\Settings\ApplicationSettingsService.cs" />
+    <Compile Include="Service\Settings\IApplicationSettingsService.cs" />
+    <Compile Include="Service\User\IUserDataService.cs" />
+    <Compile Include="Service\User\UserDataService.cs" />
+    <Compile Include="UserControls\Download\DownloadMovie.xaml.cs">
+      <DependentUpon>DownloadMovie.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\Movie\Movie.xaml.cs">
+      <DependentUpon>Movie.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\Players\MoviePlayer.xaml.cs">
+      <DependentUpon>MoviePlayer.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\Players\TrailerPlayer.xaml.cs">
+      <DependentUpon>TrailerPlayer.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\Search\Search.xaml.cs">
+      <DependentUpon>Search.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\Settings\Settings.xaml.cs">
+      <DependentUpon>Settings.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\Tabs\GreatestMovies.xaml.cs">
+      <DependentUpon>GreatestMovies.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\Tabs\PopularMovies.xaml.cs">
+      <DependentUpon>PopularMovies.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\Tabs\RecentMovies.xaml.cs">
+      <DependentUpon>RecentMovies.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\Tabs\SearchMovies.xaml.cs">
+      <DependentUpon>SearchMovies.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\Trailer\Trailer.xaml.cs">
+      <DependentUpon>Trailer.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ViewModel\Download\DownloadMovieViewModel.cs" />
+    <Compile Include="ViewModel\MainViewModel.cs" />
+    <Compile Include="ViewModel\Tabs\ITab.cs" />
+    <Compile Include="ViewModel\Tabs\GreatestTabViewModel.cs" />
+    <Compile Include="ViewModel\Players\MoviePlayerViewModel.cs" />
+    <Compile Include="ViewModel\Tabs\SearchTabViewModel.cs" />
+    <Compile Include="ViewModel\Tabs\PopularTabViewModel.cs" />
+    <Compile Include="ViewModel\Tabs\RecentTabViewModel.cs" />
+    <Compile Include="ViewModel\Players\TrailerPlayerViewModel.cs" />
+    <Compile Include="ViewModel\Movie\MovieViewModel.cs" />
+    <Compile Include="ViewModel\Search\SearchViewModel.cs" />
+    <Compile Include="ViewModel\Settings\SettingsViewModel.cs" />
+    <Compile Include="ViewModel\Trailer\TrailerViewModel.cs" />
+    <Compile Include="ViewModel\ViewModelLocator.cs" />
+    <Compile Include="ViewModel\Tabs\TabsViewModel.cs" />
+    <Page Include="MainWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="MainWindow.xaml.cs">
+      <DependentUpon>MainWindow.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Page Include="Resources\Styles\Icons.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Resources\Styles\Rating.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Skins\MainSkin.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserControls\Download\DownloadMovie.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\Movie\Movie.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\Players\MoviePlayer.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\Players\TrailerPlayer.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\Search\Search.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\Settings\Settings.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\Tabs\GreatestMovies.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\Tabs\PopularMovies.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\Tabs\RecentMovies.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\Tabs\SearchMovies.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\Trailer\Trailer.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
+    <AppDesigner Include="Properties\" />
+    <None Include="NLog.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Resource Include="Resources\Fonts\HelveticaInseratLTStd-Roman.otf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Fonts\HelveticaLTStd-Blk.otf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Fonts\HelveticaLTStd-BlkCond.otf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Fonts\HelveticaLTStd-BlkCondObl.otf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Fonts\HelveticaLTStd-BlkObl.otf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Fonts\HelveticaLTStd-Bold.otf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Fonts\HelveticaLTStd-BoldCond.otf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Fonts\HelveticaLTStd-BoldCondObl.otf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Fonts\HelveticaLTStd-BoldObl.otf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Fonts\HelveticaLTStd-Comp.otf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Fonts\HelveticaLTStd-Cond.otf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Fonts\HelveticaLTStd-CondObl.otf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Fonts\HelveticaLTStd-ExtraComp.otf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Fonts\HelveticaLTStd-Light.otf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Fonts\HelveticaLTStd-LightCond.otf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Fonts\HelveticaLTStd-LightCondObl.otf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Fonts\HelveticaLTStd-LightObl.otf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Fonts\HelveticaLTStd-Obl.otf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Fonts\HelveticaLTStd-Roman.otf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Fonts\HelveticaLTStd-UltraComp.otf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Styles\Entypo.ttf" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\pause.png" />
+    <Resource Include="Resources\Images\play.png" />
+    <Resource Include="Resources\Images\stop.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201507151433289_Initial.resx">
+      <DependentUpon>201507151433289_Initial.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201507202042572_Add-EnglishName.resx">
+      <DependentUpon>201507202042572_Add-EnglishName.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.fr.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.fr.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.en.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.en.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.5.1">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4.5.1 %28x86 and x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="boost_chrono-vc120-mt-1_55.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="boost_date_time-vc120-mt-1_55.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="boost_system-vc120-mt-1_55.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="boost_thread-vc120-mt-1_55.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Resource Include="Resources\Images\icon.ico" />
+    <Resource Include="icon.ico" />
+    <Content Include="LibVlc\libvlc.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\libvlccore.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\access\libaccess_bd_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\access\libaccess_mms_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\access\libaccess_realrtsp_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\access\libattachment_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\access\libbluray-j2se-0.7.0.jar">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\access\libcdda_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\access\libdshow_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\access\libdtv_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\access\libdvdnav_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\access\libdvdread_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\access\libfilesystem_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\access\libftp_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\access\libhttp_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\access\libidummy_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\access\libimem_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\access\liblibbluray_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\access\liblive555_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\access\librar_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\access\librtp_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\access\libscreen_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\access\libsdp_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\access\libsftp_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\access\libshm_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\access\libsmb_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\access\libtcp_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\access\libtimecode_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\access\libudp_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\access\libvcd_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\access\libvdr_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\access\libzip_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\access_output\libaccess_output_dummy_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\access_output\libaccess_output_file_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\access_output\libaccess_output_http_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\access_output\libaccess_output_livehttp_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\access_output\libaccess_output_shout_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\access_output\libaccess_output_udp_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\audio_filter\liba52tofloat32_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\audio_filter\liba52tospdif_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\audio_filter\libaudiobargraph_a_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\audio_filter\libaudio_format_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\audio_filter\libchorus_flanger_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\audio_filter\libcompressor_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\audio_filter\libdolby_surround_decoder_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\audio_filter\libdtstofloat32_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\audio_filter\libdtstospdif_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\audio_filter\libequalizer_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\audio_filter\libgain_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\audio_filter\libheadphone_channel_mixer_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\audio_filter\libkaraoke_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\audio_filter\libmono_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\audio_filter\libmpgatofixed32_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\audio_filter\libnormvol_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\audio_filter\libparam_eq_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\audio_filter\libremap_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\audio_filter\libsamplerate_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\audio_filter\libscaletempo_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\audio_filter\libsimple_channel_mixer_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\audio_filter\libspatializer_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\audio_filter\libspeex_resampler_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\audio_filter\libstereo_widen_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\audio_filter\libtrivial_channel_mixer_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\audio_filter\libugly_resampler_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\audio_mixer\libfloat_mixer_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\audio_mixer\libinteger_mixer_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\audio_output\libadummy_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\audio_output\libafile_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\audio_output\libamem_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\audio_output\libdirectsound_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\audio_output\libmmdevice_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\audio_output\libwasapi_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\audio_output\libwaveout_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\codec\liba52_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\codec\libadpcm_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\codec\libaes3_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\codec\libaraw_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\codec\libavcodec_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\codec\libcc_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\codec\libcdg_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\codec\libcrystalhd_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\codec\libcvdsub_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\codec\libddummy_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\codec\libdmo_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\codec\libdts_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\codec\libdvbsub_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\codec\libdxva2_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\codec\libedummy_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\codec\libfaad_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\codec\libflac_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\codec\libg711_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\codec\libjpeg_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\codec\libkate_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\codec\liblibass_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\codec\liblibmpeg2_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\codec\liblpcm_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\codec\libmft_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\codec\libmpeg_audio_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\codec\libopus_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\codec\libpng_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\codec\libqsv_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\codec\libquicktime_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\codec\librawvideo_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\codec\libschroedinger_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\codec\libscte27_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\codec\libspeex_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\codec\libspudec_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\codec\libstl_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\codec\libsubsdec_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\codec\libsubstx3g_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\codec\libsubsusf_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\codec\libsvcdsub_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\codec\libt140_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\codec\libtheora_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\codec\libtwolame_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\codec\libuleaddvaudio_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\codec\libvorbis_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\codec\libvpx_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\codec\libx264_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\codec\libx265_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\codec\libzvbi_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\control\libdummy_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\control\libgestures_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\control\libhotkeys_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\control\libnetsync_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\control\libntservice_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\control\liboldrc_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\control\libwin_hotkeys_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\control\libwin_msg_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\demux\libaiff_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\demux\libasf_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\demux\libau_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\demux\libavi_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\demux\libcaf_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\demux\libdemuxdump_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\demux\libdemux_cdg_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\demux\libdemux_stl_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\demux\libdiracsys_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\demux\libes_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\demux\libflacsys_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\demux\libgme_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\demux\libh264_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\demux\libhevc_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\demux\libimage_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\demux\libmjpeg_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\demux\libmkv_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\demux\libmod_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\demux\libmp4_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\demux\libmpc_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\demux\libmpgv_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\demux\libnsc_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\demux\libnsv_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\demux\libnuv_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\demux\libogg_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\demux\libplaylist_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\demux\libps_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\demux\libpva_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\demux\librawaud_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\demux\librawdv_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\demux\librawvid_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\demux\libreal_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\demux\libsid_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\demux\libsmf_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\demux\libsubtitle_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\demux\libts_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\demux\libtta_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\demux\libty_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\demux\libvc1_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\demux\libvobsub_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\demux\libvoc_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\demux\libwav_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\demux\libxa_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\gui\libqt4_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\gui\libskins2_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\lua\liblua_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\meta_engine\libfolder_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\meta_engine\libtaglib_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\misc\libaddonsfsstorage_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\misc\libaddonsvorepository_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\misc\libaudioscrobbler_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\misc\libexport_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\misc\libfingerprinter_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\misc\libgnutls_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\misc\liblogger_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\misc\libstats_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\misc\libvod_rtsp_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\misc\libxml_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\mux\libmux_asf_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\mux\libmux_avi_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\mux\libmux_dummy_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\mux\libmux_mp4_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\mux\libmux_mpjpeg_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\mux\libmux_ogg_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\mux\libmux_ps_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\mux\libmux_ts_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\mux\libmux_wav_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\packetizer\libpacketizer_copy_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\packetizer\libpacketizer_dirac_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\packetizer\libpacketizer_flac_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\packetizer\libpacketizer_h264_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\packetizer\libpacketizer_hevc_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\packetizer\libpacketizer_mlp_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\packetizer\libpacketizer_mpeg4audio_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\packetizer\libpacketizer_mpeg4video_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\packetizer\libpacketizer_mpegvideo_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\packetizer\libpacketizer_vc1_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\services_discovery\libmediadirs_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\services_discovery\libpodcast_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\services_discovery\libsap_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\services_discovery\libupnp_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\services_discovery\libwindrive_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\stream_filter\libdash_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\stream_filter\libhttplive_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\stream_filter\librecord_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\stream_filter\libsmooth_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\stream_out\libstream_out_autodel_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\stream_out\libstream_out_bridge_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\stream_out\libstream_out_chromaprint_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\stream_out\libstream_out_delay_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\stream_out\libstream_out_description_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\stream_out\libstream_out_display_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\stream_out\libstream_out_dummy_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\stream_out\libstream_out_duplicate_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\stream_out\libstream_out_es_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\stream_out\libstream_out_gather_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\stream_out\libstream_out_langfromtelx_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\stream_out\libstream_out_mosaic_bridge_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\stream_out\libstream_out_raop_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\stream_out\libstream_out_record_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\stream_out\libstream_out_rtp_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\stream_out\libstream_out_setid_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\stream_out\libstream_out_smem_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\stream_out\libstream_out_standard_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\stream_out\libstream_out_stats_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\stream_out\libstream_out_transcode_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\text_renderer\libfreetype_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\text_renderer\libtdummy_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\video_chroma\libchain_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\video_chroma\libgrey_yuv_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\video_chroma\libi420_rgb_mmx_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\video_chroma\libi420_rgb_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\video_chroma\libi420_rgb_sse2_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\video_chroma\libi420_yuy2_mmx_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\video_chroma\libi420_yuy2_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\video_chroma\libi420_yuy2_sse2_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\video_chroma\libi422_i420_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\video_chroma\libi422_yuy2_mmx_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\video_chroma\libi422_yuy2_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\video_chroma\libi422_yuy2_sse2_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\video_chroma\librv32_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\video_chroma\libswscale_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\video_chroma\libyuy2_i420_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\video_chroma\libyuy2_i422_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\video_filter\libadjust_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\video_filter\libalphamask_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\video_filter\libanaglyph_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\video_filter\libantiflicker_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\video_filter\libatmo_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\video_filter\libaudiobargraph_v_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\video_filter\libball_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\video_filter\libblendbench_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\video_filter\libblend_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\video_filter\libbluescreen_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\video_filter\libcanvas_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\video_filter\libcolorthres_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\video_filter\libcroppadd_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\video_filter\libdeinterlace_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\video_filter\liberase_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\video_filter\libextract_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\video_filter\libfreeze_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\video_filter\libgaussianblur_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\video_filter\libgradfun_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\video_filter\libgradient_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\video_filter\libgrain_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\video_filter\libhqdn3d_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\video_filter\libinvert_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\video_filter\liblogo_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\video_filter\libmagnify_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\video_filter\libmarq_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\video_filter\libmirror_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\video_filter\libmosaic_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\video_filter\libmotionblur_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\video_filter\libmotiondetect_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\video_filter\liboldmovie_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\video_filter\libposterize_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\video_filter\libpostproc_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\video_filter\libpsychedelic_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\video_filter\libpuzzle_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\video_filter\libremoteosd_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\video_filter\libripple_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\video_filter\librotate_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\video_filter\librss_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\video_filter\libscale_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\video_filter\libscene_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\video_filter\libsepia_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\video_filter\libsharpen_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\video_filter\libsubsdelay_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\video_filter\libtransform_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\video_filter\libvhs_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\video_filter\libwave_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\video_filter\libyuvp_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\video_output\libcaca_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\video_output\libdirect2d_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\video_output\libdirect3d_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\video_output\libdirectdraw_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\video_output\libdrawable_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\video_output\libglwin32_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\video_output\libgl_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\video_output\libvdummy_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\video_output\libvmem_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\video_output\libwingdi_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\video_output\libyuv_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\video_splitter\libclone_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\video_splitter\libpanoramix_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\video_splitter\libwall_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\visualization\libglspectrum_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\visualization\libgoom_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\visualization\libprojectm_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LibVlc\plugins\visualization\libvisual_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Resource Include="Resources\Images\Flags\AD.png" />
+    <Resource Include="Resources\Images\Flags\AE.png" />
+    <Resource Include="Resources\Images\Flags\AF.png" />
+    <Resource Include="Resources\Images\Flags\AG.png" />
+    <Resource Include="Resources\Images\Flags\AI.png" />
+    <Resource Include="Resources\Images\Flags\AL.png" />
+    <Resource Include="Resources\Images\Flags\AM.png" />
+    <Resource Include="Resources\Images\Flags\AO.png" />
+    <Resource Include="Resources\Images\Flags\AR.png" />
+    <Resource Include="Resources\Images\Flags\AS.png" />
+    <Resource Include="Resources\Images\Flags\AT.png" />
+    <Resource Include="Resources\Images\Flags\AU.png" />
+    <Resource Include="Resources\Images\Flags\AW.png" />
+    <Resource Include="Resources\Images\Flags\AX.png" />
+    <Resource Include="Resources\Images\Flags\AZ.png" />
+    <Resource Include="Resources\Images\Flags\BA.png" />
+    <Resource Include="Resources\Images\Flags\BB.png" />
+    <Resource Include="Resources\Images\Flags\BD.png" />
+    <Resource Include="Resources\Images\Flags\BE.png" />
+    <Resource Include="Resources\Images\Flags\BF.png" />
+    <Resource Include="Resources\Images\Flags\BG.png" />
+    <Resource Include="Resources\Images\Flags\BH.png" />
+    <Resource Include="Resources\Images\Flags\BI.png" />
+    <Resource Include="Resources\Images\Flags\BJ.png" />
+    <Resource Include="Resources\Images\Flags\BL.png" />
+    <Resource Include="Resources\Images\Flags\BM.png" />
+    <Resource Include="Resources\Images\Flags\BN.png" />
+    <Resource Include="Resources\Images\Flags\BO.png" />
+    <Resource Include="Resources\Images\Flags\BQ.png" />
+    <Resource Include="Resources\Images\Flags\BR.png" />
+    <Resource Include="Resources\Images\Flags\BS.png" />
+    <Resource Include="Resources\Images\Flags\BT.png" />
+    <Resource Include="Resources\Images\Flags\BV.png" />
+    <Resource Include="Resources\Images\Flags\BW.png" />
+    <Resource Include="Resources\Images\Flags\BY.png" />
+    <Resource Include="Resources\Images\Flags\BZ.png" />
+    <Resource Include="Resources\Images\Flags\CA.png" />
+    <Resource Include="Resources\Images\Flags\CC.png" />
+    <Resource Include="Resources\Images\Flags\CD.png" />
+    <Resource Include="Resources\Images\Flags\CF.png" />
+    <Resource Include="Resources\Images\Flags\CG.png" />
+    <Resource Include="Resources\Images\Flags\CH.png" />
+    <Resource Include="Resources\Images\Flags\CI.png" />
+    <Resource Include="Resources\Images\Flags\CK.png" />
+    <Resource Include="Resources\Images\Flags\CL.png" />
+    <Resource Include="Resources\Images\Flags\CM.png" />
+    <Resource Include="Resources\Images\Flags\CN.png" />
+    <Resource Include="Resources\Images\Flags\CO.png" />
+    <Resource Include="Resources\Images\Flags\CR.png" />
+    <Resource Include="Resources\Images\Flags\CU.png" />
+    <Resource Include="Resources\Images\Flags\CV.png" />
+    <Resource Include="Resources\Images\Flags\CW.png" />
+    <Resource Include="Resources\Images\Flags\CX.png" />
+    <Resource Include="Resources\Images\Flags\CY.png" />
+    <Resource Include="Resources\Images\Flags\CZ.png" />
+    <Resource Include="Resources\Images\Flags\DE.png" />
+    <Resource Include="Resources\Images\Flags\DJ.png" />
+    <Resource Include="Resources\Images\Flags\DK.png" />
+    <Resource Include="Resources\Images\Flags\DM.png" />
+    <Resource Include="Resources\Images\Flags\DO.png" />
+    <Resource Include="Resources\Images\Flags\DZ.png" />
+    <Resource Include="Resources\Images\Flags\EC.png" />
+    <Resource Include="Resources\Images\Flags\EE.png" />
+    <Resource Include="Resources\Images\Flags\EG.png" />
+    <Resource Include="Resources\Images\Flags\ER.png" />
+    <Resource Include="Resources\Images\Flags\ES.png" />
+    <Resource Include="Resources\Images\Flags\ET.png" />
+    <Resource Include="Resources\Images\Flags\FI.png" />
+    <Resource Include="Resources\Images\Flags\FJ.png" />
+    <Resource Include="Resources\Images\Flags\FK.png" />
+    <Resource Include="Resources\Images\Flags\FM.png" />
+    <Resource Include="Resources\Images\Flags\FO.png" />
+    <Resource Include="Resources\Images\Flags\FR.png" />
+    <Resource Include="Resources\Images\Flags\GA.png" />
+    <Resource Include="Resources\Images\Flags\GB.png" />
+    <Resource Include="Resources\Images\Flags\GD.png" />
+    <Resource Include="Resources\Images\Flags\GE.png" />
+    <Resource Include="Resources\Images\Flags\GF.png" />
+    <Resource Include="Resources\Images\Flags\GG.png" />
+    <Resource Include="Resources\Images\Flags\GH.png" />
+    <Resource Include="Resources\Images\Flags\GI.png" />
+    <Resource Include="Resources\Images\Flags\GL.png" />
+    <Resource Include="Resources\Images\Flags\GM.png" />
+    <Resource Include="Resources\Images\Flags\GN.png" />
+    <Resource Include="Resources\Images\Flags\GP.png" />
+    <Resource Include="Resources\Images\Flags\GQ.png" />
+    <Resource Include="Resources\Images\Flags\GR.png" />
+    <Resource Include="Resources\Images\Flags\GS.png" />
+    <Resource Include="Resources\Images\Flags\GT.png" />
+    <Resource Include="Resources\Images\Flags\GU.png" />
+    <Resource Include="Resources\Images\Flags\GW.png" />
+    <Resource Include="Resources\Images\Flags\GY.png" />
+    <Resource Include="Resources\Images\Flags\HK.png" />
+    <Resource Include="Resources\Images\Flags\HN.png" />
+    <Resource Include="Resources\Images\Flags\HR.png" />
+    <Resource Include="Resources\Images\Flags\HT.png" />
+    <Resource Include="Resources\Images\Flags\HU.png" />
+    <Resource Include="Resources\Images\Flags\ID.png" />
+    <Resource Include="Resources\Images\Flags\IE.png" />
+    <Resource Include="Resources\Images\Flags\IL.png" />
+    <Resource Include="Resources\Images\Flags\IM.png" />
+    <Resource Include="Resources\Images\Flags\IN.png" />
+    <Resource Include="Resources\Images\Flags\IO.png" />
+    <Resource Include="Resources\Images\Flags\IQ.png" />
+    <Resource Include="Resources\Images\Flags\IR.png" />
+    <Resource Include="Resources\Images\Flags\IS.png" />
+    <Resource Include="Resources\Images\Flags\IT.png" />
+    <Resource Include="Resources\Images\Flags\JE.png" />
+    <Resource Include="Resources\Images\Flags\JM.png" />
+    <Resource Include="Resources\Images\Flags\JO.png" />
+    <Resource Include="Resources\Images\Flags\JP.png" />
+    <Resource Include="Resources\Images\Flags\KE.png" />
+    <Resource Include="Resources\Images\Flags\KG.png" />
+    <Resource Include="Resources\Images\Flags\KH.png" />
+    <Resource Include="Resources\Images\Flags\KI.png" />
+    <Resource Include="Resources\Images\Flags\KM.png" />
+    <Resource Include="Resources\Images\Flags\KN.png" />
+    <Resource Include="Resources\Images\Flags\KP.png" />
+    <Resource Include="Resources\Images\Flags\KR.png" />
+    <Resource Include="Resources\Images\Flags\KW.png" />
+    <Resource Include="Resources\Images\Flags\KY.png" />
+    <Resource Include="Resources\Images\Flags\KZ.png" />
+    <Resource Include="Resources\Images\Flags\LA.png" />
+    <Resource Include="Resources\Images\Flags\LB.png" />
+    <Resource Include="Resources\Images\Flags\LC.png" />
+    <Resource Include="Resources\Images\Flags\LI.png" />
+    <Resource Include="Resources\Images\Flags\LK.png" />
+    <Resource Include="Resources\Images\Flags\LR.png" />
+    <Resource Include="Resources\Images\Flags\LS.png" />
+    <Resource Include="Resources\Images\Flags\LT.png" />
+    <Resource Include="Resources\Images\Flags\LU.png" />
+    <Resource Include="Resources\Images\Flags\LV.png" />
+    <Resource Include="Resources\Images\Flags\LY.png" />
+    <Resource Include="Resources\Images\Flags\MA.png" />
+    <Resource Include="Resources\Images\Flags\MC.png" />
+    <Resource Include="Resources\Images\Flags\MD.png" />
+    <Resource Include="Resources\Images\Flags\ME.png" />
+    <Resource Include="Resources\Images\Flags\MG.png" />
+    <Resource Include="Resources\Images\Flags\MH.png" />
+    <Resource Include="Resources\Images\Flags\MK.png" />
+    <Resource Include="Resources\Images\Flags\ML.png" />
+    <Resource Include="Resources\Images\Flags\MM.png" />
+    <Resource Include="Resources\Images\Flags\MN.png" />
+    <Resource Include="Resources\Images\Flags\MO.png" />
+    <Resource Include="Resources\Images\Flags\MP.png" />
+    <Resource Include="Resources\Images\Flags\MQ.png" />
+    <Resource Include="Resources\Images\Flags\MR.png" />
+    <Resource Include="Resources\Images\Flags\MS.png" />
+    <Resource Include="Resources\Images\Flags\MT.png" />
+    <Resource Include="Resources\Images\Flags\MU.png" />
+    <Resource Include="Resources\Images\Flags\MV.png" />
+    <Resource Include="Resources\Images\Flags\MW.png" />
+    <Resource Include="Resources\Images\Flags\MX.png" />
+    <Resource Include="Resources\Images\Flags\MY.png" />
+    <Resource Include="Resources\Images\Flags\MZ.png" />
+    <Resource Include="Resources\Images\Flags\NA.png" />
+    <Resource Include="Resources\Images\Flags\NC.png" />
+    <Resource Include="Resources\Images\Flags\NE.png" />
+    <Resource Include="Resources\Images\Flags\NF.png" />
+    <Resource Include="Resources\Images\Flags\NG.png" />
+    <Resource Include="Resources\Images\Flags\NI.png" />
+    <Resource Include="Resources\Images\Flags\NL.png" />
+    <Resource Include="Resources\Images\Flags\NO.png" />
+    <Resource Include="Resources\Images\Flags\NP.png" />
+    <Resource Include="Resources\Images\Flags\NR.png" />
+    <Resource Include="Resources\Images\Flags\NU.png" />
+    <Resource Include="Resources\Images\Flags\NZ.png" />
+    <Resource Include="Resources\Images\Flags\OM.png" />
+    <Resource Include="Resources\Images\Flags\PA.png" />
+    <Resource Include="Resources\Images\Flags\PE.png" />
+    <Resource Include="Resources\Images\Flags\PF.png" />
+    <Resource Include="Resources\Images\Flags\PG.png" />
+    <Resource Include="Resources\Images\Flags\PH.png" />
+    <Resource Include="Resources\Images\Flags\PK.png" />
+    <Resource Include="Resources\Images\Flags\PL.png" />
+    <Resource Include="Resources\Images\Flags\PM.png" />
+    <Resource Include="Resources\Images\Flags\PN.png" />
+    <Resource Include="Resources\Images\Flags\PR.png" />
+    <Resource Include="Resources\Images\Flags\PS.png" />
+    <Resource Include="Resources\Images\Flags\PT.png" />
+    <Resource Include="Resources\Images\Flags\PW.png" />
+    <Resource Include="Resources\Images\Flags\PY.png" />
+    <Resource Include="Resources\Images\Flags\QA.png" />
+    <Resource Include="Resources\Images\Flags\RE.png" />
+    <Resource Include="Resources\Images\Flags\RO.png" />
+    <Resource Include="Resources\Images\Flags\RS.png" />
+    <Resource Include="Resources\Images\Flags\RU.png" />
+    <Resource Include="Resources\Images\Flags\RW.png" />
+    <Resource Include="Resources\Images\Flags\SA.png" />
+    <Resource Include="Resources\Images\Flags\SB.png" />
+    <Resource Include="Resources\Images\Flags\SC.png" />
+    <Resource Include="Resources\Images\Flags\SD.png" />
+    <Resource Include="Resources\Images\Flags\SE.png" />
+    <Resource Include="Resources\Images\Flags\SG.png" />
+    <Resource Include="Resources\Images\Flags\SH.png" />
+    <Resource Include="Resources\Images\Flags\SI.png" />
+    <Resource Include="Resources\Images\Flags\SK.png" />
+    <Resource Include="Resources\Images\Flags\SL.png" />
+    <Resource Include="Resources\Images\Flags\SM.png" />
+    <Resource Include="Resources\Images\Flags\SN.png" />
+    <Resource Include="Resources\Images\Flags\SO.png" />
+    <Resource Include="Resources\Images\Flags\SR.png" />
+    <Resource Include="Resources\Images\Flags\SS.png" />
+    <Resource Include="Resources\Images\Flags\ST.png" />
+    <Resource Include="Resources\Images\Flags\SV.png" />
+    <Resource Include="Resources\Images\Flags\SX.png" />
+    <Resource Include="Resources\Images\Flags\SY.png" />
+    <Resource Include="Resources\Images\Flags\SZ.png" />
+    <Resource Include="Resources\Images\Flags\TC.png" />
+    <Resource Include="Resources\Images\Flags\TD.png" />
+    <Resource Include="Resources\Images\Flags\TF.png" />
+    <Resource Include="Resources\Images\Flags\TG.png" />
+    <Resource Include="Resources\Images\Flags\TH.png" />
+    <Resource Include="Resources\Images\Flags\TJ.png" />
+    <Resource Include="Resources\Images\Flags\TK.png" />
+    <Resource Include="Resources\Images\Flags\TL.png" />
+    <Resource Include="Resources\Images\Flags\TM.png" />
+    <Resource Include="Resources\Images\Flags\TN.png" />
+    <Resource Include="Resources\Images\Flags\TO.png" />
+    <Resource Include="Resources\Images\Flags\TR.png" />
+    <Resource Include="Resources\Images\Flags\TT.png" />
+    <Resource Include="Resources\Images\Flags\TV.png" />
+    <Resource Include="Resources\Images\Flags\TW.png" />
+    <Resource Include="Resources\Images\Flags\TZ.png" />
+    <Resource Include="Resources\Images\Flags\UA.png" />
+    <Resource Include="Resources\Images\Flags\UG.png" />
+    <Resource Include="Resources\Images\Flags\UM.png" />
+    <Resource Include="Resources\Images\Flags\US.png" />
+    <Resource Include="Resources\Images\Flags\UY.png" />
+    <Resource Include="Resources\Images\Flags\UZ.png" />
+    <Resource Include="Resources\Images\Flags\VA.png" />
+    <Resource Include="Resources\Images\Flags\VC.png" />
+    <Resource Include="Resources\Images\Flags\VE.png" />
+    <Resource Include="Resources\Images\Flags\VG.png" />
+    <Resource Include="Resources\Images\Flags\VI.png" />
+    <Resource Include="Resources\Images\Flags\VN.png" />
+    <Resource Include="Resources\Images\Flags\VU.png" />
+    <Resource Include="Resources\Images\Flags\WF.png" />
+    <Resource Include="Resources\Images\Flags\WS.png" />
+    <Resource Include="Resources\Images\Flags\YE.png" />
+    <Resource Include="Resources\Images\Flags\YT.png" />
+    <Resource Include="Resources\Images\Flags\ZA.png" />
+    <Resource Include="Resources\Images\Flags\ZM.png" />
+    <Resource Include="Resources\Images\Flags\ZW.png" />
+    <Content Include="torrent.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\xZune.Vlc.Wpf\xZune.VLC.WPF - .Net 4.5.csproj">
+      <Project>{c53e6715-c8bf-4be4-943d-c003f0f01876}</Project>
+      <Name>xZune.VLC.WPF - .Net 4.5</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\xZune.Vlc\xZune.VLC - .Net 4.5.csproj">
+      <Project>{174900eb-956f-4435-87f2-677f014dd5db}</Project>
+      <Name>xZune.VLC - .Net 4.5</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>Ce projet fait référence à des packages NuGet qui sont manquants sur cet ordinateur. Activez l'option de restauration des packages NuGet pour les télécharger. Pour plus d'informations, consultez http://go.microsoft.com/fwlink/?LinkID=322105. Le fichier manquant est le suivant : {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('$(SolutionDir)\.nuget\NuGet.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\.nuget\NuGet.targets'))" />
+  </Target>
+  <Import Project="$(XamlSpyInstallPath)MSBuild\FirstFloor.XamlSpy.WPF.targets" Condition="'$(XamlSpyInstallPath)' != '' and '$(Configuration)' == 'DEBUG'" />
+  <PropertyGroup>
+    <PostBuildEvent>
+    if not exist "$(TargetDir)x86" md "$(TargetDir)x86"
+    xcopy /s /y "$(SolutionDir)packages\Microsoft.SqlServer.Compact.4.0.8876.1\NativeBinaries\x86\*.*" "$(TargetDir)x86"
+    if not exist "$(TargetDir)amd64" md "$(TargetDir)amd64"
+    xcopy /s /y "$(SolutionDir)packages\Microsoft.SqlServer.Compact.4.0.8876.1\NativeBinaries\amd64\*.*" "$(TargetDir)amd64"</PostBuildEvent>
+  </PropertyGroup>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

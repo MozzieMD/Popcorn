@@ -1,0 +1,146 @@
+﻿<controls:MetroWindow x:Class="Popcorn.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:ignore="http://www.ignore.com"
+        xmlns:movieUserControl="clr-namespace:Popcorn.UserControls.Movie"
+        xmlns:settingsUserControl="clr-namespace:Popcorn.UserControls.Settings"
+        xmlns:searchUserControl="clr-namespace:Popcorn.UserControls.Search"
+        xmlns:controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+        xmlns:converters="clr-namespace:Popcorn.Converters"
+        xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity" 
+        xmlns:command="http://www.galasoft.ch/mvvmlight"
+        xmlns:helpers="clr-namespace:Popcorn.Helpers"
+        xmlns:lex="http://wpflocalizeextension.codeplex.com"
+        xmlns:playersViewModel="clr-namespace:Popcorn.ViewModel.Players"
+        xmlns:playersUserControl="clr-namespace:Popcorn.UserControls.Players"
+        xmlns:tabsViewModel="clr-namespace:Popcorn.ViewModel.Tabs"
+        xmlns:tabsUserControl="clr-namespace:Popcorn.UserControls.Tabs"
+        lex:LocalizeDictionary.DesignCulture="en"
+        lex:ResxLocalizationProvider.DefaultAssembly="Popcorn"
+        lex:ResxLocalizationProvider.DefaultDictionary="Resources"
+        mc:Ignorable="d ignore"
+        Height="{Binding Source={x:Static SystemParameters.PrimaryScreenHeight}, Converter={converters:RatioConverter}, ConverterParameter='0.7' }" 
+        Width="{Binding Source={x:Static SystemParameters.PrimaryScreenWidth}, Converter={converters:RatioConverter}, ConverterParameter='0.7' }" 
+        MinHeight="{Binding Source={x:Static SystemParameters.PrimaryScreenHeight}, Converter={converters:RatioConverter}, ConverterParameter='0.5' }" 
+        MinWidth="{Binding Source={x:Static SystemParameters.PrimaryScreenWidth}, Converter={converters:RatioConverter}, ConverterParameter='0.5' }" 
+        Title="Popcorn"
+        AllowsTransparency="True"
+        DataContext="{Binding Main, Source={StaticResource Locator}}"
+        Icon="Resources/Images/icon.ico"
+        ShowIconOnTitleBar="True"
+        ShowTitleBar="False"
+        WindowStartupLocation="CenterScreen"
+        IgnoreTaskbarOnMaximize="True">
+
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Skins/MainSkin.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+            <converters:RatioConverter x:Key="RatioConverter" />
+        </ResourceDictionary>
+    </Window.Resources>
+
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Closing">
+            <command:EventToCommand Command="{Binding Mode=OneWay, Path=MainWindowClosingCommand}"
+                                    PassEventArgsToCommand="True" />
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+
+    <controls:MetroWindow.RightWindowCommands>
+        <controls:WindowCommands>
+            <Button Command="{Binding OpenSettingsCommand}"
+                    ToolTip="{lex:LocText SettingsMenuTitle}"
+                    Content="{lex:LocText SettingsMenuTitle}" />
+        </controls:WindowCommands>
+    </controls:MetroWindow.RightWindowCommands>
+    
+    <controls:MetroWindow.Flyouts>
+        <controls:FlyoutsControl x:Name="FlyoutsControl">
+            <controls:Flyout x:Name="MoviePage" 
+                             Header="{Binding MoviePage.Movie.Title, Source={StaticResource Locator}}"
+                             IsOpen="{Binding IsMovieFlyoutOpen}"
+                             Position="Right"
+                             AnimateOpacity="True"
+                             CloseCommand="{Binding CloseMoviePageCommand}"
+                             FontFamily="pack://application:,,,/Resources/Fonts/#Helvetica LT Std Light"
+                             CloseButtonVisibility="{Binding MoviePage.IsDownloadingMovie, Converter={StaticResource BoolToVisibilityConverter}, Source={StaticResource Locator}}"
+                             Width="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=controls:MetroWindow}, Path=ActualWidth, Mode=OneWay}">
+                <movieUserControl:Movie x:Name="MovieUc"></movieUserControl:Movie>
+            </controls:Flyout>
+            <controls:Flyout x:Name="Settings"
+                             Header="{lex:LocText SettingsMenuTitle}"
+                             IsOpen="{Binding IsSettingsFlyoutOpen}"
+                             Position="Right"
+                             IsModal="True"
+                             Theme="Dark">
+                <settingsUserControl:Settings x:Name="SettingsUc"></settingsUserControl:Settings>
+            </controls:Flyout>
+        </controls:FlyoutsControl>
+    </controls:MetroWindow.Flyouts>
+
+    <Grid x:Name="LayoutRoot">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="2*"></ColumnDefinition>
+            <ColumnDefinition Width="12*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="77"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+        </Grid.RowDefinitions>
+
+        <Grid x:Name="SearchBar"
+              Grid.Column="0" 
+              Grid.Row="0" 
+              Background="#cc4d4d">
+            <searchUserControl:Search x:Name="SearchUc"
+                                 Width="{Binding ElementName=SearchBar, Path=ActualWidth, Converter={StaticResource RatioConverter}, ConverterParameter=0.8}"/>
+        </Grid>
+        <StackPanel x:Name="MenuBar"
+                    Grid.Column="0" 
+                    Grid.Row="1" 
+                    Background="#11171c"></StackPanel>
+
+        <controls:MetroAnimatedSingleRowTabControl 
+            Grid.Column="1" 
+            Grid.Row="0" 
+            Grid.RowSpan="2" 
+            x:Name="MainTabControl" 
+            IsSynchronizedWithCurrentItem="True"
+            TabStripMargin="17.3"
+            ItemsSource="{Binding Tabs}"
+            SelectedItem="{Binding SelectedTab}"
+            controls:TabControlHelper.IsUnderlined="True"
+            helpers:TabContent.IsCached="True">
+
+            <controls:MetroAnimatedSingleRowTabControl.Resources>
+                <DataTemplate x:Shared="False" DataType="{x:Type tabsViewModel:GreatestTabViewModel}">
+                    <tabsUserControl:GreatestMovies></tabsUserControl:GreatestMovies>
+                </DataTemplate>
+                <DataTemplate x:Shared="False" DataType="{x:Type tabsViewModel:PopularTabViewModel}">
+                    <tabsUserControl:PopularMovies></tabsUserControl:PopularMovies>
+                </DataTemplate>
+                <DataTemplate x:Shared="False" DataType="{x:Type tabsViewModel:RecentTabViewModel}">
+                    <tabsUserControl:RecentMovies></tabsUserControl:RecentMovies>
+                </DataTemplate>
+                <DataTemplate x:Shared="False" DataType="{x:Type tabsViewModel:SearchTabViewModel}">
+                    <tabsUserControl:SearchMovies></tabsUserControl:SearchMovies>
+                </DataTemplate>
+                <DataTemplate x:Shared="False" DataType="{x:Type playersViewModel:MoviePlayerViewModel}">
+                    <playersUserControl:MoviePlayer></playersUserControl:MoviePlayer>
+                </DataTemplate>
+            </controls:MetroAnimatedSingleRowTabControl.Resources>
+            
+            <controls:MetroAnimatedSingleRowTabControl.ItemContainerStyle>
+                <Style TargetType="{x:Type TabItem}">
+                    <Setter Property="Header" Value="{Binding TabName}" />
+                    <Setter Property="controls:ControlsHelper.HeaderFontSize" Value="28"></Setter>
+                </Style>
+            </controls:MetroAnimatedSingleRowTabControl.ItemContainerStyle>
+        </controls:MetroAnimatedSingleRowTabControl>
+    </Grid>
+</controls:MetroWindow>
