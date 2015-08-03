@@ -22,6 +22,21 @@ namespace Popcorn.Model.Subtitle
         }
         #endregion
 
+        #region Property -> FlagImagePath
+        /// <summary>
+        /// Flag image's path
+        /// </summary>
+        private string _flagImagePath;
+        /// <summary>
+        /// Flag image's path
+        /// </summary>
+        public string FlagImagePath
+        {
+            get { return _flagImagePath; }
+            set { Set(() => FlagImagePath, ref _flagImagePath, value); }
+        }
+        #endregion
+
         #endregion
     }
 }

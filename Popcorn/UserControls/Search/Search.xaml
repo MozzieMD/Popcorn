@@ -5,15 +5,15 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
              xmlns:lex="http://wpflocalizeextension.codeplex.com"
+             lex:LocalizeDictionary.DesignCulture="en"
+             lex:ResxLocalizationProvider.DefaultAssembly="Popcorn"
+             lex:ResxLocalizationProvider.DefaultDictionary="Resources"
              xmlns:converters="clr-namespace:Popcorn.Converters"
              mc:Ignorable="d" 
              DataContext="{Binding Search, Source={StaticResource Locator}}"
              d:DesignHeight="300" d:DesignWidth="300">
     <UserControl.Resources>
         <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="../../Skins/MainSkin.xaml" />
-            </ResourceDictionary.MergedDictionaries>
             <converters:RatioConverter x:Key="RatioConverter" />
         </ResourceDictionary>
     </UserControl.Resources>

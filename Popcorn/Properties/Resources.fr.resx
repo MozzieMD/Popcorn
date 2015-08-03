@@ -156,6 +156,9 @@
   <data name="PlayingTitleTab" xml:space="preserve">
     <value>En lecture</value>
   </data>
+  <data name="PlayLabel" xml:space="preserve">
+    <value>Lecture</value>
+  </data>
   <data name="PopularTitleTab" xml:space="preserve">
     <value>Populaire</value>
   </data>

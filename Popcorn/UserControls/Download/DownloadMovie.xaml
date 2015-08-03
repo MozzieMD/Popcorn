@@ -5,53 +5,98 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:converters="clr-namespace:Popcorn.Converters"
              xmlns:controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+             xmlns:movieSettingsUserControl="clr-namespace:Popcorn.UserControls.MovieSettings"
+             xmlns:movieSettingsViewModel="clr-namespace:Popcorn.ViewModel.MovieSettings"
              xmlns:lex="http://wpflocalizeextension.codeplex.com"
+             lex:LocalizeDictionary.DesignCulture="en"
+             lex:ResxLocalizationProvider.DefaultAssembly="Popcorn"
+             lex:ResxLocalizationProvider.DefaultDictionary="Resources"
              mc:Ignorable="d" 
-             DataContext="{Binding }"
              d:DesignHeight="600" d:DesignWidth="900">
     <UserControl.Resources>
         <ResourceDictionary>
             <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+            <DataTemplate DataType="{x:Type movieSettingsViewModel:MovieSettingsViewModel}">
+                <movieSettingsUserControl:MovieSettings></movieSettingsUserControl:MovieSettings>
+            </DataTemplate>
+
+            <Style x:Key="AnimationContentOnMovieDownloading" TargetType="{x:Type Grid}">
+                <Style.Triggers>
+                    <DataTrigger Binding="{Binding Path=IsDownloadingMovie}" 
+                         Value="False">
+                        <DataTrigger.EnterActions>
+                            <BeginStoryboard>
+                                <Storyboard>
+                                    <DoubleAnimation Storyboard.TargetProperty="Opacity"
+                                                     To="0.0"
+                                                     Duration="0:0:0.5"/>
+                                    <ObjectAnimationUsingKeyFrames BeginTime="0:0:0.5" Storyboard.TargetProperty="Visibility">
+                                        <DiscreteObjectKeyFrame KeyTime="0:0:0" 
+                                                                Value="{x:Static Visibility.Collapsed}" />
+                                    </ObjectAnimationUsingKeyFrames>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </DataTrigger.EnterActions>
+                        <DataTrigger.ExitActions>
+                            <BeginStoryboard>
+                                <Storyboard>
+                                    <DoubleAnimation Storyboard.TargetProperty="Opacity"
+                                                     To="1.0"
+                                                     Duration="0:0:0.5"/>
+                                    <ObjectAnimationUsingKeyFrames BeginTime="0:0:0.5" Storyboard.TargetProperty="Visibility">
+                                        <DiscreteObjectKeyFrame KeyTime="0:0:0" 
+                                                                Value="{x:Static Visibility.Visible}" />
+                                    </ObjectAnimationUsingKeyFrames>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </DataTrigger.ExitActions>
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
         </ResourceDictionary>
     </UserControl.Resources>
     <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="37*"/>
-            <ColumnDefinition Width="36*"/>
-            <ColumnDefinition Width="20*"/>
-            <ColumnDefinition Width="36*"/>
-            <ColumnDefinition Width="37*"/>
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="128*"/>
-            <RowDefinition Height="114*"/>
-            <RowDefinition Height="92*"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="29*"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="114*"/>
-            <RowDefinition Height="128*"/>
-        </Grid.RowDefinitions>
-        <TextBlock x:Name="LoadingText"
-                   FontSize="18"
-                   Text="{Binding DownloadText}"
-                   Grid.Row="2" Grid.ColumnSpan="3" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-        <controls:MetroProgressBar x:Name="LoadingProgressBar"
-                                   Minimum="0.0"
-                                   Maximum="2.0"
-                                   Value="{Binding DownloadProgress}"
-                                   Foreground="{DynamicResource AccentColorBrush}"
-                                   VerticalAlignment="Center" 
-                                   Grid.Column="1" 
-                                   Grid.Row="3" 
-                                   Margin="0" 
-                                   Grid.ColumnSpan="3"
-                                   Height="7"
-                                   Visibility="{Binding IsMovieBuffered, Converter={StaticResource BoolToVisibilityConverter}}"/>
-        <Button x:Name="StopLoadingMovieButton"
-                Content="{lex:LocText CancelButton}"
-                Command="{Binding StopPlayingMovieCommand}" Margin="0" Grid.Row="7" Grid.Column="2" Width="100" Height="30" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <ContentControl Content="{Binding MovieSettings}"/>
+        <Grid Opacity="0.0"
+              Style="{StaticResource AnimationContentOnMovieDownloading}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="37*"/>
+                <ColumnDefinition Width="36*"/>
+                <ColumnDefinition Width="20*"/>
+                <ColumnDefinition Width="36*"/>
+                <ColumnDefinition Width="37*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="128*"/>
+                <RowDefinition Height="114*"/>
+                <RowDefinition Height="92*"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="29*"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="114*"/>
+                <RowDefinition Height="128*"/>
+            </Grid.RowDefinitions>
+            <TextBlock x:Name="LoadingText"
+                       FontSize="18"
+                       Text="{Binding DownloadText}"
+                       Grid.Row="2" Grid.ColumnSpan="3" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            <controls:MetroProgressBar x:Name="LoadingProgressBar"
+                                       Minimum="0.0"
+                                       Maximum="2.0"
+                                       Value="{Binding DownloadProgress}"
+                                       Foreground="{DynamicResource AccentColorBrush}"
+                                       VerticalAlignment="Center" 
+                                       Grid.Column="1" 
+                                       Grid.Row="3" 
+                                       Margin="0" 
+                                       Grid.ColumnSpan="3"
+                                       Height="7"
+                                       Visibility="{Binding IsMovieBuffered, Converter={StaticResource BoolToVisibilityConverter}}"/>
+            <Button x:Name="StopLoadingMovieButton"
+                    Content="{lex:LocText CancelButton}"
+                    Command="{Binding StopPlayingMovieCommand}" Margin="0" Grid.Row="7" Grid.Column="2" Width="100" Height="30" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        </Grid>
     </Grid>
 </UserControl>

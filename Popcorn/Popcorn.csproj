@@ -111,9 +111,9 @@
       <HintPath>..\packages\squirrel.windows.0.99.2\lib\Net45\ICSharpCode.SharpZipLib.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="MahApps.Metro">
-      <HintPath>..\packages\MahApps.Metro.1.1.3-ALPHA028\lib\net45\MahApps.Metro.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="MahApps.Metro, Version=1.1.3.28, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\MahApps\MahApps.Metro.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Practices.ServiceLocation">
       <HintPath>..\packages\CommonServiceLocator.1.3\lib\portable-net4+sl5+netcore45+wpa81+wp8\Microsoft.Practices.ServiceLocation.dll</HintPath>
@@ -180,10 +180,7 @@
     <Reference Include="System.IO.Compression" />
     <Reference Include="System.IO.Compression.FileSystem" />
     <Reference Include="System.Windows.Forms" />
-    <Reference Include="System.Windows.Interactivity">
-      <HintPath>..\packages\MvvmLightLibs.5.1.1.0\lib\net45\System.Windows.Interactivity.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
+    <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xaml">
@@ -203,6 +200,14 @@
     <Reference Include="XAMLMarkupExtensions, Version=1.2.1.3, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\XAMLMarkupExtensions.1.2.1.3\lib\net40\XAMLMarkupExtensions.dll</HintPath>
       <Private>True</Private>
+    </Reference>
+    <Reference Include="xZune.Vlc, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\xZune\xZune.Vlc.dll</HintPath>
+    </Reference>
+    <Reference Include="xZune.Vlc.Wpf, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\xZune\xZune.Vlc.Wpf.dll</HintPath>
     </Reference>
     <Reference Include="YoutubeExtractor">
       <HintPath>..\packages\YoutubeExtractor.0.10.6\lib\net35\YoutubeExtractor.dll</HintPath>
@@ -237,6 +242,7 @@
     <Compile Include="Messaging\ChangeLanguageMessage.cs" />
     <Compile Include="Messaging\ChangeScreenModeMessage.cs" />
     <Compile Include="Messaging\ConnectionErrorMessage.cs" />
+    <Compile Include="Messaging\DownloadMovieMessage.cs" />
     <Compile Include="Messaging\LoadMovieMessage.cs" />
     <Compile Include="Messaging\SearchMovieMessage.cs" />
     <Compile Include="Messaging\StopPlayingTrailerMessage.cs" />
@@ -316,6 +322,9 @@
     <Compile Include="UserControls\Download\DownloadMovie.xaml.cs">
       <DependentUpon>DownloadMovie.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UserControls\MovieSettings\MovieSettings.xaml.cs">
+      <DependentUpon>MovieSettings.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\Movie\Movie.xaml.cs">
       <DependentUpon>Movie.xaml</DependentUpon>
     </Compile>
@@ -330,6 +339,9 @@
     </Compile>
     <Compile Include="UserControls\Settings\Settings.xaml.cs">
       <DependentUpon>Settings.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\Subtitles\Subtitles.xaml.cs">
+      <DependentUpon>Subtitles.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserControls\Tabs\GreatestMovies.xaml.cs">
       <DependentUpon>GreatestMovies.xaml</DependentUpon>
@@ -348,6 +360,8 @@
     </Compile>
     <Compile Include="ViewModel\Download\DownloadMovieViewModel.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
+    <Compile Include="ViewModel\MovieSettings\MovieSettingsViewModel.cs" />
+    <Compile Include="ViewModel\Subtitles\SubtitlesViewModel.cs" />
     <Compile Include="ViewModel\Tabs\ITab.cs" />
     <Compile Include="ViewModel\Tabs\GreatestTabViewModel.cs" />
     <Compile Include="ViewModel\Players\MoviePlayerViewModel.cs" />
@@ -373,10 +387,6 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="Resources\Styles\Icons.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="Resources\Styles\Rating.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -386,6 +396,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="UserControls\Download\DownloadMovie.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\MovieSettings\MovieSettings.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -406,6 +420,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UserControls\Settings\Settings.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\Subtitles\Subtitles.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -503,7 +521,6 @@
     <Resource Include="Resources\Fonts\HelveticaLTStd-UltraComp.otf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="Resources\Styles\Entypo.ttf" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\Images\pause.png" />
@@ -1520,265 +1537,743 @@
     <Content Include="LibVlc\plugins\visualization\libvisual_plugin.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Resource Include="Resources\Images\Flags\AD.png" />
-    <Resource Include="Resources\Images\Flags\AE.png" />
-    <Resource Include="Resources\Images\Flags\AF.png" />
-    <Resource Include="Resources\Images\Flags\AG.png" />
-    <Resource Include="Resources\Images\Flags\AI.png" />
-    <Resource Include="Resources\Images\Flags\AL.png" />
-    <Resource Include="Resources\Images\Flags\AM.png" />
-    <Resource Include="Resources\Images\Flags\AO.png" />
-    <Resource Include="Resources\Images\Flags\AR.png" />
-    <Resource Include="Resources\Images\Flags\AS.png" />
-    <Resource Include="Resources\Images\Flags\AT.png" />
-    <Resource Include="Resources\Images\Flags\AU.png" />
-    <Resource Include="Resources\Images\Flags\AW.png" />
-    <Resource Include="Resources\Images\Flags\AX.png" />
-    <Resource Include="Resources\Images\Flags\AZ.png" />
-    <Resource Include="Resources\Images\Flags\BA.png" />
-    <Resource Include="Resources\Images\Flags\BB.png" />
-    <Resource Include="Resources\Images\Flags\BD.png" />
-    <Resource Include="Resources\Images\Flags\BE.png" />
-    <Resource Include="Resources\Images\Flags\BF.png" />
-    <Resource Include="Resources\Images\Flags\BG.png" />
-    <Resource Include="Resources\Images\Flags\BH.png" />
-    <Resource Include="Resources\Images\Flags\BI.png" />
-    <Resource Include="Resources\Images\Flags\BJ.png" />
-    <Resource Include="Resources\Images\Flags\BL.png" />
-    <Resource Include="Resources\Images\Flags\BM.png" />
-    <Resource Include="Resources\Images\Flags\BN.png" />
-    <Resource Include="Resources\Images\Flags\BO.png" />
-    <Resource Include="Resources\Images\Flags\BQ.png" />
-    <Resource Include="Resources\Images\Flags\BR.png" />
-    <Resource Include="Resources\Images\Flags\BS.png" />
-    <Resource Include="Resources\Images\Flags\BT.png" />
-    <Resource Include="Resources\Images\Flags\BV.png" />
-    <Resource Include="Resources\Images\Flags\BW.png" />
-    <Resource Include="Resources\Images\Flags\BY.png" />
-    <Resource Include="Resources\Images\Flags\BZ.png" />
-    <Resource Include="Resources\Images\Flags\CA.png" />
-    <Resource Include="Resources\Images\Flags\CC.png" />
-    <Resource Include="Resources\Images\Flags\CD.png" />
-    <Resource Include="Resources\Images\Flags\CF.png" />
-    <Resource Include="Resources\Images\Flags\CG.png" />
-    <Resource Include="Resources\Images\Flags\CH.png" />
-    <Resource Include="Resources\Images\Flags\CI.png" />
-    <Resource Include="Resources\Images\Flags\CK.png" />
-    <Resource Include="Resources\Images\Flags\CL.png" />
-    <Resource Include="Resources\Images\Flags\CM.png" />
-    <Resource Include="Resources\Images\Flags\CN.png" />
-    <Resource Include="Resources\Images\Flags\CO.png" />
-    <Resource Include="Resources\Images\Flags\CR.png" />
-    <Resource Include="Resources\Images\Flags\CU.png" />
-    <Resource Include="Resources\Images\Flags\CV.png" />
-    <Resource Include="Resources\Images\Flags\CW.png" />
-    <Resource Include="Resources\Images\Flags\CX.png" />
-    <Resource Include="Resources\Images\Flags\CY.png" />
-    <Resource Include="Resources\Images\Flags\CZ.png" />
-    <Resource Include="Resources\Images\Flags\DE.png" />
-    <Resource Include="Resources\Images\Flags\DJ.png" />
-    <Resource Include="Resources\Images\Flags\DK.png" />
-    <Resource Include="Resources\Images\Flags\DM.png" />
-    <Resource Include="Resources\Images\Flags\DO.png" />
-    <Resource Include="Resources\Images\Flags\DZ.png" />
-    <Resource Include="Resources\Images\Flags\EC.png" />
-    <Resource Include="Resources\Images\Flags\EE.png" />
-    <Resource Include="Resources\Images\Flags\EG.png" />
-    <Resource Include="Resources\Images\Flags\ER.png" />
-    <Resource Include="Resources\Images\Flags\ES.png" />
-    <Resource Include="Resources\Images\Flags\ET.png" />
-    <Resource Include="Resources\Images\Flags\FI.png" />
-    <Resource Include="Resources\Images\Flags\FJ.png" />
-    <Resource Include="Resources\Images\Flags\FK.png" />
-    <Resource Include="Resources\Images\Flags\FM.png" />
-    <Resource Include="Resources\Images\Flags\FO.png" />
-    <Resource Include="Resources\Images\Flags\FR.png" />
-    <Resource Include="Resources\Images\Flags\GA.png" />
-    <Resource Include="Resources\Images\Flags\GB.png" />
-    <Resource Include="Resources\Images\Flags\GD.png" />
-    <Resource Include="Resources\Images\Flags\GE.png" />
-    <Resource Include="Resources\Images\Flags\GF.png" />
-    <Resource Include="Resources\Images\Flags\GG.png" />
-    <Resource Include="Resources\Images\Flags\GH.png" />
-    <Resource Include="Resources\Images\Flags\GI.png" />
-    <Resource Include="Resources\Images\Flags\GL.png" />
-    <Resource Include="Resources\Images\Flags\GM.png" />
-    <Resource Include="Resources\Images\Flags\GN.png" />
-    <Resource Include="Resources\Images\Flags\GP.png" />
-    <Resource Include="Resources\Images\Flags\GQ.png" />
-    <Resource Include="Resources\Images\Flags\GR.png" />
-    <Resource Include="Resources\Images\Flags\GS.png" />
-    <Resource Include="Resources\Images\Flags\GT.png" />
-    <Resource Include="Resources\Images\Flags\GU.png" />
-    <Resource Include="Resources\Images\Flags\GW.png" />
-    <Resource Include="Resources\Images\Flags\GY.png" />
-    <Resource Include="Resources\Images\Flags\HK.png" />
-    <Resource Include="Resources\Images\Flags\HN.png" />
-    <Resource Include="Resources\Images\Flags\HR.png" />
-    <Resource Include="Resources\Images\Flags\HT.png" />
-    <Resource Include="Resources\Images\Flags\HU.png" />
-    <Resource Include="Resources\Images\Flags\ID.png" />
-    <Resource Include="Resources\Images\Flags\IE.png" />
-    <Resource Include="Resources\Images\Flags\IL.png" />
-    <Resource Include="Resources\Images\Flags\IM.png" />
-    <Resource Include="Resources\Images\Flags\IN.png" />
-    <Resource Include="Resources\Images\Flags\IO.png" />
-    <Resource Include="Resources\Images\Flags\IQ.png" />
-    <Resource Include="Resources\Images\Flags\IR.png" />
-    <Resource Include="Resources\Images\Flags\IS.png" />
-    <Resource Include="Resources\Images\Flags\IT.png" />
-    <Resource Include="Resources\Images\Flags\JE.png" />
-    <Resource Include="Resources\Images\Flags\JM.png" />
-    <Resource Include="Resources\Images\Flags\JO.png" />
-    <Resource Include="Resources\Images\Flags\JP.png" />
-    <Resource Include="Resources\Images\Flags\KE.png" />
-    <Resource Include="Resources\Images\Flags\KG.png" />
-    <Resource Include="Resources\Images\Flags\KH.png" />
-    <Resource Include="Resources\Images\Flags\KI.png" />
-    <Resource Include="Resources\Images\Flags\KM.png" />
-    <Resource Include="Resources\Images\Flags\KN.png" />
-    <Resource Include="Resources\Images\Flags\KP.png" />
-    <Resource Include="Resources\Images\Flags\KR.png" />
-    <Resource Include="Resources\Images\Flags\KW.png" />
-    <Resource Include="Resources\Images\Flags\KY.png" />
-    <Resource Include="Resources\Images\Flags\KZ.png" />
-    <Resource Include="Resources\Images\Flags\LA.png" />
-    <Resource Include="Resources\Images\Flags\LB.png" />
-    <Resource Include="Resources\Images\Flags\LC.png" />
-    <Resource Include="Resources\Images\Flags\LI.png" />
-    <Resource Include="Resources\Images\Flags\LK.png" />
-    <Resource Include="Resources\Images\Flags\LR.png" />
-    <Resource Include="Resources\Images\Flags\LS.png" />
-    <Resource Include="Resources\Images\Flags\LT.png" />
-    <Resource Include="Resources\Images\Flags\LU.png" />
-    <Resource Include="Resources\Images\Flags\LV.png" />
-    <Resource Include="Resources\Images\Flags\LY.png" />
-    <Resource Include="Resources\Images\Flags\MA.png" />
-    <Resource Include="Resources\Images\Flags\MC.png" />
-    <Resource Include="Resources\Images\Flags\MD.png" />
-    <Resource Include="Resources\Images\Flags\ME.png" />
-    <Resource Include="Resources\Images\Flags\MG.png" />
-    <Resource Include="Resources\Images\Flags\MH.png" />
-    <Resource Include="Resources\Images\Flags\MK.png" />
-    <Resource Include="Resources\Images\Flags\ML.png" />
-    <Resource Include="Resources\Images\Flags\MM.png" />
-    <Resource Include="Resources\Images\Flags\MN.png" />
-    <Resource Include="Resources\Images\Flags\MO.png" />
-    <Resource Include="Resources\Images\Flags\MP.png" />
-    <Resource Include="Resources\Images\Flags\MQ.png" />
-    <Resource Include="Resources\Images\Flags\MR.png" />
-    <Resource Include="Resources\Images\Flags\MS.png" />
-    <Resource Include="Resources\Images\Flags\MT.png" />
-    <Resource Include="Resources\Images\Flags\MU.png" />
-    <Resource Include="Resources\Images\Flags\MV.png" />
-    <Resource Include="Resources\Images\Flags\MW.png" />
-    <Resource Include="Resources\Images\Flags\MX.png" />
-    <Resource Include="Resources\Images\Flags\MY.png" />
-    <Resource Include="Resources\Images\Flags\MZ.png" />
-    <Resource Include="Resources\Images\Flags\NA.png" />
-    <Resource Include="Resources\Images\Flags\NC.png" />
-    <Resource Include="Resources\Images\Flags\NE.png" />
-    <Resource Include="Resources\Images\Flags\NF.png" />
-    <Resource Include="Resources\Images\Flags\NG.png" />
-    <Resource Include="Resources\Images\Flags\NI.png" />
-    <Resource Include="Resources\Images\Flags\NL.png" />
-    <Resource Include="Resources\Images\Flags\NO.png" />
-    <Resource Include="Resources\Images\Flags\NP.png" />
-    <Resource Include="Resources\Images\Flags\NR.png" />
-    <Resource Include="Resources\Images\Flags\NU.png" />
-    <Resource Include="Resources\Images\Flags\NZ.png" />
-    <Resource Include="Resources\Images\Flags\OM.png" />
-    <Resource Include="Resources\Images\Flags\PA.png" />
-    <Resource Include="Resources\Images\Flags\PE.png" />
-    <Resource Include="Resources\Images\Flags\PF.png" />
-    <Resource Include="Resources\Images\Flags\PG.png" />
-    <Resource Include="Resources\Images\Flags\PH.png" />
-    <Resource Include="Resources\Images\Flags\PK.png" />
-    <Resource Include="Resources\Images\Flags\PL.png" />
-    <Resource Include="Resources\Images\Flags\PM.png" />
-    <Resource Include="Resources\Images\Flags\PN.png" />
-    <Resource Include="Resources\Images\Flags\PR.png" />
-    <Resource Include="Resources\Images\Flags\PS.png" />
-    <Resource Include="Resources\Images\Flags\PT.png" />
-    <Resource Include="Resources\Images\Flags\PW.png" />
-    <Resource Include="Resources\Images\Flags\PY.png" />
-    <Resource Include="Resources\Images\Flags\QA.png" />
-    <Resource Include="Resources\Images\Flags\RE.png" />
-    <Resource Include="Resources\Images\Flags\RO.png" />
-    <Resource Include="Resources\Images\Flags\RS.png" />
-    <Resource Include="Resources\Images\Flags\RU.png" />
-    <Resource Include="Resources\Images\Flags\RW.png" />
-    <Resource Include="Resources\Images\Flags\SA.png" />
-    <Resource Include="Resources\Images\Flags\SB.png" />
-    <Resource Include="Resources\Images\Flags\SC.png" />
-    <Resource Include="Resources\Images\Flags\SD.png" />
-    <Resource Include="Resources\Images\Flags\SE.png" />
-    <Resource Include="Resources\Images\Flags\SG.png" />
-    <Resource Include="Resources\Images\Flags\SH.png" />
-    <Resource Include="Resources\Images\Flags\SI.png" />
-    <Resource Include="Resources\Images\Flags\SK.png" />
-    <Resource Include="Resources\Images\Flags\SL.png" />
-    <Resource Include="Resources\Images\Flags\SM.png" />
-    <Resource Include="Resources\Images\Flags\SN.png" />
-    <Resource Include="Resources\Images\Flags\SO.png" />
-    <Resource Include="Resources\Images\Flags\SR.png" />
-    <Resource Include="Resources\Images\Flags\SS.png" />
-    <Resource Include="Resources\Images\Flags\ST.png" />
-    <Resource Include="Resources\Images\Flags\SV.png" />
-    <Resource Include="Resources\Images\Flags\SX.png" />
-    <Resource Include="Resources\Images\Flags\SY.png" />
-    <Resource Include="Resources\Images\Flags\SZ.png" />
-    <Resource Include="Resources\Images\Flags\TC.png" />
-    <Resource Include="Resources\Images\Flags\TD.png" />
-    <Resource Include="Resources\Images\Flags\TF.png" />
-    <Resource Include="Resources\Images\Flags\TG.png" />
-    <Resource Include="Resources\Images\Flags\TH.png" />
-    <Resource Include="Resources\Images\Flags\TJ.png" />
-    <Resource Include="Resources\Images\Flags\TK.png" />
-    <Resource Include="Resources\Images\Flags\TL.png" />
-    <Resource Include="Resources\Images\Flags\TM.png" />
-    <Resource Include="Resources\Images\Flags\TN.png" />
-    <Resource Include="Resources\Images\Flags\TO.png" />
-    <Resource Include="Resources\Images\Flags\TR.png" />
-    <Resource Include="Resources\Images\Flags\TT.png" />
-    <Resource Include="Resources\Images\Flags\TV.png" />
-    <Resource Include="Resources\Images\Flags\TW.png" />
-    <Resource Include="Resources\Images\Flags\TZ.png" />
-    <Resource Include="Resources\Images\Flags\UA.png" />
-    <Resource Include="Resources\Images\Flags\UG.png" />
-    <Resource Include="Resources\Images\Flags\UM.png" />
-    <Resource Include="Resources\Images\Flags\US.png" />
-    <Resource Include="Resources\Images\Flags\UY.png" />
-    <Resource Include="Resources\Images\Flags\UZ.png" />
-    <Resource Include="Resources\Images\Flags\VA.png" />
-    <Resource Include="Resources\Images\Flags\VC.png" />
-    <Resource Include="Resources\Images\Flags\VE.png" />
-    <Resource Include="Resources\Images\Flags\VG.png" />
-    <Resource Include="Resources\Images\Flags\VI.png" />
-    <Resource Include="Resources\Images\Flags\VN.png" />
-    <Resource Include="Resources\Images\Flags\VU.png" />
-    <Resource Include="Resources\Images\Flags\WF.png" />
-    <Resource Include="Resources\Images\Flags\WS.png" />
-    <Resource Include="Resources\Images\Flags\YE.png" />
-    <Resource Include="Resources\Images\Flags\YT.png" />
-    <Resource Include="Resources\Images\Flags\ZA.png" />
-    <Resource Include="Resources\Images\Flags\ZM.png" />
-    <Resource Include="Resources\Images\Flags\ZW.png" />
+    <Resource Include="Resources\Images\Flags\AD.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\AE.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\AF.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\AG.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\AI.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\AL.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\AM.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\AO.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\AR.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\AS.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\AT.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\AU.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\AW.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\AX.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\AZ.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\BA.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\BB.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\BD.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\BE.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\BF.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\BG.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\BH.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\BI.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\BJ.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\BL.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\BM.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\BN.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\BO.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\BQ.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\BR.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\BS.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\BT.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\BV.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\BW.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\BY.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\BZ.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\CA.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\CC.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\CD.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\CF.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\CG.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\CH.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\CI.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\CK.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\CL.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\CM.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\CN.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\CO.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\CR.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\CU.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\CV.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\CW.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\CX.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\CY.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\CZ.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\DE.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\DJ.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\DK.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\DM.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\DO.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\DZ.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\EC.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\EE.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\EG.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\ER.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\ES.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\ET.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\FI.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\FJ.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\FK.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\FM.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\FO.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\FR.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\GA.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\GB.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\GD.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\GE.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\GF.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\GG.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\GH.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\GI.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\GL.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\GM.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\GN.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\GP.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\GQ.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\GR.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\GS.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\GT.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\GU.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\GW.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\GY.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\HK.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\HN.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\HR.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\HT.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\HU.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\ID.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\IE.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\IL.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\IM.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\IN.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\IO.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\IQ.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\IR.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\IS.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\IT.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\JE.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\JM.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\JO.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\JP.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\KE.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\KG.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\KH.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\KI.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\KM.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\KN.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\KP.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\KR.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\KW.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\KY.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\KZ.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\LA.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\LB.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\LC.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\LI.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\LK.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\LR.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\LS.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\LT.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\LU.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\LV.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\LY.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\MA.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\MC.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\MD.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\ME.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\MG.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\MH.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\MK.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\ML.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\MM.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\MN.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\MO.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\MP.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\MQ.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\MR.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\MS.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\MT.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\MU.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\MV.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\MW.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\MX.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\MY.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\MZ.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\NA.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\NC.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\NE.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\NF.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\NG.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\NI.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\NL.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\NO.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\NP.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\NR.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\NU.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\NZ.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\OM.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\PA.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\PE.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\PF.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\PG.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\PH.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\PK.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\PL.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\PM.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\PN.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\PR.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\PS.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\PT.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\PW.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\PY.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\QA.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\RE.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\RO.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\RS.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\RU.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\RW.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\SA.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\SB.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\SC.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\SD.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\SE.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\SG.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\SH.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\SI.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\SK.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\SL.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\SM.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\SN.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\SO.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\SR.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\SS.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\ST.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\SV.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\SX.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\SY.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\SZ.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\TC.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\TD.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\TF.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\TG.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\TH.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\TJ.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\TK.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\TL.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\TM.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\TN.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\TO.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\TR.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\TT.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\TV.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\TW.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\TZ.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\UA.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\UG.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\UM.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\US.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\UY.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\UZ.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\VA.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\VC.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\VE.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\VG.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\VI.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\VN.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\VU.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\WF.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\WS.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\YE.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\YT.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\ZA.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\ZM.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Images\Flags\ZW.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
     <Content Include="torrent.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
   <ItemGroup />
-  <ItemGroup>
-    <ProjectReference Include="..\xZune.Vlc.Wpf\xZune.VLC.WPF - .Net 4.5.csproj">
-      <Project>{c53e6715-c8bf-4be4-943d-c003f0f01876}</Project>
-      <Name>xZune.VLC.WPF - .Net 4.5</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\xZune.Vlc\xZune.VLC - .Net 4.5.csproj">
-      <Project>{174900eb-956f-4435-87f2-677f014dd5db}</Project>
-      <Name>xZune.VLC - .Net 4.5</Name>
-    </ProjectReference>
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

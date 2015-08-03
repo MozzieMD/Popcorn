@@ -39,7 +39,7 @@ namespace Popcorn.ViewModel.Tabs
 
             if (!Movies.Any())
             {
-                Task.Run(async () => await LoadNextPageAsync());
+                DispatcherHelper.CheckBeginInvokeOnUI(async () => await LoadNextPageAsync());
             }
         }
         #endregion
@@ -59,8 +59,8 @@ namespace Popcorn.ViewModel.Tabs
             {
                 var movieResults =
                     await ApiService.GetPopularMoviesAsync(Page,
-                    MaxMoviesPerPage,
-                    CancellationLoadNextPageToken.Token);
+                        MaxMoviesPerPage,
+                        CancellationLoadNextPageToken.Token);
                 var movies = movieResults.ToList();
 
                 // Now we download the cover image for each movie
@@ -72,11 +72,7 @@ namespace Popcorn.ViewModel.Tabs
                             new Uri(movie.MediumCoverImage),
                             CancellationLoadNextPageToken.Token);
 
-                    DispatcherHelper.CheckBeginInvokeOnUI(() =>
-                    {
-                        Movies.Add(movie);
-
-                    });
+                    Movies.Add(movie);
                 }
 
                 await UserDataService.ComputeMovieHistoryAsync(Movies);
@@ -92,7 +88,7 @@ namespace Popcorn.ViewModel.Tabs
                     IsMovieFound = true;
                 }
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 IsLoadingMovies = false;
 

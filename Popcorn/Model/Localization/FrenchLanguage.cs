@@ -28,7 +28,7 @@ namespace Popcorn.Model.Localization
         /// <summary>
         /// Language's culture
         /// </summary>
-        public string Culture { get; }
+        public string Culture { get; set; }
 
         #endregion
 

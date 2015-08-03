@@ -1,0 +1,68 @@
+﻿<UserControl x:Class="Popcorn.UserControls.MovieSettings.MovieSettings"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+             xmlns:subtitlesUserControl="clr-namespace:Popcorn.UserControls.Subtitles"
+             xmlns:subtitlesViewModel="clr-namespace:Popcorn.ViewModel.Subtitles"
+             xmlns:converters="clr-namespace:Popcorn.Converters"
+             xmlns:lex="http://wpflocalizeextension.codeplex.com"
+             lex:LocalizeDictionary.DesignCulture="en"
+             lex:ResxLocalizationProvider.DefaultAssembly="Popcorn"
+             lex:ResxLocalizationProvider.DefaultDictionary="Resources"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <DataTemplate DataType="{x:Type subtitlesViewModel:SubtitlesViewModel}">
+                <subtitlesUserControl:Subtitles></subtitlesUserControl:Subtitles>
+            </DataTemplate>
+            <converters:RatioConverter x:Key="RatioConverter" />
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <Grid Width="{Binding RelativeSource={RelativeSource AncestorType={x:Type controls:MetroWindow}}, Path=ActualWidth, Converter={StaticResource RatioConverter}, ConverterParameter=0.8}"
+          Height="{Binding RelativeSource={RelativeSource AncestorType={x:Type controls:MetroWindow}}, Path=ActualHeight, Converter={StaticResource RatioConverter}, ConverterParameter=0.8}">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"></ColumnDefinition>
+            <ColumnDefinition Width="5*"></ColumnDefinition>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+        </Grid.RowDefinitions>
+        <TextBlock Text="Subtitles" 
+                   FontSize="20" 
+                   FontFamily="pack://application:,,,/Resources/Fonts/#Helvetica LT Std Light"
+                   Grid.Row="0"
+                   Grid.Column="0"
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Center"></TextBlock>
+        <controls:ToggleSwitch x:Name="ActivateSubtitles"
+                               Grid.Column="2"
+                               Grid.Row="0"
+                               OnLabel="On"
+                               OffLabel="Off"
+                               VerticalAlignment="Center"
+                               HorizontalAlignment="Center"
+                               CheckChangedCommand="{Binding SetSubtitlesCommand}">
+        </controls:ToggleSwitch>
+        
+        <Grid Grid.Row="1"
+              Grid.Column="2">
+            <ContentControl Content="{Binding Subtitles}"/>
+        </Grid>
+
+        <Button Width="100"
+                Height="30"
+                Grid.Row="2"
+                Grid.Column="2"
+                Content="{lex:LocText PlayLabel}"
+                Command="{Binding DownloadMovieCommand}"  
+                HorizontalAlignment="Center" 
+                VerticalAlignment="Center"/>
+    </Grid>
+</UserControl>

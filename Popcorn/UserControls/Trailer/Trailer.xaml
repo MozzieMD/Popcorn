@@ -4,6 +4,9 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:lex="http://wpflocalizeextension.codeplex.com"
+             lex:LocalizeDictionary.DesignCulture="en"
+             lex:ResxLocalizationProvider.DefaultAssembly="Popcorn"
+             lex:ResxLocalizationProvider.DefaultDictionary="Resources"
              xmlns:converters="clr-namespace:Popcorn.Converters"
              xmlns:playersUserControl="clr-namespace:Popcorn.UserControls.Players"
              xmlns:playersViewModel="clr-namespace:Popcorn.ViewModel.Players"
@@ -16,7 +19,7 @@
             <converters:RatioConverter x:Key="RatioConverter" />
             <converters:BoolToInverseVisibilityConverter x:Key="BoolToInverseVisibilityConverter" />
 
-            <DataTemplate DataType="{x:Type playersViewModel:TrailerPlayerViewModel}" >
+            <DataTemplate DataType="{x:Type playersViewModel:TrailerPlayerViewModel}">
                 <playersUserControl:TrailerPlayer x:Name="TrailerPlayer"></playersUserControl:TrailerPlayer>
             </DataTemplate>
         </ResourceDictionary>

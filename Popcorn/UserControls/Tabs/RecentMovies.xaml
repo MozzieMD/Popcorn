@@ -15,10 +15,6 @@
              lex:ResxLocalizationProvider.DefaultDictionary="Resources">
     <UserControl.Resources>
         <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="../../Skins/MainSkin.xaml" />
-            </ResourceDictionary.MergedDictionaries>
-
             <Style x:Key="LargeTileStyle" TargetType="controls:Tile">
                 <Setter Property="Width" Value="230" />
                 <Setter Property="Height" Value="345" />

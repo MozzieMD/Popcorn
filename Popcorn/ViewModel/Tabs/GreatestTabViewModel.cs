@@ -6,6 +6,7 @@ using Popcorn.Helpers;
 using Popcorn.Messaging;
 using Popcorn.Comparers;
 using GalaSoft.MvvmLight.Command;
+using GalaSoft.MvvmLight.Threading;
 
 namespace Popcorn.ViewModel.Tabs
 {
@@ -38,7 +39,7 @@ namespace Popcorn.ViewModel.Tabs
 
             if (!Movies.Any())
             {
-                Task.Run(async () => await LoadNextPageAsync());
+                DispatcherHelper.CheckBeginInvokeOnUI(async () => await LoadNextPageAsync());
             }
         }
         #endregion

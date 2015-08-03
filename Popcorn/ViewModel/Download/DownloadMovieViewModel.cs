@@ -2,15 +2,13 @@
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Ioc;
 using GalaSoft.MvvmLight.Messaging;
-using GalaSoft.MvvmLight.Threading;
 using Popcorn.Helpers;
 using Popcorn.Messaging;
 using Popcorn.Model.Movie;
-using Popcorn.Model.Subtitle;
 using Popcorn.Service.Api;
+using Popcorn.ViewModel.MovieSettings;
 using Ragnar;
 using System;
-using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Threading;
@@ -31,32 +29,17 @@ namespace Popcorn.ViewModel.Download
 
         #endregion
 
-        #region Property -> Subtitles
+        #region Property -> MovieSettingsViewModel
 
         /// <summary>
-        /// The available movie's subtitles
+        /// The view model used to manage movie settings
         /// </summary>
-        private ObservableCollection<Subtitle> _subtitles = new ObservableCollection<Subtitle>();
+        private MovieSettingsViewModel _movieSettings;
 
-        public ObservableCollection<Subtitle> Subtitles
+        public MovieSettingsViewModel MovieSettings
         {
-            get { return _subtitles; }
-            set { Set(() => Subtitles, ref _subtitles, value); }
-        }
-
-        #endregion
-
-        #region Property -> Subtitle
-
-        /// <summary>
-        /// The current movie's subtitle
-        /// </summary>
-        private Subtitle _subtitle;
-
-        public Subtitle Subtitle
-        {
-            get { return _subtitle; }
-            set { Set(() => Subtitle, ref _subtitle, value); }
+            get { return _movieSettings; }
+            set { Set(() => MovieSettings, ref _movieSettings, value); }
         }
 
         #endregion
@@ -146,6 +129,15 @@ namespace Popcorn.ViewModel.Download
 
         #region Commands
 
+        #region Command -> DownloadMovieCommand
+
+        /// <summary>
+        /// DownloadMovieCommand
+        /// </summary>
+        public RelayCommand DownloadMovieCommand { get; private set; }
+
+        #endregion
+
         #region Command -> StopPlayingMovieCommand
 
         /// <summary>
@@ -158,6 +150,7 @@ namespace Popcorn.ViewModel.Download
         #endregion
 
         #region Constructor
+
         /// <summary>
         /// Constructor
         /// </summary>
@@ -175,24 +168,21 @@ namespace Popcorn.ViewModel.Download
                 Messenger.Default.Send(new StopPlayingMovieMessage());
             });
 
-            Task.Run(async () =>
+            Messenger.Default.Register<DownloadMovieMessage>(
+                this,
+                async message =>
+                {
+                    await DownloadMovieAsync(message.Movie);
+                });
+
+            DownloadMovieCommand = new RelayCommand(async () =>
             {
-                Subtitles = await GetSubtitlesAsync(movie);
                 await DownloadMovieAsync(movie);
             });
-        }
-        #endregion
 
-        #region Method -> GetSubtitlesAsync
-        /// <summary>
-        /// Get the movie's subtitles
-        /// </summary>
-        /// <param name="movie">The movie </param>
-        /// <returns></returns>
-        private async Task<ObservableCollection<Subtitle>> GetSubtitlesAsync(MovieFull movie)
-        {
-            return await ApiService.GetSubtitlesAsync(movie, CancellationDownloadingMovieToken.Token);
+            MovieSettings = new MovieSettingsViewModel(movie);
         }
+
         #endregion
 
         #region Method -> DownloadMovieAsync
@@ -329,6 +319,9 @@ namespace Popcorn.ViewModel.Download
         public override void Cleanup()
         {
             StopPlayingMovie();
+
+            Messenger.Default.Unregister<DownloadMovieMessage>(this);
+
             base.Cleanup();
         }
     }

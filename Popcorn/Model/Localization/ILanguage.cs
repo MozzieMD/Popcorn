@@ -18,6 +18,6 @@
         /// <summary>
         /// Language's culture
         /// </summary>
-        string Culture { get; }
+        string Culture { get; set; }
     }
 }

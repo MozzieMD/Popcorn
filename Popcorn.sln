@@ -7,10 +7,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Popcorn", "Popcorn\Popcorn.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Popcorn.Tests", "Popcorn.Tests\Popcorn.Tests.csproj", "{A482F82D-8500-42C8-B433-2E21AF9B89F3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "xZune.VLC - .Net 4.5", "xZune.Vlc\xZune.VLC - .Net 4.5.csproj", "{174900EB-956F-4435-87F2-677F014DD5DB}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "xZune.VLC.WPF - .Net 4.5", "xZune.Vlc.Wpf\xZune.VLC.WPF - .Net 4.5.csproj", "{C53E6715-C8BF-4BE4-943D-C003F0F01876}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -44,30 +40,6 @@ Global
 		{A482F82D-8500-42C8-B433-2E21AF9B89F3}.Release|x64.Build.0 = Release|Any CPU
 		{A482F82D-8500-42C8-B433-2E21AF9B89F3}.Release|x86.ActiveCfg = Release|Any CPU
 		{A482F82D-8500-42C8-B433-2E21AF9B89F3}.Release|x86.Build.0 = Release|Any CPU
-		{174900EB-956F-4435-87F2-677F014DD5DB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{174900EB-956F-4435-87F2-677F014DD5DB}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{174900EB-956F-4435-87F2-677F014DD5DB}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{174900EB-956F-4435-87F2-677F014DD5DB}.Debug|x64.Build.0 = Debug|Any CPU
-		{174900EB-956F-4435-87F2-677F014DD5DB}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{174900EB-956F-4435-87F2-677F014DD5DB}.Debug|x86.Build.0 = Debug|Any CPU
-		{174900EB-956F-4435-87F2-677F014DD5DB}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{174900EB-956F-4435-87F2-677F014DD5DB}.Release|Any CPU.Build.0 = Release|Any CPU
-		{174900EB-956F-4435-87F2-677F014DD5DB}.Release|x64.ActiveCfg = Release|Any CPU
-		{174900EB-956F-4435-87F2-677F014DD5DB}.Release|x64.Build.0 = Release|Any CPU
-		{174900EB-956F-4435-87F2-677F014DD5DB}.Release|x86.ActiveCfg = Release|Any CPU
-		{174900EB-956F-4435-87F2-677F014DD5DB}.Release|x86.Build.0 = Release|Any CPU
-		{C53E6715-C8BF-4BE4-943D-C003F0F01876}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C53E6715-C8BF-4BE4-943D-C003F0F01876}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C53E6715-C8BF-4BE4-943D-C003F0F01876}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{C53E6715-C8BF-4BE4-943D-C003F0F01876}.Debug|x64.Build.0 = Debug|Any CPU
-		{C53E6715-C8BF-4BE4-943D-C003F0F01876}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{C53E6715-C8BF-4BE4-943D-C003F0F01876}.Debug|x86.Build.0 = Debug|Any CPU
-		{C53E6715-C8BF-4BE4-943D-C003F0F01876}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C53E6715-C8BF-4BE4-943D-C003F0F01876}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C53E6715-C8BF-4BE4-943D-C003F0F01876}.Release|x64.ActiveCfg = Release|Any CPU
-		{C53E6715-C8BF-4BE4-943D-C003F0F01876}.Release|x64.Build.0 = Release|Any CPU
-		{C53E6715-C8BF-4BE4-943D-C003F0F01876}.Release|x86.ActiveCfg = Release|Any CPU
-		{C53E6715-C8BF-4BE4-943D-C003F0F01876}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

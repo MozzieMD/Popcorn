@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+             xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
              xmlns:converters="clr-namespace:Popcorn.Converters"
              xmlns:downloadUserControl="clr-namespace:Popcorn.UserControls.Download"
              xmlns:downloadViewModel="clr-namespace:Popcorn.ViewModel.Download"
@@ -26,12 +26,12 @@
             <converters:StringRatingToIntRatingConverter x:Key="StringRatingToIntRatingConverter" />
             <converters:BoolToInverseVisibilityConverter x:Key="BoolToInverseVisibilityConverter" />
             <converters:MultiBooleanToBoolConverter x:Key="MultiBooleanToBoolConverter"/>
-            
-            <DataTemplate DataType="{x:Type downloadViewModel:DownloadMovieViewModel}" >
+
+            <DataTemplate DataType="{x:Type downloadViewModel:DownloadMovieViewModel}">
                 <downloadUserControl:DownloadMovie x:Name="DownloadMovie"></downloadUserControl:DownloadMovie>
             </DataTemplate>
 
-            <DataTemplate DataType="{x:Type trailerViewModel:TrailerViewModel}" >
+            <DataTemplate DataType="{x:Type trailerViewModel:TrailerViewModel}">
                 <trailerUserControl:Trailer x:Name="Trailer"></trailerUserControl:Trailer>
             </DataTemplate>
             
@@ -102,11 +102,9 @@
     </UserControl.Resources>
     <Grid>
         <controls:MetroProgressBar IsIndeterminate="True"
-                                   Minimum="0"
-                                   Maximum="100"
-                                   Width="400"
                                    EllipseDiameter="5"
                                    Foreground="{DynamicResource AccentColorBrush}"
+                                   Width="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=Grid}, Path=ActualWidth, Mode=OneWay}"
                                    Visibility="{Binding IsMovieLoading, Converter={StaticResource BoolToInverseVisibilityConverter}}"/>
         <Grid x:Name="MoviePageContainer"
           Opacity="0.0"
@@ -123,8 +121,8 @@
         </Grid>
         <Grid x:Name="Trailer">
             <ContentControl Content="{Binding Trailer}"
-                                Width="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=controls:MetroWindow}, Path=ActualWidth, Converter={StaticResource RatioConverter}, ConverterParameter=0.8}"
-                                Height="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=controls:MetroWindow}, Path=ActualHeight, Converter={StaticResource RatioConverter}, ConverterParameter=0.8}"/>
+                            Width="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=controls:MetroWindow}, Path=ActualWidth, Converter={StaticResource RatioConverter}, ConverterParameter=0.8}"
+                            Height="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=controls:MetroWindow}, Path=ActualHeight, Converter={StaticResource RatioConverter}, ConverterParameter=0.8}"/>
         </Grid>
         <Grid x:Name="Content" 
               Style="{StaticResource AnimationContentOnMovieDownloading}">

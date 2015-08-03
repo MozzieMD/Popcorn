@@ -27,9 +27,10 @@ namespace Popcorn.Converters
 
             if (!string.IsNullOrEmpty(value.ToString()))
             {
+                var path = value.ToString();
                 var bi = new BitmapImage();
                 bi.BeginInit();
-                bi.UriSource = new Uri(value.ToString());
+                bi.UriSource = new Uri(path);
                 bi.CacheOption = BitmapCacheOption.OnLoad;
                 bi.EndInit();
                 return bi;
