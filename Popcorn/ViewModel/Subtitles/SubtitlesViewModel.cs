@@ -58,7 +58,6 @@ namespace Popcorn.ViewModel.Subtitles
             Task.Run(async () =>
             {
                 Subtitles = await GetSubtitlesAsync(movie);
-                ComputeSubtitlesFlag(Subtitles);
             });
         }
 
@@ -71,26 +70,6 @@ namespace Popcorn.ViewModel.Subtitles
         private async Task<ObservableCollection<Subtitle>> GetSubtitlesAsync(MovieFull movie)
         {
             return await ApiService.GetSubtitlesAsync(movie, CancellationDownloadingSubtitlesToken.Token);
-        }
-        #endregion
-
-        #region  Method -> ComputeSubtitlesFlag
-        /// <summary>
-        /// Get the movie's flags
-        /// </summary>
-        /// <param name="subtitles">Subtitles</param>
-        /// <returns></returns>
-        private void ComputeSubtitlesFlag(IEnumerable<Subtitle> subtitles)
-        {
-            foreach (var subtitle in subtitles)
-            {
-                if (!string.IsNullOrEmpty(subtitle.Language.Culture))
-                {
-                    var flagPath = "pack://application:,,,/Popcorn;component/resources/images/flags/" +
-                                   subtitle.Language.Culture + ".png";
-                    subtitle.FlagImagePath = flagPath;
-                }
-            }
         }
         #endregion
 

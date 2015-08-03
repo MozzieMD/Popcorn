@@ -28,11 +28,11 @@
             <converters:MultiBooleanToBoolConverter x:Key="MultiBooleanToBoolConverter"/>
 
             <DataTemplate DataType="{x:Type downloadViewModel:DownloadMovieViewModel}">
-                <downloadUserControl:DownloadMovie x:Name="DownloadMovie"></downloadUserControl:DownloadMovie>
+                <downloadUserControl:DownloadMovie></downloadUserControl:DownloadMovie>
             </DataTemplate>
 
             <DataTemplate DataType="{x:Type trailerViewModel:TrailerViewModel}">
-                <trailerUserControl:Trailer x:Name="Trailer"></trailerUserControl:Trailer>
+                <trailerUserControl:Trailer></trailerUserControl:Trailer>
             </DataTemplate>
             
             <Style x:Key="AnimationContentOnMovieLoading" TargetType="{x:Type Grid}">

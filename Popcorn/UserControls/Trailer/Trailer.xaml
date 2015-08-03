@@ -20,7 +20,7 @@
             <converters:BoolToInverseVisibilityConverter x:Key="BoolToInverseVisibilityConverter" />
 
             <DataTemplate DataType="{x:Type playersViewModel:TrailerPlayerViewModel}">
-                <playersUserControl:TrailerPlayer x:Name="TrailerPlayer"></playersUserControl:TrailerPlayer>
+                <playersUserControl:TrailerPlayer></playersUserControl:TrailerPlayer>
             </DataTemplate>
         </ResourceDictionary>
     </UserControl.Resources>

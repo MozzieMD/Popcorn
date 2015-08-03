@@ -1,5 +1,4 @@
 ﻿using System.IO;
-using Popcorn.Model.Localization;
 
 namespace Popcorn.Helpers
 {
@@ -11,42 +10,47 @@ namespace Popcorn.Helpers
         /// <summary>
         /// Directory of covers images
         /// </summary>
-        public static readonly string CoverMoviesDirectory = Path.GetTempPath() + "Popcorn\\Covers\\";
+        public static string CoverMoviesDirectory { get; } = Path.GetTempPath() + "Popcorn\\Covers\\";
 
         /// <summary>
         /// Directory of poster images
         /// </summary>
-        public static readonly string PosterMovieDirectory = Path.GetTempPath() + "Popcorn\\Posters\\";
+        public static string PosterMovieDirectory { get; } = Path.GetTempPath() + "Popcorn\\Posters\\";
 
         /// <summary>
         /// Directory of background images 
         /// </summary>
-        public static readonly string BackgroundMovieDirectory = Path.GetTempPath() + "Popcorn\\Backgrounds\\";
+        public static string BackgroundMovieDirectory { get; } = Path.GetTempPath() + "Popcorn\\Backgrounds\\";
 
         /// <summary>
         /// Directory of directors images
         /// </summary>
-        public static readonly string DirectorMovieDirectory = Path.GetTempPath() + "Popcorn\\Directors\\";
+        public static string DirectorMovieDirectory { get; } = Path.GetTempPath() + "Popcorn\\Directors\\";
 
         /// <summary>
         /// Directory of actors images
         /// </summary>
-        public static readonly string ActorMovieDirectory = Path.GetTempPath() + "Popcorn\\Actors\\";
+        public static string ActorMovieDirectory { get; } = Path.GetTempPath() + "Popcorn\\Actors\\";
 
         /// <summary>
         /// Directory of downloaded movies
         /// </summary>
-        public static readonly string MovieDownloads = Path.GetTempPath() + "Popcorn\\Downloads\\";
+        public static string MovieDownloads { get; } = Path.GetTempPath() + "Popcorn\\Downloads\\";
 
         /// <summary>
         /// Subtitles directory
         /// </summary>
-        public static readonly string Subtitles = Path.GetTempPath() + "Popcorn\\Subtitles\\";
+        public static string Subtitles { get; } = Path.GetTempPath() + "Popcorn\\Subtitles\\";
 
         /// <summary>
         /// Logging directory
         /// </summary>
-        public static readonly string Logging = Path.GetTempPath() + "Popcorn\\Logs\\";
+        public static string Logging { get; } = Path.GetTempPath() + "Popcorn\\Logs\\";
+
+        /// <summary>
+        /// Localize flags' images resources
+        /// </summary>
+        public const string FlagImagesDirectory = "pack://application:,,,/Popcorn;component/resources/images/flags/";
 
         /// <summary>
         /// Endpoint to YTS
@@ -123,113 +127,6 @@ namespace Popcorn.Helpers
             Low = 0,
             Medium = 1,
             High = 2
-        }
-
-        public static void SetLanguageCulture(ILanguage language)
-        {
-            switch (language.EnglishName)
-            {
-                case "english":
-                    language.Culture = "gb";
-                    break;
-                case "brazilian-portuguese":
-                    language.Culture = "br";
-                    break;
-                case "danish":
-                    language.Culture = "dk";
-                    break;
-                case "dutch":
-                    language.Culture = "be";
-                    break;
-                case "german":
-                    language.Culture = "de";
-                    break;
-                case "japanese":
-                    language.Culture = "jp";
-                    break;
-                case "swedish":
-                    language.Culture = "fi";
-                    break;
-                case "polish":
-                    language.Culture = "pl";
-                    break;
-                case "bulgarian":
-                    language.Culture = "bg";
-                    break;
-                case "farsi-persian":
-                    language.Culture = "ir";
-                    break;
-                case "finnish":
-                    language.Culture = "fi";
-                    break;
-                case "greek":
-                    language.Culture = "gr";
-                    break;
-                case "indonesian":
-                    language.Culture = "id";
-                    break;
-                case "korean":
-                    language.Culture = "kr";
-                    break;
-                case "malay":
-                    language.Culture = "bn";
-                    break;
-                case "portuguese":
-                    language.Culture = "br";
-                    break;
-                case "spanish":
-                    language.Culture = "es";
-                    break;
-                case "turkish":
-                    language.Culture = "tr";
-                    break;
-                case "vietnamese":
-                    language.Culture = "vn";
-                    break;
-                case "french":
-                    language.Culture = "fr";
-                    break;
-                case "serbian":
-                    language.Culture = "rs";
-                    break;
-                case "arabic":
-                    language.Culture = "dz";
-                    break;
-                case "romanian":
-                    language.Culture = "ro";
-                    break;
-                case "croatian":
-                    language.Culture = "hr";
-                    break;
-                case "hebrew":
-                    language.Culture = "il";
-                    break;
-                case "norwegian":
-                    language.Culture = "no";
-                    break;
-                case "italian":
-                    language.Culture = "it";
-                    break;
-                case "russian":
-                    language.Culture = "ru";
-                    break;
-                case "chinese":
-                    language.Culture = "cn";
-                    break;
-                case "czech":
-                    language.Culture = "cz";
-                    break;
-                case "slovenian":
-                    language.Culture = "si";
-                    break;
-                case "hungarian":
-                    language.Culture = "hu";
-                    break;
-                case "bengali":
-                    language.Culture = "in";
-                    break;
-
-            }
         }
     }
 }

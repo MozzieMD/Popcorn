@@ -525,11 +525,6 @@ namespace Popcorn.Service.Api
                 }
             }
 
-            foreach (var subtitle in subtitles)
-            {
-                Constants.SetLanguageCulture(subtitle.Language);
-            }
-
             return subtitles;
         }
 
