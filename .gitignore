@@ -44,7 +44,7 @@ Temporary Items
 
 # Nuget Packages
 packages/AutoFixture.3.31.1
-packages/AutoFixture.NUnit2.3.31.1
+packages/AutoFixture.NUnit2.3.31.0
 packages/CommonServiceLocator.1.3
 packages/DeltaCompressionDotNet.2.0.0.0-rc1
 packages/Microsoft.Web.Xdt.2.1.1
