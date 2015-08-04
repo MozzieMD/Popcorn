@@ -12,7 +12,6 @@
              xmlns:playersViewModel="clr-namespace:Popcorn.ViewModel.Players"
              xmlns:controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
              mc:Ignorable="d" 
-             DataContext="{Binding }"
              d:DesignHeight="600" d:DesignWidth="900">
     <UserControl.Resources>
         <ResourceDictionary>

@@ -2,7 +2,7 @@
 using System.Linq;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Messaging;
-using GalaSoft.MvvmLight.Command;
+using GalaSoft.MvvmLight.CommandWpf;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using GalaSoft.MvvmLight.Threading;

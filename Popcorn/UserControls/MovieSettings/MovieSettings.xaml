@@ -50,12 +50,11 @@
                                HorizontalAlignment="Center"
                                CheckChangedCommand="{Binding SetSubtitlesCommand}">
         </controls:ToggleSwitch>
-        
+
         <Grid Grid.Row="1"
               Grid.Column="2">
             <ContentControl Content="{Binding Subtitles}"/>
         </Grid>
-
         <Button Width="100"
                 Height="30"
                 Grid.Row="2"

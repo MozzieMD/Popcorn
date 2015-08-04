@@ -5,7 +5,7 @@ using GalaSoft.MvvmLight.Messaging;
 using Popcorn.Helpers;
 using Popcorn.Messaging;
 using Popcorn.Comparers;
-using GalaSoft.MvvmLight.Command;
+using GalaSoft.MvvmLight.CommandWpf;
 using GalaSoft.MvvmLight.Threading;
 
 namespace Popcorn.ViewModel.Tabs

@@ -1,6 +1,6 @@
 ﻿using System;
 using GalaSoft.MvvmLight;
-using GalaSoft.MvvmLight.Command;
+using GalaSoft.MvvmLight.CommandWpf;
 using GalaSoft.MvvmLight.Messaging;
 using Popcorn.Messaging;
 using GalaSoft.MvvmLight.Threading;

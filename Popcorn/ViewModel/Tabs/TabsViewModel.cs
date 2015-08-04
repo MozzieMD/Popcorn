@@ -4,7 +4,7 @@ using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Messaging;
 using Popcorn.Service.Api;
 using Popcorn.Model.Movie;
-using GalaSoft.MvvmLight.Command;
+using GalaSoft.MvvmLight.CommandWpf;
 using Popcorn.Helpers;
 using Popcorn.Messaging;
 using Popcorn.Service.User;
