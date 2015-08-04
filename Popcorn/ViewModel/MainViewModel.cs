@@ -252,9 +252,7 @@ namespace Popcorn.ViewModel
             // Open settings flyout
             OpenSettingsCommand = new RelayCommand(() =>
             {
-
                 IsSettingsFlyoutOpen = true;
-
             });
 
             // Creates the different tabs in the tab control

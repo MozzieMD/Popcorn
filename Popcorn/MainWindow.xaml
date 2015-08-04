@@ -29,7 +29,6 @@
         AllowsTransparency="True"
         DataContext="{Binding Main, Source={StaticResource Locator}}"
         Icon="Resources/Images/icon.ico"
-        ShowIconOnTitleBar="True"
         ShowTitleBar="False"
         WindowStartupLocation="CenterScreen"
         IgnoreTaskbarOnMaximize="True">
@@ -44,7 +43,7 @@
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Closing">
             <command:EventToCommand Command="{Binding Mode=OneWay, Path=MainWindowClosingCommand}"
-                                    PassEventArgsToCommand="True" />
+                                    PassEventArgsToCommand="False" />
         </i:EventTrigger>
     </i:Interaction.Triggers>
 
