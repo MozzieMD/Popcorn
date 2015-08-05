@@ -524,6 +524,7 @@ namespace Popcorn.Service.Api
                     });
                 }
             }
+            subtitles.Sort();
 
             return subtitles;
         }

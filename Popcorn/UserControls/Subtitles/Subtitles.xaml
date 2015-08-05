@@ -2,19 +2,40 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
-             xmlns:fluidLayoutUserControl="clr-namespace:Popcorn.UserControls.FluidLayout"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:converters="clr-namespace:Popcorn.Converters"
              mc:Ignorable="d" 
-             Height="400"
-             Width="600"
              d:DesignHeight="300" d:DesignWidth="300">
-    <Grid>
-        <fluidLayoutUserControl:FluidLayout
-                     DataContext="{Binding }"
-                     Animation="True"
-                     AnimationSpeed="1"
-                     ItemsSource="{Binding Subtitles}">
-        </fluidLayoutUserControl:FluidLayout>
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <converters:UriToCachedImageConverter x:Key="UriToCachedImageConverter" />
+            <converters:CapitalizeTitleConverter x:Key="CapitalizeTitleConverter"/>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/VS/Colors.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/VS/Styles.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid >
+        <ListBox ItemsSource="{Binding Subtitles}"
+                 ScrollViewer.VerticalScrollBarVisibility="Disabled">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel>
+                        <TextBlock FontSize="40"
+                                   Text="{Binding Language.EnglishName, Converter={StaticResource CapitalizeTitleConverter}}"
+                                   Foreground="{StaticResource Foreground}"/>
+                        <Image Source="{Binding FlagImagePath, Converter={StaticResource UriToCachedImageConverter}}" 
+                                   HorizontalAlignment="Right" 
+                                   VerticalAlignment="Bottom"></Image>
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+            <ListBox.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <WrapPanel Orientation="Vertical"/>
+                </ItemsPanelTemplate>
+            </ListBox.ItemsPanel>
+        </ListBox>
     </Grid>
 </UserControl>

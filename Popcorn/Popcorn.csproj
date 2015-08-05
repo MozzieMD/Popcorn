@@ -112,9 +112,9 @@
       <HintPath>..\packages\squirrel.windows.0.99.2\lib\Net45\ICSharpCode.SharpZipLib.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="MahApps.Metro, Version=1.1.3.28, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="MahApps.Metro, Version=1.1.3.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\MahApps\MahApps.Metro.dll</HintPath>
+      <HintPath>..\packages\MahApps\NET45\MahApps.Metro.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Practices.ServiceLocation">
       <HintPath>..\packages\CommonServiceLocator.1.3\lib\portable-net4+sl5+netcore45+wpa81+wp8\Microsoft.Practices.ServiceLocation.dll</HintPath>
@@ -221,6 +221,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Comparers\MovieComparer.cs" />
+    <Compile Include="Converters\CapitalizeTitleConverter.cs" />
     <Compile Include="Converters\InverseBooleanConverter.cs" />
     <Compile Include="Converters\BoolToInverseVisibilityConverter.cs" />
     <Compile Include="Converters\GenresConverter.cs" />
@@ -238,6 +239,7 @@
     <Compile Include="Events\ConnectionErrorEventArgs.cs" />
     <Compile Include="Events\NumberOfColumnsChangedEventArgs.cs" />
     <Compile Include="Helpers\Constants.cs" />
+    <Compile Include="Helpers\Extensions.cs" />
     <Compile Include="Helpers\LocalizationProviderHelper.cs" />
     <Compile Include="Helpers\VisualHierarchyHelper.cs" />
     <Compile Include="Messaging\ChangeLanguageMessage.cs" />
@@ -323,12 +325,6 @@
     <Compile Include="UserControls\Download\DownloadMovie.xaml.cs">
       <DependentUpon>DownloadMovie.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UserControls\FluidLayout\FluidLayoutEventArgs.cs" />
-    <Compile Include="UserControls\FluidLayout\FluidLayout.xaml.cs">
-      <DependentUpon>FluidLayout.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="UserControls\FluidLayout\FluidLayoutTile.cs" />
-    <Compile Include="UserControls\FluidLayout\Tile.cs" />
     <Compile Include="UserControls\MovieSettings\MovieSettings.xaml.cs">
       <DependentUpon>MovieSettings.xaml</DependentUpon>
     </Compile>
@@ -349,9 +345,6 @@
     </Compile>
     <Compile Include="UserControls\Subtitles\Subtitles.xaml.cs">
       <DependentUpon>Subtitles.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="UserControls\Subtitles\TileSubtitle.xaml.cs">
-      <DependentUpon>TileSubtitle.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserControls\Tabs\GreatestMovies.xaml.cs">
       <DependentUpon>GreatestMovies.xaml</DependentUpon>
@@ -409,10 +402,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UserControls\FluidLayout\FluidLayout.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="UserControls\MovieSettings\MovieSettings.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -438,10 +427,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UserControls\Subtitles\Subtitles.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="UserControls\Subtitles\TileSubtitle.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

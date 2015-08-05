@@ -1,18 +1,23 @@
-﻿using Popcorn.Model.Localization;
+﻿using System;
+using System.Collections;
+using Popcorn.Model.Localization;
 using Popcorn.Model.Subtitle.Json;
 using Popcorn.Helpers;
+using System.Collections.Generic;
 
 namespace Popcorn.Model.Subtitle
 {
-    public class Subtitle : SubtitleDeserialized
+    public class Subtitle : SubtitleDeserialized, IComparable<Subtitle>
     {
         #region Properties
 
         #region Property -> Language
+
         /// <summary>
         /// Language's subtitle
         /// </summary>
         private ILanguage _language;
+
         /// <summary>
         /// Language's subtitle
         /// </summary>
@@ -25,13 +30,16 @@ namespace Popcorn.Model.Subtitle
                 SetFlagImagePath();
             }
         }
+
         #endregion
 
         #region Property -> FlagImagePath
+
         /// <summary>
         /// Flag image's path
         /// </summary>
         private string _flagImagePath;
+
         /// <summary>
         /// Flag image's path
         /// </summary>
@@ -40,11 +48,13 @@ namespace Popcorn.Model.Subtitle
             get { return _flagImagePath; }
             set { Set(() => FlagImagePath, ref _flagImagePath, value); }
         }
+
         #endregion
 
         #endregion
 
         #region
+
         /// <summary>
         /// Set file path of flag image depending on its language
         /// </summary>
@@ -152,7 +162,13 @@ namespace Popcorn.Model.Subtitle
                     FlagImagePath = Constants.FlagImagesDirectory + "in.png";
                     break;
             }
+
             #endregion
+        }
+
+        public int CompareTo(Subtitle subtitle)
+        {
+            return string.Compare(Language.EnglishName, subtitle.Language.EnglishName, StringComparison.CurrentCulture);
         }
     }
 }

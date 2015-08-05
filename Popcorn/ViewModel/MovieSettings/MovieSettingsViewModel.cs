@@ -5,7 +5,6 @@ using Popcorn.Messaging;
 using Popcorn.Model.Movie;
 using Popcorn.ViewModel.Subtitles;
 using System.Threading.Tasks;
-using System.Windows.Input;
 
 namespace Popcorn.ViewModel.MovieSettings
 {

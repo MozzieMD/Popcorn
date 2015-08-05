@@ -19,8 +19,7 @@
             <DataTemplate DataType="{x:Type movieSettingsViewModel:MovieSettingsViewModel}">
                 <movieSettingsUserControl:MovieSettings></movieSettingsUserControl:MovieSettings>
             </DataTemplate>
-
-            <Style x:Key="AnimationContentOnMovieDownloading" TargetType="{x:Type Grid}">
+                <Style x:Key="AnimationContentOnMovieDownloading" TargetType="{x:Type Grid}">
                 <Style.Triggers>
                     <DataTrigger Binding="{Binding Path=IsDownloadingMovie}" 
                          Value="False">

@@ -140,16 +140,8 @@
                    Source="{Binding Path=Movie.BackgroundImagePath, Converter={StaticResource UriToCachedImageConverter}}" 
                    Stretch="UniformToFill" 
                    Opacity="0.3"/>
-            <Grid x:Name="DownloadMovie">
-                <ContentControl Content="{Binding DownloadMovie}"
-                                Width="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=Grid}, Path=ActualWidth, Converter={StaticResource RatioConverter}, ConverterParameter=1}"
-                                Height="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=Grid}, Path=ActualHeight, Converter={StaticResource RatioConverter}, ConverterParameter=1}"/>
-            </Grid>
-            <Grid x:Name="Trailer">
-                <ContentControl Content="{Binding Trailer}"
-                                Width="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=controls:MetroWindow}, Path=ActualWidth, Converter={StaticResource RatioConverter}, ConverterParameter=0.8}"
-                                Height="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=controls:MetroWindow}, Path=ActualHeight, Converter={StaticResource RatioConverter}, ConverterParameter=0.8}"/>
-            </Grid>
+            <ContentControl Content="{Binding DownloadMovie}"/>
+            <ContentControl Content="{Binding Trailer}"/>
             <Grid x:Name="Content" 
                   Style="{StaticResource AnimationContentOnMovieDownloading}">
                 <Grid.RowDefinitions>
