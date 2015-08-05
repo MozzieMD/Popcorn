@@ -4,11 +4,27 @@ using GalaSoft.MvvmLight.Messaging;
 using Popcorn.Messaging;
 using Popcorn.Model.Movie;
 using Popcorn.ViewModel.Subtitles;
+using System.Windows.Input;
 
 namespace Popcorn.ViewModel.MovieSettings
 {
     public class MovieSettingsViewModel : ViewModelBase
     {
+        #region Property -> Movie
+
+        /// <summary>
+        /// The movie
+        /// </summary>
+        private MovieFull _movie;
+
+        public MovieFull Movie
+        {
+            get { return _movie; }
+            set { Set(() => Movie, ref _movie, value); }
+        }
+
+        #endregion
+
         #region Property -> Subtitles
 
         /// <summary>
@@ -29,8 +45,26 @@ namespace Popcorn.ViewModel.MovieSettings
         /// <summary>
         /// SetSubtitlesCommand
         /// </summary>
-        public RelayCommand SetSubtitlesCommand { get; private set; }
-    
+        private ICommand _setSubtitlesCommand;
+
+        public ICommand SetSubtitlesCommand
+        {
+            get
+            {
+                return _setSubtitlesCommand ?? (_setSubtitlesCommand = new RelayCommand(() =>
+                {
+                    if (Subtitles == null)
+                    {
+                        Subtitles = new SubtitlesViewModel(Movie);
+                    }
+                    else
+                    {
+                        Subtitles = null;
+                    }
+                }));
+            }
+        }
+
         #endregion
 
         #region Command -> DownloadMovieCommand
@@ -38,7 +72,18 @@ namespace Popcorn.ViewModel.MovieSettings
         /// <summary>
         /// DownloadMovieCommand
         /// </summary>
-        public RelayCommand DownloadMovieCommand { get; private set; }
+        private ICommand _downloadMovieCommand;
+
+        public ICommand DownloadMovieCommand
+        {
+            get
+            {
+                return _downloadMovieCommand ?? (_downloadMovieCommand = new RelayCommand(() =>
+                {
+                    Messenger.Default.Send(new DownloadMovieMessage(Movie));
+                }));
+            }
+        }
 
         #endregion
 
@@ -49,22 +94,7 @@ namespace Popcorn.ViewModel.MovieSettings
         /// <param name="movie">The movie</param>
         public MovieSettingsViewModel(MovieFull movie)
         {
-            SetSubtitlesCommand = new RelayCommand(() =>
-            {
-                if (Subtitles == null)
-                {
-                    Subtitles = new SubtitlesViewModel(movie);
-                }
-                else
-                {
-                    Subtitles = null;
-                }
-            });
-
-            DownloadMovieCommand = new RelayCommand(() =>
-            {
-                Messenger.Default.Send(new DownloadMovieMessage(movie));
-            });
+            Movie = movie;
         }
         #endregion
     }
