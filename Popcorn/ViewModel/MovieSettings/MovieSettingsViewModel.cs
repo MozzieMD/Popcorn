@@ -4,6 +4,7 @@ using GalaSoft.MvvmLight.Messaging;
 using Popcorn.Messaging;
 using Popcorn.Model.Movie;
 using Popcorn.ViewModel.Subtitles;
+using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace Popcorn.ViewModel.MovieSettings
@@ -45,22 +46,25 @@ namespace Popcorn.ViewModel.MovieSettings
         /// <summary>
         /// SetSubtitlesCommand
         /// </summary>
-        private ICommand _setSubtitlesCommand;
+        private RelayCommand _setSubtitlesCommand;
 
-        public ICommand SetSubtitlesCommand
+        public RelayCommand SetSubtitlesCommand
         {
             get
             {
-                return _setSubtitlesCommand ?? (_setSubtitlesCommand = new RelayCommand(() =>
+                return _setSubtitlesCommand ?? (_setSubtitlesCommand = new RelayCommand(async () =>
                 {
-                    if (Subtitles == null)
+                    await Task.Run(() =>
                     {
-                        Subtitles = new SubtitlesViewModel(Movie);
-                    }
-                    else
-                    {
-                        Subtitles = null;
-                    }
+                        if (Subtitles == null)
+                        {
+                            Subtitles = new SubtitlesViewModel(Movie);
+                        }
+                        else
+                        {
+                            Subtitles = null;
+                        }
+                    });
                 }));
             }
         }
@@ -72,9 +76,9 @@ namespace Popcorn.ViewModel.MovieSettings
         /// <summary>
         /// DownloadMovieCommand
         /// </summary>
-        private ICommand _downloadMovieCommand;
+        private RelayCommand _downloadMovieCommand;
 
-        public ICommand DownloadMovieCommand
+        public RelayCommand DownloadMovieCommand
         {
             get
             {

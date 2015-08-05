@@ -26,7 +26,7 @@
           Height="{Binding RelativeSource={RelativeSource AncestorType={x:Type controls:MetroWindow}}, Path=ActualHeight, Converter={StaticResource RatioConverter}, ConverterParameter=0.8}">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"></ColumnDefinition>
-            <ColumnDefinition Width="5*"></ColumnDefinition>
+            <ColumnDefinition Width="Auto"></ColumnDefinition>
             <ColumnDefinition Width="*"></ColumnDefinition>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
@@ -53,7 +53,9 @@
 
         <Grid Grid.Row="1"
               Grid.Column="2">
-            <ContentControl Content="{Binding Subtitles}"/>
+            <ContentControl Content="{Binding Subtitles}"
+                            Width="{Binding RelativeSource={RelativeSource AncestorType={x:Type controls:MetroWindow}}, Path=ActualWidth, Converter={StaticResource RatioConverter}, ConverterParameter=0.8}"
+                            Height="{Binding RelativeSource={RelativeSource AncestorType={x:Type controls:MetroWindow}}, Path=ActualHeight, Converter={StaticResource RatioConverter}, ConverterParameter=0.8}"/>
         </Grid>
         <Button Width="100"
                 Height="30"

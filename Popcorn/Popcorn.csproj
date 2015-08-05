@@ -323,6 +323,12 @@
     <Compile Include="UserControls\Download\DownloadMovie.xaml.cs">
       <DependentUpon>DownloadMovie.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UserControls\FluidLayout\FluidLayoutEventArgs.cs" />
+    <Compile Include="UserControls\FluidLayout\FluidLayout.xaml.cs">
+      <DependentUpon>FluidLayout.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\FluidLayout\FluidLayoutTile.cs" />
+    <Compile Include="UserControls\FluidLayout\Tile.cs" />
     <Compile Include="UserControls\MovieSettings\MovieSettings.xaml.cs">
       <DependentUpon>MovieSettings.xaml</DependentUpon>
     </Compile>
@@ -343,6 +349,9 @@
     </Compile>
     <Compile Include="UserControls\Subtitles\Subtitles.xaml.cs">
       <DependentUpon>Subtitles.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\Subtitles\TileSubtitle.xaml.cs">
+      <DependentUpon>TileSubtitle.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserControls\Tabs\GreatestMovies.xaml.cs">
       <DependentUpon>GreatestMovies.xaml</DependentUpon>
@@ -400,6 +409,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="UserControls\FluidLayout\FluidLayout.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="UserControls\MovieSettings\MovieSettings.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -425,6 +438,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UserControls\Subtitles\Subtitles.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\Subtitles\TileSubtitle.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

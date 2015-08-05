@@ -3,42 +3,18 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:converters="clr-namespace:Popcorn.Converters"
-             xmlns:custompanels="clr-namespace:Popcorn.CustomPanels"
+             xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+             xmlns:fluidLayoutUserControl="clr-namespace:Popcorn.UserControls.FluidLayout"
              mc:Ignorable="d" 
+             Height="400"
+             Width="600"
              d:DesignHeight="300" d:DesignWidth="300">
-    <UserControl.Resources>
-        <ResourceDictionary>
-            <converters:UriToCachedImageConverter x:Key="UriToCachedImageConverter" />
-        </ResourceDictionary>
-    </UserControl.Resources>
     <Grid>
-        <ScrollViewer VerticalScrollBarVisibility="Auto" >
-            <ItemsControl ItemsSource="{Binding Subtitles}">
-                <ItemsControl.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <custompanels:ElasticWrapPanel DesiredColumnWidth="80" />
-                    </ItemsPanelTemplate>
-                </ItemsControl.ItemsPanel>
-                <ItemsControl.ItemTemplate>
-                    <DataTemplate>
-                        <StackPanel>
-                            <StackPanel Orientation="Vertical">
-                                <Image Source="{Binding FlagImagePath, Converter={StaticResource UriToCachedImageConverter}}"
-                                       Stretch="Fill"
-                                       Width="60">
-                                    <Image.ToolTip>
-                                        <ToolTip Content="{Binding Language.EnglishName}" 
-                                                 FontFamily="pack://application:,,,/Resources/Fonts/#Helvetica LT Std Light"
-                                                 FontSize="14">
-                                        </ToolTip>
-                                    </Image.ToolTip>
-                                </Image>
-                        </StackPanel>
-                        </StackPanel>
-                    </DataTemplate>
-                </ItemsControl.ItemTemplate>
-            </ItemsControl>
-        </ScrollViewer>
+        <fluidLayoutUserControl:FluidLayout
+                     DataContext="{Binding }"
+                     Animation="True"
+                     AnimationSpeed="1"
+                     ItemsSource="{Binding Subtitles}">
+        </fluidLayoutUserControl:FluidLayout>
     </Grid>
 </UserControl>
