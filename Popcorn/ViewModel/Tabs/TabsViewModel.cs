@@ -220,7 +220,7 @@ namespace Popcorn.ViewModel.Tabs
             // Record the like action to the database
             LikeMovieCommand = new RelayCommand<MovieShort>(async movie =>
             {
-                await (new UserDataService()).LikeMovieAsync(movie);
+                await UserDataService.LikeMovieAsync(movie);
             });
         }
 

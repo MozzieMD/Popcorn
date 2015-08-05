@@ -1,5 +1,5 @@
 ﻿using GalaSoft.MvvmLight;
-using GalaSoft.MvvmLight.Command;
+using GalaSoft.MvvmLight.CommandWpf;
 using GalaSoft.MvvmLight.Messaging;
 using Popcorn.Messaging;
 using Popcorn.Model.Movie;
@@ -30,7 +30,7 @@ namespace Popcorn.ViewModel.MovieSettings
         /// SetSubtitlesCommand
         /// </summary>
         public RelayCommand SetSubtitlesCommand { get; private set; }
-
+    
         #endregion
 
         #region Command -> DownloadMovieCommand
@@ -42,6 +42,11 @@ namespace Popcorn.ViewModel.MovieSettings
 
         #endregion
 
+        #region Constructor
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="movie">The movie</param>
         public MovieSettingsViewModel(MovieFull movie)
         {
             SetSubtitlesCommand = new RelayCommand(() =>
@@ -61,5 +66,6 @@ namespace Popcorn.ViewModel.MovieSettings
                 Messenger.Default.Send(new DownloadMovieMessage(movie));
             });
         }
+        #endregion
     }
 }

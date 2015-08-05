@@ -3,7 +3,6 @@ using GalaSoft.MvvmLight.Ioc;
 using Popcorn.Model.Movie;
 using Popcorn.Model.Subtitle;
 using Popcorn.Service.Api;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Threading;
 using System.Threading.Tasks;
