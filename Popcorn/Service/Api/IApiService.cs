@@ -96,8 +96,7 @@ namespace Popcorn.Service.Api
         /// <param name="movie">The movie of which to retrieve its subtitles</param>
         /// <param name="subtitle">The movie's subtitle to retrieve</param>
         /// <param name="ct">Cancellation token</param>
-        /// <returns>Uri to the downloaded subtitle</returns>
-        Task<Uri> DownloadSubtitleAsync(MovieFull movie,
+        Task DownloadSubtitleAsync(MovieFull movie,
             Subtitle subtitle,
             CancellationToken ct);
 

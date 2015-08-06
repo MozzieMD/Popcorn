@@ -3,6 +3,7 @@ using GalaSoft.MvvmLight.CommandWpf;
 using GalaSoft.MvvmLight.Messaging;
 using Popcorn.Messaging;
 using Popcorn.Model.Movie;
+using Popcorn.Model.Subtitle;
 using Popcorn.ViewModel.Subtitles;
 using System.Threading.Tasks;
 
@@ -22,6 +23,15 @@ namespace Popcorn.ViewModel.MovieSettings
             get { return _movie; }
             set { Set(() => Movie, ref _movie, value); }
         }
+
+        #endregion
+
+        #region Property -> Subtitle
+
+        /// <summary>
+        /// The movie's subtitle
+        /// </summary>
+        private Subtitle Subtitle { get; set; }
 
         #endregion
 
@@ -83,7 +93,7 @@ namespace Popcorn.ViewModel.MovieSettings
             {
                 return _downloadMovieCommand ?? (_downloadMovieCommand = new RelayCommand(() =>
                 {
-                    Messenger.Default.Send(new DownloadMovieMessage(Movie));
+                    Messenger.Default.Send(new DownloadMovieMessage(Movie, Subtitle));
                 }));
             }
         }
@@ -118,7 +128,21 @@ namespace Popcorn.ViewModel.MovieSettings
         public MovieSettingsViewModel(MovieFull movie)
         {
             Movie = movie;
+
+            Messenger.Default.Register<SelectedSubtitleMessage>(
+            this,
+            message =>
+            {
+                Subtitle = message.Subtitle;
+            });
         }
         #endregion
+
+        public override void Cleanup()
+        {
+            Messenger.Default.Unregister<SelectedSubtitleMessage>(this);
+
+            base.Cleanup();
+        }
     }
 }

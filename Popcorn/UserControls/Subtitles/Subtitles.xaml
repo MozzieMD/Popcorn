@@ -67,6 +67,7 @@
     </UserControl.Resources>
     <Grid>
         <ListBox ItemsSource="{Binding Subtitles}"
+                 SelectedItem="{Binding SelectedSubtitle}"
                  ScrollViewer.VerticalScrollBarVisibility="Disabled">
             <ListBox.ItemTemplate>
                 <DataTemplate>

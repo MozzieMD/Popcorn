@@ -5,6 +5,7 @@ using GalaSoft.MvvmLight.Messaging;
 using Popcorn.Helpers;
 using Popcorn.Messaging;
 using Popcorn.Model.Movie;
+using Popcorn.Model.Subtitle;
 using Popcorn.Service.Api;
 using Popcorn.ViewModel.MovieSettings;
 using Ragnar;
@@ -129,15 +130,6 @@ namespace Popcorn.ViewModel.Download
 
         #region Commands
 
-        #region Command -> DownloadMovieCommand
-
-        /// <summary>
-        /// DownloadMovieCommand
-        /// </summary>
-        public RelayCommand DownloadMovieCommand { get; private set; }
-
-        #endregion
-
         #region Command -> StopPlayingMovieCommand
 
         /// <summary>
@@ -169,15 +161,11 @@ namespace Popcorn.ViewModel.Download
             });
 
             Messenger.Default.Register<DownloadMovieMessage>(
-                this,
-                async message =>
-                {
-                    await DownloadMovieAsync(message.Movie);
-                });
-
-            DownloadMovieCommand = new RelayCommand(async () =>
+            this,
+            async message =>
             {
-                await DownloadMovieAsync(movie);
+                await DownloadMovieAsync(message.Movie, message.Subtitle);
+                await ApiService.DownloadSubtitleAsync(message.Movie, message.Subtitle, CancellationDownloadingMovieToken.Token);
             });
 
             MovieSettings = new MovieSettingsViewModel(movie);
@@ -191,7 +179,8 @@ namespace Popcorn.ViewModel.Download
         /// Download a movie
         /// </summary>
         /// <param name="movie">The movie to download</param>
-        private async Task DownloadMovieAsync(MovieFull movie)
+        /// <param name="subtitle">The movie's subtitle</param>
+        private async Task DownloadMovieAsync(MovieFull movie, Subtitle subtitle)
         {
             using (var session = new Session())
             {
@@ -287,7 +276,7 @@ namespace Popcorn.ViewModel.Download
                             alreadyBuffered = true;
                             // Inform subscribers we have finished buffering the movie
                             Messenger.Default.Send(new MovieBufferedMessage(movie,
-                                new Uri(filePath)));
+                                new Uri(filePath), subtitle));
                         }
                     }
 

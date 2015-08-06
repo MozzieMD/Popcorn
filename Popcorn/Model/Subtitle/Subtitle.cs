@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections;
 using Popcorn.Model.Localization;
 using Popcorn.Model.Subtitle.Json;
 using Popcorn.Helpers;
-using System.Collections.Generic;
 
 namespace Popcorn.Model.Subtitle
 {
@@ -47,6 +45,24 @@ namespace Popcorn.Model.Subtitle
         {
             get { return _flagImagePath; }
             set { Set(() => FlagImagePath, ref _flagImagePath, value); }
+        }
+
+        #endregion
+
+        #region Property -> FilePath
+
+        /// <summary>
+        /// Subtitle file path
+        /// </summary>
+        private string _filePath;
+
+        /// <summary>
+        /// Subtitle file path
+        /// </summary>
+        public string FilePath
+        {
+            get { return _filePath; }
+            set { Set(() => FilePath, ref _filePath, value); }
         }
 
         #endregion

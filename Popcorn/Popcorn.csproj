@@ -248,6 +248,7 @@
     <Compile Include="Messaging\DownloadMovieMessage.cs" />
     <Compile Include="Messaging\LoadMovieMessage.cs" />
     <Compile Include="Messaging\SearchMovieMessage.cs" />
+    <Compile Include="Messaging\SelectedSubtitleMessage.cs" />
     <Compile Include="Messaging\StopPlayingTrailerMessage.cs" />
     <Compile Include="Migrations\201507151433289_Initial.cs" />
     <Compile Include="Migrations\201507151433289_Initial.Designer.cs">

@@ -1,5 +1,6 @@
 ﻿using GalaSoft.MvvmLight.Messaging;
 using Popcorn.Model.Movie;
+using Popcorn.Model.Subtitle;
 
 namespace Popcorn.Messaging
 {
@@ -12,9 +13,17 @@ namespace Popcorn.Messaging
 
         #region Property -> Movie
         /// <summary>
-        /// New language
+        /// Movie
         /// </summary>
         public MovieFull Movie { get; private set; }
+
+        #endregion
+
+        #region Property -> Subtitle
+        /// <summary>
+        /// Movie
+        /// </summary>
+        public Subtitle Subtitle { get; private set; }
 
         #endregion
 
@@ -25,9 +34,10 @@ namespace Popcorn.Messaging
         /// DownloadMovieMessage
         /// </summary>
         /// <param name="movie">The movie to download</param>
-        public DownloadMovieMessage(MovieFull movie)
+        public DownloadMovieMessage(MovieFull movie, Subtitle subtitle)
         {
             Movie = movie;
+            Subtitle = subtitle;
         }
         #endregion
     }

@@ -1,5 +1,7 @@
 ﻿using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Ioc;
+using GalaSoft.MvvmLight.Messaging;
+using Popcorn.Messaging;
 using Popcorn.Model.Movie;
 using Popcorn.Model.Subtitle;
 using Popcorn.Service.Api;
@@ -33,6 +35,25 @@ namespace Popcorn.ViewModel.Subtitles
         {
             get { return _subtitles; }
             set { Set(() => Subtitles, ref _subtitles, value); }
+        }
+
+        #endregion
+
+        #region Property -> SelectedSubtitle
+
+        /// <summary>
+        /// The selected movie's subtitle
+        /// </summary>
+        private Subtitle _selectedSubtitle;
+
+        public Subtitle SelectedSubtitle
+        {
+            get { return _selectedSubtitle; }
+            set
+            {
+                Set(() => SelectedSubtitle, ref _selectedSubtitle, value);
+                Messenger.Default.Send(new SelectedSubtitleMessage(value));
+            }
         }
 
         #endregion

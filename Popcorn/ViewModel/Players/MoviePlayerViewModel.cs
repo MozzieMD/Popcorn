@@ -6,6 +6,7 @@ using Popcorn.Messaging;
 using Popcorn.Model.Movie;
 using Popcorn.ViewModel.Tabs;
 using GalaSoft.MvvmLight.Threading;
+using Popcorn.Model.Subtitle;
 
 namespace Popcorn.ViewModel.Players
 {
@@ -65,6 +66,15 @@ namespace Popcorn.ViewModel.Players
 
         #endregion
 
+        #region Property -> Subtitle
+
+        /// <summary>
+        /// Subtitle
+        /// </summary>
+        public readonly Subtitle Subtitle;
+
+        #endregion
+
         #region Commands
 
         #region Command -> ChangeScreenModeCommand
@@ -94,10 +104,11 @@ namespace Popcorn.ViewModel.Players
         /// </summary>
         /// <param name="movie">Movie to play</param>
         /// <param name="uri">Movie's media Uri</param>
-        public MoviePlayerViewModel(MovieFull movie, Uri uri)
+        public MoviePlayerViewModel(MovieFull movie, Uri uri, Subtitle subtitle)
         {
             MediaUri = uri;
             Movie = movie;
+            Subtitle = subtitle;
 
             TabName = !string.IsNullOrEmpty(Movie.Title) ? Movie.Title : Properties.Resources.PlayingTitleTab;
 

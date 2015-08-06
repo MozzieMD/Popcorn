@@ -538,8 +538,7 @@ namespace Popcorn.Service.Api
         /// <param name="movie">The movie of which to retrieve its subtitles</param>
         /// <param name="subtitle">The movie's subtitle to retrieve</param>
         /// <param name="ct">Cancellation token</param>
-        /// <returns>Uri to the downloaded subtitle</returns>
-        public async Task<Uri> DownloadSubtitleAsync(MovieFull movie,
+        public async Task DownloadSubtitleAsync(MovieFull movie,
             Subtitle subtitle,
             CancellationToken ct)
         {
@@ -556,12 +555,10 @@ namespace Popcorn.Service.Api
                         var subtitlePath = Path.Combine(Constants.Subtitles + "/" + movie.ImdbCode,
                             entry.FullName);
                         entry.ExtractToFile(subtitlePath);
-                        return new Uri(subtitlePath);
+                        subtitle.FilePath = subtitlePath;
                     }
                 }
             }
-
-            return null;
         }
 
         #endregion
