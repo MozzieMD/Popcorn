@@ -208,8 +208,8 @@ namespace Popcorn.ViewModel
                     Tabs.Remove(tabToRemove);
                     SelectedTab = Tabs.FirstOrDefault();
                 }
-                IsMovieFlyoutOpen = true;
 
+                IsMovieFlyoutOpen = true;
             });
 
             Messenger.Default.Register<ChangeScreenModeMessage>(
@@ -244,7 +244,13 @@ namespace Popcorn.ViewModel
             // The app is about to close
             MainWindowClosingCommand = new RelayCommand(() =>
             {
-                // TODO: Stop downloading movie if any
+                foreach (var tab in Tabs)
+                {
+                    var moviesViewModelTab = tab as TabsViewModel;
+                    moviesViewModelTab?.Cleanup();
+                }
+
+                ViewModelLocator.Cleanup();
             });
 
             #endregion
@@ -402,16 +408,5 @@ namespace Popcorn.ViewModel
         #endregion
 
         #endregion
-
-        public override void Cleanup()
-        {
-            Messenger.Default.Unregister<ConnectionErrorMessage>(this);
-            Messenger.Default.Unregister<LoadMovieMessage>(this);
-            Messenger.Default.Unregister<MovieBufferedMessage>(this);
-            Messenger.Default.Unregister<StopPlayingMovieMessage>(this);
-            Messenger.Default.Unregister<ChangeScreenModeMessage>(this);
-            Messenger.Default.Unregister<SearchMovieMessage>(this);
-            base.Cleanup();
-        }
     }
 }

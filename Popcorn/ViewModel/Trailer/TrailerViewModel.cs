@@ -2,7 +2,6 @@
 using GalaSoft.MvvmLight.CommandWpf;
 using GalaSoft.MvvmLight.Ioc;
 using GalaSoft.MvvmLight.Messaging;
-using GalaSoft.MvvmLight.Threading;
 using Popcorn.Helpers;
 using Popcorn.Messaging;
 using Popcorn.Model.Movie;
@@ -111,16 +110,12 @@ namespace Popcorn.ViewModel.Trailer
         /// <param name="movie">Movie's trailer</param>
         public TrailerViewModel(MovieFull movie)
         {
-            CancellationLoadingTrailerToken = new CancellationTokenSource();
-
             ApiService = SimpleIoc.Default.GetInstance<IApiService>();
 
+            CancellationLoadingTrailerToken = new CancellationTokenSource();
+
             // Stop playing a trailer
-            StopLoadingTrailerCommand = new RelayCommand(() =>
-            {
-                StopLoadingTrailer();
-                Messenger.Default.Send(new StopPlayingTrailerMessage());
-            });
+            StopLoadingTrailerCommand = new RelayCommand(StopLoadingTrailer);
 
             Task.Run(async () =>
             {
@@ -171,7 +166,6 @@ namespace Popcorn.ViewModel.Trailer
                             // An error as occured. 
                             // TODO: Inform loading trailer failed
                             StopLoadingTrailer();
-                            Messenger.Default.Send(new StopPlayingTrailerMessage());
                             return;
                         }
                     }
@@ -181,7 +175,6 @@ namespace Popcorn.ViewModel.Trailer
                         // An error as occured. 
                         // TODO: Inform loading trailer failed
                         StopLoadingTrailer();
-                        Messenger.Default.Send(new StopPlayingTrailerMessage());
                         return;
                     }
 
@@ -195,8 +188,6 @@ namespace Popcorn.ViewModel.Trailer
                 catch (ApiServiceException e)
                 {
                     StopLoadingTrailer();
-                    Messenger.Default.Send(new StopPlayingTrailerMessage());
-
                     if (e.Status == ApiServiceException.State.ConnectionError)
                     {
                         Messenger.Default.Send(new ConnectionErrorMessage(e.Message));
@@ -277,20 +268,12 @@ namespace Popcorn.ViewModel.Trailer
         /// </summary>
         private void StopLoadingTrailer()
         {
-            // Inform subscribers we are loading movie trailer
             IsTrailerLoading = false;
-
-            CancellationLoadingTrailerToken?.Cancel(true);
+            CancellationLoadingTrailerToken?.Cancel();
             CancellationLoadingTrailerToken?.Dispose();
-            CancellationLoadingTrailerToken = new CancellationTokenSource();
+            Messenger.Default.Send(new StopPlayingTrailerMessage());
         }
 
         #endregion
-
-        public override void Cleanup()
-        {
-            StopLoadingTrailer();
-            base.Cleanup();
-        }
     }
 }

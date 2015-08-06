@@ -3,7 +3,6 @@ using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.CommandWpf;
 using GalaSoft.MvvmLight.Messaging;
 using Popcorn.Messaging;
-using GalaSoft.MvvmLight.Threading;
 
 namespace Popcorn.ViewModel.Players
 {
@@ -67,7 +66,7 @@ namespace Popcorn.ViewModel.Players
 
             Messenger.Default.Register<StopPlayingTrailerMessage>(
             this,
-            _ =>
+            message =>
             {
                 OnStoppedPlayingTrailer(new EventArgs());
             });
@@ -116,13 +115,5 @@ namespace Popcorn.ViewModel.Players
         }
 
         #endregion
-
-        public override void Cleanup()
-        {
-            Messenger.Default.Unregister<StopPlayingTrailerMessage>(this);
-            Messenger.Default.Unregister<ChangeScreenModeMessage>(this);
-
-            base.Cleanup();
-        }
     }
 }

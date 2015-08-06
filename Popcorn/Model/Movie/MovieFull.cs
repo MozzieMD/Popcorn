@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using Popcorn.Model.Movie.Json;
-using Popcorn.Model.Subtitle;
 using System.Collections.ObjectModel;
 
 namespace Popcorn.Model.Movie

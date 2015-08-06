@@ -16,22 +16,58 @@
     <UserControl.Resources>
         <ResourceDictionary>
             <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+            <converters:MovieDownloadProgressConverter x:Key="MovieDownloadProgressConverter"/>
+            
             <DataTemplate DataType="{x:Type movieSettingsViewModel:MovieSettingsViewModel}">
                 <movieSettingsUserControl:MovieSettings></movieSettingsUserControl:MovieSettings>
             </DataTemplate>
-                <Style x:Key="AnimationContentOnMovieDownloading" TargetType="{x:Type Grid}">
+            <Style x:Key="AnimationContentOnMovieDownloading" TargetType="{x:Type Grid}">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Path=IsDownloadingMovie}" 
+                        Value="False">
+                    <DataTrigger.EnterActions>
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation Storyboard.TargetProperty="Opacity"
+                                                    To="0.0"
+                                                    Duration="0:0:0.5"/>
+                                <ObjectAnimationUsingKeyFrames BeginTime="0:0:0.5" Storyboard.TargetProperty="Visibility">
+                                    <DiscreteObjectKeyFrame KeyTime="0:0:0" 
+                                                            Value="{x:Static Visibility.Collapsed}" />
+                                </ObjectAnimationUsingKeyFrames>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </DataTrigger.EnterActions>
+                    <DataTrigger.ExitActions>
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation Storyboard.TargetProperty="Opacity"
+                                                    To="1.0"
+                                                    Duration="0:0:0.5"/>
+                                <ObjectAnimationUsingKeyFrames BeginTime="0:0:0.5" Storyboard.TargetProperty="Visibility">
+                                    <DiscreteObjectKeyFrame KeyTime="0:0:0" 
+                                                            Value="{x:Static Visibility.Visible}" />
+                                </ObjectAnimationUsingKeyFrames>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </DataTrigger.ExitActions>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+
+            <Style x:Key="AnimationSettingsOnMovieDownloading" TargetType="{x:Type ContentControl}">
                 <Style.Triggers>
                     <DataTrigger Binding="{Binding Path=IsDownloadingMovie}" 
-                         Value="False">
+                        Value="True">
                         <DataTrigger.EnterActions>
                             <BeginStoryboard>
                                 <Storyboard>
                                     <DoubleAnimation Storyboard.TargetProperty="Opacity"
-                                                     To="0.0"
-                                                     Duration="0:0:0.5"/>
+                                                    To="0.0"
+                                                    Duration="0:0:0.5"/>
                                     <ObjectAnimationUsingKeyFrames BeginTime="0:0:0.5" Storyboard.TargetProperty="Visibility">
                                         <DiscreteObjectKeyFrame KeyTime="0:0:0" 
-                                                                Value="{x:Static Visibility.Collapsed}" />
+                                                            Value="{x:Static Visibility.Collapsed}" />
                                     </ObjectAnimationUsingKeyFrames>
                                 </Storyboard>
                             </BeginStoryboard>
@@ -40,11 +76,11 @@
                             <BeginStoryboard>
                                 <Storyboard>
                                     <DoubleAnimation Storyboard.TargetProperty="Opacity"
-                                                     To="1.0"
-                                                     Duration="0:0:0.5"/>
+                                                    To="1.0"
+                                                    Duration="0:0:0.5"/>
                                     <ObjectAnimationUsingKeyFrames BeginTime="0:0:0.5" Storyboard.TargetProperty="Visibility">
                                         <DiscreteObjectKeyFrame KeyTime="0:0:0" 
-                                                                Value="{x:Static Visibility.Visible}" />
+                                                            Value="{x:Static Visibility.Visible}" />
                                     </ObjectAnimationUsingKeyFrames>
                                 </Storyboard>
                             </BeginStoryboard>
@@ -55,7 +91,8 @@
         </ResourceDictionary>
     </UserControl.Resources>
     <Grid>
-        <ContentControl Content="{Binding MovieSettings}"/>
+        <ContentControl Content="{Binding MovieSettings}"
+                        Style="{StaticResource AnimationSettingsOnMovieDownloading}"/>
         <Grid Opacity="0.0"
               Style="{StaticResource AnimationContentOnMovieDownloading}">
             <Grid.ColumnDefinitions>
@@ -79,8 +116,15 @@
             </Grid.RowDefinitions>
             <TextBlock x:Name="LoadingText"
                        FontSize="18"
-                       Text="{Binding DownloadText}"
-                       Grid.Row="2" Grid.ColumnSpan="3" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                       Grid.Row="2" Grid.ColumnSpan="3" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <TextBlock.Text>
+                    <MultiBinding Converter="{StaticResource MovieDownloadProgressConverter}">
+                        <Binding Path="DownloadProgress"/>
+                        <Binding Path="DownloadRate"/>
+                        <Binding Path="Movie.Title"></Binding>
+                    </MultiBinding>
+                </TextBlock.Text>
+            </TextBlock>
             <controls:MetroProgressBar x:Name="LoadingProgressBar"
                                        Minimum="0.0"
                                        Maximum="2.0"

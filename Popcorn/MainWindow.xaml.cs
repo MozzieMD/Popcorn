@@ -1,12 +1,10 @@
 ﻿using System;
-using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 using MahApps.Metro.Controls.Dialogs;
 using Popcorn.ViewModel;
 using Popcorn.Helpers;
 using Popcorn.Events;
-using Popcorn.ViewModel.Tabs;
 
 namespace Popcorn
 {
@@ -23,50 +21,6 @@ namespace Popcorn
         {
             InitializeComponent();
 
-            Loaded += OnLoaded;
-            Closing += OnClosing;
-        }
-
-        #endregion
-
-        #region Methods
-
-        #region Method -> OnClosing
-        /// <summary>
-        /// Do actions when closing
-        /// </summary>
-        /// <param name="sender">Sender object</param>
-        /// <param name="e">CancelEventArgs</param>
-        private void OnClosing(object sender, CancelEventArgs e)
-        {
-            Loaded -= OnLoaded;
-
-            var vm = DataContext as MainViewModel;
-            if (vm != null)
-            {
-                vm.ConnectionError -= OnConnectionInError;
-                vm.ToggleFullScreenChanged -= OnToggleFullScreen;
-                vm.BackToNormalScreenMode -= OnBackToNormalScreen;
-
-                foreach (var tab in vm.Tabs)
-                {
-                    var moviesViewModelTab = tab as TabsViewModel;
-                    moviesViewModelTab?.Cleanup();
-                }
-            }            
-
-            ViewModelLocator.Cleanup();
-        }
-        #endregion
-
-        #region Method -> OnLoaded
-        /// <summary>
-        /// Do actions when loaded
-        /// </summary>
-        /// <param name="sender">Sender object</param>
-        /// <param name="e">RoutedEventArgs</param>
-        void OnLoaded(object sender, RoutedEventArgs e)
-        {
             var vm = DataContext as MainViewModel;
             if (vm != null)
             {
@@ -75,7 +29,10 @@ namespace Popcorn
                 vm.BackToNormalScreenMode += OnBackToNormalScreen;
             }
         }
-        #endregion  
+
+        #endregion
+
+        #region Methods
 
         #region Method -> OnConnectionInError
 

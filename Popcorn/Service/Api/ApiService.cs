@@ -539,19 +539,31 @@ namespace Popcorn.Service.Api
         public async Task DownloadSubtitleAsync(MovieFull movie,
             CancellationToken ct)
         {
-            var filePath = Constants.Subtitles + "/" + movie.ImdbCode + "/" + movie.SelectedSubtitle.Language.EnglishName + ".zip";
-            await
-                DownloadFileTaskAsync(ct, Constants.Subtitles + "/" + movie.ImdbCode, filePath,
-                    new Uri(Constants.YifySubtitles + movie.SelectedSubtitle.Url));
+            if (movie.SelectedSubtitle == null)
+            {
+                return;
+            }
+
+            var filePath = Constants.Subtitles + movie.ImdbCode + "\\" + movie.SelectedSubtitle.Language.EnglishName + ".zip";
+            if (!File.Exists(filePath))
+            {
+                await
+                    DownloadFileTaskAsync(ct, Constants.Subtitles + movie.ImdbCode, filePath,
+                        new Uri(Constants.YifySubtitles + movie.SelectedSubtitle.Url));
+            }
+
             using (var archive = ZipFile.OpenRead(filePath))
             {
                 foreach (var entry in archive.Entries)
                 {
                     if (entry.FullName.EndsWith(".srt", StringComparison.OrdinalIgnoreCase))
                     {
-                        var subtitlePath = Path.Combine(Constants.Subtitles + "/" + movie.ImdbCode,
+                        var subtitlePath = Path.Combine(Constants.Subtitles + movie.ImdbCode,
                             entry.FullName);
-                        entry.ExtractToFile(subtitlePath);
+                        if (!File.Exists(subtitlePath))
+                        {
+                            entry.ExtractToFile(subtitlePath);
+                        }
                         movie.SelectedSubtitle.FilePath = subtitlePath;
                     }
                 }

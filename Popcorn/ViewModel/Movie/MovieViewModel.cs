@@ -8,7 +8,6 @@ using System.Threading.Tasks;
 using Popcorn.Messaging;
 using Popcorn.Model.Movie;
 using Popcorn.Service.Api;
-using Popcorn.Service.Language;
 using Popcorn.ViewModel.Download;
 using Popcorn.ViewModel.Trailer;
 
@@ -27,15 +26,6 @@ namespace Popcorn.ViewModel.Movie
         /// The service used to consume APIs
         /// </summary>
         private IApiService ApiService { get; }
-
-        #endregion
-
-        #region Property -> LanguageService
-
-        /// <summary>
-        /// The service used to retrieve languages
-        /// </summary>
-        private ILanguageService LanguageService { get; }
 
         #endregion
 
@@ -179,21 +169,19 @@ namespace Popcorn.ViewModel.Movie
 
         #region Constructor
         /// <summary>
-        /// MoviePage
+        /// Constructor
         /// </summary>
         public MovieViewModel()
         {
-            // Set the CancellationToken for having the possibility to stop loading a movie
-            CancellationLoadingToken = new CancellationTokenSource();
-
             ApiService = SimpleIoc.Default.GetInstance<IApiService>();
 
-            LanguageService = SimpleIoc.Default.GetInstance<ILanguageService>();
+            // Set the CancellationToken for having the possibility to stop loading a movie
+            CancellationLoadingToken = new CancellationTokenSource();
 
             // Stop playing trailer
             Messenger.Default.Register<StopPlayingTrailerMessage>(
             this,
-            _ =>
+            message =>
             {
                 StopPlayingTrailer();
             });
@@ -201,7 +189,7 @@ namespace Popcorn.ViewModel.Movie
             // Stop playing movie
             Messenger.Default.Register<StopPlayingMovieMessage>(
             this,
-            _ =>
+            message =>
             {
                 StopPlayingMovie();
             });
@@ -289,7 +277,6 @@ namespace Popcorn.ViewModel.Movie
             catch (ApiServiceException e)
             {
                 IsMovieLoading = false;
-
                 if (e.Status == ApiServiceException.State.ConnectionError)
                 {
                     Messenger.Default.Send(new ConnectionErrorMessage(e.Message));
@@ -304,11 +291,11 @@ namespace Popcorn.ViewModel.Movie
         /// <summary>
         /// Stop loading the movie
         /// </summary>
-        public void StopLoadingMovie()
+        private void StopLoadingMovie()
         {
             IsMovieLoading = false;
 
-            CancellationLoadingToken?.Cancel(true);
+            CancellationLoadingToken?.Cancel();
             CancellationLoadingToken?.Dispose();
             CancellationLoadingToken = new CancellationTokenSource();
         }
@@ -323,8 +310,6 @@ namespace Popcorn.ViewModel.Movie
         private void StopPlayingTrailer()
         {
             IsPlayingTrailer = false;
-
-            Trailer?.Cleanup();
             Trailer = null;
         }
 
@@ -350,11 +335,6 @@ namespace Popcorn.ViewModel.Movie
             StopLoadingMovie();
             StopPlayingTrailer();
             StopPlayingMovie();
-
-            Messenger.Default.Unregister<StopPlayingMovieMessage>(this);
-            Messenger.Default.Unregister<StopPlayingTrailerMessage>(this);
-            Messenger.Default.Unregister<ChangeLanguageMessage>(this);
-
             base.Cleanup();
         }
     }

@@ -52,9 +52,7 @@ namespace Popcorn.ViewModel.Tabs
         public async Task LoadNextPageAsync()
         {
             Page++;
-
             IsLoadingMovies = true;
-
             try
             {
                 var movieResults =
@@ -92,26 +90,11 @@ namespace Popcorn.ViewModel.Tabs
             catch
             {
                 IsLoadingMovies = false;
-
-                if (!Movies.Any())
-                {
-                    IsMovieFound = false;
-                }
-                else
-                {
-                    IsMovieFound = true;
-                }
-
+                IsMovieFound = Movies.Any();
                 Page--;
             }
         }
 
         #endregion
-
-        public override void Cleanup()
-        {
-            Messenger.Default.Unregister<ChangeLanguageMessage>(this);
-            base.Cleanup();
-        }
     }
 }

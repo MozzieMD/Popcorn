@@ -131,7 +131,7 @@ namespace Popcorn.UserControls.Players
                 _activityTimer = new DispatcherTimer { Interval = TimeSpan.FromSeconds(3) };
                 _activityTimer.Tick += OnInactivity;
 
-                vm.StoppedPlayingTrailer += OnStoppedPlayingMedia;
+                vm.StoppedPlayingTrailer += OnStoppedPlayingTrailer;
 
                 if (Window.GetWindow(this) != null)
                 {
@@ -212,13 +212,13 @@ namespace Popcorn.UserControls.Players
         }
         #endregion
 
-        #region Method -> OnStoppedPlayingMedia
+        #region Method -> OnStoppedPlayingTrailer
         /// <summary>
         /// When media has finished playing, stop player and reset timer
         /// </summary>
         /// <param name="sender">Sender object</param>
         /// <param name="e">EventArgs</param>
-        private void OnStoppedPlayingMedia(object sender, EventArgs e)
+        private void OnStoppedPlayingTrailer(object sender, EventArgs e)
         {
             Dispose();
         }
@@ -532,7 +532,11 @@ namespace Popcorn.UserControls.Players
                 });
 
                 var vm = DataContext as TrailerPlayerViewModel;
-                vm?.Cleanup();
+                if (vm != null)
+                {
+                    vm.StoppedPlayingTrailer -= OnStoppedPlayingTrailer;
+                    vm.Cleanup();
+                }
 
                 _disposed = true;
 

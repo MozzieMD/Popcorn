@@ -8,7 +8,6 @@ using Popcorn.Messaging;
 using Popcorn.Comparers;
 using System.Collections.Generic;
 using GalaSoft.MvvmLight.CommandWpf;
-using GalaSoft.MvvmLight.Threading;
 
 namespace Popcorn.ViewModel.Tabs
 {
@@ -139,16 +138,7 @@ namespace Popcorn.ViewModel.Tabs
                 catch
                 {
                     IsLoadingMovies = false;
-
-                    if (!Movies.Any())
-                    {
-                        IsMovieFound = false;
-                    }
-                    else
-                    {
-                        IsMovieFound = true;
-                    }
-
+                    IsMovieFound = Movies.Any();
                     Page--;
                 }
             }
@@ -161,9 +151,9 @@ namespace Popcorn.ViewModel.Tabs
         /// <summary>
         /// Cancel searching movies
         /// </summary>
-        protected void StopSearchingMovies()
+        private void StopSearchingMovies()
         {
-            CancellationSearchMoviesToken?.Cancel(true);
+            CancellationSearchMoviesToken?.Cancel();
             CancellationSearchMoviesToken?.Dispose();
             CancellationSearchMoviesToken = new CancellationTokenSource();
         }
@@ -175,8 +165,6 @@ namespace Popcorn.ViewModel.Tabs
         public override void Cleanup()
         {
             StopSearchingMovies();
-
-            Messenger.Default.Unregister<ChangeLanguageMessage>(this);
             base.Cleanup();
         }
     }

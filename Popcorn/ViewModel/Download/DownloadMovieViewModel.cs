@@ -5,7 +5,6 @@ using GalaSoft.MvvmLight.Messaging;
 using Popcorn.Helpers;
 using Popcorn.Messaging;
 using Popcorn.Model.Movie;
-using Popcorn.Model.Subtitle;
 using Popcorn.Service.Api;
 using Popcorn.ViewModel.MovieSettings;
 using Ragnar;
@@ -99,20 +98,38 @@ namespace Popcorn.ViewModel.Download
 
         #endregion
 
-        #region Property -> DownloadText
+        #region Property -> DownloadRate
 
         /// <summary>
-        /// Text indication on downloading a movie
+        /// Specify the movie download rate
         /// </summary>
-        private string _downloadText;
+        private double _downloadRate;
 
         /// <summary>
-        /// Text indication on downloading a movie
+        /// Specify the movie download rate
         /// </summary>
-        public string DownloadText
+        public double DownloadRate
         {
-            get { return _downloadText; }
-            set { Set(() => DownloadText, ref _downloadText, value); }
+            get { return _downloadProgress; }
+            set { Set(() => DownloadRate, ref _downloadRate, value); }
+        }
+
+        #endregion
+
+        #region Property -> Movie
+
+        /// <summary>
+        /// Movie
+        /// </summary>
+        private MovieFull _movie;
+
+        /// <summary>
+        /// Movie
+        /// </summary>
+        public MovieFull Movie
+        {
+            get { return _movie; }
+            set { Set(() => Movie, ref _movie, value); }
         }
 
         #endregion
@@ -122,7 +139,7 @@ namespace Popcorn.ViewModel.Download
         /// <summary>
         /// Token to cancel movie downloading
         /// </summary>
-        private CancellationTokenSource CancellationDownloadingMovieToken { get; set; }
+        private CancellationTokenSource CancellationDownloadingMovieToken { get; }
 
         #endregion
 
@@ -149,14 +166,13 @@ namespace Popcorn.ViewModel.Download
         /// <param name="movie">The movie to download</param>
         public DownloadMovieViewModel(MovieFull movie)
         {
-            CancellationDownloadingMovieToken = new CancellationTokenSource();
-
             ApiService = SimpleIoc.Default.GetInstance<IApiService>();
+            CancellationDownloadingMovieToken = new CancellationTokenSource();
+            Movie = movie;
 
             // Stop playing a movie
             StopPlayingMovieCommand = new RelayCommand(() =>
             {
-                StopPlayingMovie();
                 Messenger.Default.Send(new StopPlayingMovieMessage());
             });
 
@@ -164,13 +180,46 @@ namespace Popcorn.ViewModel.Download
             this,
             async message =>
             {
-                await DownloadMovieAsync(message.Movie);
+                var reportDownloadProgress = new Progress<double>(ReportDownloadProgress);
+                var reportDownloadRate = new Progress<double>(ReportDownloadRate);
+
                 await ApiService.DownloadSubtitleAsync(message.Movie, CancellationDownloadingMovieToken.Token);
+                await DownloadMovieAsync(message.Movie, CancellationDownloadingMovieToken.Token, reportDownloadProgress, reportDownloadRate);
             });
 
             MovieSettings = new MovieSettingsViewModel(movie);
         }
 
+        #endregion
+
+        #region Method -> ReportDownloadProgress
+
+        /// <summary>
+        /// Report the download progress
+        /// </summary>
+        /// <param name="value"></param>
+        private void ReportDownloadRate(double value)
+        {
+            DownloadRate = value;
+        }
+        #endregion
+
+        #region Method -> ReportDownloadProgress
+        /// <summary>
+        /// Report the download progress
+        /// </summary>
+        /// <param name="value">The value to report</param>
+        private void ReportDownloadProgress(double value)
+        {
+            DownloadProgress = value;
+            if (value >= 2.0)
+            {
+                if (!IsMovieBuffered)
+                {
+                    IsMovieBuffered = true;
+                }
+            }
+        }
         #endregion
 
         #region Method -> DownloadMovieAsync
@@ -179,13 +228,15 @@ namespace Popcorn.ViewModel.Download
         /// Download a movie
         /// </summary>
         /// <param name="movie">The movie to download</param>
-        /// <param name="subtitle">The movie's subtitle</param>
-        private async Task DownloadMovieAsync(MovieFull movie)
+        /// <param name="ct">Cancellation token</param>
+        /// <param name="downloadProgress">Report download progress</param>
+        /// <param name="downloadRate">Report download rate</param>
+        private async Task DownloadMovieAsync(MovieFull movie, CancellationToken ct, IProgress<double> downloadProgress,
+            IProgress<double> downloadRate)
         {
             using (var session = new Session())
             {
                 IsDownloadingMovie = true;
-
                 var torrentUrl = string.Empty;
 
                 // Listening to a port which is randomly between 6881 and 6889
@@ -198,7 +249,6 @@ namespace Popcorn.ViewModel.Download
                 else
                 {
                     torrentUrl = movie.Torrents?.FirstOrDefault(torrent => torrent.Quality == "720p")?.Url;
-
                 }
 
                 var addParams = new AddTorrentParams
@@ -217,58 +267,23 @@ namespace Popcorn.ViewModel.Download
                 while (IsDownloadingMovie)
                 {
                     var status = handle.QueryStatus();
-                    double progress = status.Progress * 100.0;
+                    var progress = status.Progress*100.0;
+
+                    downloadProgress?.Report(progress);
+                    downloadRate?.Report((double) status.DownloadRate/1024);
 
                     // We have to flush cache regularly (otherwise memory cache get full very quickly)
                     handle.FlushCache();
-
                     if (handle.NeedSaveResumeData())
                     {
                         handle.SaveResumeData();
-                    }
-
-                    DownloadProgress = progress;
-                    var percentage = progress;
-                    if (percentage >= 2.0)
-                    {
-                        DownloadText = LocalizationProviderHelper.GetLocalizedValue<string>("CurrentlyPlayingLabel") +
-                            " : " +
-                            movie.Title;
-                        if (!IsMovieBuffered)
-                        {
-                            IsMovieBuffered = true;
-                        }
-                    }
-                    else
-                    {
-                        var downloadRateInKb = status.DownloadRate / 1024;
-                        if (downloadRateInKb >= 1000)
-                        {
-                            DownloadText = LocalizationProviderHelper.GetLocalizedValue<string>("BufferingLabel") +
-                                " : " +
-                                Math.Round(percentage * 50, 0) +
-                                " %" +
-                                " ( " +
-                                downloadRateInKb / 1000 +
-                                " MB/s)";
-                        }
-                        else
-                        {
-                            DownloadText = LocalizationProviderHelper.GetLocalizedValue<string>("BufferingLabel") +
-                                " : " +
-                                Math.Round(percentage * 50, 0) +
-                                " %" +
-                                " ( " +
-                                downloadRateInKb +
-                                " kB/s)";
-                        }
                     }
 
                     if (progress >= Constants.MinimumBufferingBeforeMoviePlaying && !alreadyBuffered)
                     {
                         // Get movie file
                         foreach (
-                            string filePath in
+                            var filePath in
                                 Directory.GetFiles(status.SavePath + handle.TorrentFile.Name,
                                     "*" + Constants.VideoFileExtension)
                             )
@@ -281,7 +296,7 @@ namespace Popcorn.ViewModel.Download
                     }
 
                     // Wait for a second before update torrent status
-                    await Task.Delay(1000, CancellationDownloadingMovieToken.Token);
+                    await Task.Delay(1000, ct);
                 }
             }
         }
@@ -293,14 +308,13 @@ namespace Popcorn.ViewModel.Download
         /// <summary>
         /// Stop downloading a movie
         /// </summary>
-        public void StopPlayingMovie()
+        private void StopPlayingMovie()
         {
             IsDownloadingMovie = false;
             IsMovieBuffered = false;
 
-            CancellationDownloadingMovieToken?.Cancel(true);
+            CancellationDownloadingMovieToken?.Cancel();
             CancellationDownloadingMovieToken?.Dispose();
-            CancellationDownloadingMovieToken = new CancellationTokenSource();
         }
 
         #endregion
@@ -308,9 +322,6 @@ namespace Popcorn.ViewModel.Download
         public override void Cleanup()
         {
             StopPlayingMovie();
-
-            Messenger.Default.Unregister<DownloadMovieMessage>(this);
-
             base.Cleanup();
         }
     }

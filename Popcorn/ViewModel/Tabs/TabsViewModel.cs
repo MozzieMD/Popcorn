@@ -11,7 +11,6 @@ using Popcorn.Service.User;
 using GalaSoft.MvvmLight.Ioc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using GalaSoft.MvvmLight.Threading;
 
 namespace Popcorn.ViewModel.Tabs
 {
@@ -178,11 +177,11 @@ namespace Popcorn.ViewModel.Tabs
         /// </summary>
         protected TabsViewModel()
         {
-            // Set the CancellationToken for having the possibility to stop loading movies
-            CancellationLoadNextPageToken = new CancellationTokenSource();
-
             ApiService = SimpleIoc.Default.GetInstance<IApiService>();
             UserDataService = SimpleIoc.Default.GetInstance<IUserDataService>();
+
+            // Set the CancellationToken for having the possibility to stop loading movies
+            CancellationLoadNextPageToken = new CancellationTokenSource();
 
             MaxMoviesPerPage = Constants.MaxMoviesPerPage;
 
@@ -237,7 +236,7 @@ namespace Popcorn.ViewModel.Tabs
         /// </summary>
         protected void StopLoadingNextPage()
         {
-            CancellationLoadNextPageToken?.Cancel(true);
+            CancellationLoadNextPageToken?.Cancel();
             CancellationLoadNextPageToken?.Dispose();
             CancellationLoadNextPageToken = new CancellationTokenSource();
         }
@@ -245,13 +244,5 @@ namespace Popcorn.ViewModel.Tabs
         #endregion
 
         #endregion
-
-        public override void Cleanup()
-        {
-            Messenger.Default.Unregister<ConnectionErrorMessage>(this);
-            Messenger.Default.Unregister<ChangeLanguageMessage>(this);
-
-            base.Cleanup();
-        }
     }
 }

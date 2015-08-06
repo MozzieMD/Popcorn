@@ -1,17 +1,27 @@
 ﻿using System;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.CommandWpf;
+using GalaSoft.MvvmLight.Ioc;
 using GalaSoft.MvvmLight.Messaging;
 using Popcorn.Messaging;
 using Popcorn.Model.Movie;
+using Popcorn.Service.User;
 using Popcorn.ViewModel.Tabs;
-using GalaSoft.MvvmLight.Threading;
-using Popcorn.Model.Subtitle;
 
 namespace Popcorn.ViewModel.Players
 {
     public class MoviePlayerViewModel : ViewModelBase, ITab
     {
+
+        #region Property -> ApiService
+
+        /// <summary>
+        /// The service used to consume APIs
+        /// </summary>
+        public IUserDataService UserDataService { get; }
+
+        #endregion
+
         #region Property -> TabName
 
         /// <summary>
@@ -97,6 +107,8 @@ namespace Popcorn.ViewModel.Players
         /// <param name="uri">Movie's media Uri</param>
         public MoviePlayerViewModel(MovieFull movie, Uri uri)
         {
+            UserDataService = SimpleIoc.Default.GetInstance<IUserDataService>();
+
             MediaUri = uri;
             Movie = movie;
 
@@ -160,14 +172,5 @@ namespace Popcorn.ViewModel.Players
         }
 
         #endregion
-
-        public override void Cleanup()
-        {
-            Messenger.Default.Unregister<ChangeLanguageMessage>(this);
-            Messenger.Default.Unregister<StopPlayingMovieMessage>(this);
-            Messenger.Default.Unregister<ChangeScreenModeMessage>(this);
-
-            base.Cleanup();
-        }
     }
 }

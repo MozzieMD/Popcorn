@@ -75,11 +75,5 @@ namespace Popcorn.ViewModel.Search
         #region Methods
 
         #endregion
-
-        public override void Cleanup()
-        {
-            Messenger.Default.Unregister<PropertyChangedMessage<string>>(this);
-            base.Cleanup();
-        }
     }
 }

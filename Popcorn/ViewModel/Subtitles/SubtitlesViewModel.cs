@@ -47,6 +47,11 @@ namespace Popcorn.ViewModel.Subtitles
 
         #endregion
 
+        #region Constructor
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="movie">The movie</param>
         public SubtitlesViewModel(MovieFull movie)
         {
             ApiService = SimpleIoc.Default.GetInstance<IApiService>();
@@ -58,6 +63,7 @@ namespace Popcorn.ViewModel.Subtitles
                 await LoadSubtitlesAsync(Movie);
             });
         }
+        #endregion
 
         #region Method -> LoadSubtitlesAsync
         /// <summary>
@@ -76,11 +82,10 @@ namespace Popcorn.ViewModel.Subtitles
         /// <summary>
         /// Stop downloading subtitles
         /// </summary>
-        public void StopDownloadingSubtitles()
+        private void StopDownloadingSubtitles()
         {
-            CancellationDownloadingSubtitlesToken?.Cancel(true);
+            CancellationDownloadingSubtitlesToken?.Cancel();
             CancellationDownloadingSubtitlesToken?.Dispose();
-            CancellationDownloadingSubtitlesToken = new CancellationTokenSource();
         }
 
         #endregion

@@ -6,7 +6,6 @@
              xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
              xmlns:subtitlesUserControl="clr-namespace:Popcorn.UserControls.Subtitles"
              xmlns:subtitlesViewModel="clr-namespace:Popcorn.ViewModel.Subtitles"
-             xmlns:converters="clr-namespace:Popcorn.Converters"
              xmlns:lex="http://wpflocalizeextension.codeplex.com"
              lex:LocalizeDictionary.DesignCulture="en"
              lex:ResxLocalizationProvider.DefaultAssembly="Popcorn"

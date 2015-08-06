@@ -10,7 +10,6 @@ using GalaSoft.MvvmLight.Messaging;
 using GalaSoft.MvvmLight.Threading;
 using xZune.Vlc.Interop.Media;
 using Popcorn.Messaging;
-using Popcorn.Service.User;
 using Popcorn.ViewModel.Players;
 
 namespace Popcorn.UserControls.Players
@@ -150,9 +149,9 @@ namespace Popcorn.UserControls.Players
                     {
                         Player.LoadMedia(vm.MediaUri);
                         Player.VlcMediaPlayer.EndReached += MediaPlayer_EndReached;
-                        if (vm.Movie.SelectedSubtitle != null)
+                        if (!string.IsNullOrEmpty(vm.Movie.SelectedSubtitle?.FilePath))
                         {
-                            Player.VlcOption.SetValue(":sub - file = " + vm.Movie.SelectedSubtitle.FilePath, Player.VlcOption.Length);
+                            Player.AddOption("--sub-file = " + vm.Movie.SelectedSubtitle.FilePath);
                         }
                         PlayMedia();
                     }
@@ -186,7 +185,7 @@ namespace Popcorn.UserControls.Players
                 var vm = DataContext as MoviePlayerViewModel;
                 if (vm != null)
                 {
-                    await (new UserDataService()).SeenMovieAsync(vm.Movie);
+                    await vm.UserDataService.SeenMovieAsync(vm.Movie);
                     Messenger.Default.Send(new StopPlayingMovieMessage());
                 }
             });
@@ -519,38 +518,38 @@ namespace Popcorn.UserControls.Players
         {
             if (!_disposed)
             {
-                Loaded -= OnLoaded;
-                Unloaded -= OnUnloaded;
-
-                MediaPlayerTimer.Tick -= MediaPlayerTimer_Tick;
-                MediaPlayerTimer.Stop();
-
-                InputManager.Current.PreProcessInput -= OnActivity;
-                _activityTimer.Tick -= OnInactivity;
-                _activityTimer.Stop();
-
-                Player.VlcMediaPlayer.EndReached -= MediaPlayer_EndReached;
-                MediaPlayerIsPlaying = false;
-
-                Task.Run(async () =>
+                DispatcherHelper.CheckBeginInvokeOnUI(async () =>
                 {
+                    Loaded -= OnLoaded;
+                    Unloaded -= OnUnloaded;
+
+                    MediaPlayerTimer.Tick -= MediaPlayerTimer_Tick;
+                    MediaPlayerTimer.Stop();
+
+                    InputManager.Current.PreProcessInput -= OnActivity;
+                    _activityTimer.Tick -= OnInactivity;
+                    _activityTimer.Stop();
+
+                    Player.VlcMediaPlayer.EndReached -= MediaPlayer_EndReached;
+                    MediaPlayerIsPlaying = false;
+
                     await Player.StopAsync();
                     Player.Dispose();
+
+                    var vm = DataContext as MoviePlayerViewModel;
+                    if (vm != null)
+                    {
+                        vm.StoppedPlayingMovie -= OnStoppedPlayingMovie;
+                        vm.Cleanup();
+                    }
+
+                    _disposed = true;
+
+                    if (disposing)
+                    {
+                        GC.SuppressFinalize(this);
+                    }
                 });
-
-                var vm = DataContext as MoviePlayerViewModel;
-                if (vm != null)
-                {
-                    vm.StoppedPlayingMovie -= OnStoppedPlayingMovie;
-                    vm.Cleanup();
-                }
-
-                _disposed = true;
-
-                if (disposing)
-                {
-                    GC.SuppressFinalize(this);
-                }
             }
         }
         #endregion
