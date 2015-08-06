@@ -198,4 +198,10 @@
   <data name="MovieSettingsLabel" xml:space="preserve">
     <value>Settings</value>
   </data>
+  <data name="OffLabel" xml:space="preserve">
+    <value>Off</value>
+  </data>
+  <data name="OnLabel" xml:space="preserve">
+    <value>On</value>
+  </data>
 </root>

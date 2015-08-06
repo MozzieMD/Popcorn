@@ -38,8 +38,8 @@
                         <RowDefinition Height="Auto"></RowDefinition>
                         <RowDefinition Height="*"></RowDefinition>
                     </Grid.RowDefinitions>
-                    <controls:ToggleSwitch OnLabel="On"
-                                           OffLabel="Off"
+                    <controls:ToggleSwitch OnLabel="{lex:LocText OnLabel}"
+                                           OffLabel="{lex:LocText OffLabel}"
                                            Grid.Row="0"
                                            HorizontalAlignment="Left"
                                            CheckChangedCommand="{Binding SetSubtitlesCommand}"/>

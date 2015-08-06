@@ -187,6 +187,24 @@ namespace Popcorn.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Off.
+        /// </summary>
+        public static string OffLabel {
+            get {
+                return ResourceManager.GetString("OffLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to On.
+        /// </summary>
+        public static string OnLabel {
+            get {
+                return ResourceManager.GetString("OnLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Playing.
         /// </summary>
         public static string PlayingTitleTab {
