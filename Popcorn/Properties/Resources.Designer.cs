@@ -178,6 +178,15 @@ namespace Popcorn.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Settings.
+        /// </summary>
+        public static string MovieSettingsLabel {
+            get {
+                return ResourceManager.GetString("MovieSettingsLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Playing.
         /// </summary>
         public static string PlayingTitleTab {

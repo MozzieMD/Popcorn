@@ -195,4 +195,7 @@
   <data name="MovieQualityLabel" xml:space="preserve">
     <value>Qualité</value>
   </data>
+  <data name="MovieSettingsLabel" xml:space="preserve">
+    <value>Paramètres</value>
+  </data>
 </root>

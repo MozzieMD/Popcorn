@@ -110,7 +110,8 @@
             ItemsSource="{Binding Tabs}"
             SelectedItem="{Binding SelectedTab}"
             controls:TabControlHelper.IsUnderlined="True"
-            helpers:TabContent.IsCached="True">
+            helpers:TabContent.IsCached="True"
+            controls:TabControlHelper.Transition="LeftReplace">
 
             <controls:MetroAnimatedSingleRowTabControl.Resources>
                 <DataTemplate x:Shared="False" DataType="{x:Type tabsViewModel:GreatestTabViewModel}">

@@ -23,14 +23,16 @@
 
     <Grid Margin="50">
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
             <RowDefinition Height="Auto"></RowDefinition>
         </Grid.RowDefinitions>
         <Grid.Resources>
             <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.AnimatedSingleRowTabControl.xaml" />
         </Grid.Resources>
-        <TabControl Grid.Row="0" controls:TabControlHelper.IsUnderlined="True">
-            <TabItem Header="{lex:LocText SubtitlesLabel}">
+        <TextBlock Grid.Row="0" Text="{lex:LocText MovieSettingsLabel}" FontSize="42" Margin="10,0,0,0"></TextBlock>
+        <TabControl Grid.Row="1" controls:TabControlHelper.IsUnderlined="True" controls:TabControlHelper.Transition="LeftReplace">
+            <TabItem Header="{lex:LocText SubtitlesLabel}" FontSize="14">
                 <Grid Margin="10">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"></RowDefinition>
@@ -46,7 +48,7 @@
                                     Margin="0,10,0,0"/>
                 </Grid>
             </TabItem>
-            <TabItem Header="{lex:LocText MovieQualityLabel}">
+            <TabItem Header="{lex:LocText MovieQualityLabel}" FontSize="14">
                 <controls:ToggleSwitch IsChecked="{Binding Movie.WatchInFullHdQuality}"
                                        IsEnabled="{Binding Movie.FullHdAvailable}"
                                        OnLabel="1080"
@@ -55,7 +57,7 @@
                                        HorizontalAlignment="Left"/>
             </TabItem>
         </TabControl>
-        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center">
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center">
             <Button Width="100"
                     Height="30"
                     Content="{lex:LocText CancelButton}"
