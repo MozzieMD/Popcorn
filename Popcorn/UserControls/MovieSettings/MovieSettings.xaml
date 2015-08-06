@@ -36,7 +36,6 @@
         </Grid.RowDefinitions>
         <TextBlock Text="Subtitles" 
                    FontSize="20" 
-                   FontFamily="pack://application:,,,/Resources/Fonts/#Helvetica LT Std Light"
                    Grid.Row="0"
                    Grid.Column="0"
                    HorizontalAlignment="Center"

@@ -11,23 +11,21 @@
             <converters:UriToCachedImageConverter x:Key="UriToCachedImageConverter" />
             <converters:CapitalizeTitleConverter x:Key="CapitalizeTitleConverter"/>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/VS/Colors.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/VS/Styles.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>
-    <Grid >
+    <Grid>
         <ListBox ItemsSource="{Binding Subtitles}"
                  ScrollViewer.VerticalScrollBarVisibility="Disabled">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <StackPanel>
                         <TextBlock FontSize="40"
-                                   Text="{Binding Language.EnglishName, Converter={StaticResource CapitalizeTitleConverter}}"
-                                   Foreground="{StaticResource Foreground}"/>
+                                   Text="{Binding Language.EnglishName, Converter={StaticResource CapitalizeTitleConverter}}"/>
                         <Image Source="{Binding FlagImagePath, Converter={StaticResource UriToCachedImageConverter}}" 
-                                   HorizontalAlignment="Right" 
-                                   VerticalAlignment="Bottom"></Image>
+                               HorizontalAlignment="Right" 
+                               VerticalAlignment="Bottom"></Image>
                     </StackPanel>
                 </DataTemplate>
             </ListBox.ItemTemplate>

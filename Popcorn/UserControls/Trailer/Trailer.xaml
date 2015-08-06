@@ -43,8 +43,7 @@
             <RowDefinition Height="52*"/>
             <RowDefinition Height="58*"/>
         </Grid.RowDefinitions>
-        <TextBlock FontFamily="pack://application:,,,/Resources/Fonts/#Helvetica LT Std Light" 
-                   FontSize="36"
+        <TextBlock FontSize="36"
                    Foreground="White"
                    Text="{lex:LocText LoadingTrailerLabel}" 
                    TextTrimming="CharacterEllipsis"

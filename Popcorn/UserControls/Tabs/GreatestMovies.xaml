@@ -150,7 +150,6 @@
                    Visibility="{Binding IsMovieFound, Converter={StaticResource BoolToVisibilityConverter}}" 
                    HorizontalAlignment="Center"
                    VerticalAlignment="Bottom"
-                   FontFamily="pack://application:,,,/Resources/Fonts/#Helvetica LT Std Light" 
                    FontSize="36"
                    Foreground="#FF7D7D7D"/>
         <Button Width="140"
@@ -412,7 +411,6 @@
                                         ToolTip="{Binding Title}" 
                                         Width="220" 
                                         TextTrimming="CharacterEllipsis" 
-                                        FontFamily="pack://application:,,,/Resources/Fonts/#Helvetica LT Std" 
                                         FontSize="14" 
                                         HorizontalAlignment="Left"/>
                                 <TextBlock Text="{Binding Genres, Converter={StaticResource GenresConverter}}"
@@ -420,13 +418,11 @@
                                         Width="220" 
                                         TextTrimming="CharacterEllipsis"
                                         Foreground="Gray" 
-                                        FontFamily="pack://application:,,,/Resources/Fonts/#Helvetica LT Std Light Light" 
                                         FontSize="12" 
                                         HorizontalAlignment="Left"></TextBlock>
                                 <TextBlock Text="{Binding Year}" 
                                         Foreground="Gray" 
                                         HorizontalAlignment="Left" 
-                                        FontFamily="pack://application:,,,/Resources/Fonts/#Helvetica LT Std Light Light" 
                                         FontSize="12"/>
                             </StackPanel>
                         </StackPanel>
