@@ -56,6 +56,7 @@ namespace Popcorn.ViewModel.MovieSettings
                 {
                     await Task.Run(() =>
                     {
+                        Movie.SelectedSubtitle = null;
                         if (Subtitles == null)
                         {
                             Subtitles = new SubtitlesViewModel(Movie);

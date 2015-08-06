@@ -169,7 +169,7 @@ namespace Popcorn.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Movie quality.
+        ///   Looks up a localized string similar to Quality.
         /// </summary>
         public static string MovieQualityLabel {
             get {

@@ -193,7 +193,7 @@
     <value>Subtitles</value>
   </data>
   <data name="MovieQualityLabel" xml:space="preserve">
-    <value>Movie quality</value>
+    <value>Quality</value>
   </data>
   <data name="MovieSettingsLabel" xml:space="preserve">
     <value>Settings</value>
