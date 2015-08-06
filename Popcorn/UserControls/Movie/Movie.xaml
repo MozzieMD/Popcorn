@@ -309,11 +309,6 @@
                                             Command="{Binding PlayMovieCommand}"  
                                             HorizontalAlignment="Right" 
                                             VerticalAlignment="Center"/>
-                                <controls:ToggleSwitch IsChecked="{Binding Movie.WatchInFullHdQuality}"
-                                                           IsEnabled="{Binding Movie.FullHdAvailable}"
-                                                           OnLabel="1080"
-                                                           OffLabel="720"
-                                                           Margin="10, 10, 0, 0" />
                             </StackPanel >
                         </DockPanel>
                     </DockPanel>

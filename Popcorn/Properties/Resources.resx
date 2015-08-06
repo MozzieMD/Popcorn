@@ -189,4 +189,10 @@
   <data name="WatchButton" xml:space="preserve">
     <value>Watch</value>
   </data>
+  <data name="SubtitlesLabel" xml:space="preserve">
+    <value>Subtitles</value>
+  </data>
+  <data name="MovieQualityLabel" xml:space="preserve">
+    <value>Movie quality</value>
+  </data>
 </root>

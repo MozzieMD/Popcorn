@@ -18,49 +18,53 @@
             <DataTemplate DataType="{x:Type subtitlesViewModel:SubtitlesViewModel}">
                 <subtitlesUserControl:Subtitles></subtitlesUserControl:Subtitles>
             </DataTemplate>
-            <converters:RatioConverter x:Key="RatioConverter" />
         </ResourceDictionary>
     </UserControl.Resources>
 
-    <Grid Width="{Binding RelativeSource={RelativeSource AncestorType={x:Type controls:MetroWindow}}, Path=ActualWidth, Converter={StaticResource RatioConverter}, ConverterParameter=0.8}"
-          Height="{Binding RelativeSource={RelativeSource AncestorType={x:Type controls:MetroWindow}}, Path=ActualHeight, Converter={StaticResource RatioConverter}, ConverterParameter=0.8}">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto"></ColumnDefinition>
-            <ColumnDefinition Width="Auto"></ColumnDefinition>
-            <ColumnDefinition Width="*"></ColumnDefinition>
-        </Grid.ColumnDefinitions>
+    <Grid Margin="50">
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
             <RowDefinition Height="Auto"></RowDefinition>
         </Grid.RowDefinitions>
-        <TextBlock Text="Subtitles" 
-                   FontSize="20" 
-                   Grid.Row="0"
-                   Grid.Column="0"
-                   HorizontalAlignment="Center"
-                   VerticalAlignment="Center"></TextBlock>
-        <controls:ToggleSwitch x:Name="ActivateSubtitles"
-                               Grid.Column="2"
-                               Grid.Row="0"
-                               OnLabel="On"
-                               OffLabel="Off"
-                               VerticalAlignment="Center"
-                               HorizontalAlignment="Center"
-                               CheckChangedCommand="{Binding SetSubtitlesCommand}">
-        </controls:ToggleSwitch>
-
-        <Grid Grid.Row="1"
-              Grid.Column="2">
-            <ContentControl Content="{Binding Subtitles}"/>
-        </Grid>
-        <Button Width="100"
-                Height="30"
-                Grid.Row="2"
-                Grid.Column="2"
-                Content="{lex:LocText PlayLabel}"
-                Command="{Binding DownloadMovieCommand}"  
-                HorizontalAlignment="Center" 
-                VerticalAlignment="Center"/>
+        <Grid.Resources>
+            <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.AnimatedSingleRowTabControl.xaml" />
+        </Grid.Resources>
+        <TabControl Grid.Row="0" controls:TabControlHelper.IsUnderlined="True">
+            <TabItem Header="{lex:LocText SubtitlesLabel}">
+                <Grid Margin="10">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="*"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <controls:ToggleSwitch OnLabel="On"
+                                           OffLabel="Off"
+                                           Grid.Row="0"
+                                           HorizontalAlignment="Left"
+                                           CheckChangedCommand="{Binding SetSubtitlesCommand}"/>
+                    <ContentControl Content="{Binding Subtitles}"
+                                    Grid.Row="1"
+                                    Margin="0,10,0,0"/>
+                </Grid>
+            </TabItem>
+            <TabItem Header="{lex:LocText MovieQualityLabel}">
+                <controls:ToggleSwitch IsChecked="{Binding Movie.WatchInFullHdQuality}"
+                                       IsEnabled="{Binding Movie.FullHdAvailable}"
+                                       OnLabel="1080"
+                                       OffLabel="720"
+                                       Margin="10"
+                                       HorizontalAlignment="Left"/>
+            </TabItem>
+        </TabControl>
+        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center">
+            <Button Width="100"
+                    Height="30"
+                    Content="{lex:LocText CancelButton}"
+                    Command="{Binding CancelCommand}"/>
+            <Button Width="100"
+                    Height="30"
+                    Margin="10,0,0,0"
+                    Content="{lex:LocText PlayLabel}"
+                    Command="{Binding DownloadMovieCommand}" />
+        </StackPanel>
     </Grid>
 </UserControl>

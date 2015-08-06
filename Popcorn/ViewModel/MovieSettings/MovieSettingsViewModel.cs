@@ -90,6 +90,26 @@ namespace Popcorn.ViewModel.MovieSettings
 
         #endregion
 
+        #region Command -> CancelCommand
+
+        /// <summary>
+        /// DownloadMovieCommand
+        /// </summary>
+        private RelayCommand _cancelCommand;
+
+        public RelayCommand CancelCommand
+        {
+            get
+            {
+                return _cancelCommand ?? (_cancelCommand = new RelayCommand(() =>
+                {
+                    Messenger.Default.Send(new StopPlayingMovieMessage());
+                }));
+            }
+        }
+
+        #endregion
+
         #region Constructor
         /// <summary>
         /// Constructor
