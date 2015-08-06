@@ -22,34 +22,16 @@ namespace Popcorn.UserControls.Players
 
         private bool _disposed;
 
-        #region DependencyProperty -> MediaPlayerIsPlayingProperty
-        /// <summary>
-        /// Identifies the <see cref="MediaPlayerIsPlaying"/> dependency property. 
-        /// </summary>
-        internal static readonly DependencyProperty MediaPlayerIsPlayingProperty = DependencyProperty.Register("MediaPlayerIsPlaying", typeof(bool), typeof(TrailerPlayer), new PropertyMetadata(false, null));
-        #endregion
-
         #region Property -> MediaPlayerIsPlaying
         /// <summary>
         /// Indicates if a movie is playing 
         /// </summary>
-        private bool MediaPlayerIsPlaying
-        {
-            get
-            {
-                return (bool)GetValue(MediaPlayerIsPlayingProperty);
-            }
-
-            set
-            {
-                SetValue(MediaPlayerIsPlayingProperty, value);
-            }
-        }
+        private bool MediaPlayerIsPlaying { get; set; }
         #endregion
 
         #region DependencyProperty -> VolumeProperty
         /// <summary>
-        /// Identifies the <see cref="MediaPlayerIsPlaying"/> dependency property. 
+        /// Identifies the <see cref="VolumeProperty"/> dependency property. 
         /// </summary>
         internal static readonly DependencyProperty VolumeProperty = DependencyProperty.Register("Volume", typeof(int), typeof(TrailerPlayer), new PropertyMetadata(100, OnVolumeChanged));
         #endregion

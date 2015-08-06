@@ -296,7 +296,14 @@ namespace Popcorn.ViewModel.Download
                     }
 
                     // Wait for a second before update torrent status
-                    await Task.Delay(1000, ct);
+                    try
+                    {
+                        await Task.Delay(1000, ct);
+                    }
+                    catch (TaskCanceledException)
+                    {
+                        return;
+                    }
                 }
             }
         }
