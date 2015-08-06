@@ -66,8 +66,8 @@
         </ResourceDictionary>
     </UserControl.Resources>
     <Grid>
-        <ListBox ItemsSource="{Binding Subtitles}"
-                 SelectedItem="{Binding SelectedSubtitle}"
+        <ListBox ItemsSource="{Binding Movie.AvailableSubtitles}"
+                 SelectedItem="{Binding Movie.SelectedSubtitle}"
                  ScrollViewer.VerticalScrollBarVisibility="Disabled">
             <ListBox.ItemTemplate>
                 <DataTemplate>

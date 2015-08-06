@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 using Popcorn.Model.Movie.Json;
+using Popcorn.Model.Subtitle;
+using System.Collections.ObjectModel;
 
 namespace Popcorn.Model.Movie
 {
@@ -100,6 +102,36 @@ namespace Popcorn.Model.Movie
         {
             get { return _fullHdAvailable; }
             set { Set(() => FullHdAvailable, ref _fullHdAvailable, value); }
+        }
+        #endregion
+
+        #region Property -> AvailableSubtitles
+        /// <summary>
+        /// Available subtitles
+        /// </summary>
+        private ObservableCollection<Subtitle.Subtitle> _availableSubtitles = new ObservableCollection<Subtitle.Subtitle>();
+        /// <summary>
+        /// Available subtitles
+        /// </summary>
+        public ObservableCollection<Subtitle.Subtitle> AvailableSubtitles
+        {
+            get { return _availableSubtitles; }
+            set { Set(() => AvailableSubtitles, ref _availableSubtitles, value); }
+        }
+        #endregion
+
+        #region Property -> SelectedSubtitle
+        /// <summary>
+        /// Selected subtitle
+        /// </summary>
+        private Subtitle.Subtitle _selectedSubtitle;
+        /// <summary>
+        /// Selected subtitle
+        /// </summary>
+        public Subtitle.Subtitle SelectedSubtitle
+        {
+            get { return _selectedSubtitle; }
+            set { Set(() => SelectedSubtitle, ref _selectedSubtitle, value); }
         }
         #endregion
 

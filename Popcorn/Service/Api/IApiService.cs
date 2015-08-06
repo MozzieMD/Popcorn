@@ -87,17 +87,15 @@ namespace Popcorn.Service.Api
         /// </summary>
         /// <param name="movie">The movie of which to retrieve its subtitles</param>
         /// <param name="ct">Cancellation token</param>
-        Task<ObservableCollection<Subtitle>> GetSubtitlesAsync(MovieFull movie,
+        Task LoadSubtitlesAsync(MovieFull movie,
             CancellationToken ct);
 
         /// <summary>
         /// Download a subtitle
         /// </summary>
         /// <param name="movie">The movie of which to retrieve its subtitles</param>
-        /// <param name="subtitle">The movie's subtitle to retrieve</param>
         /// <param name="ct">Cancellation token</param>
         Task DownloadSubtitleAsync(MovieFull movie,
-            Subtitle subtitle,
             CancellationToken ct);
 
         /// <summary>

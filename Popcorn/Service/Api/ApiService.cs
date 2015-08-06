@@ -480,14 +480,13 @@ namespace Popcorn.Service.Api
 
         #endregion
 
-        #region Method -> GetSubtitlesAsync
+        #region Method -> LoadSubtitlesAsync
         /// <summary>
         /// Get the movie's subtitles according to a language
         /// </summary>
         /// <param name="movie">The movie of which to retrieve its subtitles</param>
         /// <param name="ct">Cancellation token</param>
-        /// <returns>Movie's subtitles</returns>
-        public async Task<ObservableCollection<Subtitle>> GetSubtitlesAsync(MovieFull movie,
+        public async Task LoadSubtitlesAsync(MovieFull movie,
             CancellationToken ct)
         {
             var restClient = new RestClient(Constants.YifySubtitlesApi);
@@ -526,7 +525,7 @@ namespace Popcorn.Service.Api
             }
             subtitles.Sort();
 
-            return subtitles;
+            movie.AvailableSubtitles = subtitles;
         }
 
         #endregion
@@ -536,16 +535,14 @@ namespace Popcorn.Service.Api
         /// Download a subtitle
         /// </summary>
         /// <param name="movie">The movie of which to retrieve its subtitles</param>
-        /// <param name="subtitle">The movie's subtitle to retrieve</param>
         /// <param name="ct">Cancellation token</param>
         public async Task DownloadSubtitleAsync(MovieFull movie,
-            Subtitle subtitle,
             CancellationToken ct)
         {
-            var filePath = Constants.Subtitles + "/" + movie.ImdbCode + "/" + subtitle.Language.EnglishName + ".zip";
+            var filePath = Constants.Subtitles + "/" + movie.ImdbCode + "/" + movie.SelectedSubtitle.Language.EnglishName + ".zip";
             await
                 DownloadFileTaskAsync(ct, Constants.Subtitles + "/" + movie.ImdbCode, filePath,
-                    new Uri(Constants.YifySubtitles + subtitle.Url));
+                    new Uri(Constants.YifySubtitles + movie.SelectedSubtitle.Url));
             using (var archive = ZipFile.OpenRead(filePath))
             {
                 foreach (var entry in archive.Entries)
@@ -555,7 +552,7 @@ namespace Popcorn.Service.Api
                         var subtitlePath = Path.Combine(Constants.Subtitles + "/" + movie.ImdbCode,
                             entry.FullName);
                         entry.ExtractToFile(subtitlePath);
-                        subtitle.FilePath = subtitlePath;
+                        movie.SelectedSubtitle.FilePath = subtitlePath;
                     }
                 }
             }

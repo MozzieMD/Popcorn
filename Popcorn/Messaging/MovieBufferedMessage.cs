@@ -26,13 +26,6 @@ namespace Popcorn.Messaging
         public MovieFull Movie { get; private set; }
         #endregion
 
-        #region Property -> Subtitle
-        /// <summary>
-        /// The movie's sutitle
-        /// </summary>
-        public Subtitle Subtitle { get; private set; }
-        #endregion
-
         #endregion
 
         #region Constructor
@@ -41,11 +34,10 @@ namespace Popcorn.Messaging
         /// </summary>
         /// <param name="movie">The buffered movie</param>
         /// <param name="movieUri">The Uri of the buffered movie</param>
-        public MovieBufferedMessage(MovieFull movie, Uri movieUri, Subtitle subtitle)
+        public MovieBufferedMessage(MovieFull movie, Uri movieUri)
         {
             Movie = movie;
             MovieUri = movieUri;
-            Subtitle = subtitle;
         }
         #endregion
     }

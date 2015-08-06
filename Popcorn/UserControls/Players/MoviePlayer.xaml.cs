@@ -150,7 +150,7 @@ namespace Popcorn.UserControls.Players
                     {
                         Player.LoadMedia(vm.MediaUri);
                         Player.VlcMediaPlayer.EndReached += MediaPlayer_EndReached;
-                        Player.VlcOption.SetValue(":sub - file = " + vm.Subtitle.FilePath, Player.VlcOption.Length);
+                        Player.VlcOption.SetValue(":sub - file = " + vm.Movie.SelectedSubtitle.FilePath, Player.VlcOption.Length);
                         PlayMedia();
                     }
                 }

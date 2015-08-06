@@ -178,7 +178,7 @@ namespace Popcorn.ViewModel
                 DispatcherHelper.CheckBeginInvokeOnUI(() =>
                 {
                     // Create a tab with the movie name as the title
-                    Tabs.Add(new MoviePlayerViewModel(message.Movie, message.MovieUri, message.Subtitle));
+                    Tabs.Add(new MoviePlayerViewModel(message.Movie, message.MovieUri));
 
                     // Select this tab in the tab control
                     SelectedTab = Tabs.Last();

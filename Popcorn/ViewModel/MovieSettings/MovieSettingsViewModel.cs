@@ -26,15 +26,6 @@ namespace Popcorn.ViewModel.MovieSettings
 
         #endregion
 
-        #region Property -> Subtitle
-
-        /// <summary>
-        /// The movie's subtitle
-        /// </summary>
-        private Subtitle Subtitle { get; set; }
-
-        #endregion
-
         #region Property -> Subtitles
 
         /// <summary>
@@ -93,7 +84,7 @@ namespace Popcorn.ViewModel.MovieSettings
             {
                 return _downloadMovieCommand ?? (_downloadMovieCommand = new RelayCommand(() =>
                 {
-                    Messenger.Default.Send(new DownloadMovieMessage(Movie, Subtitle));
+                    Messenger.Default.Send(new DownloadMovieMessage(Movie));
                 }));
             }
         }
@@ -128,21 +119,7 @@ namespace Popcorn.ViewModel.MovieSettings
         public MovieSettingsViewModel(MovieFull movie)
         {
             Movie = movie;
-
-            Messenger.Default.Register<SelectedSubtitleMessage>(
-            this,
-            message =>
-            {
-                Subtitle = message.Subtitle;
-            });
         }
         #endregion
-
-        public override void Cleanup()
-        {
-            Messenger.Default.Unregister<SelectedSubtitleMessage>(this);
-
-            base.Cleanup();
-        }
     }
 }

@@ -164,8 +164,8 @@ namespace Popcorn.ViewModel.Download
             this,
             async message =>
             {
-                await DownloadMovieAsync(message.Movie, message.Subtitle);
-                await ApiService.DownloadSubtitleAsync(message.Movie, message.Subtitle, CancellationDownloadingMovieToken.Token);
+                await DownloadMovieAsync(message.Movie);
+                await ApiService.DownloadSubtitleAsync(message.Movie, CancellationDownloadingMovieToken.Token);
             });
 
             MovieSettings = new MovieSettingsViewModel(movie);
@@ -180,7 +180,7 @@ namespace Popcorn.ViewModel.Download
         /// </summary>
         /// <param name="movie">The movie to download</param>
         /// <param name="subtitle">The movie's subtitle</param>
-        private async Task DownloadMovieAsync(MovieFull movie, Subtitle subtitle)
+        private async Task DownloadMovieAsync(MovieFull movie)
         {
             using (var session = new Session())
             {
@@ -276,7 +276,7 @@ namespace Popcorn.ViewModel.Download
                             alreadyBuffered = true;
                             // Inform subscribers we have finished buffering the movie
                             Messenger.Default.Send(new MovieBufferedMessage(movie,
-                                new Uri(filePath), subtitle));
+                                new Uri(filePath)));
                         }
                     }
 
