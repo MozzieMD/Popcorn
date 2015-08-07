@@ -62,6 +62,7 @@ namespace Popcorn.ViewModel.MovieSettings
                         }
                         else
                         {
+                            Subtitles.Cleanup();
                             Subtitles = null;
                         }
                     });
