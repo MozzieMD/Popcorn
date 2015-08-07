@@ -6,7 +6,7 @@ namespace Popcorn.Helpers
     /// <summary>
     /// Used to localize resources on the fly using WPF Localize Extension
     /// </summary>
-    public class LocalizationProviderHelper
+    public static class LocalizationProviderHelper
     {
         /// <summary>
         /// Retrieve the localized value of a resource based on its key
