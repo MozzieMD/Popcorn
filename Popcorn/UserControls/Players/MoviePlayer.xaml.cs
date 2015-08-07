@@ -152,6 +152,7 @@ namespace Popcorn.UserControls.Players
                 {
                     Player.AddOption("--sub-file = " + vm.Movie.SelectedSubtitle.FilePath);
                 }
+
                 PlayMedia();
             }
         }
@@ -462,13 +463,10 @@ namespace Popcorn.UserControls.Players
 
                 PlayerStatusBar.BeginAnimation(OpacityProperty, opacityAnimation);
 
-                Task.Delay(500).ContinueWith(_ =>
+                DispatcherHelper.CheckBeginInvokeOnUI(async () =>
                 {
-                    DispatcherHelper.CheckBeginInvokeOnUI(() =>
-                    {
-                        PlayerStatusBar.Visibility = Visibility.Collapsed;
-
-                    });
+                    await Task.Delay(500);
+                    PlayerStatusBar.Visibility = Visibility.Collapsed;
                 });
 
                 #endregion
@@ -525,7 +523,6 @@ namespace Popcorn.UserControls.Players
                     DispatcherHelper.CheckBeginInvokeOnUI(() =>
                     {
                         PlayerStatusBar.Visibility = Visibility.Visible;
-
                     });
 
                     #endregion

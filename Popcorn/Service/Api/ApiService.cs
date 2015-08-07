@@ -567,9 +567,7 @@ namespace Popcorn.Service.Api
         /// Download a subtitle
         /// </summary>
         /// <param name="movie">The movie of which to retrieve its subtitles</param>
-        /// <param name="ct">Cancellation token</param>
-        public async Task DownloadSubtitleAsync(MovieFull movie,
-            CancellationToken ct)
+        public async Task DownloadSubtitleAsync(MovieFull movie)
         {
             if (movie.SelectedSubtitle == null)
             {
@@ -578,28 +576,37 @@ namespace Popcorn.Service.Api
 
             var filePath = Constants.Subtitles + movie.ImdbCode + "\\" + movie.SelectedSubtitle.Language.EnglishName +
                            ".zip";
-            if (!File.Exists(filePath))
-            {
-                await
-                    DownloadFileTaskAsync(ct, Constants.Subtitles + movie.ImdbCode, filePath,
-                        new Uri(Constants.YifySubtitles + movie.SelectedSubtitle.Url));
-            }
 
-            using (var archive = ZipFile.OpenRead(filePath))
+            try
             {
-                foreach (var entry in archive.Entries)
+                var result = await
+                    DownloadFileHelper.DownloadFileTaskAsync(
+                        Constants.YifySubtitles + movie.SelectedSubtitle.Url, filePath);
+
+                if (result.Item3 != null && !string.IsNullOrEmpty(result.Item2))
                 {
-                    if (entry.FullName.EndsWith(".srt", StringComparison.OrdinalIgnoreCase))
+                    using (var archive = ZipFile.OpenRead(result.Item2))
                     {
-                        var subtitlePath = Path.Combine(Constants.Subtitles + movie.ImdbCode,
-                            entry.FullName);
-                        if (!File.Exists(subtitlePath))
+                        foreach (var entry in archive.Entries)
                         {
-                            entry.ExtractToFile(subtitlePath);
+                            if (entry.FullName.EndsWith(".srt", StringComparison.OrdinalIgnoreCase))
+                            {
+                                var subtitlePath = Path.Combine(Constants.Subtitles + movie.ImdbCode,
+                                    entry.FullName);
+                                if (!File.Exists(subtitlePath))
+                                {
+                                    entry.ExtractToFile(subtitlePath);
+                                }
+
+                                movie.SelectedSubtitle.FilePath = subtitlePath;
+                            }
                         }
-                        movie.SelectedSubtitle.FilePath = subtitlePath;
                     }
                 }
+            }
+            catch (Exception ex)
+            {
+                Logger.Error($"DownloadSubtitleAsync (failed): {movie.Title}\nAdditional informations : {ex.Message}");
             }
         }
 
@@ -610,28 +617,35 @@ namespace Popcorn.Service.Api
         /// <summary>
         /// Download the movie's background image
         /// </summary>
-        /// <param name="imdbCode">Movie's Imdb code</param>
-        /// <param name="ct">Cancellation token</param>
-        /// <returns>Local path to the downloaded background image</returns>
-        public async Task<string> DownloadBackgroundImageAsync(string imdbCode,
-            CancellationToken ct)
+        /// <param name="movie">The movie to process</param>
+        public async Task DownloadBackgroundImageAsync(MovieFull movie)
         {
             var watch = Stopwatch.StartNew();
 
-            var movie = TmdbClient.GetMovie(imdbCode, MovieMethods.Images);
-            var address = TmdbClient.GetImageUrl(Constants.BackgroundImageSizeTmDb,
-                movie.BackdropPath);
+            var tmdbMovie = TmdbClient.GetMovie(movie.ImdbCode, MovieMethods.Images);
+            var remotePath = new List<string>
+            {
+                TmdbClient.GetImageUrl(Constants.BackgroundImageSizeTmDb,
+                    tmdbMovie.BackdropPath).AbsoluteUri
+            };
 
-            var folder = Constants.BackgroundMovieDirectory;
-            var filePath = folder + imdbCode + Constants.ImageFileExtension;
-            await DownloadFileTaskAsync(ct, folder, filePath, address);
+            await
+                remotePath.ForEachAsync(
+                    background =>
+                        DownloadFileHelper.DownloadFileTaskAsync(background,
+                            Constants.BackgroundMovieDirectory + movie.ImdbCode + Constants.ImageFileExtension),
+                    (background, t) =>
+                    {
+                        if (t.Item3 == null && !string.IsNullOrEmpty(t.Item2))
+                        {
+                            movie.BackgroundImagePath = t.Item2;
+                        }
+                    });
 
             watch.Stop();
             var elapsedMs = watch.ElapsedMilliseconds;
             Logger.Debug(
-                "DownloadBackgroundImageAsync ({0}, {1}) in {2} milliseconds.", imdbCode, address.AbsoluteUri, elapsedMs);
-
-            return filePath;
+                $"DownloadBackgroundImageAsync ({movie.ImdbCode}) in {elapsedMs} milliseconds.");
         }
 
         #endregion
@@ -639,33 +653,32 @@ namespace Popcorn.Service.Api
         #region Method -> DownloadCoverImageAsync
 
         /// <summary>
-        /// Download the movie's cover image
+        /// Download cover image for each of the movies provided
         /// </summary>
-        /// <param name="imdbCode">Movie's Imdb code</param>
-        /// <param name="uri">Resource's uri</param>
-        /// <param name="ct">Cancellation token</param>
-        /// <returns>Local path to the downloaded cover image</returns>
-        public async Task<string> DownloadCoverImageAsync(string imdbCode,
-            Uri uri,
-            CancellationToken ct)
+        /// <param name="movies">The movies to process</param>
+        public async Task DownloadCoverImageAsync(IEnumerable<MovieShort> movies)
         {
-            if (string.IsNullOrEmpty(uri.AbsoluteUri))
-            {
-                throw new ArgumentException();
-            }
-
             var watch = Stopwatch.StartNew();
 
-            var folder = Constants.CoverMoviesDirectory;
-            var filePath = folder + imdbCode + Constants.ImageFileExtension;
-            await DownloadFileTaskAsync(ct, folder, filePath, uri);
+            var moviesToProcess = movies.ToList();
+
+            await
+                moviesToProcess.ForEachAsync(
+                    movie =>
+                        DownloadFileHelper.DownloadFileTaskAsync(movie.MediumCoverImage,
+                            Constants.CoverMoviesDirectory + movie.ImdbCode + Constants.ImageFileExtension),
+                    (movie, t) =>
+                    {
+                        if (t.Item3 == null && !string.IsNullOrEmpty(t.Item2))
+                        {
+                            movie.CoverImagePath = t.Item2;
+                        }
+                    });
 
             watch.Stop();
             var elapsedMs = watch.ElapsedMilliseconds;
             Logger.Debug(
-                "DownloadCoverImageAsync ({0}, {1}) in {2} milliseconds.", imdbCode, uri.AbsoluteUri, elapsedMs);
-
-            return filePath;
+                $"DownloadCoverImageAsync ({string.Join(";", moviesToProcess.Select(movie => movie.ImdbCode))}) in {elapsedMs} milliseconds.");
         }
 
         #endregion
@@ -675,31 +688,33 @@ namespace Popcorn.Service.Api
         /// <summary>
         /// Download the movie's poster image
         /// </summary>
-        /// <param name="imdbCode">Movie's Imdb code</param>
-        /// <param name="uri">Resource's uri</param>
-        /// <param name="ct">Cancellation token</param>
-        /// <returns>Local path to the downloaded poster image</returns>
-        public async Task<string> DownloadPosterImageAsync(string imdbCode,
-            Uri uri,
-            CancellationToken ct)
+        /// <param name="movie">The movie to process</param>
+        public async Task DownloadPosterImageAsync(MovieFull movie)
         {
-            if (string.IsNullOrEmpty(uri.AbsoluteUri))
-            {
-                throw new ArgumentException();
-            }
-
             var watch = Stopwatch.StartNew();
 
-            var folder = Constants.PosterMovieDirectory;
-            var filePath = folder + imdbCode + Constants.ImageFileExtension;
-            await DownloadFileTaskAsync(ct, folder, filePath, uri);
+            var posterPath = new List<string>
+            {
+                movie.Images.LargeCoverImage
+            };
+
+            await
+                posterPath.ForEachAsync(
+                    poster =>
+                        DownloadFileHelper.DownloadFileTaskAsync(poster,
+                            Constants.PosterMovieDirectory + movie.ImdbCode + Constants.ImageFileExtension),
+                    (poster, t) =>
+                    {
+                        if (t.Item3 == null && !string.IsNullOrEmpty(t.Item2))
+                        {
+                            movie.PosterImagePath = t.Item2;
+                        }
+                    });
 
             watch.Stop();
             var elapsedMs = watch.ElapsedMilliseconds;
             Logger.Debug(
-                "DownloadPosterImageAsync ({0}, {1}) in {2} milliseconds.", imdbCode, uri.AbsoluteUri, elapsedMs);
-
-            return filePath;
+                $"DownloadPosterImageAsync ({movie.ImdbCode}) in {elapsedMs} milliseconds.");
         }
 
         #endregion
@@ -707,33 +722,32 @@ namespace Popcorn.Service.Api
         #region Method -> DownloadDirectorImageAsync
 
         /// <summary>
-        /// Download the director's image profile
+        /// Download directors' image for a movie
         /// </summary>
-        /// <param name="imdbCode">Movie's Imdb code</param>
-        /// <param name="uri">Resource's uri</param>
-        /// <param name="ct">Cancellation token</param>
-        /// <returns>Local path to the downloaded director's image</returns>
-        public async Task<string> DownloadDirectorImageAsync(string imdbCode,
-            Uri uri,
-            CancellationToken ct)
+        /// <param name="movie">The movie to process</param>
+        public async Task DownloadDirectorImageAsync(MovieFull movie)
         {
-            if (string.IsNullOrEmpty(uri.AbsoluteUri))
-            {
-                throw new ArgumentException();
-            }
-
             var watch = Stopwatch.StartNew();
 
-            var folder = Constants.DirectorMovieDirectory;
-            var filePath = folder + imdbCode + Constants.ImageFileExtension;
-            await DownloadFileTaskAsync(ct, folder, filePath, uri);
+            var directors = movie.Directors;
+
+            await
+                directors.ForEachAsync(
+                    director =>
+                        DownloadFileHelper.DownloadFileTaskAsync(director.SmallImage,
+                            Constants.DirectorMovieDirectory + director.Name + Constants.ImageFileExtension),
+                    (director, t) =>
+                    {
+                        if (t.Item3 == null && !string.IsNullOrEmpty(t.Item2))
+                        {
+                            director.SmallImagePath = t.Item2;
+                        }
+                    });
 
             watch.Stop();
             var elapsedMs = watch.ElapsedMilliseconds;
             Logger.Debug(
-                "DownloadDirectorImageAsync ({0}, {1}) in {2} milliseconds.", imdbCode, uri.AbsoluteUri, elapsedMs);
-
-            return filePath;
+                $"DownloadDirectorImageAsync ({movie.ImdbCode}) in {elapsedMs} milliseconds.");
         }
 
         #endregion
@@ -741,96 +755,32 @@ namespace Popcorn.Service.Api
         #region Method -> DownloadActorImageAsync
 
         /// <summary>
-        /// Download the actor's image profile
+        /// Download actors' image for a movie
         /// </summary>
-        /// <param name="imdbCode">Movie's Imdb code</param>
-        /// <param name="uri">Resource's uri</param>
-        /// <param name="ct">Cancellation token</param>
-        /// <returns>Local path to the downloaded actor's image</returns>
-        public async Task<string> DownloadActorImageAsync(string imdbCode,
-            Uri uri,
-            CancellationToken ct)
+        /// <param name="movie">The movie to process</param>
+        public async Task DownloadActorImageAsync(MovieFull movie)
         {
-            if (string.IsNullOrEmpty(uri.AbsoluteUri))
-            {
-                throw new ArgumentException();
-            }
-
             var watch = Stopwatch.StartNew();
 
-            var folder = Constants.ActorMovieDirectory;
-            var filePath = folder + imdbCode + Constants.ImageFileExtension;
-            await DownloadFileTaskAsync(ct, folder, filePath, uri);
+            var actors = movie.Actors;
+
+            await
+                actors.ForEachAsync(
+                    actor =>
+                        DownloadFileHelper.DownloadFileTaskAsync(actor.SmallImage,
+                            Constants.DirectorMovieDirectory + actor.Name + Constants.ImageFileExtension),
+                    (actor, t) =>
+                    {
+                        if (t.Item3 == null && !string.IsNullOrEmpty(t.Item2))
+                        {
+                            actor.SmallImagePath = t.Item2;
+                        }
+                    });
 
             watch.Stop();
             var elapsedMs = watch.ElapsedMilliseconds;
             Logger.Debug(
-                "DownloadActorImageAsync ({0}, {1}) in {2} milliseconds.", imdbCode, uri.AbsoluteUri, elapsedMs);
-
-            return filePath;
-        }
-
-        #endregion
-
-        #region Method -> DownloadFileTaskAsync
-
-        /// <summary>
-        /// DownloadFileTaskAsync
-        /// </summary>
-        /// <param name="ct">Cancellation token</param>
-        /// <param name="folder">Folder in which file will be saved</param>
-        /// <param name="filePath">Path to the file to save</param>
-        /// <param name="address">Resource's address</param>
-        /// <returns>Task</returns>
-        private static async Task DownloadFileTaskAsync(CancellationToken ct, string folder, string filePath,
-            Uri address)
-        {
-            var watch = Stopwatch.StartNew();
-
-            Directory.CreateDirectory(folder);
-            using (var webClient = new NoKeepAliveWebClient())
-            {
-                try
-                {
-                    ct.Register(webClient.CancelAsync);
-                    if (!File.Exists(filePath))
-                    {
-                        await webClient.DownloadFileTaskAsync(address,
-                            filePath);
-                        var fi = new FileInfo(filePath);
-                        if (fi.Length == 0)
-                        {
-                            throw new Exception();
-                        }
-                    }
-                    else
-                    {
-                        var fi = new FileInfo(filePath);
-                        if (fi.Length == 0)
-                        {
-                            File.Delete(filePath);
-                            await
-                                webClient.DownloadFileTaskAsync(address, filePath);
-
-                            var newfi = new FileInfo(filePath);
-                            if (newfi.Length == 0)
-                            {
-                                throw new Exception();
-                            }
-                        }
-                    }
-                }
-                catch (Exception e)
-                {
-                    throw e;
-                }
-            }
-
-            watch.Stop();
-            var elapsedMs = watch.ElapsedMilliseconds;
-            Logger.Debug(
-                "DownloadFileTaskAsync ({0}, {1}, {2}) in {3} milliseconds.", folder, filePath, address.AbsoluteUri,
-                elapsedMs);
+                $"DownloadActorImageAsync ({movie.ImdbCode}) in {elapsedMs} milliseconds.");
         }
 
         #endregion

@@ -92,9 +92,7 @@ namespace Popcorn.Service.Api
         /// Download a subtitle
         /// </summary>
         /// <param name="movie">The movie of which to retrieve its subtitles</param>
-        /// <param name="ct">Cancellation token</param>
-        Task DownloadSubtitleAsync(MovieFull movie,
-            CancellationToken ct);
+        Task DownloadSubtitleAsync(MovieFull movie);
 
         /// <summary>
         /// Get the link to the youtube trailer of a movie
@@ -106,55 +104,32 @@ namespace Popcorn.Service.Api
         /// <summary>
         /// Download the movie's background image
         /// </summary>
-        /// <param name="imdbCode">Movie's Imdb code</param>
-        /// <param name="ct">Cancellation token</param>
-        /// <returns>Local path to the downloaded background image</returns>
-        Task<string> DownloadBackgroundImageAsync(string imdbCode,
-            CancellationToken ct);
+        /// <param name="movie">The movie to process</param>
+        Task DownloadBackgroundImageAsync(MovieFull movie);
 
         /// <summary>
-        /// Download the movie's cover image
+        /// Download cover image for each of the movies provided
         /// </summary>
-        /// <param name="imdbCode">Movie's Imdb code</param>
-        /// <param name="uri">Resource's uri</param>
-        /// <param name="ct">Cancellation token</param>
-        /// <returns>Local path to the downloaded cover image</returns>
-        Task<string> DownloadCoverImageAsync(string imdbCode,
-            Uri uri,
-            CancellationToken ct);
+        /// <param name="movies">The movies to process</param>
+        Task DownloadCoverImageAsync(IEnumerable<MovieShort> movies);
 
         /// <summary>
         /// Download the movie's poster image
         /// </summary>
-        /// <param name="imdbCode">Movie's Imdb code</param>
-        /// <param name="uri">Resource's uri</param>
-        /// <param name="ct">Cancellation token</param>
-        /// <returns>Local path to the downloaded poster image</returns>
-        Task<string> DownloadPosterImageAsync(string imdbCode,
-            Uri uri,
-            CancellationToken ct);
+        /// <param name="movie">The movie to process</param>
+        Task DownloadPosterImageAsync(MovieFull movie);
 
         /// <summary>
-        /// Download the director's image profile
+        /// Download directors' image for a movie
         /// </summary>
-        /// <param name="imdbCode">Movie's Imdb code</param>
-        /// <param name="uri">Resource's uri</param>
-        /// <param name="ct">Cancellation token</param>
-        /// <returns>Local path to the downloaded director's image</returns>
-        Task<string> DownloadDirectorImageAsync(string imdbCode,
-            Uri uri,
-            CancellationToken ct);
+        /// <param name="movie">The movie to process</param>
+        Task DownloadDirectorImageAsync(MovieFull movie);
 
         /// <summary>
-        /// Download the actor's image profile
+        /// Download actors' image for a movie
         /// </summary>
-        /// <param name="imdbCode">Movie's Imdb code</param>
-        /// <param name="uri">Resource's uri</param>
-        /// <param name="ct">Cancellation token</param>
-        /// <returns>Local path to the downloaded actor's image</returns>
-        Task<string> DownloadActorImageAsync(string imdbCode,
-            Uri uri,
-            CancellationToken ct);
+        /// <param name="movie">The movie to process</param>
+        Task DownloadActorImageAsync(MovieFull movie);
 
         /// <summary>
         /// Change the culture of TMDb

@@ -240,6 +240,7 @@
     <Compile Include="Events\ConnectionErrorEventArgs.cs" />
     <Compile Include="Events\NumberOfColumnsChangedEventArgs.cs" />
     <Compile Include="Helpers\Constants.cs" />
+    <Compile Include="Helpers\DownloadFileHelper.cs" />
     <Compile Include="Helpers\Extensions.cs" />
     <Compile Include="Helpers\LocalizationProviderHelper.cs" />
     <Compile Include="Messaging\ChangeLanguageMessage.cs" />
@@ -266,9 +267,6 @@
     <Compile Include="Model\Localization\EnglishLanguage.cs" />
     <Compile Include="Model\Localization\FrenchLanguage.cs" />
     <Compile Include="Model\Localization\ILanguage.cs" />
-    <Compile Include="Helpers\NoKeepAliveWebClient.cs">
-      <SubType>Component</SubType>
-    </Compile>
     <Compile Include="Helpers\TabContent.cs" />
     <Compile Include="Messaging\MovieBufferedMessage.cs" />
     <Compile Include="Messaging\StopPlayingMovieMessage.cs" />

@@ -22,10 +22,7 @@ namespace Popcorn.Converters
         /// <returns>CachedImage</returns>
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (value == null)
-                return null;
-
-            if (!string.IsNullOrEmpty(value.ToString()))
+            if (!string.IsNullOrEmpty(value?.ToString()))
             {
                 var path = value.ToString();
                 var bi = new BitmapImage();

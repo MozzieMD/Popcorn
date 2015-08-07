@@ -172,7 +172,8 @@ namespace Popcorn.ViewModel.Download
                     var reportDownloadProgress = new Progress<double>(ReportDownloadProgress);
                     var reportDownloadRate = new Progress<double>(ReportDownloadRate);
 
-                    await ApiService.DownloadSubtitleAsync(message.Movie, CancellationDownloadingMovieToken.Token);
+                    await
+                        ApiService.DownloadSubtitleAsync(message.Movie);
                     await
                         DownloadMovieAsync(message.Movie,
                             reportDownloadProgress, reportDownloadRate, CancellationDownloadingMovieToken.Token);
@@ -286,14 +287,7 @@ namespace Popcorn.ViewModel.Download
                     }
 
                     // Wait for a second before update torrent status
-                    try
-                    {
-                        await Task.Delay(1000, ct);
-                    }
-                    catch (TaskCanceledException)
-                    {
-                        return;
-                    }
+                    await Task.Delay(1000, ct);
                 }
             }
         }
@@ -319,6 +313,7 @@ namespace Popcorn.ViewModel.Download
         public override void Cleanup()
         {
             StopPlayingMovie();
+
             base.Cleanup();
         }
     }

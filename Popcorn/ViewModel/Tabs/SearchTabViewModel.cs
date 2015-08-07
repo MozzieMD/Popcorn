@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading;
 using GalaSoft.MvvmLight.Messaging;
 using System.Threading.Tasks;
@@ -109,19 +108,13 @@ namespace Popcorn.ViewModel.Tabs
                             CancellationSearchMoviesToken.Token);
                     var movies = movieResults.ToList();
 
-                    // Download the cover image for each movie
-                    foreach (var movie in movies.Except(Movies, new MovieComparer()))
+                    foreach (var movie in movies)
                     {
-                        // Download the poster image of the movie
-                        movie.CoverImagePath =
-                            await ApiService.DownloadCoverImageAsync(movie.ImdbCode,
-                                new Uri(movie.MediumCoverImage),
-                                CancellationLoadNextPageToken.Token);
-
                         Movies.Add(movie);
                     }
 
-                    await UserDataService.ComputeMovieHistoryAsync(Movies);
+                    await ApiService.DownloadCoverImageAsync(movies);
+                    await UserDataService.ComputeMovieHistoryAsync(movies);
 
                     if (!LastPageFilterMapping.ContainsKey(searchFilter) && !movies.Any())
                     {

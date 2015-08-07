@@ -456,14 +456,10 @@ namespace Popcorn.UserControls.Players
 
                 PlayerStatusBar.BeginAnimation(OpacityProperty, opacityAnimation);
 
-                Task.Delay(500).ContinueWith(_ =>
+                DispatcherHelper.CheckBeginInvokeOnUI(async () =>
                 {
-
-                    DispatcherHelper.CheckBeginInvokeOnUI(() =>
-                    {
-                        PlayerStatusBar.Visibility = Visibility.Collapsed;
-
-                    });
+                    await Task.Delay(500);
+                    PlayerStatusBar.Visibility = Visibility.Collapsed;
                 });
 
                 #endregion

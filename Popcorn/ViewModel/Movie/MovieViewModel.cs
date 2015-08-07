@@ -235,40 +235,12 @@ namespace Popcorn.ViewModel.Movie
             IsMovieLoading = true;
             try
             {
-                Movie = await ApiService.GetMovieFullDetailsAsync(movieToLoad).ConfigureAwait(false);
+                Movie = await ApiService.GetMovieFullDetailsAsync(movieToLoad);
                 IsMovieLoading = false;
-
-                // Download the movie poster
-                Movie.PosterImagePath =
-                    await
-                        ApiService.DownloadPosterImageAsync(Movie.ImdbCode,
-                            new Uri(Movie.Images.LargeCoverImage),
-                            CancellationLoadingToken.Token).ConfigureAwait(false);
-
-                // For each director, we download its image
-                foreach (var director in Movie.Directors)
-                {
-                    director.SmallImagePath =
-                        await
-                            ApiService.DownloadDirectorImageAsync(director.Name,
-                                new Uri(director.SmallImage),
-                                CancellationLoadingToken.Token).ConfigureAwait(false);
-                }
-
-                // For each actor, we download its image
-                foreach (var actor in Movie.Actors)
-                {
-                    actor.SmallImagePath =
-                        await
-                            ApiService.DownloadActorImageAsync(actor.Name,
-                                new Uri(actor.SmallImage),
-                                CancellationLoadingToken.Token).ConfigureAwait(false);
-                }
-
-                Movie.BackgroundImagePath =
-                    await
-                        ApiService.DownloadBackgroundImageAsync(Movie.ImdbCode,
-                            CancellationLoadingToken.Token).ConfigureAwait(false);
+                await ApiService.DownloadPosterImageAsync(Movie);
+                await ApiService.DownloadDirectorImageAsync(Movie);
+                await ApiService.DownloadActorImageAsync(Movie);
+                await ApiService.DownloadBackgroundImageAsync(Movie);
             }
             catch (ApiServiceException e)
             {

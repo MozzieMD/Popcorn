@@ -195,23 +195,23 @@ namespace Popcorn.ViewModel.Tabs
                 }
             });
 
-            Messenger.Default.Register<ChangeLanguageMessage>(
-                this,
-                async message =>
-                {
-                    var tasks = new List<Task>();
-                    int i = 0;
-                    foreach (var movie in Movies)
-                    {
-                        i++;
-                        var t = Task.Delay(1000*i).ContinueWith(async _ =>
-                        {
-                            await ApiService.TranslateMovieShortAsync(movie);
-                        });
-                        tasks.Add(t);
-                    }
-                    await Task.WhenAll(tasks);
-                });
+            //Messenger.Default.Register<ChangeLanguageMessage>(
+            //    this,
+            //    async message =>
+            //    {
+            //        var tasks = new List<Task>();
+            //        int i = 0;
+            //        foreach (var movie in Movies)
+            //        {
+            //            i++;
+            //            var t = Task.Delay(1000*i).ContinueWith(async _ =>
+            //            {
+            //                await ApiService.TranslateMovieShortAsync(movie);
+            //            });
+            //            tasks.Add(t);
+            //        }
+            //        await Task.WhenAll(tasks);
+            //    });
 
             // Record the like action to the database
             LikeMovieCommand = new RelayCommand<MovieShort>(async movie =>

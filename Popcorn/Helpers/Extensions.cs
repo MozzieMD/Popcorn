@@ -1,6 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
 
@@ -69,6 +72,52 @@ namespace Popcorn.Helpers
             }
 
             return foundChild;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="TSource">Type of the resource to process the task asynchronously</typeparam>
+        /// <typeparam name="TResult">Type of the asynchronously computed result</typeparam>
+        /// <param name="source"></param>
+        /// <param name="taskSelector">Task to process asynchronously</param>
+        /// <param name="resultProcessor">Action to process after completion</param>
+        /// <returns></returns>
+        public static Task ForEachAsync<TSource, TResult>(
+            this IEnumerable<TSource> source,
+            Func<TSource, Task<TResult>> taskSelector, Action<TSource, TResult> resultProcessor)
+        {
+            var oneAtATime = new SemaphoreSlim(5, 10);
+            return Task.WhenAll(
+                from item in source
+                select ProcessAsync(item, taskSelector, resultProcessor, oneAtATime));
+        }
+
+        /// <summary>
+        /// Process asynchronously a task with a semaphore limit
+        /// </summary>
+        /// <typeparam name="TSource">Type of the resource to process the task asynchronously</typeparam>
+        /// <typeparam name="TResult">Type of the asynchronously computed result</typeparam>
+        /// <param name="item"></param>
+        /// <param name="taskSelector">Task to process asynchronously</param>
+        /// <param name="resultProcessor">Action to process after completion</param>
+        /// <param name="oneAtATime">Semaphore limit</param>
+        /// <returns></returns>
+        private static async Task ProcessAsync<TSource, TResult>(
+            TSource item,
+            Func<TSource, Task<TResult>> taskSelector, Action<TSource, TResult> resultProcessor,
+            SemaphoreSlim oneAtATime)
+        {
+            TResult result = await taskSelector(item);
+            await oneAtATime.WaitAsync();
+            try
+            {
+                resultProcessor(item, result);
+            }
+            finally
+            {
+                oneAtATime.Release();
+            }
         }
     }
 }

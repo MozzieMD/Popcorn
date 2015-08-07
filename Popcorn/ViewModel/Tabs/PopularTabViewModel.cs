@@ -63,19 +63,13 @@ namespace Popcorn.ViewModel.Tabs
                         CancellationLoadNextPageToken.Token);
                 var movies = movieResults.ToList();
 
-                // Now we download the cover image for each movie
-                foreach (var movie in movies.Except(Movies, new MovieComparer()))
+                foreach (var movie in movies)
                 {
-                    // Download the poster image of the movie
-                    movie.CoverImagePath =
-                        await ApiService.DownloadCoverImageAsync(movie.ImdbCode,
-                            new Uri(movie.MediumCoverImage),
-                            CancellationLoadNextPageToken.Token);
-
                     Movies.Add(movie);
                 }
 
-                await UserDataService.ComputeMovieHistoryAsync(Movies);
+                await ApiService.DownloadCoverImageAsync(movies);
+                await UserDataService.ComputeMovieHistoryAsync(movies);
 
                 IsLoadingMovies = false;
 
