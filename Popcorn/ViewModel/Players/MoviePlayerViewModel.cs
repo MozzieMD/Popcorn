@@ -24,21 +24,16 @@ namespace Popcorn.ViewModel.Players
 
         #region Property -> TabName
 
-        /// <summary>
-        /// The name of the tab shown in the interface
-        /// </summary>
+
         private string _tabName;
 
+        /// <summary>
+        /// The name of the tab shown into the interface
+        /// </summary>
         public string TabName
         {
-            get
-            {
-                return _tabName;
-            }
-            set
-            {
-                Set(() => TabName, ref _tabName, value);
-            }
+            get { return _tabName; }
+            set { Set(() => TabName, ref _tabName, value); }
         }
 
         #endregion
@@ -54,11 +49,11 @@ namespace Popcorn.ViewModel.Players
 
         #region Property -> IsInFullScreenMode
 
+        private bool _isInFullScreenMode;
+
         /// <summary>
         /// Indicates if player is in fullscreen mode
         /// </summary>
-        private bool _isInFullScreenMode;
-
         public bool IsInFullScreenMode
         {
             get { return _isInFullScreenMode; }
@@ -81,7 +76,7 @@ namespace Popcorn.ViewModel.Players
         #region Command -> ChangeScreenModeCommand
 
         /// <summary>
-        /// ChangeScreenModeCommand
+        /// Command used to change screen mode (fullscreen or boxed)
         /// </summary>
         public RelayCommand ChangeScreenModeCommand { get; private set; }
 
@@ -90,7 +85,7 @@ namespace Popcorn.ViewModel.Players
         #region Command -> StopPlayingMediaCommand
 
         /// <summary>
-        /// StopPlayingMediaCommand
+        /// Command used to stop playing the movie
         /// </summary>
         public RelayCommand StopPlayingMediaCommand { get; private set; }
 
@@ -101,7 +96,7 @@ namespace Popcorn.ViewModel.Players
         #region Constructor
 
         /// <summary>
-        /// MoviePlayerViewModel
+        /// Constructor
         /// </summary>
         /// <param name="movie">Movie to play</param>
         /// <param name="uri">Movie's media Uri</param>
@@ -115,25 +110,25 @@ namespace Popcorn.ViewModel.Players
             TabName = !string.IsNullOrEmpty(Movie.Title) ? Movie.Title : Properties.Resources.PlayingTitleTab;
 
             Messenger.Default.Register<ChangeLanguageMessage>(
-            this,
-            language =>
-            {
-                TabName = Movie.Title;
-            });
+                this,
+                language =>
+                {
+                    TabName = Movie.Title;
+                });
 
             Messenger.Default.Register<StopPlayingMovieMessage>(
-            this,
-            message =>
-            {
-                OnStoppedPlayingMovie(new EventArgs());
-            });
+                this,
+                message =>
+                {
+                    OnStoppedPlayingMovie(new EventArgs());
+                });
 
             Messenger.Default.Register<ChangeScreenModeMessage>(
-            this,
-            message =>
-            {
-                IsInFullScreenMode = message.IsFullScreen;
-            });
+                this,
+                message =>
+                {
+                    IsInFullScreenMode = message.IsFullScreen;
+                });
 
             ChangeScreenModeCommand = new RelayCommand(() =>
             {
@@ -157,12 +152,12 @@ namespace Popcorn.ViewModel.Players
         #region Event -> OnStoppedPlayingMovie
 
         /// <summary>
-        /// StoppedDownloadingMovie event
+        /// Event fired on stopped playing the movie
         /// </summary>
         public event EventHandler<EventArgs> StoppedPlayingMovie;
 
         /// <summary>
-        /// Fire event when movie has stopped downloading
+        /// Fire StoppedPlayingMovie event
         /// </summary>
         ///<param name="e">Event data</param>
         private void OnStoppedPlayingMovie(EventArgs e)

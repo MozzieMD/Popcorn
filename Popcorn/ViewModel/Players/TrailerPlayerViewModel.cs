@@ -19,11 +19,11 @@ namespace Popcorn.ViewModel.Players
 
         #region Property -> IsInFullScreenMode
 
+        private bool _isInFullScreenMode;
+
         /// <summary>
         /// Indicates if player is in fullscreen mode
         /// </summary>
-        private bool _isInFullScreenMode;
-
         public bool IsInFullScreenMode
         {
             get { return _isInFullScreenMode; }
@@ -37,7 +37,7 @@ namespace Popcorn.ViewModel.Players
         #region Command -> ChangeScreenModeCommand
 
         /// <summary>
-        /// ChangeScreenModeCommand
+        /// Command used to change screen mode (fullscreen or boxed)
         /// </summary>
         public RelayCommand ChangeScreenModeCommand { get; private set; }
 
@@ -46,7 +46,7 @@ namespace Popcorn.ViewModel.Players
         #region Command -> StopPlayingMediaCommand
 
         /// <summary>
-        /// StopPlayingMediaCommand
+        /// Command used to stop playing the movie
         /// </summary>
         public RelayCommand StopPlayingMediaCommand { get; private set; }
 
@@ -57,7 +57,7 @@ namespace Popcorn.ViewModel.Players
         #region Constructor
 
         /// <summary>
-        /// TrailerPlayerViewModel
+        /// Constructor
         /// </summary>
         /// <param name="uri">Trailer's media Uri</param>
         public TrailerPlayerViewModel(Uri uri)
@@ -65,18 +65,18 @@ namespace Popcorn.ViewModel.Players
             MediaUri = uri;
 
             Messenger.Default.Register<StopPlayingTrailerMessage>(
-            this,
-            message =>
-            {
-                OnStoppedPlayingTrailer(new EventArgs());
-            });
+                this,
+                message =>
+                {
+                    OnStoppedPlayingTrailer(new EventArgs());
+                });
 
             Messenger.Default.Register<ChangeScreenModeMessage>(
-            this,
-            message =>
-            {
-                IsInFullScreenMode = message.IsFullScreen;
-            });
+                this,
+                message =>
+                {
+                    IsInFullScreenMode = message.IsFullScreen;
+                });
 
             ChangeScreenModeCommand = new RelayCommand(() =>
             {
@@ -100,12 +100,12 @@ namespace Popcorn.ViewModel.Players
         #region Event -> OnStoppedPlayingTrailer
 
         /// <summary>
-        /// StoppedPlayingTrailer event
+        /// Event fired on stopped playing the trailer
         /// </summary>
         public event EventHandler<EventArgs> StoppedPlayingTrailer;
 
         /// <summary>
-        /// Fire event when stop playing trailer
+        /// Fire StoppedPlayingTrailer event
         /// </summary>
         ///<param name="e">Event data</param>
         private void OnStoppedPlayingTrailer(EventArgs e)

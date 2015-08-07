@@ -242,7 +242,6 @@
     <Compile Include="Helpers\Constants.cs" />
     <Compile Include="Helpers\Extensions.cs" />
     <Compile Include="Helpers\LocalizationProviderHelper.cs" />
-    <Compile Include="Helpers\VisualHierarchyHelper.cs" />
     <Compile Include="Messaging\ChangeLanguageMessage.cs" />
     <Compile Include="Messaging\ChangeScreenModeMessage.cs" />
     <Compile Include="Messaging\ConnectionErrorMessage.cs" />

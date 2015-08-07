@@ -84,7 +84,7 @@ namespace Popcorn.ViewModel.Trailer
         /// <summary>
         /// Token to cancel trailer loading
         /// </summary>
-        private CancellationTokenSource CancellationLoadingTrailerToken { get; set; }
+        private CancellationTokenSource CancellationLoadingTrailerToken { get; }
 
         #endregion
 
@@ -163,7 +163,6 @@ namespace Popcorn.ViewModel.Trailer
                     {
                         if (ex is WebException || ex is VideoNotAvailableException || ex is YoutubeParseException)
                         {
-                            // An error as occured. 
                             // TODO: Inform loading trailer failed
                             StopLoadingTrailer();
                             return;
@@ -172,7 +171,6 @@ namespace Popcorn.ViewModel.Trailer
 
                     if (video == null)
                     {
-                        // An error as occured. 
                         // TODO: Inform loading trailer failed
                         StopLoadingTrailer();
                         return;

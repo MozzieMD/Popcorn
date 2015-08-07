@@ -11,9 +11,6 @@ namespace Popcorn.Model.Subtitle
 
         #region Property -> Language
 
-        /// <summary>
-        /// Language's subtitle
-        /// </summary>
         private ILanguage _language;
 
         /// <summary>
@@ -33,9 +30,6 @@ namespace Popcorn.Model.Subtitle
 
         #region Property -> FlagImagePath
 
-        /// <summary>
-        /// Flag image's path
-        /// </summary>
         private string _flagImagePath;
 
         /// <summary>
@@ -51,9 +45,6 @@ namespace Popcorn.Model.Subtitle
 
         #region Property -> FilePath
 
-        /// <summary>
-        /// Subtitle file path
-        /// </summary>
         private string _filePath;
 
         /// <summary>
@@ -69,7 +60,7 @@ namespace Popcorn.Model.Subtitle
 
         #endregion
 
-        #region
+        #region Method -> SetFlagImagePath
 
         /// <summary>
         /// Set file path of flag image depending on its language
@@ -182,6 +173,11 @@ namespace Popcorn.Model.Subtitle
             #endregion
         }
 
+        /// <summary>
+        /// Used to comapre subtitle by english name
+        /// </summary>
+        /// <param name="subtitle">The subtitle to compare with</param>
+        /// <returns></returns>
         public int CompareTo(Subtitle subtitle)
         {
             return string.Compare(Language.EnglishName, subtitle.Language.EnglishName, StringComparison.CurrentCulture);

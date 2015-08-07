@@ -19,7 +19,7 @@ namespace Popcorn.Tests.Converters
 
             var result = converter.Convert(value, null, parameter, CultureInfo.CurrentCulture);
 
-            Assert.That(result, Is.EqualTo(value * parameter));
+            Assert.That(result, Is.EqualTo(value*parameter));
             Assert.That(result, Is.TypeOf<double>());
         }
     }

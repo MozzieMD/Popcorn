@@ -8,52 +8,55 @@
              xmlns:movieSettingsUserControl="clr-namespace:Popcorn.UserControls.MovieSettings"
              xmlns:movieSettingsViewModel="clr-namespace:Popcorn.ViewModel.MovieSettings"
              xmlns:lex="http://wpflocalizeextension.codeplex.com"
+             xmlns:download="clr-namespace:Popcorn.ViewModel.Download"
              lex:LocalizeDictionary.DesignCulture="en"
              lex:ResxLocalizationProvider.DefaultAssembly="Popcorn"
              lex:ResxLocalizationProvider.DefaultDictionary="Resources"
              mc:Ignorable="d" 
-             d:DesignHeight="600" d:DesignWidth="900">
+             d:DesignHeight="600" d:DesignWidth="900"
+             d:DataContext="{d:DesignInstance download:DownloadMovieViewModel}">
     <UserControl.Resources>
         <ResourceDictionary>
             <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
             <converters:MovieDownloadProgressConverter x:Key="MovieDownloadProgressConverter"/>
-            
+
             <DataTemplate DataType="{x:Type movieSettingsViewModel:MovieSettingsViewModel}">
                 <movieSettingsUserControl:MovieSettings></movieSettingsUserControl:MovieSettings>
             </DataTemplate>
+
             <Style x:Key="AnimationContentOnMovieDownloading" TargetType="{x:Type Grid}">
-            <Style.Triggers>
-                <DataTrigger Binding="{Binding Path=IsDownloadingMovie}" 
-                        Value="False">
-                    <DataTrigger.EnterActions>
-                        <BeginStoryboard>
-                            <Storyboard>
-                                <DoubleAnimation Storyboard.TargetProperty="Opacity"
-                                                    To="0.0"
-                                                    Duration="0:0:0.5"/>
-                                <ObjectAnimationUsingKeyFrames BeginTime="0:0:0.5" Storyboard.TargetProperty="Visibility">
-                                    <DiscreteObjectKeyFrame KeyTime="0:0:0" 
-                                                            Value="{x:Static Visibility.Collapsed}" />
-                                </ObjectAnimationUsingKeyFrames>
-                            </Storyboard>
-                        </BeginStoryboard>
-                    </DataTrigger.EnterActions>
-                    <DataTrigger.ExitActions>
-                        <BeginStoryboard>
-                            <Storyboard>
-                                <DoubleAnimation Storyboard.TargetProperty="Opacity"
-                                                    To="1.0"
-                                                    Duration="0:0:0.5"/>
-                                <ObjectAnimationUsingKeyFrames BeginTime="0:0:0.5" Storyboard.TargetProperty="Visibility">
-                                    <DiscreteObjectKeyFrame KeyTime="0:0:0" 
-                                                            Value="{x:Static Visibility.Visible}" />
-                                </ObjectAnimationUsingKeyFrames>
-                            </Storyboard>
-                        </BeginStoryboard>
-                    </DataTrigger.ExitActions>
-                </DataTrigger>
-            </Style.Triggers>
-        </Style>
+                <Style.Triggers>
+                    <DataTrigger Binding="{Binding Path=IsDownloadingMovie}" 
+                            Value="False">
+                        <DataTrigger.EnterActions>
+                            <BeginStoryboard>
+                                <Storyboard>
+                                    <DoubleAnimation Storyboard.TargetProperty="Opacity"
+                                                        To="0.0"
+                                                        Duration="0:0:0.5"/>
+                                    <ObjectAnimationUsingKeyFrames BeginTime="0:0:0.5" Storyboard.TargetProperty="Visibility">
+                                        <DiscreteObjectKeyFrame KeyTime="0:0:0" 
+                                                                Value="{x:Static Visibility.Collapsed}" />
+                                    </ObjectAnimationUsingKeyFrames>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </DataTrigger.EnterActions>
+                        <DataTrigger.ExitActions>
+                            <BeginStoryboard>
+                                <Storyboard>
+                                    <DoubleAnimation Storyboard.TargetProperty="Opacity"
+                                                        To="1.0"
+                                                        Duration="0:0:0.5"/>
+                                    <ObjectAnimationUsingKeyFrames BeginTime="0:0:0.5" Storyboard.TargetProperty="Visibility">
+                                        <DiscreteObjectKeyFrame KeyTime="0:0:0" 
+                                                                Value="{x:Static Visibility.Visible}" />
+                                    </ObjectAnimationUsingKeyFrames>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </DataTrigger.ExitActions>
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
 
             <Style x:Key="AnimationSettingsOnMovieDownloading" TargetType="{x:Type ContentControl}">
                 <Style.Triggers>

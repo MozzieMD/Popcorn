@@ -6,7 +6,7 @@ namespace Popcorn.Converters
     /// <summary>
     /// Convert a boolean to its inverse
     /// </summary>
-    [ValueConversion(typeof(bool), typeof(bool))]
+    [ValueConversion(typeof (bool), typeof (bool))]
     public class InverseBooleanConverter : IValueConverter
     {
         #region IValueConverter Members
@@ -22,7 +22,7 @@ namespace Popcorn.Converters
         public object Convert(object value, Type targetType, object parameter,
             System.Globalization.CultureInfo culture)
         {
-            return !(bool)value;
+            return !(bool) value;
         }
 
         /// <summary>

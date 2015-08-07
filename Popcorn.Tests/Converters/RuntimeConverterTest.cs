@@ -1,5 +1,4 @@
-﻿using System;
-using System.Globalization;
+﻿using System.Globalization;
 using NUnit.Framework;
 using Popcorn.Converters;
 
@@ -15,17 +14,16 @@ namespace Popcorn.Tests.Converters
             var converter = new RuntimeConverter();
             var value = 130;
 
-
             var result = converter.Convert(value, null, null, CultureInfo.CurrentCulture);
 
-            Assert.That(result,Is.EqualTo("2h10"));
+            Assert.That(result, Is.EqualTo("2h10"));
         }
 
         [Test]
         public void RuntimeMaxIntTest()
         {
             var converter = new RuntimeConverter();
-            var value = Int32.MaxValue;
+            var value = int.MaxValue;
 
 
             var result = converter.Convert(value, null, null, CultureInfo.CurrentCulture);

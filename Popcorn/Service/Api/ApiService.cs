@@ -30,20 +30,25 @@ namespace Popcorn.Service.Api
     public class ApiService : IApiService
     {
         #region Logger
+
         /// <summary>
         /// Logger of the class
         /// </summary>
-        private readonly static Logger logger = LogManager.GetCurrentClassLogger();
+        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+
         #endregion
 
         #region TMDbClient
+
         /// <summary>
         ///TMDb client
         /// </summary>
         private TMDbClient TmdbClient { get; }
+
         #endregion
 
         #region Constructor
+
         /// <summary>
         /// Constructor
         /// </summary>
@@ -54,11 +59,13 @@ namespace Popcorn.Service.Api
             TmdbClient.MaxRetryCount = 10;
             TmdbClient.RetryWaitTimeInSeconds = 1;
         }
+
         #endregion
 
         #region Methods
 
         #region Method -> ChangeTmdbLanguage
+
         /// <summary>
         /// Change the culture of TMDb
         /// </summary>
@@ -67,9 +74,11 @@ namespace Popcorn.Service.Api
         {
             TmdbClient.DefaultLanguage = language.Culture;
         }
+
         #endregion
 
         #region Method -> GetPopularMoviesAsync
+
         /// <summary>
         /// Get popular movies by page
         /// </summary>
@@ -108,18 +117,21 @@ namespace Popcorn.Service.Api
                 throw apiServiceException;
             }
 
-            var wrapper = await Task.Run(() => JsonConvert.DeserializeObject<WrapperMovieShortDeserialized>(response.Content), ct);
+            var wrapper =
+                await Task.Run(() => JsonConvert.DeserializeObject<WrapperMovieShortDeserialized>(response.Content), ct);
             var movies = GetMoviesListFromWrapper(wrapper);
             watch.Stop();
             var elapsedMs = watch.ElapsedMilliseconds;
-            logger.Debug(
+            Logger.Debug(
                 "GetPopularMoviesAsync ({0}, {1}) in {2} milliseconds.", page, limit, elapsedMs);
 
             return movies;
         }
+
         #endregion
 
         #region Method -> GetTopRatedMoviesAsync
+
         /// <summary>
         /// Get top rated movies by page
         /// </summary>
@@ -158,19 +170,22 @@ namespace Popcorn.Service.Api
                 throw apiServiceException;
             }
 
-            var wrapper = await Task.Run(() => JsonConvert.DeserializeObject<WrapperMovieShortDeserialized>(response.Content), ct);
+            var wrapper =
+                await Task.Run(() => JsonConvert.DeserializeObject<WrapperMovieShortDeserialized>(response.Content), ct);
             var movies = GetMoviesListFromWrapper(wrapper);
 
             watch.Stop();
             var elapsedMs = watch.ElapsedMilliseconds;
-            logger.Debug(
+            Logger.Debug(
                 "GetTopRatedMoviesAsync ({0}, {1}) in {2} milliseconds.", page, limit, elapsedMs);
 
             return movies;
         }
+
         #endregion
 
         #region Method -> GetRecentMoviesAsync
+
         /// <summary>
         /// Get recent movies by page
         /// </summary>
@@ -209,19 +224,22 @@ namespace Popcorn.Service.Api
                 throw apiServiceException;
             }
 
-            var wrapper = await Task.Run(() => JsonConvert.DeserializeObject<WrapperMovieShortDeserialized>(response.Content), ct);
+            var wrapper =
+                await Task.Run(() => JsonConvert.DeserializeObject<WrapperMovieShortDeserialized>(response.Content), ct);
             var movies = GetMoviesListFromWrapper(wrapper);
 
             watch.Stop();
             var elapsedMs = watch.ElapsedMilliseconds;
-            logger.Debug(
+            Logger.Debug(
                 "GetRecentMoviesAsync ({0}, {1}) in {2} milliseconds.", page, limit, elapsedMs);
 
             return movies;
         }
+
         #endregion
 
         #region Method -> SearchMoviesAsync
+
         /// <summary>
         /// Search movies by criteria
         /// </summary>
@@ -262,19 +280,22 @@ namespace Popcorn.Service.Api
                 throw apiServiceException;
             }
 
-            var wrapper = await Task.Run(() => JsonConvert.DeserializeObject<WrapperMovieShortDeserialized>(response.Content), ct);
+            var wrapper =
+                await Task.Run(() => JsonConvert.DeserializeObject<WrapperMovieShortDeserialized>(response.Content), ct);
             var movies = GetMoviesListFromWrapper(wrapper);
 
             watch.Stop();
             var elapsedMs = watch.ElapsedMilliseconds;
-            logger.Debug(
+            Logger.Debug(
                 "SearchMoviesAsync ({0}, {1}, {2}) in {3} milliseconds.", criteria, page, limit, elapsedMs);
 
             return movies;
         }
+
         #endregion
 
         #region Method -> GetMovieFullDetailsAsync
+
         /// <summary>
         /// Get TMDb movie informations
         /// </summary>
@@ -300,7 +321,7 @@ namespace Popcorn.Service.Api
             }
 
             var movie = new MovieFull();
-            await Task.Run(() => 
+            await Task.Run(() =>
             {
                 var wrapper = JsonConvert.DeserializeObject<WrapperMovieFullDeserialized>(response.Content);
                 var tmdbInfos = TmdbClient.GetMovie(wrapper.Movie.ImdbCode,
@@ -342,14 +363,16 @@ namespace Popcorn.Service.Api
 
             watch.Stop();
             var elapsedMs = watch.ElapsedMilliseconds;
-            logger.Debug(
+            Logger.Debug(
                 "GetMovieFullDetails ({0}) in {1} milliseconds.", movie.ImdbCode, elapsedMs);
 
             return movie;
         }
+
         #endregion
 
         #region Method -> TranslateMovieShortAsync
+
         /// <summary>
         /// Translate movie informations (title, description, ...)
         /// </summary>
@@ -370,12 +393,14 @@ namespace Popcorn.Service.Api
 
             watch.Stop();
             var elapsedMs = watch.ElapsedMilliseconds;
-            logger.Debug(
+            Logger.Debug(
                 "TranslateMovieShort ({0}) in {1} milliseconds.", movieToTranslate.ImdbCode, elapsedMs);
         }
+
         #endregion
 
         #region Method -> TranslateMovieFullAsync
+
         /// <summary>
         /// Translate movie informations (title, description, ...)
         /// </summary>
@@ -396,18 +421,20 @@ namespace Popcorn.Service.Api
 
             watch.Stop();
             var elapsedMs = watch.ElapsedMilliseconds;
-            logger.Debug(
+            Logger.Debug(
                 "TranslateMovieFull ({0}) in {1} milliseconds.", movieToTranslate.ImdbCode, elapsedMs);
         }
+
         #endregion
 
         #region Method -> GetMoviesListFromWrapper
+
         /// <summary>
         /// Get movies as a list from wrapped movies
         /// </summary>
         /// <param name="wrapper">Wrapped movies</param>
         /// <returns>List of movies</returns>
-        private List<MovieShort> GetMoviesListFromWrapper(WrapperMovieShortDeserialized wrapper)
+        private static List<MovieShort> GetMoviesListFromWrapper(WrapperMovieShortDeserialized wrapper)
         {
             List<MovieShort> movies = new List<MovieShort>();
             foreach (var movie in wrapper.Data.Movies)
@@ -443,9 +470,11 @@ namespace Popcorn.Service.Api
 
             return movies;
         }
+
         #endregion
 
         #region Method -> GetMovieTrailerAsync
+
         /// <summary>
         /// Get the link to the youtube trailer of a movie
         /// </summary>
@@ -472,7 +501,7 @@ namespace Popcorn.Service.Api
 
             watch.Stop();
             var elapsedMs = watch.ElapsedMilliseconds;
-            logger.Debug(
+            Logger.Debug(
                 "GetMovieTrailerAsync ({0}) in {1} milliseconds.", movie.ImdbCode, elapsedMs);
 
             return trailers;
@@ -481,6 +510,7 @@ namespace Popcorn.Service.Api
         #endregion
 
         #region Method -> LoadSubtitlesAsync
+
         /// <summary>
         /// Get the movie's subtitles according to a language
         /// </summary>
@@ -500,7 +530,8 @@ namespace Popcorn.Service.Api
                 var apiServiceException = new ApiServiceException(message, response.ErrorException);
                 throw apiServiceException;
             }
-            var wrapper = await Task.Run(() => JsonConvert.DeserializeObject<SubtitlesWrapperDeserialized>(response.Content), ct);
+            var wrapper =
+                await Task.Run(() => JsonConvert.DeserializeObject<SubtitlesWrapperDeserialized>(response.Content), ct);
             var subtitles = new ObservableCollection<Subtitle>();
             Dictionary<string, List<SubtitleDeserialized>> movieSubtitles;
             if (wrapper.Subtitles.TryGetValue(movie.ImdbCode, out movieSubtitles))
@@ -531,6 +562,7 @@ namespace Popcorn.Service.Api
         #endregion
 
         #region Method -> DownloadSubtitleAsync
+
         /// <summary>
         /// Download a subtitle
         /// </summary>
@@ -544,7 +576,8 @@ namespace Popcorn.Service.Api
                 return;
             }
 
-            var filePath = Constants.Subtitles + movie.ImdbCode + "\\" + movie.SelectedSubtitle.Language.EnglishName + ".zip";
+            var filePath = Constants.Subtitles + movie.ImdbCode + "\\" + movie.SelectedSubtitle.Language.EnglishName +
+                           ".zip";
             if (!File.Exists(filePath))
             {
                 await
@@ -573,6 +606,7 @@ namespace Popcorn.Service.Api
         #endregion
 
         #region Method -> DownloadBackgroundImageAsync
+
         /// <summary>
         /// Download the movie's background image
         /// </summary>
@@ -594,7 +628,7 @@ namespace Popcorn.Service.Api
 
             watch.Stop();
             var elapsedMs = watch.ElapsedMilliseconds;
-            logger.Debug(
+            Logger.Debug(
                 "DownloadBackgroundImageAsync ({0}, {1}) in {2} milliseconds.", imdbCode, address.AbsoluteUri, elapsedMs);
 
             return filePath;
@@ -603,6 +637,7 @@ namespace Popcorn.Service.Api
         #endregion
 
         #region Method -> DownloadCoverImageAsync
+
         /// <summary>
         /// Download the movie's cover image
         /// </summary>
@@ -627,7 +662,7 @@ namespace Popcorn.Service.Api
 
             watch.Stop();
             var elapsedMs = watch.ElapsedMilliseconds;
-            logger.Debug(
+            Logger.Debug(
                 "DownloadCoverImageAsync ({0}, {1}) in {2} milliseconds.", imdbCode, uri.AbsoluteUri, elapsedMs);
 
             return filePath;
@@ -636,6 +671,7 @@ namespace Popcorn.Service.Api
         #endregion
 
         #region Method -> DownloadPosterImageAsync
+
         /// <summary>
         /// Download the movie's poster image
         /// </summary>
@@ -660,7 +696,7 @@ namespace Popcorn.Service.Api
 
             watch.Stop();
             var elapsedMs = watch.ElapsedMilliseconds;
-            logger.Debug(
+            Logger.Debug(
                 "DownloadPosterImageAsync ({0}, {1}) in {2} milliseconds.", imdbCode, uri.AbsoluteUri, elapsedMs);
 
             return filePath;
@@ -669,6 +705,7 @@ namespace Popcorn.Service.Api
         #endregion
 
         #region Method -> DownloadDirectorImageAsync
+
         /// <summary>
         /// Download the director's image profile
         /// </summary>
@@ -693,7 +730,7 @@ namespace Popcorn.Service.Api
 
             watch.Stop();
             var elapsedMs = watch.ElapsedMilliseconds;
-            logger.Debug(
+            Logger.Debug(
                 "DownloadDirectorImageAsync ({0}, {1}) in {2} milliseconds.", imdbCode, uri.AbsoluteUri, elapsedMs);
 
             return filePath;
@@ -702,6 +739,7 @@ namespace Popcorn.Service.Api
         #endregion
 
         #region Method -> DownloadActorImageAsync
+
         /// <summary>
         /// Download the actor's image profile
         /// </summary>
@@ -726,7 +764,7 @@ namespace Popcorn.Service.Api
 
             watch.Stop();
             var elapsedMs = watch.ElapsedMilliseconds;
-            logger.Debug(
+            Logger.Debug(
                 "DownloadActorImageAsync ({0}, {1}) in {2} milliseconds.", imdbCode, uri.AbsoluteUri, elapsedMs);
 
             return filePath;
@@ -735,6 +773,7 @@ namespace Popcorn.Service.Api
         #endregion
 
         #region Method -> DownloadFileTaskAsync
+
         /// <summary>
         /// DownloadFileTaskAsync
         /// </summary>
@@ -743,7 +782,8 @@ namespace Popcorn.Service.Api
         /// <param name="filePath">Path to the file to save</param>
         /// <param name="address">Resource's address</param>
         /// <returns>Task</returns>
-        private static async Task DownloadFileTaskAsync(CancellationToken ct, string folder, string filePath, Uri address)
+        private static async Task DownloadFileTaskAsync(CancellationToken ct, string folder, string filePath,
+            Uri address)
         {
             var watch = Stopwatch.StartNew();
 
@@ -788,8 +828,9 @@ namespace Popcorn.Service.Api
 
             watch.Stop();
             var elapsedMs = watch.ElapsedMilliseconds;
-            logger.Debug(
-                "DownloadFileTaskAsync ({0}, {1}, {2}) in {3} milliseconds.", folder, filePath, address.AbsoluteUri, elapsedMs);
+            Logger.Debug(
+                "DownloadFileTaskAsync ({0}, {1}, {2}) in {3} milliseconds.", folder, filePath, address.AbsoluteUri,
+                elapsedMs);
         }
 
         #endregion

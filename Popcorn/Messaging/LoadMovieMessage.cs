@@ -11,6 +11,7 @@ namespace Popcorn.Messaging
         #region Properties
 
         #region Property -> Movie
+
         /// <summary>
         /// Movie
         /// </summary>
@@ -21,6 +22,7 @@ namespace Popcorn.Messaging
         #endregion
 
         #region Constructor
+
         /// <summary>
         /// Constructor
         /// </summary>
@@ -29,6 +31,7 @@ namespace Popcorn.Messaging
         {
             Movie = movie;
         }
+
         #endregion
     }
 }

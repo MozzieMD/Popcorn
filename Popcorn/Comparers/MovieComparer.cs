@@ -37,10 +37,10 @@ namespace Popcorn.Comparers
             if (ReferenceEquals(movie, null)) return 0;
 
             //Get hash code for the Id field
-            int hashId = movie.Id.GetHashCode();
+            var hashId = movie.Id.GetHashCode();
 
             //Get hash code for the Date field.
-            int hashDate = movie.DateUploadedUnix.GetHashCode();
+            var hashDate = movie.DateUploadedUnix.GetHashCode();
 
             return hashId ^ hashDate;
         }

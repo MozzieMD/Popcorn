@@ -11,16 +11,18 @@ namespace Popcorn.Messaging
         #region Properties
 
         #region Property -> Language
+
         /// <summary>
         /// New language
         /// </summary>
-        public ILanguage Language { get; private set; }
+        public readonly ILanguage Language;
 
         #endregion
 
         #endregion
 
         #region Constructor
+
         /// <summary>
         /// Constructor
         /// </summary>
@@ -29,6 +31,7 @@ namespace Popcorn.Messaging
         {
             Language = language;
         }
+
         #endregion
     }
 }

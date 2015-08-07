@@ -10,15 +10,18 @@ namespace Popcorn.Messaging
         #region Properties
 
         #region Property -> IsFullScreen
+
         /// <summary>
         /// Indicates if the new screen mode is fullscreen
         /// </summary>
-        public bool IsFullScreen { get; private set; }
+        public readonly bool IsFullScreen;
+
         #endregion
 
         #endregion
 
         #region Constructor
+
         /// <summary>
         /// Constructor
         /// </summary>
@@ -27,6 +30,7 @@ namespace Popcorn.Messaging
         {
             IsFullScreen = isFullScreen;
         }
+
         #endregion
     }
 }

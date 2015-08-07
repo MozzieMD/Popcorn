@@ -7,11 +7,13 @@
              xmlns:subtitlesUserControl="clr-namespace:Popcorn.UserControls.Subtitles"
              xmlns:subtitlesViewModel="clr-namespace:Popcorn.ViewModel.Subtitles"
              xmlns:lex="http://wpflocalizeextension.codeplex.com"
+             xmlns:movieSettings="clr-namespace:Popcorn.ViewModel.MovieSettings"
              lex:LocalizeDictionary.DesignCulture="en"
              lex:ResxLocalizationProvider.DefaultAssembly="Popcorn"
              lex:ResxLocalizationProvider.DefaultDictionary="Resources"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
+             d:DesignHeight="300" d:DesignWidth="300"
+             d:DataContext="{d:DesignInstance movieSettings:MovieSettingsViewModel}">
     <UserControl.Resources>
         <ResourceDictionary>
             <DataTemplate DataType="{x:Type subtitlesViewModel:SubtitlesViewModel}">

@@ -11,6 +11,7 @@ namespace Popcorn.Entity.Localization
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Key]
         public int Id { get; set; }
+
         public string LocalizedName { get; set; }
         public string EnglishName { get; set; }
         public string Culture { get; set; }

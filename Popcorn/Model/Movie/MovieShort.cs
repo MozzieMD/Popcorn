@@ -11,6 +11,7 @@ namespace Popcorn.Model.Movie
         #region Properties
 
         #region Property -> Title
+
         /// <summary>
         /// Movie's title
         /// </summary>
@@ -19,9 +20,11 @@ namespace Popcorn.Model.Movie
             get { return base.Title; }
             set { Set(() => Title, ref base.Title, value); }
         }
+
         #endregion
 
         #region Property -> Genres
+
         /// <summary>
         /// Movie's genres
         /// </summary>
@@ -30,13 +33,13 @@ namespace Popcorn.Model.Movie
             get { return base.Genres; }
             set { Set(() => Genres, ref base.Genres, value); }
         }
+
         #endregion
 
         #region Property -> CoverImagePath
-        /// <summary>
-        /// Local path of the downloaded movie's cover image
-        /// </summary>
+
         private string _coverImagePath = string.Empty;
+
         /// <summary>
         /// Local path of the downloaded movie's cover image
         /// </summary>
@@ -45,15 +48,15 @@ namespace Popcorn.Model.Movie
             get { return _coverImagePath; }
             set { Set(() => CoverImagePath, ref _coverImagePath, value); }
         }
+
         #endregion
 
         #endregion
 
         #region Property -> IsLiked
-        /// <summary>
-        /// Indicate if movie has been liked by the user
-        /// </summary>
+
         private bool? _isLiked;
+
         /// <summary>
         /// Indicate if movie has been liked by the user
         /// </summary>
@@ -62,13 +65,13 @@ namespace Popcorn.Model.Movie
             get { return _isLiked; }
             set { Set(() => IsLiked, ref _isLiked, value); }
         }
+
         #endregion
 
         #region Property -> IsLiked
-        /// <summary>
-        /// Indicate if movie has been seen by the user
-        /// </summary>
+
         private bool? _isSeen;
+
         /// <summary>
         /// Indicate if movie has been seen by the user
         /// </summary>
@@ -77,6 +80,7 @@ namespace Popcorn.Model.Movie
             get { return _isSeen; }
             set { Set(() => IsSeen, ref _isSeen, value); }
         }
+
         #endregion
     }
 }

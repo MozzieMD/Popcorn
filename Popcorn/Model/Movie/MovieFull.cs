@@ -12,6 +12,7 @@ namespace Popcorn.Model.Movie
         #region Properties
 
         #region Property -> Title
+
         /// <summary>
         /// Movie's title
         /// </summary>
@@ -20,9 +21,11 @@ namespace Popcorn.Model.Movie
             get { return base.Title; }
             set { Set(() => Title, ref base.Title, value); }
         }
+
         #endregion
 
         #region Property -> DescriptionFull
+
         /// <summary>
         /// Movie's full description
         /// </summary>
@@ -31,9 +34,11 @@ namespace Popcorn.Model.Movie
             get { return base.DescriptionFull; }
             set { Set(() => DescriptionFull, ref base.DescriptionFull, value); }
         }
+
         #endregion
 
         #region Property -> Genres
+
         /// <summary>
         /// Movie's genres
         /// </summary>
@@ -42,13 +47,13 @@ namespace Popcorn.Model.Movie
             get { return base.Genres; }
             set { Set(() => Genres, ref base.Genres, value); }
         }
+
         #endregion
 
         #region Property -> BackgroundImagePath
-        /// <summary>
-        /// Local path of the downloaded movie's background image
-        /// </summary>
+
         private string _backgroundImagePath = string.Empty;
+
         /// <summary>
         /// Local path of the downloaded movie's background image
         /// </summary>
@@ -57,13 +62,13 @@ namespace Popcorn.Model.Movie
             get { return _backgroundImagePath; }
             set { Set(() => BackgroundImagePath, ref _backgroundImagePath, value); }
         }
+
         #endregion
 
         #region Property -> PosterImagePath
-        /// <summary>
-        /// Local path of the downloaded movie's poster image
-        /// </summary>
+
         private string _posterImagePath = string.Empty;
+
         /// <summary>
         /// Local path of the downloaded movie's poster image
         /// </summary>
@@ -72,13 +77,14 @@ namespace Popcorn.Model.Movie
             get { return _posterImagePath; }
             set { Set(() => PosterImagePath, ref _posterImagePath, value); }
         }
+
         #endregion
 
         #region Property -> WatchInFullHdQuality
-        /// <summary>
-        /// Decide if movie has to be watched in full HQ or not
-        /// </summary>
+
+
         private bool _watchInFullHdQuality;
+
         /// <summary>
         /// Decide if movie has to be watched in full HQ or not
         /// </summary>
@@ -87,13 +93,13 @@ namespace Popcorn.Model.Movie
             get { return _watchInFullHdQuality; }
             set { Set(() => WatchInFullHdQuality, ref _watchInFullHdQuality, value); }
         }
+
         #endregion
 
         #region Property -> FullHdAvailable
-        /// <summary>
-        /// Indicate if full HQ quality is available
-        /// </summary>
+
         private bool _fullHdAvailable;
+
         /// <summary>
         /// Indicate if full HQ quality is available
         /// </summary>
@@ -102,13 +108,14 @@ namespace Popcorn.Model.Movie
             get { return _fullHdAvailable; }
             set { Set(() => FullHdAvailable, ref _fullHdAvailable, value); }
         }
+
         #endregion
 
         #region Property -> AvailableSubtitles
-        /// <summary>
-        /// Available subtitles
-        /// </summary>
-        private ObservableCollection<Subtitle.Subtitle> _availableSubtitles = new ObservableCollection<Subtitle.Subtitle>();
+
+        private ObservableCollection<Subtitle.Subtitle> _availableSubtitles =
+            new ObservableCollection<Subtitle.Subtitle>();
+
         /// <summary>
         /// Available subtitles
         /// </summary>
@@ -117,13 +124,13 @@ namespace Popcorn.Model.Movie
             get { return _availableSubtitles; }
             set { Set(() => AvailableSubtitles, ref _availableSubtitles, value); }
         }
+
         #endregion
 
         #region Property -> SelectedSubtitle
-        /// <summary>
-        /// Selected subtitle
-        /// </summary>
+
         private Subtitle.Subtitle _selectedSubtitle;
+
         /// <summary>
         /// Selected subtitle
         /// </summary>
@@ -132,6 +139,7 @@ namespace Popcorn.Model.Movie
             get { return _selectedSubtitle; }
             set { Set(() => SelectedSubtitle, ref _selectedSubtitle, value); }
         }
+
         #endregion
 
         #endregion

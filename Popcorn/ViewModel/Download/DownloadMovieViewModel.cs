@@ -16,6 +16,9 @@ using System.Threading.Tasks;
 
 namespace Popcorn.ViewModel.Download
 {
+    /// <summary>
+    /// Manage the download of a movie
+    /// </summary>
     public class DownloadMovieViewModel : ViewModelBase
     {
         #region Properties
@@ -31,11 +34,12 @@ namespace Popcorn.ViewModel.Download
 
         #region Property -> MovieSettingsViewModel
 
-        /// <summary>
-        /// The view model used to manage movie settings
-        /// </summary>
         private MovieSettingsViewModel _movieSettings;
 
+
+        /// <summary>
+        /// The view model used to manage movie's settings
+        /// </summary>
         public MovieSettingsViewModel MovieSettings
         {
             get { return _movieSettings; }
@@ -46,9 +50,6 @@ namespace Popcorn.ViewModel.Download
 
         #region Property -> IsDownloadingMovie
 
-        /// <summary>
-        /// Specify if a movie is downloading
-        /// </summary>
         private bool _isDownloadingMovie;
 
         /// <summary>
@@ -64,9 +65,6 @@ namespace Popcorn.ViewModel.Download
 
         #region Property -> IsMovieBuffered
 
-        /// <summary>
-        /// Specify if a movie is buffered
-        /// </summary>
         private bool _isMovieBuffered;
 
         /// <summary>
@@ -82,9 +80,6 @@ namespace Popcorn.ViewModel.Download
 
         #region Property -> DownloadProgress
 
-        /// <summary>
-        /// Specify the movie download progress
-        /// </summary>
         private double _downloadProgress;
 
         /// <summary>
@@ -100,9 +95,6 @@ namespace Popcorn.ViewModel.Download
 
         #region Property -> DownloadRate
 
-        /// <summary>
-        /// Specify the movie download rate
-        /// </summary>
         private double _downloadRate;
 
         /// <summary>
@@ -118,13 +110,10 @@ namespace Popcorn.ViewModel.Download
 
         #region Property -> Movie
 
-        /// <summary>
-        /// Movie
-        /// </summary>
         private MovieFull _movie;
 
         /// <summary>
-        /// Movie
+        /// The movie to download
         /// </summary>
         public MovieFull Movie
         {
@@ -150,7 +139,7 @@ namespace Popcorn.ViewModel.Download
         #region Command -> StopPlayingMovieCommand
 
         /// <summary>
-        /// StopPlayingMovieCommand
+        /// The command used to stop the playing of a movie
         /// </summary>
         public RelayCommand StopPlayingMovieCommand { get; private set; }
 
@@ -177,15 +166,17 @@ namespace Popcorn.ViewModel.Download
             });
 
             Messenger.Default.Register<DownloadMovieMessage>(
-            this,
-            async message =>
-            {
-                var reportDownloadProgress = new Progress<double>(ReportDownloadProgress);
-                var reportDownloadRate = new Progress<double>(ReportDownloadRate);
+                this,
+                async message =>
+                {
+                    var reportDownloadProgress = new Progress<double>(ReportDownloadProgress);
+                    var reportDownloadRate = new Progress<double>(ReportDownloadRate);
 
-                await ApiService.DownloadSubtitleAsync(message.Movie, CancellationDownloadingMovieToken.Token);
-                await DownloadMovieAsync(message.Movie, CancellationDownloadingMovieToken.Token, reportDownloadProgress, reportDownloadRate);
-            });
+                    await ApiService.DownloadSubtitleAsync(message.Movie, CancellationDownloadingMovieToken.Token);
+                    await
+                        DownloadMovieAsync(message.Movie,
+                            reportDownloadProgress, reportDownloadRate, CancellationDownloadingMovieToken.Token);
+                });
 
             MovieSettings = new MovieSettingsViewModel(movie);
         }
@@ -202,9 +193,11 @@ namespace Popcorn.ViewModel.Download
         {
             DownloadRate = value;
         }
+
         #endregion
 
         #region Method -> ReportDownloadProgress
+
         /// <summary>
         /// Report the download progress
         /// </summary>
@@ -212,14 +205,17 @@ namespace Popcorn.ViewModel.Download
         private void ReportDownloadProgress(double value)
         {
             DownloadProgress = value;
-            if (value >= 2.0)
+            if (value < Constants.MinimumBufferingBeforeMoviePlaying)
             {
-                if (!IsMovieBuffered)
-                {
-                    IsMovieBuffered = true;
-                }
+                return;
+            }
+
+            if (!IsMovieBuffered)
+            {
+                IsMovieBuffered = true;
             }
         }
+
         #endregion
 
         #region Method -> DownloadMovieAsync
@@ -228,28 +224,22 @@ namespace Popcorn.ViewModel.Download
         /// Download a movie
         /// </summary>
         /// <param name="movie">The movie to download</param>
-        /// <param name="ct">Cancellation token</param>
         /// <param name="downloadProgress">Report download progress</param>
         /// <param name="downloadRate">Report download rate</param>
-        private async Task DownloadMovieAsync(MovieFull movie, CancellationToken ct, IProgress<double> downloadProgress,
-            IProgress<double> downloadRate)
+        /// <param name="ct">Cancellation token</param>
+        private async Task DownloadMovieAsync(MovieFull movie, IProgress<double> downloadProgress,
+            IProgress<double> downloadRate,
+            CancellationToken ct)
         {
             using (var session = new Session())
             {
                 IsDownloadingMovie = true;
-                var torrentUrl = string.Empty;
 
                 // Listening to a port which is randomly between 6881 and 6889
                 session.ListenOn(6881, 6889);
-                if (movie.WatchInFullHdQuality)
-                {
-                    torrentUrl =
-                        movie.Torrents?.FirstOrDefault(torrent => torrent.Quality == "1080p")?.Url;
-                }
-                else
-                {
-                    torrentUrl = movie.Torrents?.FirstOrDefault(torrent => torrent.Quality == "720p")?.Url;
-                }
+                var torrentUrl = movie.WatchInFullHdQuality
+                    ? movie.Torrents?.FirstOrDefault(torrent => torrent.Quality == "1080p")?.Url
+                    : movie.Torrents?.FirstOrDefault(torrent => torrent.Quality == "720p")?.Url;
 
                 var addParams = new AddTorrentParams
                 {

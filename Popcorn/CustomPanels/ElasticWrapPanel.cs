@@ -13,10 +13,14 @@ namespace Popcorn.CustomPanels
         #region DependencyProperties
 
         #region DependencyProperty -> DesiredColumnWidthProperty
+
         /// <summary>
         /// Identifies the <see cref="DesiredColumnWidth"/> dependency property. 
         /// </summary>
-        internal static readonly DependencyProperty DesiredColumnWidthProperty = DependencyProperty.Register("DesiredColumnWidth", typeof(double), typeof(ElasticWrapPanel), new PropertyMetadata(230d, OnDesiredColumnWidthChanged));
+        internal static readonly DependencyProperty DesiredColumnWidthProperty =
+            DependencyProperty.Register("DesiredColumnWidth", typeof (double), typeof (ElasticWrapPanel),
+                new PropertyMetadata(230d, OnDesiredColumnWidthChanged));
+
         #endregion
 
         #endregion
@@ -24,16 +28,15 @@ namespace Popcorn.CustomPanels
         #region Properties
 
         #region Property -> Columns
+
         /// <summary>
         /// Columns
         /// </summary>
         private int _columns;
+
         public int Columns
         {
-            get
-            {
-                return _columns;
-            }
+            get { return _columns; }
             set
             {
                 if (_columns != value)
@@ -43,24 +46,21 @@ namespace Popcorn.CustomPanels
                 }
             }
         }
+
         #endregion
 
         #region Property -> DesiredColumnWidth
+
         /// <summary>
         /// DesiredColumnWidth 
         /// </summary>
         public double DesiredColumnWidth
         {
-            private get
-            {
-                return (double)GetValue(DesiredColumnWidthProperty);
-            }
+            private get { return (double) GetValue(DesiredColumnWidthProperty); }
 
-            set
-            {
-                SetValue(DesiredColumnWidthProperty, value);
-            }
+            set { SetValue(DesiredColumnWidthProperty, value); }
         }
+
         #endregion
 
         #endregion
@@ -68,6 +68,7 @@ namespace Popcorn.CustomPanels
         #region Methods
 
         #region Method -> MeasureOverride
+
         /// <summary>
         /// Calculate the available space for each column
         /// </summary>
@@ -80,7 +81,7 @@ namespace Popcorn.CustomPanels
                 availableSize.Height = MaxHeight;
             }
 
-            Columns = (int)(availableSize.Width / DesiredColumnWidth);
+            Columns = (int) (availableSize.Width/DesiredColumnWidth);
 
             foreach (UIElement child in Children)
             {
@@ -89,9 +90,11 @@ namespace Popcorn.CustomPanels
 
             return base.MeasureOverride(availableSize);
         }
+
         #endregion
 
         #region Method -> ArrangeOverride
+
         /// <summary>
         /// Calculate the size of each column to organize their location
         /// </summary>
@@ -101,7 +104,7 @@ namespace Popcorn.CustomPanels
         {
             if (Columns != 0)
             {
-                var columnWidth = Math.Floor(finalSize.Width / Columns);
+                var columnWidth = Math.Floor(finalSize.Width/Columns);
                 var totalHeight = 0.0;
                 var top = 0.0;
                 var rowHeight = 0.0;
@@ -113,14 +116,16 @@ namespace Popcorn.CustomPanels
                 foreach (UIElement child in Children)
                 {
                     // Compute the tile size and position
-                    child.Arrange(new Rect(columnWidth * column, top, columnWidth, child.DesiredSize.Height));
+                    child.Arrange(new Rect(columnWidth*column, top, columnWidth, child.DesiredSize.Height));
                     column++;
-                    rowHeight = Children.Count >= Columns ?
-                         Math.Max(rowHeight, child.DesiredSize.Height) : Math.Min(rowHeight, child.DesiredSize.Height);
+                    rowHeight = Children.Count >= Columns
+                        ? Math.Max(rowHeight, child.DesiredSize.Height)
+                        : Math.Min(rowHeight, child.DesiredSize.Height);
                     index++;
 
                     // Check if the current element is at the end of a row and add an height overflow to get enough space for the next elements of the second row
-                    if (column == Columns && Children.Count != index && (Children.Count - index + 1) <= Columns && !overflowAlreadyCount)
+                    if (column == Columns && Children.Count != index && (Children.Count - index + 1) <= Columns &&
+                        !overflowAlreadyCount)
                     {
                         overflow = rowHeight;
                         totalHeight += rowHeight;
@@ -153,9 +158,11 @@ namespace Popcorn.CustomPanels
             }
             return base.ArrangeOverride(finalSize);
         }
+
         #endregion
 
         #region Method -> OnDesiredColumnWidthChanged
+
         /// <summary>
         /// Inform when DesiredColumnWidthProperty has changed
         /// </summary>
@@ -163,19 +170,22 @@ namespace Popcorn.CustomPanels
         /// <param name="obj">obj</param>
         private static void OnDesiredColumnWidthChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
         {
-            var panel = (ElasticWrapPanel)obj;
+            var panel = (ElasticWrapPanel) obj;
             panel.InvalidateMeasure();
             panel.InvalidateArrange();
         }
+
         #endregion
 
         #region Events
 
         #region Event -> NumberOfColumnsChanged
+
         /// <summary>
         /// NumberOfColumnsChanged event
         /// </summary>
         public event EventHandler<NumberOfColumnChangedEventArgs> NumberOfColumnsChanged;
+
         /// <summary>
         /// Inform when the current number of columns changed in the ElasticWrapPanel
         /// </summary>
@@ -185,6 +195,7 @@ namespace Popcorn.CustomPanels
             var handler = NumberOfColumnsChanged;
             handler?.Invoke(this, e);
         }
+
         #endregion
 
         #endregion

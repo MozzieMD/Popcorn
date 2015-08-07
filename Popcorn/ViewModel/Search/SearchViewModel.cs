@@ -14,9 +14,6 @@ namespace Popcorn.ViewModel.Search
 
         #region Property -> SearchFilter
 
-        /// <summary>
-        /// The filter for searching movies
-        /// </summary>
         private string _searchFilter;
 
         /// <summary>
@@ -25,10 +22,7 @@ namespace Popcorn.ViewModel.Search
         public string SearchFilter
         {
             get { return _searchFilter; }
-            set
-            {
-                Set(() => SearchFilter, ref _searchFilter, value, true);
-            }
+            set { Set(() => SearchFilter, ref _searchFilter, value, true); }
         }
 
         #endregion
@@ -40,7 +34,7 @@ namespace Popcorn.ViewModel.Search
         #region Command -> SearchMovieCommand
 
         /// <summary>
-        /// SearchMovieCommand
+        /// Command used to search movies
         /// </summary>
         public RelayCommand SearchMovieCommand { get; private set; }
 
@@ -51,14 +45,14 @@ namespace Popcorn.ViewModel.Search
         #region Constructor
 
         /// <summary>
-        /// SearchViewModel
+        /// Constructor
         /// </summary>
         public SearchViewModel()
         {
             // When search is empty, notify it
             Messenger.Default.Register<PropertyChangedMessage<string>>(this, e =>
             {
-                if(e.PropertyName == GetPropertyName(() => SearchFilter) && string.IsNullOrEmpty(e.NewValue))
+                if (e.PropertyName == GetPropertyName(() => SearchFilter) && string.IsNullOrEmpty(e.NewValue))
                 {
                     Messenger.Default.Send(new SearchMovieMessage(string.Empty));
                 }
@@ -70,6 +64,7 @@ namespace Popcorn.ViewModel.Search
                 Messenger.Default.Send(new SearchMovieMessage(SearchFilter));
             });
         }
+
         #endregion
 
         #region Methods

@@ -12,16 +12,18 @@ namespace Popcorn.Messaging
         #region Properties
 
         #region Property -> Movie
+
         /// <summary>
         /// Movie
         /// </summary>
-        public MovieFull Movie { get; private set; }
+        public readonly MovieFull Movie;
 
         #endregion
 
         #endregion
 
         #region Constructor
+
         /// <summary>
         /// DownloadMovieMessage
         /// </summary>
@@ -30,6 +32,7 @@ namespace Popcorn.Messaging
         {
             Movie = movie;
         }
+
         #endregion
     }
 }

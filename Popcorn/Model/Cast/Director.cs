@@ -7,10 +7,9 @@ namespace Popcorn.Model.Cast
         #region Properties
 
         #region Property -> SmallImagePath
-        /// <summary>
-        /// Local path of the downloaded director's small-sized image
-        /// </summary>
+
         private string _smallImagePath = string.Empty;
+
         /// <summary>
         /// Local path of the downloaded director's small-sized image
         /// </summary>
@@ -19,6 +18,7 @@ namespace Popcorn.Model.Cast
             get { return _smallImagePath; }
             set { Set(() => SmallImagePath, ref _smallImagePath, value); }
         }
+
         #endregion
 
         #endregion

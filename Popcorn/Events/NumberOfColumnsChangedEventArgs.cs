@@ -10,14 +10,18 @@ namespace Popcorn.Events
         #region Properties
 
         #region Property -> NumberOfColumns
+
         /// <summary>
         /// Number of columns
         /// </summary>
-        public int NumberOfColumns { get; private set; }
+        public readonly int NumberOfColumns;
+
         #endregion
 
         #endregion
+
         #region Constructor
+
         /// <summary>
         /// Constructor
         /// </summary>
@@ -26,6 +30,7 @@ namespace Popcorn.Events
         {
             NumberOfColumns = numberOfColumns;
         }
+
         #endregion
     }
 }

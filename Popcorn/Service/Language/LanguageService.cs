@@ -23,40 +23,49 @@ namespace Popcorn.Service.Language
     public class LanguageService : ILanguageService
     {
         #region Logger
+
         /// <summary>
         /// Logger of the class
         /// </summary>
-        private readonly static Logger logger = LogManager.GetCurrentClassLogger();
+        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+
         #endregion
 
         #region Property -> ApplicationService
+
         /// <summary>
         /// Service used to interacts with application settings
         /// </summary>
         private IApplicationSettingsService ApplicationService { get; }
+
         #endregion
 
         #region Property -> ApiService
+
         /// <summary>
         /// Service used to interacts with api service
         /// </summary>
         private IApiService ApiService { get; }
+
         #endregion
 
         #region Constructor
+
         /// <summary>
-        /// Default constructor
+        /// Constructor
         /// </summary>
         public LanguageService()
         {
             ApplicationService = SimpleIoc.Default.GetInstance<IApplicationSettingsService>();
             ApiService = SimpleIoc.Default.GetInstance<IApiService>();
         }
+
         #endregion
 
         #region Methods
 
         #region Method -> GetAvailableLanguagesAsync
+
         /// <summary>
         /// Get all available languages from the database
         /// </summary>
@@ -98,7 +107,7 @@ namespace Popcorn.Service.Language
 
                 watch.Stop();
                 var elapsedMs = watch.ElapsedMilliseconds;
-                logger.Debug(
+                Logger.Debug(
                     "GetAvailableLanguagesAsync in {0} milliseconds.", elapsedMs);
             });
 
@@ -108,6 +117,7 @@ namespace Popcorn.Service.Language
         #endregion
 
         #region Method -> GetCurrentLanguageAsync
+
         /// <summary>
         /// Get the current language of the application
         /// </summary>
@@ -149,15 +159,17 @@ namespace Popcorn.Service.Language
 
                 watch.Stop();
                 var elapsedMs = watch.ElapsedMilliseconds;
-                logger.Debug(
+                Logger.Debug(
                     "GetCurrentLanguageAsync in {0} milliseconds.", elapsedMs);
             });
 
             return currentLanguage;
         }
+
         #endregion
 
         #region Method -> SetCurrentLanguageAsync
+
         /// <summary>
         /// Get the current language of the application
         /// </summary>
@@ -191,23 +203,26 @@ namespace Popcorn.Service.Language
 
                 watch.Stop();
                 var elapsedMs = watch.ElapsedMilliseconds;
-                logger.Debug(
+                Logger.Debug(
                     "SetCurrentLanguageAsync ({0}) in {1} milliseconds.", language.LocalizedName, elapsedMs);
             });
         }
+
         #endregion
 
         #region Method -> ChangeLanguage
+
         /// <summary>
         /// Change language 
         /// </summary>
         /// <param name="language"></param>
-        public void ChangeLanguage(ILanguage language)
+        private void ChangeLanguage(ILanguage language)
         {
             ApiService.ChangeTmdbLanguage(language);
             LocalizeDictionary.Instance.Culture = new CultureInfo(language.Culture);
             Messenger.Default.Send(new ChangeLanguageMessage(language));
         }
+
         #endregion
 
         #endregion

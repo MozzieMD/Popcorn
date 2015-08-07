@@ -11,14 +11,14 @@ namespace Popcorn.Tests.Converters
         [Test]
         public void ConvertURi()
         {
-           var converter = new UriToCachedImageConverter();
+            var converter = new UriToCachedImageConverter();
             var value = "http://www.google.com/";
 
             var result = converter.Convert(value, null, null, null);
-            Assert.That(result,Is.TypeOf<BitmapImage>());
+            Assert.That(result, Is.TypeOf<BitmapImage>());
 
-            var image = (BitmapImage)result;
-            Assert.That(image.UriSource.ToString(),Is.EqualTo(value));
+            var image = (BitmapImage) result;
+            Assert.That(image.UriSource.ToString(), Is.EqualTo(value));
         }
     }
 }

@@ -3,7 +3,6 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:ignore="http://www.ignore.com"
         xmlns:movieUserControl="clr-namespace:Popcorn.UserControls.Movie"
         xmlns:settingsUserControl="clr-namespace:Popcorn.UserControls.Settings"
         xmlns:searchUserControl="clr-namespace:Popcorn.UserControls.Search"
@@ -17,10 +16,11 @@
         xmlns:playersUserControl="clr-namespace:Popcorn.UserControls.Players"
         xmlns:tabsViewModel="clr-namespace:Popcorn.ViewModel.Tabs"
         xmlns:tabsUserControl="clr-namespace:Popcorn.UserControls.Tabs"
+        xmlns:viewModel="clr-namespace:Popcorn.ViewModel"
         lex:LocalizeDictionary.DesignCulture="en"
         lex:ResxLocalizationProvider.DefaultAssembly="Popcorn"
         lex:ResxLocalizationProvider.DefaultDictionary="Resources"
-        mc:Ignorable="d ignore"
+        mc:Ignorable="d"
         Height="{Binding Source={x:Static SystemParameters.PrimaryScreenHeight}, Converter={converters:RatioConverter}, ConverterParameter='0.7' }" 
         Width="{Binding Source={x:Static SystemParameters.PrimaryScreenWidth}, Converter={converters:RatioConverter}, ConverterParameter='0.7' }" 
         MinHeight="{Binding Source={x:Static SystemParameters.PrimaryScreenHeight}, Converter={converters:RatioConverter}, ConverterParameter='0.5' }" 
@@ -31,7 +31,8 @@
         Icon="Resources/Images/icon.ico"
         ShowTitleBar="False"
         WindowStartupLocation="CenterScreen"
-        IgnoreTaskbarOnMaximize="True">
+        IgnoreTaskbarOnMaximize="True"
+        d:DataContext="{d:DesignInstance viewModel:MainViewModel}">
 
     <Window.Resources>
         <ResourceDictionary>
@@ -73,7 +74,7 @@
                              Position="Right"
                              IsModal="True"
                              Theme="Dark">
-                <settingsUserControl:Settings x:Name="SettingsUc"></settingsUserControl:Settings>
+                <settingsUserControl:Settings/>
             </controls:Flyout>
         </controls:FlyoutsControl>
     </controls:MetroWindow.Flyouts>

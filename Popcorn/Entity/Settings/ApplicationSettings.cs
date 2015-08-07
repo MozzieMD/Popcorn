@@ -13,6 +13,7 @@ namespace Popcorn.Entity.Settings
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Key]
         public int Id { get; set; }
+
         public string Version { get; set; }
         public virtual ICollection<Language> Languages { get; set; }
     }

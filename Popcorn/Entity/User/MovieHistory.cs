@@ -11,6 +11,7 @@ namespace Popcorn.Entity.User
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Key]
         public int Id { get; set; }
+
         public string ImdbCode { get; set; }
         public bool Liked { get; set; }
         public bool Seen { get; set; }

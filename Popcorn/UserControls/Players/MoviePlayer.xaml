@@ -5,8 +5,10 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:wpf="clr-namespace:xZune.Vlc.Wpf;assembly=xZune.Vlc.Wpf"
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:players="clr-namespace:Popcorn.ViewModel.Players"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
+             d:DesignHeight="300" d:DesignWidth="300"
+             d:DataContext="{d:DesignInstance players:MoviePlayerViewModel}">
 
     <UserControl.CommandBindings>
         <CommandBinding Command="MediaCommands.Play" CanExecute="MediaPlayerPlay_CanExecute" Executed="MediaPlayerPlay_Executed" />
@@ -93,7 +95,7 @@
                         Width="39"
                         Height="39"
                         IsChecked="{Binding IsInFullScreenMode}"
-                        Style="{StaticResource MetroCircleToggleButtonStyle}">
+                        Style="{DynamicResource MetroCircleToggleButtonStyle}">
                     <Canvas x:Name="appbar_arrow_expand" Width="15" Height="15" Clip="F1 M 0,0L 76,0L 76,76L 0,76L 0,0">
                         <Path x:Name="CanvasFullScreen" Width="15" Height="15" Stretch="Fill" Fill="White" Data="F1 M 30.25,58L 18,58L 18,45.75L 22,41.75L 22,50.75L 30,42.75L 33.25,46L 25.25,54L 34.25,54L 30.25,58 Z M 58,45.75L 58,58L 45.75,58L 41.75,54L 50.75,54L 42.75,46L 46,42.75L 54,50.75L 54,41.75L 58,45.75 Z M 45.75,18L 58,18L 58,30.25L 54,34.25L 54,25.25L 46,33.25L 42.75,30L 50.75,22L 41.75,22L 45.75,18 Z M 18,30.25L 18,18L 30.25,18L 34.25,22L 25.25,22L 33.25,30L 30,33.25L 22,25.25L 22,34.25L 18,30.25 Z ">
                             <Path.Triggers>
@@ -128,7 +130,7 @@
                         Width="39"
                         Height="39"
                         Command="{Binding StopPlayingMediaCommand}"
-                        Style="{StaticResource MetroCircleToggleButtonStyle}">
+                        Style="{DynamicResource MetroCircleToggleButtonStyle}">
                     <Canvas x:Name="appbar_close" Width="15" Height="15" Clip="F1 M 0,0L 76,0L 76,76L 0,76L 0,0">
                         <Path x:Name="CanvasClose" Width="15" Height="15" Stretch="Fill" Fill="White" Data="F1 M 26.9166,22.1667L 37.9999,33.25L 49.0832,22.1668L 53.8332,26.9168L 42.7499,38L 53.8332,49.0834L 49.0833,53.8334L 37.9999,42.75L 26.9166,53.8334L 22.1666,49.0833L 33.25,38L 22.1667,26.9167L 26.9166,22.1667 Z ">
                         </Path>

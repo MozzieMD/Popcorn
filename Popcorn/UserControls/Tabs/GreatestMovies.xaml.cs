@@ -13,6 +13,7 @@ namespace Popcorn.UserControls.Tabs
     public partial class GreatestMovies
     {
         #region Constructor
+
         /// <summary>
         /// Initializes a new instance of the GreatestMovies class.
         /// </summary>
@@ -20,11 +21,13 @@ namespace Popcorn.UserControls.Tabs
         {
             InitializeComponent();
         }
+
         #endregion
 
         #region Methods
 
         #region Method -> ScrollViewer_ScrollChanged
+
         /// <summary>
         /// Decide if we have to load previous or next page regarding to the scroll position
         /// </summary>
@@ -42,9 +45,11 @@ namespace Popcorn.UserControls.Tabs
                 }
             }
         }
+
         #endregion
 
         #region Method -> ElasticWrapPanel_Loaded
+
         /// <summary>
         /// Subscribe NumberOfColumnsChanged to the NumberOfColumnsChanged event of the ElasticWrapPanel
         /// </summary>
@@ -58,9 +63,11 @@ namespace Popcorn.UserControls.Tabs
                 elasticWrapPanel.NumberOfColumnsChanged += NumberOfColumnsChanged;
             }
         }
+
         #endregion
 
         #region Method -> NumberOfColumnsChanged
+
         /// <summary>
         /// When the column's number of the ElasticWrapPanel has changed, reset the MaxMoviesPerPage property to a value so that there's enough content to be able to scroll
         /// </summary>
@@ -71,9 +78,10 @@ namespace Popcorn.UserControls.Tabs
             var vm = DataContext as TabsViewModel;
             if (vm != null)
             {
-                vm.MaxMoviesPerPage = e.NumberOfColumns * Constants.NumberOfRowsPerPage;
+                vm.MaxMoviesPerPage = e.NumberOfColumns*Constants.NumberOfRowsPerPage;
             }
         }
+
         #endregion
 
         #endregion

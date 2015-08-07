@@ -12,6 +12,7 @@ namespace Popcorn.Entity.User
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Key]
         public int Id { get; set; }
+
         public string UserName { get; set; }
         public virtual ICollection<MovieHistory> MovieHistory { get; set; }
     }

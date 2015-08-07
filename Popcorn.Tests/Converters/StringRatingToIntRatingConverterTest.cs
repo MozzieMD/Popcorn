@@ -16,7 +16,7 @@ namespace Popcorn.Tests.Converters
 
             var result = converter.Convert(value, null, null, null);
 
-            Assert.That(result, Is.EqualTo((double)50));
+            Assert.That(result, Is.EqualTo((double) 50));
             Assert.That(result, Is.TypeOf<double>());
         }
     }

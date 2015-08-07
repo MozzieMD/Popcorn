@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Threading;
 using System.Threading.Tasks;
 using TMDbLib.Objects.General;
 using Popcorn.Model.Localization;
 using Popcorn.Model.Movie;
-using Popcorn.Model.Subtitle;
 
 namespace Popcorn.Service.Api
 {

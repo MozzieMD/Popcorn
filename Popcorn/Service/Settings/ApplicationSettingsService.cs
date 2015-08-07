@@ -2,7 +2,6 @@
 using System.Data.Entity;
 using System.Data.Entity.Migrations;
 using System.Diagnostics;
-using System.Linq;
 using Popcorn.Entity;
 using Popcorn.Entity.Settings;
 using NLog;
@@ -16,15 +15,18 @@ namespace Popcorn.Service.Settings
     public class ApplicationSettingsService : IApplicationSettingsService
     {
         #region Logger
+
         /// <summary>
         /// Logger of the class
         /// </summary>
-        private readonly static Logger logger = LogManager.GetCurrentClassLogger();
+        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+
         #endregion
 
         #region Methods
 
         #region Method -> CreateApplicationSettingsAsync
+
         /// <summary>
         /// Scaffold ApplicationSettings table on database if empty
         /// </summary>
@@ -51,26 +53,26 @@ namespace Popcorn.Service.Settings
             using (var context = new ApplicationDbContext())
             {
                 await context.ApplicationSettings.LoadAsync();
-                var settings = await context.ApplicationSettings?.FirstOrDefaultAsync();
+                var settings = await context.ApplicationSettings.FirstOrDefaultAsync();
                 if (settings == null)
                 {
                     context.ApplicationSettings.AddOrUpdate(new ApplicationSettings
                     {
                         Version = Helpers.Constants.ApplicationVersion,
                         Languages = new List<Entity.Localization.Language>
-                            {
-                                englishLanguage,
-                                frenchLanguage
-                            }
+                        {
+                            englishLanguage,
+                            frenchLanguage
+                        }
                     });
                 }
                 else if (settings.Languages == null)
                 {
                     settings.Languages = new List<Entity.Localization.Language>
-                        {
-                            englishLanguage,
-                            frenchLanguage
-                        };
+                    {
+                        englishLanguage,
+                        frenchLanguage
+                    };
                 }
 
                 await context.SaveChangesAsync();
@@ -78,9 +80,10 @@ namespace Popcorn.Service.Settings
 
             watch.Stop();
             var elapsedMs = watch.ElapsedMilliseconds;
-            logger.Debug(
+            Logger.Debug(
                 "CreateApplicationSettings in {0} milliseconds.", elapsedMs);
         }
+
         #endregion
 
         #endregion

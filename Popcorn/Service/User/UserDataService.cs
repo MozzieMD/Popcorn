@@ -17,15 +17,18 @@ namespace Popcorn.Service.User
     public class UserDataService : IUserDataService
     {
         #region Logger
+
         /// <summary>
         /// Logger of the class
         /// </summary>
-        private readonly static Logger logger = LogManager.GetCurrentClassLogger();
+        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+
         #endregion
 
         #region Methods
 
         #region Method -> ComputeMovieHistoryAsync
+
         /// <summary>
         /// Retrieve from database and set the IsLiked and IsSeen properties of each movie in params, 
         /// </summary>
@@ -55,13 +58,15 @@ namespace Popcorn.Service.User
 
                 watch.Stop();
                 var elapsedMs = watch.ElapsedMilliseconds;
-                logger.Debug(
+                Logger.Debug(
                     "ComputeMovieHistoryAsync in {0} milliseconds.", elapsedMs);
             });
         }
+
         #endregion
 
         #region Method -> LikeMovieAsync
+
         /// <summary>
         /// Set the Liked database field when a movie has been liked
         /// </summary>
@@ -97,7 +102,7 @@ namespace Popcorn.Service.User
                     }
                     else
                     {
-                        var movieHistory = userData?.MovieHistory?.FirstOrDefault(p => p.ImdbCode == movie.ImdbCode);
+                        var movieHistory = userData.MovieHistory?.FirstOrDefault(p => p.ImdbCode == movie.ImdbCode);
                         if (movieHistory == null)
                         {
                             userData.MovieHistory.Add(new MovieHistory
@@ -120,13 +125,15 @@ namespace Popcorn.Service.User
 
                 watch.Stop();
                 var elapsedMs = watch.ElapsedMilliseconds;
-                logger.Debug(
+                Logger.Debug(
                     "LikeMovieAsync ({0}) in {1} milliseconds.", movie.ImdbCode, elapsedMs);
             });
         }
+
         #endregion
 
         #region Method -> SeenMovieAsync
+
         /// <summary>
         /// Set the Seen database field when a movie has been seen
         /// </summary>
@@ -162,7 +169,7 @@ namespace Popcorn.Service.User
                     }
                     else
                     {
-                        var movieHistory = userData?.MovieHistory?.FirstOrDefault(p => p.ImdbCode == movie.ImdbCode);
+                        var movieHistory = userData.MovieHistory?.FirstOrDefault(p => p.ImdbCode == movie.ImdbCode);
                         if (movieHistory == null)
                         {
                             userData.MovieHistory.Add(new MovieHistory
@@ -183,7 +190,7 @@ namespace Popcorn.Service.User
 
                 watch.Stop();
                 var elapsedMs = watch.ElapsedMilliseconds;
-                logger.Debug(
+                Logger.Debug(
                     "SeenMovieAsync ({0}) in {1} milliseconds.", movie.ImdbCode, elapsedMs);
             });
         }
@@ -191,17 +198,18 @@ namespace Popcorn.Service.User
         #endregion
 
         #region Method -> CreateUserDataAsync
+
         /// <summary>
         /// Scaffold UserData Table on database if empty
         /// </summary>
-        private async Task CreateUserDataAsync()
+        private static async Task CreateUserDataAsync()
         {
             using (var context = new ApplicationDbContext())
             {
                 var watch = Stopwatch.StartNew();
 
                 await context.UserData.LoadAsync();
-                var userData = await context.UserData?.FirstOrDefaultAsync();
+                var userData = await context.UserData.FirstOrDefaultAsync();
                 if (userData == null)
                 {
                     context.UserData.AddOrUpdate(new UserData
@@ -215,10 +223,11 @@ namespace Popcorn.Service.User
 
                 watch.Stop();
                 var elapsedMs = watch.ElapsedMilliseconds;
-                logger.Debug(
+                Logger.Debug(
                     "CreateUserData in {0} milliseconds.", elapsedMs);
             }
         }
+
         #endregion
 
         #endregion

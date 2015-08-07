@@ -15,6 +15,7 @@ namespace Popcorn.Model.Localization
         /// Language's name
         /// </summary>
         public string LocalizedName { get; }
+
         #endregion
 
         #region Property -> EnglishName
@@ -23,18 +24,22 @@ namespace Popcorn.Model.Localization
         /// English language's name
         /// </summary>
         public string EnglishName { get; }
+
         #endregion
 
         #region Property -> Culture
+
         /// <summary>
         /// Language's culture
         /// </summary>
         public string Culture { get; set; }
+
         #endregion
 
         #endregion
 
         #region Constructor
+
         /// <summary>
         /// Constructor
         /// </summary>
@@ -44,11 +49,13 @@ namespace Popcorn.Model.Localization
             EnglishName = "English";
             Culture = "en";
         }
+
         #endregion
 
         #region Methods
 
         #region Method -> Equals
+
         /// <summary>
         /// Check equality based on is localized name
         /// </summary>
@@ -65,9 +72,11 @@ namespace Popcorn.Model.Localization
 
             return LocalizedName.Equals(item.LocalizedName);
         }
+
         #endregion
 
         #region Method -> GetHashCode
+
         /// <summary>
         /// Get hash code based on it localized name
         /// </summary>
@@ -76,6 +85,7 @@ namespace Popcorn.Model.Localization
         {
             return LocalizedName.GetHashCode();
         }
+
         #endregion
 
         #endregion

@@ -13,8 +13,12 @@ namespace Popcorn.Tests.Converters
         public void BoolToInverseConvertTest()
         {
             var converter = new BoolToInverseVisibilityConverter();
-            Assert.That(converter.Convert(true, typeof(Visibility), null, CultureInfo.CurrentUICulture).Equals(Visibility.Visible));
-            Assert.That(converter.Convert(false, typeof(Visibility), null, CultureInfo.CurrentUICulture).Equals(Visibility.Collapsed));
+            Assert.That(
+                converter.Convert(true, typeof (Visibility), null, CultureInfo.CurrentUICulture)
+                    .Equals(Visibility.Visible));
+            Assert.That(
+                converter.Convert(false, typeof (Visibility), null, CultureInfo.CurrentUICulture)
+                    .Equals(Visibility.Collapsed));
         }
     }
 }

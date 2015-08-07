@@ -8,12 +8,13 @@ namespace Popcorn.Converters
     /// <summary>
     /// Convert double to double using a ratio parameter
     /// </summary>
-    [ValueConversion(typeof(string), typeof(string))]
+    [ValueConversion(typeof (string), typeof (string))]
     public class RatioConverter : MarkupExtension, IValueConverter
     {
         private static RatioConverter _instance;
 
         #region IValueConverter Members
+
         /// <summary>
         /// Modify value with a ratio parameter
         /// </summary>
@@ -27,14 +28,15 @@ namespace Popcorn.Converters
             var size = 0.0;
             if (value != null)
             {
-                size = System.Convert.ToDouble(value, CultureInfo.InvariantCulture) * System.Convert.ToDouble(parameter, CultureInfo.InvariantCulture);
+                size = System.Convert.ToDouble(value, CultureInfo.InvariantCulture)*
+                       System.Convert.ToDouble(parameter, CultureInfo.InvariantCulture);
             }
 
             return size;
         }
 
         /// <summary>
-        /// Not implemented
+        /// Not supported
         /// </summary>
         /// <param name="value">The value produced by the binding source.</param>
         /// <param name="targetType">The type of the binding target property.</param>
@@ -42,8 +44,9 @@ namespace Popcorn.Converters
         /// <param name="culture">The culture to use in the converter.</param>
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            throw new NotImplementedException();
+            throw new NotSupportedException();
         }
+
         #endregion
 
         public override object ProvideValue(IServiceProvider serviceProvider)

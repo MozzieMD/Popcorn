@@ -10,17 +10,21 @@ namespace Popcorn.Messaging
         #region Properties
 
         #region Property -> Message
+
         /// <summary>
         /// Message to display
         /// </summary>
-        public string Message { get; private set; }
+        public readonly string Message;
+
         #endregion
 
         #region Property -> ResetConnectionError
+
         /// <summary>
         /// Cancel the error (when retry e.g)
         /// </summary>
-        public bool ResetConnectionError { get; private set; }
+        public readonly bool ResetConnectionError;
+
         #endregion
 
         #endregion
@@ -30,11 +34,14 @@ namespace Popcorn.Messaging
         /// <summary>
         /// Constructor
         /// </summary>
+        /// <param name="message">The message to broadcast</param>
+        /// <param name="resetConnectionError">If we have to retrieve for a connection</param>
         public ConnectionErrorMessage(string message, bool resetConnectionError = false)
         {
             Message = message;
             ResetConnectionError = resetConnectionError;
         }
+
         #endregion
     }
 }

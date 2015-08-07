@@ -14,41 +14,47 @@ namespace Popcorn.Model.Localization
     public class Language : ObservableObject
     {
         #region Logger
+
         /// <summary>
         /// Logger of the class
         /// </summary>
-        private readonly static Logger logger = LogManager.GetCurrentClassLogger();
+        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+
         #endregion
 
         #region Properties
 
         #region Property -> LanguageService
+
         /// <summary>
         /// Service used to interacts with languages
         /// </summary>
         private ILanguageService LanguageService { get; }
+
         #endregion
 
         #region Property -> Languages
+
+        private ICollection<ILanguage> _languages;
+
         /// <summary>
         /// Available languages of the application
         /// </summary>
-        private ICollection<ILanguage> _languages;
         public ICollection<ILanguage> Languages
         {
             get { return _languages; }
-            set
-            {
-                Set(() => Languages, ref _languages, value);
-            }
+            set { Set(() => Languages, ref _languages, value); }
         }
+
         #endregion
 
         #region Property -> CurrentLanguage
+
+        private ILanguage _currentLanguages;
+
         /// <summary>
         /// Current language used in the application
         /// </summary>
-        private ILanguage _currentLanguages;
         public ILanguage CurrentLanguage
         {
             get { return _currentLanguages; }
@@ -61,6 +67,7 @@ namespace Popcorn.Model.Localization
                 Set(() => CurrentLanguage, ref _currentLanguages, value);
             }
         }
+
         #endregion
 
         #endregion
@@ -68,6 +75,7 @@ namespace Popcorn.Model.Localization
         #region Constructors
 
         #region Constructor
+
         /// <summary>
         /// Constructor
         /// </summary>
@@ -79,11 +87,13 @@ namespace Popcorn.Model.Localization
                 await LoadLanguages();
             });
         }
+
         #endregion
 
         #region Methods
 
         #region Method -> LoadLanguages
+
         /// <summary>
         /// Load languages
         /// </summary>
@@ -96,9 +106,10 @@ namespace Popcorn.Model.Localization
 
             watchStart.Stop();
             var elapsedLanguageMs = watchStart.ElapsedMilliseconds;
-            logger.Info(
+            Logger.Info(
                 "Languages loaded in {0} milliseconds.", elapsedLanguageMs);
         }
+
         #endregion
 
         #endregion

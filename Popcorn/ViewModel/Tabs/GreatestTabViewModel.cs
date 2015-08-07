@@ -16,6 +16,7 @@ namespace Popcorn.ViewModel.Tabs
     public class GreatestTabViewModel : TabsViewModel
     {
         #region Constructor
+
         /// <summary>
         /// Constructor
         /// </summary>
@@ -24,11 +25,11 @@ namespace Popcorn.ViewModel.Tabs
             TabName = LocalizationProviderHelper.GetLocalizedValue<string>("GreatestTitleTab");
 
             Messenger.Default.Register<ChangeLanguageMessage>(
-            this,
-            language =>
-            {
-                TabName = LocalizationProviderHelper.GetLocalizedValue<string>("GreatestTitleTab");
-            });
+                this,
+                language =>
+                {
+                    TabName = LocalizationProviderHelper.GetLocalizedValue<string>("GreatestTitleTab");
+                });
 
             // Reload movies
             ReloadMovies = new RelayCommand(async () =>
@@ -42,6 +43,7 @@ namespace Popcorn.ViewModel.Tabs
                 DispatcherHelper.CheckBeginInvokeOnUI(async () => await LoadNextPageAsync());
             }
         }
+
         #endregion
 
         #region Method -> LoadNextPageAsync
@@ -57,8 +59,8 @@ namespace Popcorn.ViewModel.Tabs
             {
                 var movieResults =
                     await ApiService.GetTopRatedMoviesAsync(Page,
-                    MaxMoviesPerPage,
-                    CancellationLoadNextPageToken.Token);
+                        MaxMoviesPerPage,
+                        CancellationLoadNextPageToken.Token);
                 var movies = movieResults.ToList();
 
                 // Download the cover image for each movie

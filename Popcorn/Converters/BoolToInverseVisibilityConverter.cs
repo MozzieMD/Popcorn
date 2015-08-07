@@ -10,6 +10,7 @@ namespace Popcorn.Converters
     public class BoolToInverseVisibilityConverter : IValueConverter
     {
         #region IValueConverter Members
+
         /// <summary>
         /// Convert bool to Visibility
         /// </summary>
@@ -21,10 +22,10 @@ namespace Popcorn.Converters
         public object Convert(object value, Type targetType, object parameter,
             System.Globalization.CultureInfo culture)
         {
-            if (targetType != typeof(Visibility))
+            if (targetType != typeof (Visibility))
                 throw new InvalidOperationException("The target must be a VisibilityProperty");
 
-            if ((bool)value)
+            if ((bool) value)
             {
                 return Visibility.Visible;
             }
@@ -33,18 +34,18 @@ namespace Popcorn.Converters
         }
 
         /// <summary>
-        /// Not implemented
+        /// Not supported
         /// </summary>
         /// <param name="value">The value produced by the binding source.</param>
         /// <param name="targetType">The type of the binding target property.</param>
         /// <param name="parameter">The converter parameter to use.</param>
         /// <param name="culture">The culture to use in the converter.</param>
-        /// <returns>UnsetValue</returns>
         public object ConvertBack(object value, Type targetType, object parameter,
             System.Globalization.CultureInfo culture)
         {
-            return DependencyProperty.UnsetValue;
+            throw new NotSupportedException();
         }
+
         #endregion
     }
 }

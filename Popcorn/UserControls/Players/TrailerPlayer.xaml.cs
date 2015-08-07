@@ -23,63 +23,72 @@ namespace Popcorn.UserControls.Players
         private bool _disposed;
 
         #region Property -> MediaPlayerIsPlaying
+
         /// <summary>
         /// Indicates if a movie is playing 
         /// </summary>
         private bool MediaPlayerIsPlaying { get; set; }
+
         #endregion
 
         #region DependencyProperty -> VolumeProperty
+
         /// <summary>
         /// Identifies the <see cref="VolumeProperty"/> dependency property. 
         /// </summary>
-        internal static readonly DependencyProperty VolumeProperty = DependencyProperty.Register("Volume", typeof(int), typeof(TrailerPlayer), new PropertyMetadata(100, OnVolumeChanged));
+        internal static readonly DependencyProperty VolumeProperty = DependencyProperty.Register("Volume", typeof (int),
+            typeof (TrailerPlayer), new PropertyMetadata(100, OnVolumeChanged));
+
         #endregion
 
         #region Property -> Volume
+
         /// <summary>
         /// Get or set the movie volume 
         /// </summary>
         public int Volume
         {
-            get
-            {
-                return (int)GetValue(VolumeProperty);
-            }
+            get { return (int) GetValue(VolumeProperty); }
 
-            set
-            {
-                SetValue(VolumeProperty, value);
-            }
+            set { SetValue(VolumeProperty, value); }
         }
+
         #endregion
 
         #region Property -> ActivityMouse
+
         /// <summary>
         /// Used to update the activity mouse and mouse position.
         /// Used by <see cref="OnActivity"/> and <see cref="OnInactivity"/> to update PlayerStatusBar visibility.
         /// </summary>
         private DispatcherTimer _activityTimer;
+
         private Point _inactiveMousePosition = new Point(0, 0);
+
         #endregion
 
         #region Property -> UserIsDraggingMediaPlayerSlider
+
         /// <summary>
         /// Indicate if user is manipulating the timeline player
         /// </summary>
         private bool UserIsDraggingMediaPlayerSlider { get; set; }
+
         #endregion
 
         #region Property -> MediaPlayerTimer
+
         /// <summary>
         /// Timer used for report time on the timeline
         /// </summary>
         private DispatcherTimer MediaPlayerTimer { get; set; }
+
         #endregion
 
         #endregion
 
         #region Constructor
+
         /// <summary>
         /// Initializes a new instance of the MediaPlayer class.
         /// </summary>
@@ -90,9 +99,11 @@ namespace Popcorn.UserControls.Players
             Loaded += OnLoaded;
             Unloaded += OnUnloaded;
         }
+
         #endregion
 
         #region Method -> Onloaded
+
         /// <summary>
         /// Do action when loaded
         /// </summary>
@@ -104,33 +115,38 @@ namespace Popcorn.UserControls.Players
             if (vm != null)
             {
                 // start the timer used to report time on MediaPlayerSliderProgress
-                MediaPlayerTimer = new DispatcherTimer { Interval = TimeSpan.FromSeconds(1) };
+                MediaPlayerTimer = new DispatcherTimer {Interval = TimeSpan.FromSeconds(1)};
                 MediaPlayerTimer.Tick += MediaPlayerTimer_Tick;
                 MediaPlayerTimer.Start();
 
                 // start the activity timer used to manage visibility of the PlayerStatusBar
                 InputManager.Current.PreProcessInput += OnActivity;
-                _activityTimer = new DispatcherTimer { Interval = TimeSpan.FromSeconds(3) };
+                _activityTimer = new DispatcherTimer {Interval = TimeSpan.FromSeconds(3)};
                 _activityTimer.Tick += OnInactivity;
 
                 vm.StoppedPlayingTrailer += OnStoppedPlayingTrailer;
 
-                if (Window.GetWindow(this) != null)
+                var window = Window.GetWindow(this);
+                if (window != null)
                 {
-                    Window.GetWindow(this).Closing += (s1, e1) => Dispose();
+                    window.Closing += (s1, e1) => Dispose();
                 }
 
-                if (vm.MediaUri != null)
+                if (vm.MediaUri == null)
                 {
-                    Player.LoadMedia(vm.MediaUri);
-                    Player.VlcMediaPlayer.EndReached += MediaPlayer_EndReached;
-                    PlayMedia();
+                    return;
                 }
+
+                Player.LoadMedia(vm.MediaUri);
+                Player.VlcMediaPlayer.EndReached += MediaPlayer_EndReached;
+                PlayMedia();
             }
         }
+
         #endregion
 
         #region Method -> OnUnloaded
+
         /// <summary>
         /// Do action when unloaded
         /// </summary>
@@ -140,9 +156,11 @@ namespace Popcorn.UserControls.Players
         {
             Dispose();
         }
+
         #endregion
 
         #region Method -> MediaPlayer_EndReached
+
         /// <summary>
         /// When a media has been fully played, save Seen property into database
         /// </summary>
@@ -153,20 +171,25 @@ namespace Popcorn.UserControls.Players
             DispatcherHelper.CheckBeginInvokeOnUI(() =>
             {
                 var vm = DataContext as TrailerPlayerViewModel;
-                if (vm != null)
+                if (vm == null)
                 {
-                    if (vm.IsInFullScreenMode)
-                    {
-                        vm.IsInFullScreenMode = !vm.IsInFullScreenMode;
-                        Messenger.Default.Send(new ChangeScreenModeMessage(vm.IsInFullScreenMode));
-                    }
-                    Messenger.Default.Send(new StopPlayingTrailerMessage());
+                    return;
                 }
+
+                if (vm.IsInFullScreenMode)
+                {
+                    vm.IsInFullScreenMode = !vm.IsInFullScreenMode;
+                    Messenger.Default.Send(new ChangeScreenModeMessage(vm.IsInFullScreenMode));
+                }
+
+                Messenger.Default.Send(new StopPlayingTrailerMessage());
             });
         }
+
         #endregion
 
         #region Method -> OnVolumeChanged
+
         /// <summary>
         /// When media's volume changed, update volume for all MediaPlayer instances (normal screen and fullscreen)
         /// </summary>
@@ -175,15 +198,19 @@ namespace Popcorn.UserControls.Players
         private static void OnVolumeChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
         {
             var moviePlayer = obj as TrailerPlayer;
-            if (moviePlayer != null)
+            if (moviePlayer == null)
             {
-                var newVolume = (int)e.NewValue;
-                moviePlayer.ChangeMediaVolume(newVolume);
+                return;
             }
+
+            var newVolume = (int) e.NewValue;
+            moviePlayer.ChangeMediaVolume(newVolume);
         }
+
         #endregion
 
         #region Method -> ChangeMediaVolume
+
         /// <summary>
         /// Change the media's volume
         /// </summary>
@@ -192,9 +219,11 @@ namespace Popcorn.UserControls.Players
         {
             Player.Volume = newValue;
         }
+
         #endregion
 
         #region Method -> OnStoppedPlayingTrailer
+
         /// <summary>
         /// When media has finished playing, stop player and reset timer
         /// </summary>
@@ -204,6 +233,7 @@ namespace Popcorn.UserControls.Players
         {
             Dispose();
         }
+
         #endregion
 
         #region Method -> PlayMedia
@@ -220,6 +250,7 @@ namespace Popcorn.UserControls.Players
         #endregion
 
         #region Method -> MediaPlayerTimer_Tick
+
         /// <summary>
         /// Report the playing progress on the timeline
         /// </summary>
@@ -234,9 +265,11 @@ namespace Popcorn.UserControls.Players
                 MediaPlayerSliderProgress.Value = Player.Time.TotalSeconds;
             }
         }
+
         #endregion
 
         #region Method -> MediaPlayerPlay_CanExecute
+
         /// <summary>
         /// Each time the CanExecute play command change, update the visibility of Play/Pause buttons in the player
         /// </summary>
@@ -263,6 +296,7 @@ namespace Popcorn.UserControls.Players
         #endregion
 
         #region Method -> MediaPlayerPlay_Executed
+
         /// <summary>
         /// Play the current movie
         /// </summary>
@@ -276,9 +310,11 @@ namespace Popcorn.UserControls.Players
             MediaPlayerStatusBarItemPlay.Visibility = Visibility.Collapsed;
             MoviePlayerStatusBarItemPause.Visibility = Visibility.Visible;
         }
+
         #endregion
 
         #region Method -> MediaPlayerPause_CanExecute
+
         /// <summary>
         /// Each time the CanExecute play command change, update the visibility of Play/Pause buttons in the media player
         /// </summary>
@@ -301,9 +337,11 @@ namespace Popcorn.UserControls.Players
                 }
             }
         }
+
         #endregion
 
         #region Method -> MediaPlayerPause_Executed
+
         /// <summary>
         /// Pause the media
         /// </summary>
@@ -317,9 +355,11 @@ namespace Popcorn.UserControls.Players
             MediaPlayerStatusBarItemPlay.Visibility = Visibility.Visible;
             MoviePlayerStatusBarItemPause.Visibility = Visibility.Collapsed;
         }
+
         #endregion
 
         #region Method -> MediaSliderProgress_DragStarted
+
         /// <summary>
         /// Report when dragging is used on media player
         /// </summary>
@@ -329,9 +369,11 @@ namespace Popcorn.UserControls.Players
         {
             UserIsDraggingMediaPlayerSlider = true;
         }
+
         #endregion
 
         #region Method -> MediaSliderProgress_DragCompleted
+
         /// <summary>
         /// Report when user has finished dragging the media player progress
         /// </summary>
@@ -342,6 +384,7 @@ namespace Popcorn.UserControls.Players
             UserIsDraggingMediaPlayerSlider = false;
             Player.Time = TimeSpan.FromSeconds(MediaPlayerSliderProgress.Value);
         }
+
         #endregion
 
         #region Method -> MovieSliderProgress_ValueChanged
@@ -363,9 +406,11 @@ namespace Popcorn.UserControls.Players
                         .ToString(@"hh\:mm\:ss", CultureInfo.CurrentCulture);
             }
         }
+
         #endregion
 
         #region Method -> MouseWheelMediaPlayer
+
         /// <summary>
         /// When user uses the mousewheel, update the volume
         /// </summary>
@@ -378,9 +423,11 @@ namespace Popcorn.UserControls.Players
                 Volume += (e.Delta > 0) ? 10 : -10;
             }
         }
+
         #endregion
 
         #region Method -> OnInactivity
+
         /// <summary>
         /// Hide the PlayerStatusBar on mouse inactivity 
         /// </summary>
@@ -394,6 +441,7 @@ namespace Popcorn.UserControls.Players
             if (PlayerStatusBar.Opacity.Equals(1.0))
             {
                 // set UI on inactivity
+
                 #region Fade in PlayerStatusBar opacity
 
                 var opacityAnimation = new DoubleAnimationUsingKeyFrames();
@@ -417,12 +465,15 @@ namespace Popcorn.UserControls.Players
 
                     });
                 });
+
                 #endregion
             }
         }
+
         #endregion
 
         #region Method -> OnActivity
+
         /// <summary>
         /// Show the PlayerStatusBar on mouse activity 
         /// </summary>
@@ -436,7 +487,7 @@ namespace Popcorn.UserControls.Players
             {
                 if (e.StagingItem.Input is MouseEventArgs)
                 {
-                    var mouseEventArgs = (MouseEventArgs)e.StagingItem.Input;
+                    var mouseEventArgs = (MouseEventArgs) e.StagingItem.Input;
 
                     // no button is pressed and the position is still the same as the application became inactive
                     if (mouseEventArgs.LeftButton == MouseButtonState.Released &&
@@ -451,6 +502,7 @@ namespace Popcorn.UserControls.Players
                 if (PlayerStatusBar.Opacity.Equals(0.0))
                 {
                     // set UI on activity
+
                     #region Fade out PlayerStatusBar opacity
 
                     var opacityAnimation = new DoubleAnimationUsingKeyFrames();
@@ -479,18 +531,15 @@ namespace Popcorn.UserControls.Players
                 _activityTimer.Start();
             }
         }
+
         #endregion
 
         #region Dispose
+
         /// <summary>
         /// Free resources
         /// </summary>
         private void Dispose()
-        {
-            Dispose(true);
-        }
-
-        private void Dispose(bool disposing)
         {
             if (!_disposed)
             {
@@ -522,12 +571,10 @@ namespace Popcorn.UserControls.Players
 
                 _disposed = true;
 
-                if (disposing)
-                {
-                    GC.SuppressFinalize(this);
-                }
+                GC.SuppressFinalize(this);
             }
         }
+
         #endregion
     }
 }

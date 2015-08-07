@@ -16,6 +16,7 @@ namespace Popcorn.ViewModel.Tabs
     public class RecentTabViewModel : TabsViewModel
     {
         #region Constructor
+
         /// <summary>
         /// Constructor
         /// </summary>
@@ -24,11 +25,11 @@ namespace Popcorn.ViewModel.Tabs
             TabName = LocalizationProviderHelper.GetLocalizedValue<string>("RecentTitleTab");
 
             Messenger.Default.Register<ChangeLanguageMessage>(
-            this,
-            language =>
-            {
-                TabName = LocalizationProviderHelper.GetLocalizedValue<string>("RecentTitleTab");
-            });
+                this,
+                language =>
+                {
+                    TabName = LocalizationProviderHelper.GetLocalizedValue<string>("RecentTitleTab");
+                });
 
             // Reload movies
             ReloadMovies = new RelayCommand(async () =>
@@ -42,6 +43,7 @@ namespace Popcorn.ViewModel.Tabs
                 DispatcherHelper.CheckBeginInvokeOnUI(async () => await LoadNextPageAsync());
             }
         }
+
         #endregion
 
         #region Method -> LoadNextPageAsync
@@ -57,8 +59,8 @@ namespace Popcorn.ViewModel.Tabs
             {
                 var movieResults =
                     await ApiService.GetRecentMoviesAsync(Page,
-                    MaxMoviesPerPage,
-                    CancellationLoadNextPageToken.Token);
+                        MaxMoviesPerPage,
+                        CancellationLoadNextPageToken.Token);
                 var movies = movieResults.ToList();
 
                 // Now we download the cover image for each movie

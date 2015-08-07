@@ -15,6 +15,7 @@ namespace Popcorn.Model.Localization
         /// Language's name
         /// </summary>
         public string LocalizedName { get; set; }
+
         #endregion
 
         #region Property -> EnglishName
@@ -23,13 +24,16 @@ namespace Popcorn.Model.Localization
         /// English language's name
         /// </summary>
         public string EnglishName { get; set; }
+
         #endregion
 
         #region Property -> Culture
+
         /// <summary>
         /// Language's culture
         /// </summary>
         public string Culture { get; set; }
+
         #endregion
 
         #endregion

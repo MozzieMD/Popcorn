@@ -31,19 +31,21 @@ namespace Popcorn.ViewModel.Tabs
         #endregion
 
         #region Property -> LanguageService
+
         /// <summary>
         /// Service used to interacts with user data
         /// </summary>
         protected IUserDataService UserDataService { get; }
+
         #endregion
 
         #region Property -> Movies
 
+        private ObservableCollection<MovieShort> _movies = new ObservableCollection<MovieShort>();
+
         /// <summary>
         /// Movies loaded from the service and shown in the interface
         /// </summary>
-        private ObservableCollection<MovieShort> _movies = new ObservableCollection<MovieShort>();
-
         public ObservableCollection<MovieShort> Movies
         {
             get { return _movies; }
@@ -66,7 +68,7 @@ namespace Popcorn.ViewModel.Tabs
         /// <summary>
         /// Maximum movies number to load per page request
         /// </summary>
-        public int MaxMoviesPerPage { get; set; }
+        public int MaxMoviesPerPage { protected get; set; }
 
         #endregion
 
@@ -75,26 +77,21 @@ namespace Popcorn.ViewModel.Tabs
         /// <summary>
         /// Token to cancel movie loading
         /// </summary>
-        protected CancellationTokenSource CancellationLoadNextPageToken { get; set; }
+        protected CancellationTokenSource CancellationLoadNextPageToken { get; }
+
         #endregion
 
         #region Property -> TabName
 
+        private string _tabName;
+
         /// <summary>
         /// The name of the tab shown in the interface
         /// </summary>
-        private string _tabName;
-
         public string TabName
         {
-            get
-            {
-                return _tabName;
-            }
-            set
-            {
-                Set(() => TabName, ref _tabName, value);
-            }
+            get { return _tabName; }
+            set { Set(() => TabName, ref _tabName, value); }
         }
 
         #endregion
@@ -151,7 +148,7 @@ namespace Popcorn.ViewModel.Tabs
         #region Command -> ReloadMovies
 
         /// <summary>
-        /// Reload movies 
+        /// Command used to reload movies
         /// </summary>
         public RelayCommand ReloadMovies { get; set; }
 
@@ -160,7 +157,7 @@ namespace Popcorn.ViewModel.Tabs
         #region Command -> LikeMovieCommand
 
         /// <summary>
-        /// Like a movie
+        /// Command used to like a movie
         /// </summary>
         public RelayCommand<MovieShort> LikeMovieCommand { get; private set; }
 
@@ -199,22 +196,22 @@ namespace Popcorn.ViewModel.Tabs
             });
 
             Messenger.Default.Register<ChangeLanguageMessage>(
-            this,
-            async message =>
-            {
-                var tasks = new List<Task>();
-                int i = 0;
-                foreach (var movie in Movies)
+                this,
+                async message =>
                 {
-                    i++;
-                    var t = Task.Delay(1000 * i).ContinueWith(_ =>
+                    var tasks = new List<Task>();
+                    int i = 0;
+                    foreach (var movie in Movies)
                     {
-                        ApiService.TranslateMovieShortAsync(movie);
-                    });
-                    tasks.Add(t);
-                }
-                await Task.WhenAll(tasks);
-            });
+                        i++;
+                        var t = Task.Delay(1000*i).ContinueWith(async _ =>
+                        {
+                            await ApiService.TranslateMovieShortAsync(movie);
+                        });
+                        tasks.Add(t);
+                    }
+                    await Task.WhenAll(tasks);
+                });
 
             // Record the like action to the database
             LikeMovieCommand = new RelayCommand<MovieShort>(async movie =>
@@ -234,14 +231,20 @@ namespace Popcorn.ViewModel.Tabs
         /// <summary>
         /// Cancel the loading of the next page 
         /// </summary>
-        protected void StopLoadingNextPage()
+        private void StopLoadingNextPage()
         {
             CancellationLoadNextPageToken?.Cancel();
             CancellationLoadNextPageToken?.Dispose();
-            CancellationLoadNextPageToken = new CancellationTokenSource();
         }
 
         #endregion
+
+        public override void Cleanup()
+        {
+            StopLoadingNextPage();
+
+            base.Cleanup();
+        }
 
         #endregion
     }

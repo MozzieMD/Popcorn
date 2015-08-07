@@ -17,7 +17,7 @@ namespace Popcorn.Helpers
     {
         public static bool GetIsCached(DependencyObject obj)
         {
-            return (bool)obj.GetValue(IsCachedProperty);
+            return (bool) obj.GetValue(IsCachedProperty);
         }
 
         public static void SetIsCached(DependencyObject obj, bool value)
@@ -30,12 +30,13 @@ namespace Popcorn.Helpers
         /// </summary>
         /// <remarks>When TabContent.IsCached is true, visual state of each tab is preserved (cached), even when the tab is hidden</remarks>
         public static readonly DependencyProperty IsCachedProperty =
-            DependencyProperty.RegisterAttached("IsCached", typeof(bool), typeof(TabContent), new UIPropertyMetadata(false, OnIsCachedChanged));
+            DependencyProperty.RegisterAttached("IsCached", typeof (bool), typeof (TabContent),
+                new UIPropertyMetadata(false, OnIsCachedChanged));
 
 
         private static DataTemplate GetTemplate(DependencyObject obj)
         {
-            return (DataTemplate)obj.GetValue(TemplateProperty);
+            return (DataTemplate) obj.GetValue(TemplateProperty);
         }
 
         public static void SetTemplate(DependencyObject obj, DataTemplate value)
@@ -47,12 +48,13 @@ namespace Popcorn.Helpers
         /// Used instead of TabControl.ContentTemplate for cached tabs
         /// </summary>
         public static readonly DependencyProperty TemplateProperty =
-            DependencyProperty.RegisterAttached("Template", typeof(DataTemplate), typeof(TabContent), new UIPropertyMetadata(null));
+            DependencyProperty.RegisterAttached("Template", typeof (DataTemplate), typeof (TabContent),
+                new UIPropertyMetadata(null));
 
 
         private static DataTemplateSelector GetTemplateSelector(DependencyObject obj)
         {
-            return (DataTemplateSelector)obj.GetValue(TemplateSelectorProperty);
+            return (DataTemplateSelector) obj.GetValue(TemplateSelectorProperty);
         }
 
         public static void SetTemplateSelector(DependencyObject obj, DataTemplateSelector value)
@@ -64,12 +66,13 @@ namespace Popcorn.Helpers
         /// Used instead of TabControl.ContentTemplateSelector for cached tabs
         /// </summary>
         public static readonly DependencyProperty TemplateSelectorProperty =
-            DependencyProperty.RegisterAttached("TemplateSelector", typeof(DataTemplateSelector), typeof(TabContent), new UIPropertyMetadata(null));
+            DependencyProperty.RegisterAttached("TemplateSelector", typeof (DataTemplateSelector), typeof (TabContent),
+                new UIPropertyMetadata(null));
 
         [EditorBrowsable(EditorBrowsableState.Never)]
         public static TabControl GetInternalTabControl(DependencyObject obj)
         {
-            return (TabControl)obj.GetValue(InternalTabControlProperty);
+            return (TabControl) obj.GetValue(InternalTabControlProperty);
         }
 
         [EditorBrowsable(EditorBrowsableState.Never)]
@@ -79,15 +82,16 @@ namespace Popcorn.Helpers
         }
 
         // Using a DependencyProperty as the backing store for InternalTabControl.  This enables animation, styling, binding, etc...
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        public static readonly DependencyProperty InternalTabControlProperty =
-            DependencyProperty.RegisterAttached("InternalTabControl", typeof(TabControl), typeof(TabContent), new UIPropertyMetadata(null, OnInternalTabControlChanged));
+        [EditorBrowsable(EditorBrowsableState.Never)] public static readonly DependencyProperty
+            InternalTabControlProperty =
+                DependencyProperty.RegisterAttached("InternalTabControl", typeof (TabControl), typeof (TabContent),
+                    new UIPropertyMetadata(null, OnInternalTabControlChanged));
 
 
         [EditorBrowsable(EditorBrowsableState.Never)]
         private static ContentControl GetInternalCachedContent(DependencyObject obj)
         {
-            return (ContentControl)obj.GetValue(InternalCachedContentProperty);
+            return (ContentControl) obj.GetValue(InternalCachedContentProperty);
         }
 
         [EditorBrowsable(EditorBrowsableState.Never)]
@@ -97,9 +101,10 @@ namespace Popcorn.Helpers
         }
 
         // Using a DependencyProperty as the backing store for InternalCachedContent.  This enables animation, styling, binding, etc...
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        public static readonly DependencyProperty InternalCachedContentProperty =
-            DependencyProperty.RegisterAttached("InternalCachedContent", typeof(ContentControl), typeof(TabContent), new UIPropertyMetadata(null));
+        [EditorBrowsable(EditorBrowsableState.Never)] public static readonly DependencyProperty
+            InternalCachedContentProperty =
+                DependencyProperty.RegisterAttached("InternalCachedContent", typeof (ContentControl),
+                    typeof (TabContent), new UIPropertyMetadata(null));
 
         [EditorBrowsable(EditorBrowsableState.Never)]
         private static object GetInternalContentManager(DependencyObject obj)
@@ -115,7 +120,8 @@ namespace Popcorn.Helpers
 
         // Using a DependencyProperty as the backing store for InternalContentManager.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty InternalContentManagerProperty =
-            DependencyProperty.RegisterAttached("InternalContentManager", typeof(object), typeof(TabContent), new UIPropertyMetadata(null));
+            DependencyProperty.RegisterAttached("InternalContentManager", typeof (object), typeof (TabContent),
+                new UIPropertyMetadata(null));
 
         private static void OnIsCachedChanged(DependencyObject obj, DependencyPropertyChangedEventArgs args)
         {
@@ -124,17 +130,19 @@ namespace Popcorn.Helpers
             var tabControl = obj as TabControl;
             if (tabControl == null)
             {
-                throw new InvalidOperationException("Cannot set TabContent.IsCached on object of type " + args.NewValue.GetType().Name +
-                    ". Only objects of type TabControl can have TabContent.IsCached property.");
+                throw new InvalidOperationException("Cannot set TabContent.IsCached on object of type " +
+                                                    args.NewValue.GetType().Name +
+                                                    ". Only objects of type TabControl can have TabContent.IsCached property.");
             }
 
-            var newValue = (bool)args.NewValue;
+            var newValue = (bool) args.NewValue;
 
             if (!newValue)
             {
-                if (args.OldValue != null && ((bool)args.OldValue))
+                if (args.OldValue != null && ((bool) args.OldValue))
                 {
-                    throw new NotImplementedException("Cannot change TabContent.IsCached from True to False. Turning tab caching off is not implemented");
+                    throw new NotImplementedException(
+                        "Cannot change TabContent.IsCached from True to False. Turning tab caching off is not implemented");
                 }
 
                 return;
@@ -147,18 +155,19 @@ namespace Popcorn.Helpers
 
         private static DataTemplate CreateContentTemplate()
         {
-            const string xaml = 
+            const string xaml =
                 "<DataTemplate><Border b:TabContent.InternalTabControl=\"{Binding RelativeSource={RelativeSource AncestorType=TabControl}}\" /></DataTemplate>";
 
             var context = new ParserContext();
 
             context.XamlTypeMapper = new XamlTypeMapper(new string[0]);
-            context.XamlTypeMapper.AddMappingProcessingInstruction("b", typeof(TabContent).Namespace, typeof(TabContent).Assembly.FullName);
+            context.XamlTypeMapper.AddMappingProcessingInstruction("b", typeof (TabContent).Namespace,
+                typeof (TabContent).Assembly.FullName);
 
             context.XmlnsDictionary.Add("", "http://schemas.microsoft.com/winfx/2006/xaml/presentation");
             context.XmlnsDictionary.Add("b", "b");
 
-            var template = (DataTemplate)XamlReader.Parse(xaml, context);
+            var template = (DataTemplate) XamlReader.Parse(xaml, context);
             return template;
         }
 
@@ -170,24 +179,25 @@ namespace Popcorn.Helpers
             if (container == null)
             {
                 var message = "Cannot set TabContent.InternalTabControl on object of type " + obj.GetType().Name +
-                    ". Only controls that derive from Decorator, such as Border can have a TabContent.InternalTabControl.";
+                              ". Only controls that derive from Decorator, such as Border can have a TabContent.InternalTabControl.";
                 throw new InvalidOperationException(message);
             }
 
             if (args.NewValue == null) return;
             if (!(args.NewValue is TabControl))
             {
-                throw new InvalidOperationException("Value of TabContent.InternalTabControl cannot be of type " + args.NewValue.GetType().Name +", it must be of type TabControl");
+                throw new InvalidOperationException("Value of TabContent.InternalTabControl cannot be of type " +
+                                                    args.NewValue.GetType().Name + ", it must be of type TabControl");
             }
 
-            var tabControl = (TabControl)args.NewValue;
+            var tabControl = (TabControl) args.NewValue;
             var contentManager = GetContentManager(tabControl, container);
             contentManager.UpdateSelectedTab();
         }
 
         private static ContentManager GetContentManager(TabControl tabControl, Decorator container)
         {
-            var contentManager = (ContentManager)GetInternalContentManager(tabControl);
+            var contentManager = (ContentManager) GetInternalContentManager(tabControl);
             if (contentManager != null)
             {
                 /*
@@ -211,23 +221,26 @@ namespace Popcorn.Helpers
         {
             if (tabControl.ContentTemplate != null)
             {
-                throw new InvalidOperationException("TabControl.ContentTemplate value is not null. If TabContent.IsCached is True, use TabContent.Template instead of ContentTemplate");
+                throw new InvalidOperationException(
+                    "TabControl.ContentTemplate value is not null. If TabContent.IsCached is True, use TabContent.Template instead of ContentTemplate");
             }
         }
 
         private static void EnsureContentTemplateIsNotModified(TabControl tabControl)
         {
-            var descriptor = DependencyPropertyDescriptor.FromProperty(TabControl.ContentTemplateProperty, typeof(TabControl));
+            var descriptor = DependencyPropertyDescriptor.FromProperty(TabControl.ContentTemplateProperty,
+                typeof (TabControl));
             descriptor.AddValueChanged(tabControl, (sender, args) =>
-                {
-                    throw new InvalidOperationException("Cannot assign to TabControl.ContentTemplate when TabContent.IsCached is True. Use TabContent.Template instead");
-                });
+            {
+                throw new InvalidOperationException(
+                    "Cannot assign to TabControl.ContentTemplate when TabContent.IsCached is True. Use TabContent.Template instead");
+            });
         }
 
         private class ContentManager
         {
-            TabControl _tabControl;
-            Decorator _border;
+            private TabControl _tabControl;
+            private Decorator _border;
 
             public ContentManager(TabControl tabControl, Decorator border)
             {
@@ -260,13 +273,13 @@ namespace Popcorn.Helpers
                 var cachedContent = GetInternalCachedContent(tabItem);
                 if (cachedContent == null)
                 {
-                    cachedContent = new ContentControl 
-                    { 
+                    cachedContent = new ContentControl
+                    {
                         DataContext = item,
-                        ContentTemplate = GetTemplate(_tabControl), 
+                        ContentTemplate = GetTemplate(_tabControl),
                         ContentTemplateSelector = GetTemplateSelector(_tabControl)
                     };
-                
+
                     cachedContent.SetBinding(ContentControl.ContentProperty, new Binding());
                     SetInternalCachedContent(tabItem, cachedContent);
                 }

@@ -8,15 +8,18 @@ using System.Threading.Tasks;
 
 namespace Popcorn.ViewModel.MovieSettings
 {
+    /// <summary>
+    /// Manage the movie's settings prior launching the download
+    /// </summary>
     public class MovieSettingsViewModel : ViewModelBase
     {
         #region Property -> Movie
 
+        private MovieFull _movie;
+
         /// <summary>
         /// The movie
         /// </summary>
-        private MovieFull _movie;
-
         public MovieFull Movie
         {
             get { return _movie; }
@@ -27,11 +30,12 @@ namespace Popcorn.ViewModel.MovieSettings
 
         #region Property -> Subtitles
 
+
+        private SubtitlesViewModel _subtitles;
+
         /// <summary>
         /// The view model used to manage subtitles
         /// </summary>
-        private SubtitlesViewModel _subtitles;
-
         public SubtitlesViewModel Subtitles
         {
             get { return _subtitles; }
@@ -42,11 +46,12 @@ namespace Popcorn.ViewModel.MovieSettings
 
         #region Command -> SetSubtitlesCommand
 
-        /// <summary>
-        /// SetSubtitlesCommand
-        /// </summary>
+
         private RelayCommand _setSubtitlesCommand;
 
+        /// <summary>
+        /// Used to enable or disable subtitles
+        /// </summary>
         public RelayCommand SetSubtitlesCommand
         {
             get
@@ -74,11 +79,11 @@ namespace Popcorn.ViewModel.MovieSettings
 
         #region Command -> DownloadMovieCommand
 
-        /// <summary>
-        /// DownloadMovieCommand
-        /// </summary>
         private RelayCommand _downloadMovieCommand;
 
+        /// <summary>
+        /// Command used to download the movie
+        /// </summary>
         public RelayCommand DownloadMovieCommand
         {
             get
@@ -94,11 +99,11 @@ namespace Popcorn.ViewModel.MovieSettings
 
         #region Command -> CancelCommand
 
-        /// <summary>
-        /// DownloadMovieCommand
-        /// </summary>
         private RelayCommand _cancelCommand;
 
+        /// <summary>
+        /// Command used to cancel the download of a movie
+        /// </summary>
         public RelayCommand CancelCommand
         {
             get
@@ -113,6 +118,7 @@ namespace Popcorn.ViewModel.MovieSettings
         #endregion
 
         #region Constructor
+
         /// <summary>
         /// Constructor
         /// </summary>
@@ -121,6 +127,7 @@ namespace Popcorn.ViewModel.MovieSettings
         {
             Movie = movie;
         }
+
         #endregion
     }
 }

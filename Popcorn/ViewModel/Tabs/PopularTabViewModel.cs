@@ -16,6 +16,7 @@ namespace Popcorn.ViewModel.Tabs
     public class PopularTabViewModel : TabsViewModel
     {
         #region Constructor
+
         /// <summary>
         /// Constructor
         /// </summary>
@@ -24,11 +25,11 @@ namespace Popcorn.ViewModel.Tabs
             TabName = LocalizationProviderHelper.GetLocalizedValue<string>("PopularTitleTab");
 
             Messenger.Default.Register<ChangeLanguageMessage>(
-            this,
-            language =>
-            {
-                TabName = LocalizationProviderHelper.GetLocalizedValue<string>("PopularTitleTab");
-            });
+                this,
+                language =>
+                {
+                    TabName = LocalizationProviderHelper.GetLocalizedValue<string>("PopularTitleTab");
+                });
 
             // Reload movies
             ReloadMovies = new RelayCommand(async () =>
@@ -42,6 +43,7 @@ namespace Popcorn.ViewModel.Tabs
                 DispatcherHelper.CheckBeginInvokeOnUI(async () => await LoadNextPageAsync());
             }
         }
+
         #endregion
 
         #region Method -> LoadNextPageAsync

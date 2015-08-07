@@ -22,9 +22,6 @@ namespace Popcorn.ViewModel
 
         #region Property -> Tabs
 
-        /// <summary>
-        /// Tabs shown into the interface via TabControl
-        /// </summary>
         private ObservableCollection<ITab> _tabs;
 
         /// <summary>
@@ -40,9 +37,6 @@ namespace Popcorn.ViewModel
 
         #region Property -> SelectedTab
 
-        /// <summary>
-        /// The selected viewmodel tab via TabControl
-        /// </summary>
         private ITab _selectedTab;
 
         /// <summary>
@@ -58,9 +52,6 @@ namespace Popcorn.ViewModel
 
         #region Property -> IsConnectionInError
 
-        /// <summary>
-        /// Specify if a connection error has occured
-        /// </summary>
         private bool _isConnectionInError;
 
         /// <summary>
@@ -76,9 +67,6 @@ namespace Popcorn.ViewModel
 
         #region Property -> IsSettingsFlyoutOpen
 
-        /// <summary>
-        /// Specify if settings flyout is open
-        /// </summary>
         private bool _isSettingsFlyoutOpen;
 
         /// <summary>
@@ -94,9 +82,6 @@ namespace Popcorn.ViewModel
 
         #region Property -> IsMovieFlyoutOpen
 
-        /// <summary>
-        /// Specify if movie flyout is open
-        /// </summary>
         private bool _isMovieFlyoutOpen;
 
         /// <summary>
@@ -117,7 +102,7 @@ namespace Popcorn.ViewModel
         #region Command -> CloseMoviePageCommand
 
         /// <summary>
-        /// CloseMoviePageCommand
+        /// Command used to close movie page
         /// </summary>
         public RelayCommand CloseMoviePageCommand { get; private set; }
 
@@ -126,7 +111,7 @@ namespace Popcorn.ViewModel
         #region Command -> MainWindowClosingCommand
 
         /// <summary>
-        /// MainWindowClosingCommand
+        /// Command used to close the application
         /// </summary>
         public RelayCommand MainWindowClosingCommand { get; private set; }
 
@@ -135,7 +120,7 @@ namespace Popcorn.ViewModel
         #region Command -> OpenSettingsCommand
 
         /// <summary>
-        /// OpenSettingsCommand
+        /// Command used to open application settings
         /// </summary>
         public RelayCommand OpenSettingsCommand { get; private set; }
 
@@ -190,41 +175,41 @@ namespace Popcorn.ViewModel
 
             // Inform subscribers that a movie has stopped playing
             Messenger.Default.Register<StopPlayingMovieMessage>(
-            this,
-            message =>
-            {
-                // Remove the movie tab
-                MoviePlayerViewModel tabToRemove = null;
-                foreach (var tab in Tabs)
+                this,
+                message =>
                 {
-                    var mediaViewModel = tab as MoviePlayerViewModel;
-                    if (mediaViewModel != null)
+                    // Remove the movie tab
+                    MoviePlayerViewModel tabToRemove = null;
+                    foreach (var tab in Tabs)
                     {
-                        tabToRemove = mediaViewModel;
+                        var mediaViewModel = tab as MoviePlayerViewModel;
+                        if (mediaViewModel != null)
+                        {
+                            tabToRemove = mediaViewModel;
+                        }
                     }
-                }
-                if (tabToRemove != null)
-                {
-                    Tabs.Remove(tabToRemove);
-                    SelectedTab = Tabs.FirstOrDefault();
-                }
+                    if (tabToRemove != null)
+                    {
+                        Tabs.Remove(tabToRemove);
+                        SelectedTab = Tabs.FirstOrDefault();
+                    }
 
-                IsMovieFlyoutOpen = true;
-            });
+                    IsMovieFlyoutOpen = true;
+                });
 
             Messenger.Default.Register<ChangeScreenModeMessage>(
-            this,
-            message =>
-            {
-                if (message.IsFullScreen)
+                this,
+                message =>
                 {
-                    OnToggleFullScreen(new EventArgs());
-                }
-                else
-                {
-                    OnBackToNormalScreenMode(new EventArgs());
-                }
-            });
+                    if (message.IsFullScreen)
+                    {
+                        OnToggleFullScreen(new EventArgs());
+                    }
+                    else
+                    {
+                        OnBackToNormalScreenMode(new EventArgs());
+                    }
+                });
 
             // Search a movie
             Messenger.Default.Register<SearchMovieMessage>(this, async message =>
@@ -353,12 +338,12 @@ namespace Popcorn.ViewModel
         #region Event -> OnConnectionError
 
         /// <summary>
-        /// ConnectionError event
+        /// Fired  on connection error
         /// </summary>
         public event EventHandler<ConnectionErrorEventArgs> ConnectionError;
 
         /// <summary>
-        /// Fire on connection error
+        /// Fire ConnectionError
         /// </summary>
         ///<param name="e">Event data</param>
         private void OnConnectionError(ConnectionErrorEventArgs e)
@@ -372,12 +357,12 @@ namespace Popcorn.ViewModel
         #region Event -> OnToggleFullScreen
 
         /// <summary>
-        /// ToggleFullScreenChanged event
+        /// Fired when fullscreen mode has been requested
         /// </summary>
         public event EventHandler<EventArgs> ToggleFullScreenChanged;
 
         /// <summary>
-        /// Fire event when fullscreen mode has been requested
+        /// Fire event ToggleFullScreenChanged
         /// </summary>
         ///<param name="e">Event data</param>
         private void OnToggleFullScreen(EventArgs e)
@@ -391,12 +376,12 @@ namespace Popcorn.ViewModel
         #region Event -> OnBackToNormalScreenMode
 
         /// <summary>
-        /// OnBackToNormalScreenMode event
+        /// Fired when back to normal screen mode has been requested
         /// </summary>
         public event EventHandler<EventArgs> BackToNormalScreenMode;
 
         /// <summary>
-        /// Fire event when back to normal screen mode has been requested
+        /// Fire event BackToNormalScreenMode
         /// </summary>
         ///<param name="e">Event data</param>
         private void OnBackToNormalScreenMode(EventArgs e)

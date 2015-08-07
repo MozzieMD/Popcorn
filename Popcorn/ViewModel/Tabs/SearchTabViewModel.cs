@@ -22,6 +22,7 @@ namespace Popcorn.ViewModel.Tabs
         /// Token to cancel searching movies
         /// </summary>
         protected CancellationTokenSource CancellationSearchMoviesToken { get; set; }
+
         #endregion
 
         #region Property -> LastPageFilterMapping
@@ -43,6 +44,7 @@ namespace Popcorn.ViewModel.Tabs
         #endregion
 
         #region Constructor
+
         /// <summary>
         /// SearchTabViewModel
         /// </summary>
@@ -55,11 +57,11 @@ namespace Popcorn.ViewModel.Tabs
             LastPageFilterMapping = new Dictionary<string, int>();
 
             Messenger.Default.Register<ChangeLanguageMessage>(
-            this,
-            language =>
-            {
-                TabName = LocalizationProviderHelper.GetLocalizedValue<string>("SearchTitleTab");
-            });
+                this,
+                language =>
+                {
+                    TabName = LocalizationProviderHelper.GetLocalizedValue<string>("SearchTitleTab");
+                });
 
             // Reload movies
             ReloadMovies = new RelayCommand(async () =>
@@ -68,6 +70,7 @@ namespace Popcorn.ViewModel.Tabs
                 Messenger.Default.Send(new ConnectionErrorMessage(string.Empty, true));
             });
         }
+
         #endregion
 
         #region Methods
@@ -92,7 +95,8 @@ namespace Popcorn.ViewModel.Tabs
 
             Page++;
             var lastPage = int.MaxValue;
-            if (!LastPageFilterMapping.ContainsKey(searchFilter) || (LastPageFilterMapping.TryGetValue(searchFilter, out lastPage) && Page < lastPage))
+            if (!LastPageFilterMapping.ContainsKey(searchFilter) ||
+                (LastPageFilterMapping.TryGetValue(searchFilter, out lastPage) && Page < lastPage))
             {
                 try
                 {
@@ -100,9 +104,9 @@ namespace Popcorn.ViewModel.Tabs
 
                     var movieResults =
                         await ApiService.SearchMoviesAsync(searchFilter,
-                        Page,
-                        MaxMoviesPerPage,
-                        CancellationSearchMoviesToken.Token);
+                            Page,
+                            MaxMoviesPerPage,
+                            CancellationSearchMoviesToken.Token);
                     var movies = movieResults.ToList();
 
                     // Download the cover image for each movie

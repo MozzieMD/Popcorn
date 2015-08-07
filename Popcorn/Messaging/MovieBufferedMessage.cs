@@ -13,22 +13,27 @@ namespace Popcorn.Messaging
         #region Properties
 
         #region Property -> MovieUri
+
         /// <summary>
         /// The Uri of the buffered movie
         /// </summary>
-        public Uri MovieUri { get; private set; }
+        public readonly Uri MovieUri;
+
         #endregion
 
         #region Property -> Movie
+
         /// <summary>
         /// The buffered movie
         /// </summary>
-        public MovieFull Movie { get; private set; }
+        public readonly MovieFull Movie;
+
         #endregion
 
         #endregion
 
         #region Constructor
+
         /// <summary>
         /// Constructor
         /// </summary>
@@ -39,6 +44,7 @@ namespace Popcorn.Messaging
             Movie = movie;
             MovieUri = movieUri;
         }
+
         #endregion
     }
 }

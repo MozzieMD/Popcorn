@@ -10,6 +10,7 @@ namespace Popcorn.Messaging
         #region Properties
 
         #region Property -> Filter
+
         /// <summary>
         /// Movie
         /// </summary>
@@ -20,6 +21,7 @@ namespace Popcorn.Messaging
         #endregion
 
         #region Constructor
+
         /// <summary>
         /// Constructor
         /// </summary>
@@ -28,6 +30,7 @@ namespace Popcorn.Messaging
         {
             Filter = filter;
         }
+
         #endregion
     }
 }

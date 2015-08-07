@@ -3,7 +3,6 @@ using System.Globalization;
 using NUnit.Framework;
 using Ploeh.AutoFixture;
 using Popcorn.Converters;
-using TMDbLib.Objects.General;
 
 namespace Popcorn.Tests.Converters
 {
@@ -22,7 +21,7 @@ namespace Popcorn.Tests.Converters
 
             foreach (var item in value)
             {
-                Assert.That(converted,Is.StringContaining(item));
+                Assert.That(converted, Is.StringContaining(item));
             }
         }
     }

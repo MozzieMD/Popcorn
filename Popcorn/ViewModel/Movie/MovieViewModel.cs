@@ -14,7 +14,7 @@ using Popcorn.ViewModel.Trailer;
 namespace Popcorn.ViewModel.Movie
 {
     /// <summary>
-    /// Movie page
+    /// Set the movie to be displayed into the interface
     /// </summary>
     public class MovieViewModel : ViewModelBase
     {
@@ -31,11 +31,12 @@ namespace Popcorn.ViewModel.Movie
 
         #region Property -> Movie
 
-        /// <summary>
-        /// The page's movie
-        /// </summary>
+
         private MovieFull _movie = new MovieFull();
 
+        /// <summary>
+        /// The selected movie to show into the interface
+        /// </summary>
         public MovieFull Movie
         {
             get { return _movie; }
@@ -46,11 +47,11 @@ namespace Popcorn.ViewModel.Movie
 
         #region Property -> IsMovieLoading
 
+        private bool _isMovieLoading;
+
         /// <summary>
         /// Indicates if a movie is loading
         /// </summary>
-        private bool _isMovieLoading;
-
         public bool IsMovieLoading
         {
             get { return _isMovieLoading; }
@@ -61,11 +62,11 @@ namespace Popcorn.ViewModel.Movie
 
         #region Property -> DownloadMovie
 
+        private DownloadMovieViewModel _downloadMovie;
+
         /// <summary>
         /// View model which takes care of downloading the movie
         /// </summary>
-        private DownloadMovieViewModel _downloadMovie;
-
         public DownloadMovieViewModel DownloadMovie
         {
             get { return _downloadMovie; }
@@ -91,9 +92,6 @@ namespace Popcorn.ViewModel.Movie
 
         #region Property -> IsPlayingTrailer
 
-        /// <summary>
-        /// Specify if a trailer is loading
-        /// </summary>
         private bool _isPlayingTrailer;
 
         /// <summary>
@@ -109,9 +107,6 @@ namespace Popcorn.ViewModel.Movie
 
         #region Property -> IsDownloadingMovie
 
-        /// <summary>
-        /// Specify if a movie is downloading
-        /// </summary>
         private bool _isDownloadingMovie;
 
         /// <summary>
@@ -141,7 +136,7 @@ namespace Popcorn.ViewModel.Movie
         #region Command -> LoadMovieCommand
 
         /// <summary>
-        /// LoadMovieCommand
+        /// Command used to load the movie
         /// </summary>
         public RelayCommand<MovieShort> LoadMovieCommand { get; private set; }
 
@@ -150,7 +145,7 @@ namespace Popcorn.ViewModel.Movie
         #region Command -> PlayMovieCommand
 
         /// <summary>
-        /// PlayMovieCommand
+        /// Command used to play the movie
         /// </summary>
         public RelayCommand PlayMovieCommand { get; private set; }
 
@@ -159,7 +154,7 @@ namespace Popcorn.ViewModel.Movie
         #region Command -> PlayTrailerCommand
 
         /// <summary>
-        /// PlayTrailerCommand
+        /// Command used to play the trailer
         /// </summary>
         public RelayCommand PlayTrailerCommand { get; private set; }
 
@@ -168,6 +163,7 @@ namespace Popcorn.ViewModel.Movie
         #endregion
 
         #region Constructor
+
         /// <summary>
         /// Constructor
         /// </summary>
@@ -180,29 +176,29 @@ namespace Popcorn.ViewModel.Movie
 
             // Stop playing trailer
             Messenger.Default.Register<StopPlayingTrailerMessage>(
-            this,
-            message =>
-            {
-                StopPlayingTrailer();
-            });
+                this,
+                message =>
+                {
+                    StopPlayingTrailer();
+                });
 
             // Stop playing movie
             Messenger.Default.Register<StopPlayingMovieMessage>(
-            this,
-            message =>
-            {
-                StopPlayingMovie();
-            });
+                this,
+                message =>
+                {
+                    StopPlayingMovie();
+                });
 
             Messenger.Default.Register<ChangeLanguageMessage>(
-            this,
-            async message =>
-            {
-                if (!string.IsNullOrEmpty(Movie?.ImdbCode))
+                this,
+                async message =>
                 {
-                    await ApiService.TranslateMovieFullAsync(Movie);
-                }
-            });
+                    if (!string.IsNullOrEmpty(Movie?.ImdbCode))
+                    {
+                        await ApiService.TranslateMovieFullAsync(Movie);
+                    }
+                });
 
             // Load requested movie
             LoadMovieCommand = new RelayCommand<MovieShort>(async movie =>
@@ -246,8 +242,8 @@ namespace Popcorn.ViewModel.Movie
                 Movie.PosterImagePath =
                     await
                         ApiService.DownloadPosterImageAsync(Movie.ImdbCode,
-                                new Uri(Movie.Images.LargeCoverImage),
-                                CancellationLoadingToken.Token).ConfigureAwait(false);
+                            new Uri(Movie.Images.LargeCoverImage),
+                            CancellationLoadingToken.Token).ConfigureAwait(false);
 
                 // For each director, we download its image
                 foreach (var director in Movie.Directors)
@@ -272,7 +268,7 @@ namespace Popcorn.ViewModel.Movie
                 Movie.BackgroundImagePath =
                     await
                         ApiService.DownloadBackgroundImageAsync(Movie.ImdbCode,
-                                CancellationLoadingToken.Token).ConfigureAwait(false);
+                            CancellationLoadingToken.Token).ConfigureAwait(false);
             }
             catch (ApiServiceException e)
             {
@@ -335,6 +331,7 @@ namespace Popcorn.ViewModel.Movie
             StopLoadingMovie();
             StopPlayingTrailer();
             StopPlayingMovie();
+
             base.Cleanup();
         }
     }

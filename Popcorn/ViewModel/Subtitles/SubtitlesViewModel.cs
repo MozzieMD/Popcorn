@@ -23,17 +23,16 @@ namespace Popcorn.ViewModel.Subtitles
         #region Property -> Movie
 
         private MovieFull _movie;
+
+        /// <summary>
+        /// The movie
+        /// </summary>
         public MovieFull Movie
         {
-            get
-            {
-                return _movie;
-            }
-            set
-            {
-                Set(() => Movie, ref _movie, value);
-            }
+            get { return _movie; }
+            set { Set(() => Movie, ref _movie, value); }
         }
+
         #endregion
 
         #region Property -> CancellationDownloadingSubtitlesToken
@@ -48,6 +47,7 @@ namespace Popcorn.ViewModel.Subtitles
         #endregion
 
         #region Constructor
+
         /// <summary>
         /// Constructor
         /// </summary>
@@ -63,9 +63,11 @@ namespace Popcorn.ViewModel.Subtitles
                 await LoadSubtitlesAsync(Movie);
             });
         }
+
         #endregion
 
         #region Method -> LoadSubtitlesAsync
+
         /// <summary>
         /// Get the movie's subtitles
         /// </summary>
@@ -75,6 +77,7 @@ namespace Popcorn.ViewModel.Subtitles
         {
             await ApiService.LoadSubtitlesAsync(movie, CancellationDownloadingSubtitlesToken.Token);
         }
+
         #endregion
 
         #region Method -> StopDownloadingSubtitles

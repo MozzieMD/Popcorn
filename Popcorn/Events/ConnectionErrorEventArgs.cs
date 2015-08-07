@@ -10,15 +10,18 @@ namespace Popcorn.Events
         #region Properties
 
         #region Property -> Message
+
         /// <summary>
         /// Connection error message
         /// </summary>
-        public string Message { get; private set; }
+        public readonly string Message;
+
         #endregion
 
         #endregion
 
         #region Constructor
+
         /// <summary>
         /// Constructor
         /// </summary>
@@ -27,6 +30,7 @@ namespace Popcorn.Events
         {
             Message = message;
         }
+
         #endregion
     }
 }

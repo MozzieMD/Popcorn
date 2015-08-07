@@ -69,11 +69,11 @@ namespace Popcorn.Converters
         /// <param name="parameter">The converter parameter to use.</param>
         /// <param name="culture">The culture to use in the converter.</param>
         public object[] ConvertBack(object value,
-                                    Type[] targetTypes,
-                                    object parameter,
-                                    System.Globalization.CultureInfo culture)
+            Type[] targetTypes,
+            object parameter,
+            System.Globalization.CultureInfo culture)
         {
-            throw new NotImplementedException();
+            throw new NotSupportedException();
         }
     }
 }

@@ -12,11 +12,11 @@ namespace Popcorn.ViewModel.Settings
 
         #region Property -> Language
 
+        private Language _language;
+
         /// <summary>
         /// Language
         /// </summary>
-        private Language _language;
-
         public Language Language
         {
             get { return _language; }
@@ -28,6 +28,7 @@ namespace Popcorn.ViewModel.Settings
         #endregion
 
         #region Constructor
+
         /// <summary>
         /// SettingsViewModel
         /// </summary>
@@ -35,6 +36,7 @@ namespace Popcorn.ViewModel.Settings
         {
             Language = new Language();
         }
+
         #endregion
     }
 }
