@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 using GalaSoft.MvvmLight.Messaging;
 using Popcorn.Helpers;
 using Popcorn.Messaging;
-using Popcorn.Comparers;
 using GalaSoft.MvvmLight.CommandWpf;
 using GalaSoft.MvvmLight.Threading;
 

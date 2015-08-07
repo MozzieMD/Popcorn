@@ -1,17 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using TMDbLib.Objects.General;
 using Popcorn.Model.Localization;
 using Popcorn.Model.Movie;
 
-namespace Popcorn.Service.Api
+namespace Popcorn.Service.Movie
 {
     /// <summary>
-    /// Interface used to describe an API service
+    /// Interface used to describe a service to interact with movies
     /// </summary>
-    public interface IApiService
+    public interface IMovieService
     {
         /// <summary>
         /// Get popular movies by page

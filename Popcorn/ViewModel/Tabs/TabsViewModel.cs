@@ -2,15 +2,13 @@
 using System.Threading;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Messaging;
-using Popcorn.Service.Api;
 using Popcorn.Model.Movie;
 using GalaSoft.MvvmLight.CommandWpf;
 using Popcorn.Helpers;
 using Popcorn.Messaging;
 using Popcorn.Service.User;
 using GalaSoft.MvvmLight.Ioc;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+using Popcorn.Service.Movie;
 
 namespace Popcorn.ViewModel.Tabs
 {
@@ -21,12 +19,12 @@ namespace Popcorn.ViewModel.Tabs
     {
         #region Properties
 
-        #region Property -> ApiService
+        #region Property -> MovieService
 
         /// <summary>
         /// Service used to consume the API
         /// </summary>
-        protected IApiService ApiService { get; }
+        protected IMovieService ApiService { get; }
 
         #endregion
 
@@ -174,7 +172,7 @@ namespace Popcorn.ViewModel.Tabs
         /// </summary>
         protected TabsViewModel()
         {
-            ApiService = SimpleIoc.Default.GetInstance<IApiService>();
+            ApiService = SimpleIoc.Default.GetInstance<IMovieService>();
             UserDataService = SimpleIoc.Default.GetInstance<IUserDataService>();
 
             // Set the CancellationToken for having the possibility to stop loading movies
@@ -206,7 +204,7 @@ namespace Popcorn.ViewModel.Tabs
             //            i++;
             //            var t = Task.Delay(1000*i).ContinueWith(async _ =>
             //            {
-            //                await ApiService.TranslateMovieShortAsync(movie);
+            //                await MovieService.TranslateMovieShortAsync(movie);
             //            });
             //            tasks.Add(t);
             //        }

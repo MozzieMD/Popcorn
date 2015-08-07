@@ -1,9 +1,9 @@
 ﻿using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Ioc;
 using Popcorn.Model.Movie;
-using Popcorn.Service.Api;
 using System.Threading;
 using System.Threading.Tasks;
+using Popcorn.Service.Movie;
 
 namespace Popcorn.ViewModel.Subtitles
 {
@@ -11,12 +11,12 @@ namespace Popcorn.ViewModel.Subtitles
     {
         #region Properties
 
-        #region Property -> ApiService
+        #region Property -> MovieService
 
         /// <summary>
         /// The service used to consume APIs
         /// </summary>
-        private IApiService ApiService { get; }
+        private IMovieService ApiService { get; }
 
         #endregion
 
@@ -54,7 +54,7 @@ namespace Popcorn.ViewModel.Subtitles
         /// <param name="movie">The movie</param>
         public SubtitlesViewModel(MovieFull movie)
         {
-            ApiService = SimpleIoc.Default.GetInstance<IApiService>();
+            ApiService = SimpleIoc.Default.GetInstance<IMovieService>();
             Movie = movie;
             CancellationDownloadingSubtitlesToken = new CancellationTokenSource();
 

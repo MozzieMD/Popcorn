@@ -12,7 +12,7 @@ using WPFLocalizeExtension.Engine;
 using Popcorn.Entity;
 using Popcorn.Messaging;
 using Popcorn.Model.Localization;
-using Popcorn.Service.Api;
+using Popcorn.Service.Movie;
 using Popcorn.Service.Settings;
 
 namespace Popcorn.Service.Language
@@ -40,12 +40,12 @@ namespace Popcorn.Service.Language
 
         #endregion
 
-        #region Property -> ApiService
+        #region Property -> MovieService
 
         /// <summary>
         /// Service used to interacts with api service
         /// </summary>
-        private IApiService ApiService { get; }
+        private IMovieService ApiService { get; }
 
         #endregion
 
@@ -57,7 +57,7 @@ namespace Popcorn.Service.Language
         public LanguageService()
         {
             ApplicationService = SimpleIoc.Default.GetInstance<IApplicationSettingsService>();
-            ApiService = SimpleIoc.Default.GetInstance<IApiService>();
+            ApiService = SimpleIoc.Default.GetInstance<IMovieService>();
         }
 
         #endregion

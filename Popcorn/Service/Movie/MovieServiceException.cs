@@ -3,10 +3,10 @@ using System.Net;
 using System.Runtime.Serialization;
 using System.Security.Permissions;
 
-namespace Popcorn.Service.Api
+namespace Popcorn.Service.Movie
 {
     [Serializable]
-    public class ApiServiceException : Exception
+    public class MovieServiceException : Exception
     {
         #region Properties
 
@@ -39,7 +39,7 @@ namespace Popcorn.Service.Api
         /// <summary>
         /// Just create the exception
         /// </summary>
-        public ApiServiceException()
+        public MovieServiceException()
             : base()
         {
         }
@@ -48,7 +48,7 @@ namespace Popcorn.Service.Api
         /// Create the exception with description
         /// </summary>
         /// <param name="message">Exception description</param>
-        public ApiServiceException(string message)
+        public MovieServiceException(string message)
             : base(message)
         {
         }
@@ -58,7 +58,7 @@ namespace Popcorn.Service.Api
         /// </summary>
         /// <param name="message">Exception description</param>
         /// <param name="innerException">Exception inner cause</param>
-        public ApiServiceException(string message, Exception innerException)
+        public MovieServiceException(string message, Exception innerException)
             : base(message, innerException)
         {
             var e = innerException as WebException;
@@ -79,10 +79,10 @@ namespace Popcorn.Service.Api
         /// <param name="info">Serialization info</param>
         /// <param name="context">Serialization context</param>
         [SecurityPermission(SecurityAction.Demand, SerializationFormatter = true)]
-        protected ApiServiceException(SerializationInfo info, StreamingContext context) : base(info, context)
+        protected MovieServiceException(SerializationInfo info, StreamingContext context) : base(info, context)
         {
-            Details = info.GetString("ApiServiceException.Details");
-            Status = (State)info.GetValue("ApiServiceException.Status", typeof(State));
+            Details = info.GetString("MovieServiceException.Details");
+            Status = (State)info.GetValue("MovieServiceException.Status", typeof(State));
         }
         #endregion
 
@@ -93,8 +93,8 @@ namespace Popcorn.Service.Api
         {
             base.GetObjectData(info, context);
 
-            info.AddValue("ApiServiceException.Details", Details);
-            info.AddValue("ApiServiceException.Status", Status, typeof(State));
+            info.AddValue("MovieServiceException.Details", Details);
+            info.AddValue("MovieServiceException.Status", Status, typeof(State));
         }
     }
 }

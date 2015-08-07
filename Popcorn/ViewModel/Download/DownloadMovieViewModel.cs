@@ -5,7 +5,6 @@ using GalaSoft.MvvmLight.Messaging;
 using Popcorn.Helpers;
 using Popcorn.Messaging;
 using Popcorn.Model.Movie;
-using Popcorn.Service.Api;
 using Popcorn.ViewModel.MovieSettings;
 using Ragnar;
 using System;
@@ -13,6 +12,7 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Popcorn.Service.Movie;
 
 namespace Popcorn.ViewModel.Download
 {
@@ -23,12 +23,12 @@ namespace Popcorn.ViewModel.Download
     {
         #region Properties
 
-        #region Property -> ApiService
+        #region Property -> MovieService
 
         /// <summary>
         /// The service used to consume APIs
         /// </summary>
-        private IApiService ApiService { get; }
+        private IMovieService ApiService { get; }
 
         #endregion
 
@@ -155,7 +155,7 @@ namespace Popcorn.ViewModel.Download
         /// <param name="movie">The movie to download</param>
         public DownloadMovieViewModel(MovieFull movie)
         {
-            ApiService = SimpleIoc.Default.GetInstance<IApiService>();
+            ApiService = SimpleIoc.Default.GetInstance<IMovieService>();
             CancellationDownloadingMovieToken = new CancellationTokenSource();
             Movie = movie;
 

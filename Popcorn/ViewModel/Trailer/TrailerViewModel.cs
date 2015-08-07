@@ -5,7 +5,6 @@ using GalaSoft.MvvmLight.Messaging;
 using Popcorn.Helpers;
 using Popcorn.Messaging;
 using Popcorn.Model.Movie;
-using Popcorn.Service.Api;
 using Popcorn.ViewModel.Players;
 using System;
 using System.Collections.Generic;
@@ -13,6 +12,7 @@ using System.Linq;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
+using Popcorn.Service.Movie;
 using YoutubeExtractor;
 
 namespace Popcorn.ViewModel.Trailer
@@ -21,12 +21,12 @@ namespace Popcorn.ViewModel.Trailer
     {
         #region Properties
 
-        #region Property -> ApiService
+        #region Property -> MovieService
 
         /// <summary>
         /// The service used to consume APIs
         /// </summary>
-        private IApiService ApiService { get; }
+        private IMovieService ApiService { get; }
 
         #endregion
 
@@ -110,7 +110,7 @@ namespace Popcorn.ViewModel.Trailer
         /// <param name="movie">Movie's trailer</param>
         public TrailerViewModel(MovieFull movie)
         {
-            ApiService = SimpleIoc.Default.GetInstance<IApiService>();
+            ApiService = SimpleIoc.Default.GetInstance<IMovieService>();
 
             CancellationLoadingTrailerToken = new CancellationTokenSource();
 
@@ -183,10 +183,10 @@ namespace Popcorn.ViewModel.Trailer
                         IsTrailerLoading = false;
                     }
                 }
-                catch (ApiServiceException e)
+                catch (MovieServiceException e)
                 {
                     StopLoadingTrailer();
-                    if (e.Status == ApiServiceException.State.ConnectionError)
+                    if (e.Status == MovieServiceException.State.ConnectionError)
                     {
                         Messenger.Default.Send(new ConnectionErrorMessage(e.Message));
                     }

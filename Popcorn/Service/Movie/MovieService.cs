@@ -22,12 +22,12 @@ using Popcorn.Model.Movie.Json;
 using Popcorn.Model.Subtitle;
 using Popcorn.Model.Subtitle.Json;
 
-namespace Popcorn.Service.Api
+namespace Popcorn.Service.Movie
 {
     /// <summary>
-    /// Service used to interact with APIs
+    /// Service used to interact with movies
     /// </summary>
-    public class ApiService : IApiService
+    public class MovieService : IMovieService
     {
         #region Logger
 
@@ -52,7 +52,7 @@ namespace Popcorn.Service.Api
         /// <summary>
         /// Constructor
         /// </summary>
-        public ApiService()
+        public MovieService()
         {
             TmdbClient = new TMDbClient(Constants.TmDbClientId);
             TmdbClient.GetConfig();
@@ -113,7 +113,7 @@ namespace Popcorn.Service.Api
             if (response.ErrorException != null)
             {
                 const string message = "Error retrieving response. Check inner details for more info.";
-                var apiServiceException = new ApiServiceException(message, response.ErrorException);
+                var apiServiceException = new MovieServiceException(message, response.ErrorException);
                 throw apiServiceException;
             }
 
@@ -166,7 +166,7 @@ namespace Popcorn.Service.Api
             if (response.ErrorException != null)
             {
                 const string message = "Error retrieving response. Check inner details for more info.";
-                var apiServiceException = new ApiServiceException(message, response.ErrorException);
+                var apiServiceException = new MovieServiceException(message, response.ErrorException);
                 throw apiServiceException;
             }
 
@@ -220,7 +220,7 @@ namespace Popcorn.Service.Api
             if (response.ErrorException != null)
             {
                 const string message = "Error retrieving response. Check inner details for more info.";
-                var apiServiceException = new ApiServiceException(message, response.ErrorException);
+                var apiServiceException = new MovieServiceException(message, response.ErrorException);
                 throw apiServiceException;
             }
 
@@ -276,7 +276,7 @@ namespace Popcorn.Service.Api
             if (response.ErrorException != null)
             {
                 const string message = "Error retrieving response. Check inner details for more info.";
-                var apiServiceException = new ApiServiceException(message, response.ErrorException);
+                var apiServiceException = new MovieServiceException(message, response.ErrorException);
                 throw apiServiceException;
             }
 
@@ -316,7 +316,7 @@ namespace Popcorn.Service.Api
             if (response.ErrorException != null)
             {
                 const string message = "Error retrieving response. Check inner details for more info.";
-                var apiServiceException = new ApiServiceException(message, response.ErrorException);
+                var apiServiceException = new MovieServiceException(message, response.ErrorException);
                 throw apiServiceException;
             }
 
@@ -382,14 +382,13 @@ namespace Popcorn.Service.Api
         {
             var watch = Stopwatch.StartNew();
 
-            Movie movie = null;
             await Task.Run(() =>
             {
-                movie = TmdbClient.GetMovie(movieToTranslate.ImdbCode,
+                var movie = TmdbClient.GetMovie(movieToTranslate.ImdbCode,
                     MovieMethods.Credits);
+                movieToTranslate.Title = movie.Title;
+                movieToTranslate.Genres = movie.Genres.Select(a => a.Name).ToList();
             });
-            movieToTranslate.Title = movie.Title;
-            movieToTranslate.Genres = movie.Genres.Select(a => a.Name).ToList();
 
             watch.Stop();
             var elapsedMs = watch.ElapsedMilliseconds;
@@ -491,9 +490,9 @@ namespace Popcorn.Service.Api
                     trailers = TmdbClient.GetMovie(movie.ImdbCode, MovieMethods.Videos)?.Videos;
                 });
             }
-            catch (ApiServiceException e)
+            catch (MovieServiceException e)
             {
-                if (e.Status == ApiServiceException.State.ConnectionError)
+                if (e.Status == MovieServiceException.State.ConnectionError)
                 {
                     Messenger.Default.Send(new ConnectionErrorMessage(e.Message));
                 }
@@ -527,9 +526,10 @@ namespace Popcorn.Service.Api
             if (response.ErrorException != null)
             {
                 const string message = "Error retrieving response. Check inner details for more info.";
-                var apiServiceException = new ApiServiceException(message, response.ErrorException);
+                var apiServiceException = new MovieServiceException(message, response.ErrorException);
                 throw apiServiceException;
             }
+
             var wrapper =
                 await Task.Run(() => JsonConvert.DeserializeObject<SubtitlesWrapperDeserialized>(response.Content), ct);
             var subtitles = new ObservableCollection<Subtitle>();
@@ -554,8 +554,8 @@ namespace Popcorn.Service.Api
                     });
                 }
             }
-            subtitles.Sort();
 
+            subtitles.Sort();
             movie.AvailableSubtitles = subtitles;
         }
 
@@ -729,10 +729,8 @@ namespace Popcorn.Service.Api
         {
             var watch = Stopwatch.StartNew();
 
-            var directors = movie.Directors;
-
             await
-                directors.ForEachAsync(
+                movie.Directors.ForEachAsync(
                     director =>
                         DownloadFileHelper.DownloadFileTaskAsync(director.SmallImage,
                             Constants.DirectorMovieDirectory + director.Name + Constants.ImageFileExtension),
@@ -762,10 +760,8 @@ namespace Popcorn.Service.Api
         {
             var watch = Stopwatch.StartNew();
 
-            var actors = movie.Actors;
-
             await
-                actors.ForEachAsync(
+                movie.Actors.ForEachAsync(
                     actor =>
                         DownloadFileHelper.DownloadFileTaskAsync(actor.SmallImage,
                             Constants.DirectorMovieDirectory + actor.Name + Constants.ImageFileExtension),

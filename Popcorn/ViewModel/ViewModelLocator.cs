@@ -1,7 +1,7 @@
 ﻿using GalaSoft.MvvmLight.Ioc;
 using Microsoft.Practices.ServiceLocation;
-using Popcorn.Service.Api;
 using Popcorn.Service.Language;
+using Popcorn.Service.Movie;
 using Popcorn.Service.Settings;
 using Popcorn.Service.User;
 using Popcorn.ViewModel.Movie;
@@ -22,7 +22,7 @@ namespace Popcorn.ViewModel
             SimpleIoc.Default.Register<IApplicationSettingsService, ApplicationSettingsService>();
             SimpleIoc.Default.Register<ILanguageService, LanguageService>();
             SimpleIoc.Default.Register<IUserDataService, UserDataService>();
-            SimpleIoc.Default.Register<IApiService, ApiService>();
+            SimpleIoc.Default.Register<IMovieService, MovieService>();
             SimpleIoc.Default.Register(() => new MainViewModel());
             SimpleIoc.Default.Register(() => new SettingsViewModel());
             SimpleIoc.Default.Register(() => new MovieViewModel());
@@ -90,9 +90,9 @@ namespace Popcorn.ViewModel
         /// </summary>
         public static void Cleanup()
         {
-            if (SimpleIoc.Default.IsRegistered<IApiService>())
+            if (SimpleIoc.Default.IsRegistered<IMovieService>())
             {
-                SimpleIoc.Default.Unregister<IApiService>();
+                SimpleIoc.Default.Unregister<IMovieService>();
             }
             if (SimpleIoc.Default.IsRegistered<IApplicationSettingsService>())
             {

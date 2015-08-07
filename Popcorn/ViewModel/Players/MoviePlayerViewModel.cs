@@ -13,7 +13,7 @@ namespace Popcorn.ViewModel.Players
     public class MoviePlayerViewModel : ViewModelBase, ITab
     {
 
-        #region Property -> ApiService
+        #region Property -> MovieService
 
         /// <summary>
         /// The service used to consume APIs

@@ -2,12 +2,11 @@
 using GalaSoft.MvvmLight.CommandWpf;
 using GalaSoft.MvvmLight.Ioc;
 using GalaSoft.MvvmLight.Messaging;
-using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Popcorn.Messaging;
 using Popcorn.Model.Movie;
-using Popcorn.Service.Api;
+using Popcorn.Service.Movie;
 using Popcorn.ViewModel.Download;
 using Popcorn.ViewModel.Trailer;
 
@@ -20,12 +19,12 @@ namespace Popcorn.ViewModel.Movie
     {
         #region Properties
 
-        #region Property -> ApiService
+        #region Property -> MovieService
 
         /// <summary>
         /// The service used to consume APIs
         /// </summary>
-        private IApiService ApiService { get; }
+        private IMovieService ApiService { get; }
 
         #endregion
 
@@ -169,7 +168,7 @@ namespace Popcorn.ViewModel.Movie
         /// </summary>
         public MovieViewModel()
         {
-            ApiService = SimpleIoc.Default.GetInstance<IApiService>();
+            ApiService = SimpleIoc.Default.GetInstance<IMovieService>();
 
             // Set the CancellationToken for having the possibility to stop loading a movie
             CancellationLoadingToken = new CancellationTokenSource();
@@ -242,10 +241,10 @@ namespace Popcorn.ViewModel.Movie
                 await ApiService.DownloadActorImageAsync(Movie);
                 await ApiService.DownloadBackgroundImageAsync(Movie);
             }
-            catch (ApiServiceException e)
+            catch (MovieServiceException e)
             {
                 IsMovieLoading = false;
-                if (e.Status == ApiServiceException.State.ConnectionError)
+                if (e.Status == MovieServiceException.State.ConnectionError)
                 {
                     Messenger.Default.Send(new ConnectionErrorMessage(e.Message));
                 }
