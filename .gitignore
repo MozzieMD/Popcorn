@@ -43,7 +43,7 @@ Temporary Items
 .apdisk
 
 # Nuget Packages
-packages/AutoFixture.3.31.1
+packages/AutoFixture.3.31.3
 packages/AutoFixture.NUnit2.3.31.0
 packages/CommonServiceLocator.1.3
 packages/DeltaCompressionDotNet.2.0.0.0-rc1
