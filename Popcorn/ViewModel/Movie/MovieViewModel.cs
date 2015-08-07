@@ -22,9 +22,9 @@ namespace Popcorn.ViewModel.Movie
         #region Property -> MovieService
 
         /// <summary>
-        /// The service used to consume APIs
+        /// The service used to interact with movies
         /// </summary>
-        private IMovieService ApiService { get; }
+        private IMovieService MovieService { get; }
 
         #endregion
 
@@ -168,7 +168,7 @@ namespace Popcorn.ViewModel.Movie
         /// </summary>
         public MovieViewModel()
         {
-            ApiService = SimpleIoc.Default.GetInstance<IMovieService>();
+            MovieService = SimpleIoc.Default.GetInstance<IMovieService>();
 
             // Set the CancellationToken for having the possibility to stop loading a movie
             CancellationLoadingToken = new CancellationTokenSource();
@@ -195,7 +195,7 @@ namespace Popcorn.ViewModel.Movie
                 {
                     if (!string.IsNullOrEmpty(Movie?.ImdbCode))
                     {
-                        await ApiService.TranslateMovieFullAsync(Movie);
+                        await MovieService.TranslateMovieFullAsync(Movie);
                     }
                 });
 
@@ -234,12 +234,12 @@ namespace Popcorn.ViewModel.Movie
             IsMovieLoading = true;
             try
             {
-                Movie = await ApiService.GetMovieFullDetailsAsync(movieToLoad);
+                Movie = await MovieService.GetMovieFullDetailsAsync(movieToLoad);
                 IsMovieLoading = false;
-                await ApiService.DownloadPosterImageAsync(Movie);
-                await ApiService.DownloadDirectorImageAsync(Movie);
-                await ApiService.DownloadActorImageAsync(Movie);
-                await ApiService.DownloadBackgroundImageAsync(Movie);
+                await MovieService.DownloadPosterImageAsync(Movie);
+                await MovieService.DownloadDirectorImageAsync(Movie);
+                await MovieService.DownloadActorImageAsync(Movie);
+                await MovieService.DownloadBackgroundImageAsync(Movie);
             }
             catch (MovieServiceException e)
             {

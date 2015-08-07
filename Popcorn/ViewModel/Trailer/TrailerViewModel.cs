@@ -24,9 +24,9 @@ namespace Popcorn.ViewModel.Trailer
         #region Property -> MovieService
 
         /// <summary>
-        /// The service used to consume APIs
+        /// The service used to interact with movies
         /// </summary>
-        private IMovieService ApiService { get; }
+        private IMovieService MovieService { get; }
 
         #endregion
 
@@ -110,7 +110,7 @@ namespace Popcorn.ViewModel.Trailer
         /// <param name="movie">Movie's trailer</param>
         public TrailerViewModel(MovieFull movie)
         {
-            ApiService = SimpleIoc.Default.GetInstance<IMovieService>();
+            MovieService = SimpleIoc.Default.GetInstance<IMovieService>();
 
             CancellationLoadingTrailerToken = new CancellationTokenSource();
 
@@ -140,7 +140,7 @@ namespace Popcorn.ViewModel.Trailer
                 try
                 {
                     // Retrieve trailer from API
-                    var trailer = await ApiService.GetMovieTrailerAsync(movie);
+                    var trailer = await MovieService.GetMovieTrailerAsync(movie);
                     // No error has been encounter, we can create our VideoInfo
                     VideoInfo video = null;
 

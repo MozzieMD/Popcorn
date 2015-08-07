@@ -43,9 +43,9 @@ namespace Popcorn.Service.Language
         #region Property -> MovieService
 
         /// <summary>
-        /// Service used to interacts with api service
+        /// Service used to interact with movies
         /// </summary>
-        private IMovieService ApiService { get; }
+        private IMovieService MovieService { get; }
 
         #endregion
 
@@ -57,7 +57,7 @@ namespace Popcorn.Service.Language
         public LanguageService()
         {
             ApplicationService = SimpleIoc.Default.GetInstance<IApplicationSettingsService>();
-            ApiService = SimpleIoc.Default.GetInstance<IMovieService>();
+            MovieService = SimpleIoc.Default.GetInstance<IMovieService>();
         }
 
         #endregion
@@ -218,7 +218,7 @@ namespace Popcorn.Service.Language
         /// <param name="language"></param>
         private void ChangeLanguage(ILanguage language)
         {
-            ApiService.ChangeTmdbLanguage(language);
+            MovieService.ChangeTmdbLanguage(language);
             LocalizeDictionary.Instance.Culture = new CultureInfo(language.Culture);
             Messenger.Default.Send(new ChangeLanguageMessage(language));
         }

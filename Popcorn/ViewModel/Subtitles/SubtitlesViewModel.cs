@@ -14,9 +14,9 @@ namespace Popcorn.ViewModel.Subtitles
         #region Property -> MovieService
 
         /// <summary>
-        /// The service used to consume APIs
+        /// The service used to interact with movies
         /// </summary>
-        private IMovieService ApiService { get; }
+        private IMovieService MovieService { get; }
 
         #endregion
 
@@ -54,7 +54,7 @@ namespace Popcorn.ViewModel.Subtitles
         /// <param name="movie">The movie</param>
         public SubtitlesViewModel(MovieFull movie)
         {
-            ApiService = SimpleIoc.Default.GetInstance<IMovieService>();
+            MovieService = SimpleIoc.Default.GetInstance<IMovieService>();
             Movie = movie;
             CancellationDownloadingSubtitlesToken = new CancellationTokenSource();
 
@@ -75,7 +75,7 @@ namespace Popcorn.ViewModel.Subtitles
         /// <returns></returns>
         private async Task LoadSubtitlesAsync(MovieFull movie)
         {
-            await ApiService.LoadSubtitlesAsync(movie, CancellationDownloadingSubtitlesToken.Token);
+            await MovieService.LoadSubtitlesAsync(movie, CancellationDownloadingSubtitlesToken.Token);
         }
 
         #endregion

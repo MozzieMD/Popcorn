@@ -57,7 +57,7 @@ namespace Popcorn.ViewModel.Tabs
             try
             {
                 var movieResults =
-                    await ApiService.GetRecentMoviesAsync(Page,
+                    await MovieService.GetRecentMoviesAsync(Page,
                         MaxMoviesPerPage,
                         CancellationLoadNextPageToken.Token);
                 var movies = movieResults.ToList();
@@ -67,7 +67,7 @@ namespace Popcorn.ViewModel.Tabs
                     Movies.Add(movie);
                 }
 
-                await ApiService.DownloadCoverImageAsync(movies);
+                await MovieService.DownloadCoverImageAsync(movies);
                 await UserDataService.ComputeMovieHistoryAsync(movies);
 
                 IsLoadingMovies = false;

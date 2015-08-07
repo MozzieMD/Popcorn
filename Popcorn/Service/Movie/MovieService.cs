@@ -113,8 +113,8 @@ namespace Popcorn.Service.Movie
             if (response.ErrorException != null)
             {
                 const string message = "Error retrieving response. Check inner details for more info.";
-                var apiServiceException = new MovieServiceException(message, response.ErrorException);
-                throw apiServiceException;
+                var movieServiceException = new MovieServiceException(message, response.ErrorException);
+                throw movieServiceException;
             }
 
             var wrapper =
@@ -166,8 +166,8 @@ namespace Popcorn.Service.Movie
             if (response.ErrorException != null)
             {
                 const string message = "Error retrieving response. Check inner details for more info.";
-                var apiServiceException = new MovieServiceException(message, response.ErrorException);
-                throw apiServiceException;
+                var movieServiceException = new MovieServiceException(message, response.ErrorException);
+                throw movieServiceException;
             }
 
             var wrapper =
@@ -220,8 +220,8 @@ namespace Popcorn.Service.Movie
             if (response.ErrorException != null)
             {
                 const string message = "Error retrieving response. Check inner details for more info.";
-                var apiServiceException = new MovieServiceException(message, response.ErrorException);
-                throw apiServiceException;
+                var movieServiceException = new MovieServiceException(message, response.ErrorException);
+                throw movieServiceException;
             }
 
             var wrapper =
@@ -276,8 +276,8 @@ namespace Popcorn.Service.Movie
             if (response.ErrorException != null)
             {
                 const string message = "Error retrieving response. Check inner details for more info.";
-                var apiServiceException = new MovieServiceException(message, response.ErrorException);
-                throw apiServiceException;
+                var movieServiceException = new MovieServiceException(message, response.ErrorException);
+                throw movieServiceException;
             }
 
             var wrapper =
@@ -316,8 +316,8 @@ namespace Popcorn.Service.Movie
             if (response.ErrorException != null)
             {
                 const string message = "Error retrieving response. Check inner details for more info.";
-                var apiServiceException = new MovieServiceException(message, response.ErrorException);
-                throw apiServiceException;
+                var movieServiceException = new MovieServiceException(message, response.ErrorException);
+                throw movieServiceException;
             }
 
             var movie = new MovieFull();
@@ -526,8 +526,8 @@ namespace Popcorn.Service.Movie
             if (response.ErrorException != null)
             {
                 const string message = "Error retrieving response. Check inner details for more info.";
-                var apiServiceException = new MovieServiceException(message, response.ErrorException);
-                throw apiServiceException;
+                var movieServiceException = new MovieServiceException(message, response.ErrorException);
+                throw movieServiceException;
             }
 
             var wrapper =

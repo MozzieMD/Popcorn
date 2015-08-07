@@ -26,9 +26,9 @@ namespace Popcorn.ViewModel.Download
         #region Property -> MovieService
 
         /// <summary>
-        /// The service used to consume APIs
+        /// The service used to interact with movies
         /// </summary>
-        private IMovieService ApiService { get; }
+        private IMovieService MovieService { get; }
 
         #endregion
 
@@ -155,7 +155,7 @@ namespace Popcorn.ViewModel.Download
         /// <param name="movie">The movie to download</param>
         public DownloadMovieViewModel(MovieFull movie)
         {
-            ApiService = SimpleIoc.Default.GetInstance<IMovieService>();
+            MovieService = SimpleIoc.Default.GetInstance<IMovieService>();
             CancellationDownloadingMovieToken = new CancellationTokenSource();
             Movie = movie;
 
@@ -173,7 +173,7 @@ namespace Popcorn.ViewModel.Download
                     var reportDownloadRate = new Progress<double>(ReportDownloadRate);
 
                     await
-                        ApiService.DownloadSubtitleAsync(message.Movie);
+                        MovieService.DownloadSubtitleAsync(message.Movie);
                     await
                         DownloadMovieAsync(message.Movie,
                             reportDownloadProgress, reportDownloadRate, CancellationDownloadingMovieToken.Token);

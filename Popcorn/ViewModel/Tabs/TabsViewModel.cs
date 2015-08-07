@@ -1,5 +1,7 @@
-﻿using System.Collections.ObjectModel;
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Threading;
+using System.Threading.Tasks;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Messaging;
 using Popcorn.Model.Movie;
@@ -22,9 +24,9 @@ namespace Popcorn.ViewModel.Tabs
         #region Property -> MovieService
 
         /// <summary>
-        /// Service used to consume the API
+        /// Service used to interact with movies
         /// </summary>
-        protected IMovieService ApiService { get; }
+        protected IMovieService MovieService { get; }
 
         #endregion
 
@@ -172,7 +174,7 @@ namespace Popcorn.ViewModel.Tabs
         /// </summary>
         protected TabsViewModel()
         {
-            ApiService = SimpleIoc.Default.GetInstance<IMovieService>();
+            MovieService = SimpleIoc.Default.GetInstance<IMovieService>();
             UserDataService = SimpleIoc.Default.GetInstance<IUserDataService>();
 
             // Set the CancellationToken for having the possibility to stop loading movies
@@ -193,23 +195,23 @@ namespace Popcorn.ViewModel.Tabs
                 }
             });
 
-            //Messenger.Default.Register<ChangeLanguageMessage>(
-            //    this,
-            //    async message =>
-            //    {
-            //        var tasks = new List<Task>();
-            //        int i = 0;
-            //        foreach (var movie in Movies)
-            //        {
-            //            i++;
-            //            var t = Task.Delay(1000*i).ContinueWith(async _ =>
-            //            {
-            //                await MovieService.TranslateMovieShortAsync(movie);
-            //            });
-            //            tasks.Add(t);
-            //        }
-            //        await Task.WhenAll(tasks);
-            //    });
+            Messenger.Default.Register<ChangeLanguageMessage>(
+                this,
+                async message =>
+                {
+                    var tasks = new List<Task>();
+                    int i = 0;
+                    foreach (var movie in Movies)
+                    {
+                        i++;
+                        var t = Task.Delay(1000 * i).ContinueWith(async _ =>
+                          {
+                              await MovieService.TranslateMovieShortAsync(movie);
+                          });
+                        tasks.Add(t);
+                    }
+                    await Task.WhenAll(tasks);
+                });
 
             // Record the like action to the database
             LikeMovieCommand = new RelayCommand<MovieShort>(async movie =>

@@ -102,7 +102,7 @@ namespace Popcorn.ViewModel.Tabs
                     IsLoadingMovies = true;
 
                     var movieResults =
-                        await ApiService.SearchMoviesAsync(searchFilter,
+                        await MovieService.SearchMoviesAsync(searchFilter,
                             Page,
                             MaxMoviesPerPage,
                             CancellationSearchMoviesToken.Token);
@@ -113,7 +113,7 @@ namespace Popcorn.ViewModel.Tabs
                         Movies.Add(movie);
                     }
 
-                    await ApiService.DownloadCoverImageAsync(movies);
+                    await MovieService.DownloadCoverImageAsync(movies);
                     await UserDataService.ComputeMovieHistoryAsync(movies);
 
                     if (!LastPageFilterMapping.ContainsKey(searchFilter) && !movies.Any())
