@@ -541,39 +541,41 @@ namespace Popcorn.UserControls.Players
         /// </summary>
         private void Dispose()
         {
-            if (!_disposed)
+            if (_disposed)
             {
-                Loaded -= OnLoaded;
-                Unloaded -= OnUnloaded;
-
-                MediaPlayerTimer.Tick -= MediaPlayerTimer_Tick;
-                MediaPlayerTimer.Stop();
-
-                InputManager.Current.PreProcessInput -= OnActivity;
-                _activityTimer.Tick -= OnInactivity;
-                _activityTimer.Stop();
-
-                Player.VlcMediaPlayer.EndReached -= MediaPlayer_EndReached;
-                MediaPlayerIsPlaying = false;
-
-                Task.Run(async () =>
-                {
-                    await Player.StopAsync();
-                    Player.Dispose();
-                });
-
-                var vm = DataContext as TrailerPlayerViewModel;
-                if (vm != null)
-                {
-                    vm.StoppedPlayingTrailer -= OnStoppedPlayingTrailer;
-                    vm.Cleanup();
-                }
-
-                _disposed = true;
-
-                GC.SuppressFinalize(this);
+                return;
             }
+
+            Loaded -= OnLoaded;
+            Unloaded -= OnUnloaded;
+
+            MediaPlayerTimer.Tick -= MediaPlayerTimer_Tick;
+            MediaPlayerTimer.Stop();
+
+            InputManager.Current.PreProcessInput -= OnActivity;
+            _activityTimer.Tick -= OnInactivity;
+            _activityTimer.Stop();
+
+            Player.VlcMediaPlayer.EndReached -= MediaPlayer_EndReached;
+            MediaPlayerIsPlaying = false;
+
+            Task.Run(async () =>
+            {
+                await Player.StopAsync();
+                Player.Dispose();
+            });
+
+            var vm = DataContext as TrailerPlayerViewModel;
+            if (vm != null)
+            {
+                vm.StoppedPlayingTrailer -= OnStoppedPlayingTrailer;
+            }
+
+            _disposed = true;
+
+            GC.SuppressFinalize(this);
         }
+
 
         #endregion
     }

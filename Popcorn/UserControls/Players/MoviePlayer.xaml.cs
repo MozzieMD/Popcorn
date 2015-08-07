@@ -545,38 +545,39 @@ namespace Popcorn.UserControls.Players
         /// </summary>
         private void Dispose()
         {
-            if (!_disposed)
+            if (_disposed)
             {
-                DispatcherHelper.CheckBeginInvokeOnUI(async () =>
-                {
-                    Loaded -= OnLoaded;
-                    Unloaded -= OnUnloaded;
-
-                    MediaPlayerTimer.Tick -= MediaPlayerTimer_Tick;
-                    MediaPlayerTimer.Stop();
-
-                    InputManager.Current.PreProcessInput -= OnActivity;
-                    _activityTimer.Tick -= OnInactivity;
-                    _activityTimer.Stop();
-
-                    Player.VlcMediaPlayer.EndReached -= MediaPlayer_EndReached;
-                    MediaPlayerIsPlaying = false;
-
-                    await Player.StopAsync();
-                    Player.Dispose();
-
-                    var vm = DataContext as MoviePlayerViewModel;
-                    if (vm != null)
-                    {
-                        vm.StoppedPlayingMovie -= OnStoppedPlayingMovie;
-                        vm.Cleanup();
-                    }
-
-                    _disposed = true;
-
-                    GC.SuppressFinalize(this);
-                });
+                return;
             }
+
+            DispatcherHelper.CheckBeginInvokeOnUI(async () =>
+            {
+                Loaded -= OnLoaded;
+                Unloaded -= OnUnloaded;
+
+                MediaPlayerTimer.Tick -= MediaPlayerTimer_Tick;
+                MediaPlayerTimer.Stop();
+
+                InputManager.Current.PreProcessInput -= OnActivity;
+                _activityTimer.Tick -= OnInactivity;
+                _activityTimer.Stop();
+
+                Player.VlcMediaPlayer.EndReached -= MediaPlayer_EndReached;
+                MediaPlayerIsPlaying = false;
+
+                await Player.StopAsync();
+                Player.Dispose();
+
+                var vm = DataContext as MoviePlayerViewModel;
+                if (vm != null)
+                {
+                    vm.StoppedPlayingMovie -= OnStoppedPlayingMovie;
+                }
+
+                _disposed = true;
+
+                GC.SuppressFinalize(this);
+            });
         }
 
         #endregion

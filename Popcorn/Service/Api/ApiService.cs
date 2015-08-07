@@ -436,7 +436,7 @@ namespace Popcorn.Service.Api
         /// <returns>List of movies</returns>
         private static List<MovieShort> GetMoviesListFromWrapper(WrapperMovieShortDeserialized wrapper)
         {
-            List<MovieShort> movies = new List<MovieShort>();
+            var movies = new List<MovieShort>();
             foreach (var movie in wrapper.Data.Movies)
             {
                 movies.Add(new MovieShort
