@@ -1,12 +1,14 @@
-﻿using GalaSoft.MvvmLight;
+﻿using System.Threading.Tasks;
+using GalaSoft.MvvmLight;
 using Popcorn.Model.Localization;
+using GalaSoft.MvvmLight.CommandWpf;
 
 namespace Popcorn.ViewModel.Settings
 {
     /// <summary>
     /// Application's settings
     /// </summary>
-    public class SettingsViewModel : ViewModelBase
+    public sealed class SettingsViewModel : ViewModelBase
     {
         #region Properties
 
@@ -27,6 +29,19 @@ namespace Popcorn.ViewModel.Settings
 
         #endregion
 
+        #region Commands
+
+        #region Command -> InitializeAsyncCommand
+
+        /// <summary>
+        /// Command used to load tabs
+        /// </summary>
+        public RelayCommand InitializeAsyncCommand { get; private set; }
+
+        #endregion
+
+        #endregion
+
         #region Constructor
 
         /// <summary>
@@ -34,8 +49,37 @@ namespace Popcorn.ViewModel.Settings
         /// </summary>
         public SettingsViewModel()
         {
-            Language = new Language();
+            RegisterCommands();
         }
+
+        #endregion
+
+        #region Methods
+
+        #region Method -> InitializeAsync
+
+        /// <summary>
+        /// Load asynchronously the languages of the application and return an instance of SettingsViewModel
+        /// </summary>
+        /// <returns>Instance of SettingsViewModel</returns>
+        private async Task InitializeAsync()
+        {
+            Language = await Language.CreateAsync();
+        }
+
+        #endregion
+
+        #region Method -> RegisterCommands
+
+        /// <summary>
+        /// Register commands
+        /// </summary>
+        private void RegisterCommands()
+        {
+            InitializeAsyncCommand = new RelayCommand(async () => await InitializeAsync());
+        }
+
+        #endregion
 
         #endregion
     }

@@ -4,14 +4,13 @@ using GalaSoft.MvvmLight.Messaging;
 using Popcorn.Messaging;
 using Popcorn.Model.Movie;
 using Popcorn.ViewModel.Subtitles;
-using System.Threading.Tasks;
 
 namespace Popcorn.ViewModel.MovieSettings
 {
     /// <summary>
     /// Manage the movie's playing settings
     /// </summary>
-    public class MovieSettingsViewModel : ViewModelBase
+    public sealed class MovieSettingsViewModel : ViewModelBase
     {
         #region Property -> Movie
 
@@ -58,19 +57,16 @@ namespace Popcorn.ViewModel.MovieSettings
             {
                 return _setSubtitlesCommand ?? (_setSubtitlesCommand = new RelayCommand(async () =>
                 {
-                    await Task.Run(() =>
+                    Movie.SelectedSubtitle = null;
+                    if (Subtitles == null)
                     {
-                        Movie.SelectedSubtitle = null;
-                        if (Subtitles == null)
-                        {
-                            Subtitles = new SubtitlesViewModel(Movie);
-                        }
-                        else
-                        {
-                            Subtitles.Cleanup();
-                            Subtitles = null;
-                        }
-                    });
+                        Subtitles = await SubtitlesViewModel.CreateAsync(Movie);
+                    }
+                    else
+                    {
+                        Subtitles.Cleanup();
+                        Subtitles = null;
+                    }
                 }));
             }
         }

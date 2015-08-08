@@ -1,4 +1,4 @@
-﻿(using GalaSoft.MvvmLight;
+﻿using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.CommandWpf;
 using GalaSoft.MvvmLight.Ioc;
 using GalaSoft.MvvmLight.Messaging;
@@ -19,7 +19,7 @@ namespace Popcorn.ViewModel.Download
     /// <summary>
     /// Manage the download of a movie
     /// </summary>
-    public class DownloadMovieViewModel : ViewModelBase
+    public sealed class DownloadMovieViewModel : ViewModelBase
     {
         #region Properties
 

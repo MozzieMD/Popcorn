@@ -4,37 +4,55 @@ using GalaSoft.MvvmLight.Messaging;
 using Popcorn.Helpers;
 using Popcorn.Messaging;
 using GalaSoft.MvvmLight.CommandWpf;
-using GalaSoft.MvvmLight.Threading;
 
 namespace Popcorn.ViewModel.Tabs
 {
     /// <summary>
     /// The recent movies tab
     /// </summary>
-    public class RecentTabViewModel : TabsViewModel
+    public sealed class RecentTabViewModel : TabsViewModel
     {
         #region Constructor
 
         /// <summary>
         /// Initializes a new instance of the RecentTabViewModel class.
         /// </summary>
-        public RecentTabViewModel()
+        private RecentTabViewModel()
         {
             RegisterMessages();
 
             RegisterCommands();
 
             TabName = LocalizationProviderHelper.GetLocalizedValue<string>("RecentTitleTab");
-
-            if (!Movies.Any())
-            {
-                DispatcherHelper.CheckBeginInvokeOnUI(async () => await LoadNextPageAsync());
-            }
         }
 
         #endregion
 
         #region Methods
+
+        #region Method -> InitializeAsync
+        /// <summary>
+        /// Load asynchronously the recent movies and return an instance of RecentTabViewModel
+        /// </summary>
+        /// <returns>Instance of RecentTabViewModel</returns>
+        private async Task<RecentTabViewModel> InitializeAsync()
+        {
+            await LoadNextPageAsync();
+            return this;
+        }
+        #endregion
+
+        #region Method -> CreateAsync
+        /// <summary>
+        /// Initialize asynchronously an instance of the RecentTabViewModel class
+        /// </summary>
+        /// <returns>Instance of RecentTabViewModel</returns>
+        public static Task<RecentTabViewModel> CreateAsync()
+        {
+            var ret = new RecentTabViewModel();
+            return ret.InitializeAsync();
+        }
+        #endregion
 
         #region Method -> RegisterMessages
 

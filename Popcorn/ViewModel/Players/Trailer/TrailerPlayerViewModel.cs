@@ -8,7 +8,7 @@ namespace Popcorn.ViewModel.Players.Trailer
     /// <summary>
     /// Manage trailer player
     /// </summary>
-    public class TrailerPlayerViewModel : MediaPlayerViewModel
+    public sealed class TrailerPlayerViewModel : MediaPlayerViewModel
     {
         #region Constructor
 

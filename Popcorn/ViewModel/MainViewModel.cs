@@ -22,7 +22,7 @@ namespace Popcorn.ViewModel
 
         #region Property -> Tabs
 
-        private ObservableCollection<ITab> _tabs;
+        private ObservableCollection<ITab> _tabs = new ObservableCollection<ITab>();
 
         /// <summary>
         /// Tabs shown into the interface via TabControl
@@ -126,6 +126,15 @@ namespace Popcorn.ViewModel
 
         #endregion
 
+        #region Command -> InitializeAsyncCommand
+
+        /// <summary>
+        /// Command used to load tabs
+        /// </summary>
+        public RelayCommand InitializeAsyncCommand { get; private set; }
+
+        #endregion
+
         #endregion
 
         #region Constructors
@@ -138,17 +147,7 @@ namespace Popcorn.ViewModel
         public MainViewModel()
         {
             RegisterMessages();
-            
             RegisterCommands();
-
-            Tabs = new ObservableCollection<ITab>
-            {
-                new PopularTabViewModel(),
-                new GreatestTabViewModel(),
-                new RecentTabViewModel()
-            };
-
-            SelectedTab = Tabs.FirstOrDefault();
         }
 
         #endregion
@@ -156,6 +155,22 @@ namespace Popcorn.ViewModel
         #endregion
 
         #region Methods 
+
+        #region Method -> InitializeAsync
+
+        /// <summary>
+        /// Load asynchronously the languages of the application and return an instance of MainViewModel
+        /// </summary>
+        /// <returns>Instance of MainViewModel</returns>
+        private async Task InitializeAsync()
+        {
+            Tabs.Add(await PopularTabViewModel.CreateAsync());
+            Tabs.Add(await GreatestTabViewModel.CreateAsync());
+            Tabs.Add(await RecentTabViewModel.CreateAsync());
+            SelectedTab = Tabs.FirstOrDefault();
+        }
+
+        #endregion
 
         #region Method -> RegisterMessages
 
@@ -264,6 +279,8 @@ namespace Popcorn.ViewModel
             });
 
             OpenSettingsCommand = new RelayCommand(() => { IsSettingsFlyoutOpen = true; });
+
+            InitializeAsyncCommand = new RelayCommand(async () => await InitializeAsync());
         }
 
         #endregion

@@ -79,18 +79,38 @@ namespace Popcorn.Model.Localization
         /// <summary>
         /// Constructor
         /// </summary>
-        public Language()
+        private Language()
         {
             LanguageService = SimpleIoc.Default.GetInstance<ILanguageService>();
-            Task.Run(async () =>
-            {
-                await LoadLanguages();
-            });
         }
 
         #endregion
 
         #region Methods
+
+        #region Method -> InitializeAsync
+        /// <summary>
+        /// Load asynchronously the languages of the application and return an instance of Language
+        /// </summary>
+        /// <returns>Instance of Language</returns>
+        private async Task<Language> InitializeAsync()
+        {
+            await LoadLanguages();
+            return this;
+        }
+        #endregion
+
+        #region Method -> CreateAsync
+        /// <summary>
+        /// Initialize asynchronously an instance of the Language class
+        /// </summary>
+        /// <returns>Instance of Language</returns>
+        public static Task<Language> CreateAsync()
+        {
+            var ret = new Language();
+            return ret.InitializeAsync();
+        }
+        #endregion
 
         #region Method -> LoadLanguages
 

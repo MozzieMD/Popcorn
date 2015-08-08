@@ -25,8 +25,8 @@ namespace Popcorn.ViewModel
             SimpleIoc.Default.Register<IMovieService, MovieService>();
             SimpleIoc.Default.Register(() => new MainViewModel());
             SimpleIoc.Default.Register(() => new SettingsViewModel());
-            SimpleIoc.Default.Register(() => new MovieViewModel());
-            SimpleIoc.Default.Register(() => new SearchViewModel());
+            SimpleIoc.Default.Register(MovieViewModel.CreateInstance);
+            SimpleIoc.Default.Register(SearchViewModel.CreateInstance);
         }
 
         /// <summary>

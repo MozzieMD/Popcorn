@@ -46,6 +46,11 @@
             <command:EventToCommand Command="{Binding Mode=OneWay, Path=MainWindowClosingCommand}"
                                     PassEventArgsToCommand="False" />
         </i:EventTrigger>
+
+        <i:EventTrigger EventName="Loaded">
+            <command:EventToCommand Command="{Binding Mode=OneWay, Path=InitializeAsyncCommand}"
+                                    PassEventArgsToCommand="False" />
+        </i:EventTrigger>
     </i:Interaction.Triggers>
 
     <controls:MetroWindow.RightWindowCommands>

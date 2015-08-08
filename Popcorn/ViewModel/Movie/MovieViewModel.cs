@@ -15,7 +15,7 @@ namespace Popcorn.ViewModel.Movie
     /// <summary>
     /// Manage the movie
     /// </summary>
-    public class MovieViewModel : ViewModelBase
+    public sealed class MovieViewModel : ViewModelBase
     {
         #region Properties
 
@@ -165,20 +165,30 @@ namespace Popcorn.ViewModel.Movie
         /// <summary>
         /// Initializes a new instance of the MovieViewModel class.
         /// </summary>
-        public MovieViewModel()
+        private MovieViewModel()
         {
             RegisterMessages();
-
             RegisterCommands();
-
             CancellationLoadingToken = new CancellationTokenSource();
-
             MovieService = SimpleIoc.Default.GetInstance<IMovieService>();
         }
 
         #endregion
 
         #region Methods
+
+        #region Method -> CreateInstance
+
+        /// <summary>
+        /// Initialize asynchronously an instance of the MovieViewModel class
+        /// </summary>
+        /// <returns>Instance of MovieViewModel</returns>
+        public static MovieViewModel CreateInstance()
+        {
+            return new MovieViewModel();
+        }
+
+        #endregion
 
         #region Method -> RegisterMessages
 
@@ -209,6 +219,7 @@ namespace Popcorn.ViewModel.Movie
         #endregion
 
         #region Method -> RegisterCommands
+
         /// <summary>
         /// Register commands
         /// </summary>
@@ -222,12 +233,13 @@ namespace Popcorn.ViewModel.Movie
                 DownloadMovie = new DownloadMovieViewModel(Movie);
             });
 
-            PlayTrailerCommand = new RelayCommand(() =>
+            PlayTrailerCommand = new RelayCommand(async () =>
             {
                 IsPlayingTrailer = true;
-                Trailer = new TrailerViewModel(Movie);
+                Trailer = await TrailerViewModel.CreateAsync(Movie);
             });
         }
+
         #endregion
 
         #region Method -> LoadMovieAsync

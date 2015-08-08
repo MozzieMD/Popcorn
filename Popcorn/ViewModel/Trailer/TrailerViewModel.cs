@@ -20,7 +20,7 @@ namespace Popcorn.ViewModel.Trailer
     /// <summary>
     /// Manage trailer
     /// </summary>
-    public class TrailerViewModel : ViewModelBase
+    public sealed class TrailerViewModel : ViewModelBase
     {
         #region Properties
 
@@ -30,6 +30,15 @@ namespace Popcorn.ViewModel.Trailer
         /// The service used to interact with movies
         /// </summary>
         private IMovieService MovieService { get; }
+
+        #endregion
+
+        #region Property -> Movie
+
+        /// <summary>
+        /// Represent the subtitle's movie
+        /// </summary>
+        private readonly MovieFull Movie;
 
         #endregion
 
@@ -112,7 +121,7 @@ namespace Popcorn.ViewModel.Trailer
         /// Initializes a new instance of the TrailerViewModel class.
         /// </summary>
         /// <param name="movie">Movie's trailer</param>
-        public TrailerViewModel(MovieFull movie)
+        private TrailerViewModel(MovieFull movie)
         {
             RegisterCommands();
 
@@ -120,12 +129,34 @@ namespace Popcorn.ViewModel.Trailer
 
             MovieService = SimpleIoc.Default.GetInstance<IMovieService>();
 
-            Task.Run(async () =>
-            {
-                await GetTrailerAsync(movie);
-            });
+            Movie = movie;
         }
 
+        #endregion
+
+        #region Method -> InitializeAsync
+        /// <summary>
+        /// Load asynchronously the movie's trailer and return an instance of TrailerViewModel
+        /// </summary>
+        /// <returns>Instance of TrailerViewModel</returns>
+        private async Task<TrailerViewModel> InitializeAsync()
+        {
+            await GetTrailerAsync(Movie);
+            return this;
+        }
+        #endregion
+
+        #region Method -> CreateAsync
+        /// <summary>
+        /// Initialize asynchronously an instance of the TrailerViewModel class
+        /// </summary>
+        /// <param name="movie">The movie</param>
+        /// <returns>Instance of TrailerViewModel</returns>
+        public static Task<TrailerViewModel> CreateAsync(MovieFull movie)
+        {
+            var ret = new TrailerViewModel(movie);
+            return ret.InitializeAsync();
+        }
         #endregion
 
         #region -> RegisterCommands

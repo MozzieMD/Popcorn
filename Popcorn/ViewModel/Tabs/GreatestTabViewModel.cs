@@ -4,37 +4,55 @@ using GalaSoft.MvvmLight.Messaging;
 using Popcorn.Helpers;
 using Popcorn.Messaging;
 using GalaSoft.MvvmLight.CommandWpf;
-using GalaSoft.MvvmLight.Threading;
 
 namespace Popcorn.ViewModel.Tabs
 {
     /// <summary>
     /// The greatest movies tab
     /// </summary>
-    public class GreatestTabViewModel : TabsViewModel
+    public sealed class GreatestTabViewModel : TabsViewModel
     {
         #region Constructor
 
         /// <summary>
         /// Initializes a new instance of the GreatestTabViewModel class.
         /// </summary>
-        public GreatestTabViewModel()
+        private GreatestTabViewModel()
         {
             RegisterMessages();
 
             RegisterCommands();
 
             TabName = LocalizationProviderHelper.GetLocalizedValue<string>("GreatestTitleTab");
-
-            if (!Movies.Any())
-            {
-                DispatcherHelper.CheckBeginInvokeOnUI(async () => await LoadNextPageAsync());
-            }
         }
 
         #endregion
 
         #region Methods
+
+        #region Method -> InitializeAsync
+        /// <summary>
+        /// Load asynchronously the greatest movies and return an instance of GreatestTabViewModel
+        /// </summary>
+        /// <returns>Instance of TrailerViewModel</returns>
+        private async Task<GreatestTabViewModel> InitializeAsync()
+        {
+            await LoadNextPageAsync();
+            return this;
+        }
+        #endregion
+
+        #region Method -> CreateAsync
+        /// <summary>
+        /// Initialize asynchronously an instance of the GreatestTabViewModel class
+        /// </summary>
+        /// <returns>Instance of GreatestTabViewModel</returns>
+        public static Task<GreatestTabViewModel> CreateAsync()
+        {
+            var ret = new GreatestTabViewModel();
+            return ret.InitializeAsync();
+        }
+        #endregion
 
         #region Method -> RegisterMessages
 

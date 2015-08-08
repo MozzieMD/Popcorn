@@ -12,7 +12,7 @@ namespace Popcorn.ViewModel.Players.Movie
     /// <summary>
     /// Manage movie player
     /// </summary>
-    public class MoviePlayerViewModel : MediaPlayerViewModel, ITab
+    public sealed class MoviePlayerViewModel : MediaPlayerViewModel, ITab
     {
         #region Property -> MovieService
 

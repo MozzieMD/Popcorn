@@ -12,7 +12,7 @@ namespace Popcorn.ViewModel.Tabs
     /// <summary>
     /// The search movies tab
     /// </summary>
-    public class SearchTabViewModel : TabsViewModel
+    public sealed class SearchTabViewModel : TabsViewModel
     {
         #region Property -> CancellationSearchMoviesToken
 

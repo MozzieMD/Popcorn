@@ -7,7 +7,7 @@ using Popcorn.Service.Movie;
 
 namespace Popcorn.ViewModel.Subtitles
 {
-    public class SubtitlesViewModel : ViewModelBase
+    public sealed class SubtitlesViewModel : ViewModelBase
     {
         #region Properties
 
@@ -40,7 +40,7 @@ namespace Popcorn.ViewModel.Subtitles
         /// <summary>
         /// Token to cancel downloading subtitles
         /// </summary>
-        private CancellationTokenSource CancellationDownloadingSubtitlesToken { get; set; }
+        private CancellationTokenSource CancellationDownloadingSubtitlesToken { get; }
 
         #endregion
 
@@ -52,23 +52,43 @@ namespace Popcorn.ViewModel.Subtitles
         /// Initializes a new instance of the SubtitlesViewModel class.
         /// </summary>
         /// <param name="movie">The movie</param>
-        public SubtitlesViewModel(MovieFull movie)
+        private SubtitlesViewModel(MovieFull movie)
         {
             CancellationDownloadingSubtitlesToken = new CancellationTokenSource();
 
             MovieService = SimpleIoc.Default.GetInstance<IMovieService>();
 
             Movie = movie;
-
-            Task.Run(async () =>
-            {
-                await LoadSubtitlesAsync(Movie);
-            });
         }
 
         #endregion
 
         #region Methods
+
+        #region Method -> InitializeAsync
+        /// <summary>
+        /// Load asynchronously the movie's subtitles and return an instance of SubtitlesViewModel
+        /// </summary>
+        /// <returns>Instance of SubtitlesViewModel</returns>
+        private async Task<SubtitlesViewModel> InitializeAsync()
+        {
+            await LoadSubtitlesAsync(Movie);
+            return this;
+        }
+        #endregion
+
+        #region Method -> CreateAsync
+        /// <summary>
+        /// Initialize asynchronously an instance of the SubtitlesViewModel class
+        /// </summary>
+        /// <param name="movie">The movie</param>
+        /// <returns>Instance of SubtitlesViewModel</returns>
+        public static Task<SubtitlesViewModel> CreateAsync(MovieFull movie)
+        {
+            var ret = new SubtitlesViewModel(movie);
+            return ret.InitializeAsync();
+        }
+        #endregion
 
         #region Method -> LoadSubtitlesAsync
 

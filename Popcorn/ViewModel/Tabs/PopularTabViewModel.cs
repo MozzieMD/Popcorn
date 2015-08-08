@@ -5,37 +5,55 @@ using GalaSoft.MvvmLight.CommandWpf;
 using GalaSoft.MvvmLight.Messaging;
 using Popcorn.Helpers;
 using Popcorn.Messaging;
-using GalaSoft.MvvmLight.Threading;
 
 namespace Popcorn.ViewModel.Tabs
 {
     /// <summary>
     /// The popular movies tab
     /// </summary>
-    public class PopularTabViewModel : TabsViewModel
+    public sealed class PopularTabViewModel : TabsViewModel
     {
         #region Constructor
 
         /// <summary>
         /// Initializes a new instance of the PopularTabViewModel class.
         /// </summary>
-        public PopularTabViewModel()
+        private PopularTabViewModel()
         {
             RegisterMessages();
 
             RegisterCommands();
 
             TabName = LocalizationProviderHelper.GetLocalizedValue<string>("PopularTitleTab");
-
-            if (!Movies.Any())
-            {
-                DispatcherHelper.CheckBeginInvokeOnUI(async () => await LoadNextPageAsync());
-            }
         }
 
         #endregion
 
         #region Methods
+
+        #region Method -> InitializeAsync
+        /// <summary>
+        /// Load asynchronously the popular movies and return an instance of PopularTabViewModel
+        /// </summary>
+        /// <returns>Instance of PopularTabViewModel</returns>
+        private async Task<PopularTabViewModel> InitializeAsync()
+        {
+            await LoadNextPageAsync();
+            return this;
+        }
+        #endregion
+
+        #region Method -> CreateAsync
+        /// <summary>
+        /// Initialize asynchronously an instance of the GreatestTabViewModel class
+        /// </summary>
+        /// <returns>Instance of GreatestTabViewModel</returns>
+        public static Task<PopularTabViewModel> CreateAsync()
+        {
+            var ret = new PopularTabViewModel();
+            return ret.InitializeAsync();
+        }
+        #endregion
 
         #region Method -> RegisterMessages
 

@@ -8,7 +8,7 @@ namespace Popcorn.ViewModel.Search
     /// <summary>
     /// Movie's search
     /// </summary>
-    public class SearchViewModel : ViewModelBase
+    public sealed class SearchViewModel : ViewModelBase
     {
         #region Properties
 
@@ -47,16 +47,28 @@ namespace Popcorn.ViewModel.Search
         /// <summary>
         /// Initializes a new instance of the SearchViewModel class.
         /// </summary>
-        public SearchViewModel()
+        private SearchViewModel()
         {
             RegisterMessages();
-
             RegisterCommands();
         }
 
         #endregion
 
         #region Methods
+
+        #region Method -> CreateInstance
+
+        /// <summary>
+        /// Initialize asynchronously an instance of the SearchViewModel class
+        /// </summary>
+        /// <returns>Instance of SearchViewModel</returns>
+        public static SearchViewModel CreateInstance()
+        {
+            return new SearchViewModel();
+        }
+
+        #endregion
 
         #region Method -> RegisterMessages
 
