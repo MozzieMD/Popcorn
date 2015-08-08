@@ -114,40 +114,39 @@ namespace Popcorn.UserControls.Players
         {
             if (Player.State == MediaState.Paused)
             {
-                Player.Play();
+                PlayMedia();
             }
             else
             {
-                var vm = DataContext as MoviePlayerViewModel;
-                if (vm == null)
-                {
-                    return;
-                }
-                // start the timer used to report time on MediaPlayerSliderProgress
-                MediaPlayerTimer = new DispatcherTimer {Interval = TimeSpan.FromSeconds(1)};
-                MediaPlayerTimer.Tick += MediaPlayerTimer_Tick;
-                MediaPlayerTimer.Start();
-
-                // start the activity timer used to manage visibility of the PlayerStatusBar
-                InputManager.Current.PreProcessInput += OnActivity;
-                _activityTimer = new DispatcherTimer {Interval = TimeSpan.FromSeconds(3)};
-                _activityTimer.Tick += OnInactivity;
-
-                vm.StoppedPlayingMovie += OnStoppedPlayingMovie;
-
                 var window = Window.GetWindow(this);
                 if (window != null)
                 {
                     window.Closing += (s1, e1) => Dispose();
                 }
 
-                if (vm.MovieUri == null)
-                {
+                var vm = DataContext as MoviePlayerViewModel;
+                if (vm == null)
                     return;
-                }
+
+                if (vm.MovieUri == null)
+                    return;
+
+                // start the timer used to report time on MediaPlayerSliderProgress
+                MediaPlayerTimer = new DispatcherTimer {Interval = TimeSpan.FromSeconds(1)};
+                MediaPlayerTimer.Tick += MediaPlayerTimer_Tick;
+                MediaPlayerTimer.Start();
+
+                // start the activity timer used to manage visibility of the PlayerStatusBar
+                _activityTimer = new DispatcherTimer {Interval = TimeSpan.FromSeconds(3)};
+                _activityTimer.Tick += OnInactivity;
+                _activityTimer.Start();
+
+                InputManager.Current.PreProcessInput += OnActivity;
+
+                vm.StoppedPlayingMovie += OnStoppedPlayingMovie;
+                Player.VlcMediaPlayer.EndReached += MediaPlayer_EndReached;
 
                 Player.LoadMedia(vm.MovieUri);
-                Player.VlcMediaPlayer.EndReached += MediaPlayer_EndReached;
                 if (!string.IsNullOrEmpty(vm.Movie.SelectedSubtitle?.FilePath))
                 {
                     Player.AddOption("--sub-file = " + vm.Movie.SelectedSubtitle.FilePath);
@@ -168,7 +167,7 @@ namespace Popcorn.UserControls.Players
         /// <param name="e">EventArgs</param>
         private void OnUnloaded(object sender, EventArgs e)
         {
-            Player.PauseOrResume();
+            PauseMedia();
         }
 
         #endregion
@@ -186,10 +185,8 @@ namespace Popcorn.UserControls.Players
             {
                 var vm = DataContext as MoviePlayerViewModel;
                 if (vm == null)
-                {
                     return;
-                }
-
+                
                 await vm.UserDataService.SeenMovieAsync(vm.Movie);
                 Messenger.Default.Send(new StopPlayingMovieMessage());
             });
@@ -207,11 +204,11 @@ namespace Popcorn.UserControls.Players
         private static void OnVolumeChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
         {
             var moviePlayer = obj as MoviePlayer;
-            if (moviePlayer != null)
-            {
-                var newVolume = (int) e.NewValue;
-                moviePlayer.ChangeMediaVolume(newVolume);
-            }
+            if (moviePlayer == null)
+                return;
+            
+            var newVolume = (int) e.NewValue;
+            moviePlayer.ChangeMediaVolume(newVolume);
         }
 
         #endregion
@@ -246,12 +243,31 @@ namespace Popcorn.UserControls.Players
         #region Method -> PlayMedia
 
         /// <summary>
-        /// Play the movie when buffered
+        /// Play the movie
         /// </summary>
         private void PlayMedia()
         {
             Player.Play();
             MediaPlayerIsPlaying = true;
+
+            MediaPlayerStatusBarItemPlay.Visibility = Visibility.Collapsed;
+            MoviePlayerStatusBarItemPause.Visibility = Visibility.Visible;
+        }
+
+        #endregion
+
+        #region Method -> PauseMedia
+
+        /// <summary>
+        /// Pause the movie
+        /// </summary>
+        private void PauseMedia()
+        {
+            Player.PauseOrResume();
+            MediaPlayerIsPlaying = false;
+
+            MediaPlayerStatusBarItemPlay.Visibility = Visibility.Visible;
+            MoviePlayerStatusBarItemPause.Visibility = Visibility.Collapsed;
         }
 
         #endregion
@@ -311,11 +327,7 @@ namespace Popcorn.UserControls.Players
         /// <param name="e">ExecutedRoutedEventArgs</param>
         private void MediaPlayerPlay_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            Player.Play();
-            MediaPlayerIsPlaying = true;
-
-            MediaPlayerStatusBarItemPlay.Visibility = Visibility.Collapsed;
-            MoviePlayerStatusBarItemPause.Visibility = Visibility.Visible;
+            PlayMedia();
         }
 
         #endregion
@@ -356,11 +368,7 @@ namespace Popcorn.UserControls.Players
         /// <param name="e">CanExecuteRoutedEventArgs</param>
         private void MediaPlayerPause_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            Player.VlcMediaPlayer?.Pause();
-            MediaPlayerIsPlaying = false;
-
-            MediaPlayerStatusBarItemPlay.Visibility = Visibility.Visible;
-            MoviePlayerStatusBarItemPause.Visibility = Visibility.Collapsed;
+            PauseMedia();
         }
 
         #endregion
@@ -402,16 +410,12 @@ namespace Popcorn.UserControls.Players
         /// <param name="sender">Sender object</param>
         /// <param name="e">RoutedPropertyChangedEventArgs</param>
         private void MediaSliderProgress_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
-        {
-            var vm = DataContext as MoviePlayerViewModel;
-            if (vm != null)
-            {
-                MoviePlayerTextProgressStatus.Text =
-                    TimeSpan.FromSeconds(MediaPlayerSliderProgress.Value)
-                        .ToString(@"hh\:mm\:ss", CultureInfo.CurrentCulture) + " / " +
-                    TimeSpan.FromSeconds(Player.Length.TotalSeconds)
-                        .ToString(@"hh\:mm\:ss", CultureInfo.CurrentCulture);
-            }
+        {            
+            MoviePlayerTextProgressStatus.Text =
+                TimeSpan.FromSeconds(MediaPlayerSliderProgress.Value)
+                    .ToString(@"hh\:mm\:ss", CultureInfo.CurrentCulture) + " / " +
+                TimeSpan.FromSeconds(Player.Length.TotalSeconds)
+                    .ToString(@"hh\:mm\:ss", CultureInfo.CurrentCulture);
         }
 
         #endregion
@@ -447,10 +451,6 @@ namespace Popcorn.UserControls.Players
 
             if (PlayerStatusBar.Opacity.Equals(1.0))
             {
-                // set UI on inactivity
-
-                #region Fade in PlayerStatusBar opacity
-
                 var opacityAnimation = new DoubleAnimationUsingKeyFrames();
                 opacityAnimation.Duration = new Duration(TimeSpan.FromSeconds(0.5));
                 var opacityEasingFunction = new PowerEase();
@@ -468,8 +468,6 @@ namespace Popcorn.UserControls.Players
                     await Task.Delay(500);
                     PlayerStatusBar.Visibility = Visibility.Collapsed;
                 });
-
-                #endregion
             }
         }
 
@@ -504,10 +502,6 @@ namespace Popcorn.UserControls.Players
 
                 if (PlayerStatusBar.Opacity.Equals(0.0))
                 {
-                    // set UI on activity
-
-                    #region Fade out PlayerStatusBar opacity
-
                     var opacityAnimation = new DoubleAnimationUsingKeyFrames();
                     opacityAnimation.Duration = new Duration(TimeSpan.FromSeconds(0.5));
                     var opacityEasingFunction = new PowerEase();
@@ -524,12 +518,7 @@ namespace Popcorn.UserControls.Players
                     {
                         PlayerStatusBar.Visibility = Visibility.Visible;
                     });
-
-                    #endregion
                 }
-
-                _activityTimer.Stop();
-                _activityTimer.Start();
             }
         }
 
