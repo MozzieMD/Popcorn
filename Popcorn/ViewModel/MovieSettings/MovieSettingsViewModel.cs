@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace Popcorn.ViewModel.MovieSettings
 {
     /// <summary>
-    /// Manage the movie's settings prior launching the download
+    /// Manage the movie's playing settings
     /// </summary>
     public class MovieSettingsViewModel : ViewModelBase
     {

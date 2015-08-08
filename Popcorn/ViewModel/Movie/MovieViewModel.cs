@@ -13,7 +13,7 @@ using Popcorn.ViewModel.Trailer;
 namespace Popcorn.ViewModel.Movie
 {
     /// <summary>
-    /// Set the movie to be displayed into the interface
+    /// Manage the movie
     /// </summary>
     public class MovieViewModel : ViewModelBase
     {
@@ -29,7 +29,6 @@ namespace Popcorn.ViewModel.Movie
         #endregion
 
         #region Property -> Movie
-
 
         private MovieFull _movie = new MovieFull();
 
@@ -236,14 +235,14 @@ namespace Popcorn.ViewModel.Movie
         /// <summary>
         /// Get the requested movie
         /// </summary>
-        /// <param name="movieToLoad">Movie</param>
-        private async Task LoadMovieAsync(MovieShort movieToLoad)
+        /// <param name="movie">The movie to load</param>
+        private async Task LoadMovieAsync(MovieShort movie)
         {
-            Messenger.Default.Send(new LoadMovieMessage(movieToLoad));
+            Messenger.Default.Send(new LoadMovieMessage(movie));
             IsMovieLoading = true;
             try
             {
-                Movie = await MovieService.GetMovieFullDetailsAsync(movieToLoad);
+                Movie = await MovieService.GetMovieFullDetailsAsync(movie);
                 IsMovieLoading = false;
                 await MovieService.DownloadPosterImageAsync(Movie);
                 await MovieService.DownloadDirectorImageAsync(Movie);

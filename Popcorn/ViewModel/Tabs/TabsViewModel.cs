@@ -180,7 +180,6 @@ namespace Popcorn.ViewModel.Tabs
 
             CancellationLoadNextPageToken = new CancellationTokenSource();
 
-
             MovieService = SimpleIoc.Default.GetInstance<IMovieService>();
             UserDataService = SimpleIoc.Default.GetInstance<IUserDataService>();
 

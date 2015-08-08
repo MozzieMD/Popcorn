@@ -9,7 +9,7 @@ using Popcorn.UserControls.Players.Movie;
 namespace Popcorn.UserControls.Players
 {
     /// <summary>
-    /// Interaction logic for MoviePlayer.xaml
+    /// Interaction logic for MediaPlayer.xaml
     /// </summary>
     public class MediaPlayer : UserControl
     {
@@ -20,7 +20,7 @@ namespace Popcorn.UserControls.Players
         #region Property -> MediaPlayerIsPlaying
 
         /// <summary>
-        /// Indicates if a movie is playing 
+        /// Indicates if a media is playing 
         /// </summary>
         protected bool MediaPlayerIsPlaying { get; set; }
 
@@ -39,7 +39,7 @@ namespace Popcorn.UserControls.Players
         #region Property -> Volume
 
         /// <summary>
-        /// Get or set the movie volume 
+        /// Get or set the media volume 
         /// </summary>
         public int Volume
         {
@@ -85,7 +85,7 @@ namespace Popcorn.UserControls.Players
         #region Method -> Onloaded
 
         /// <summary>
-        /// Do action when loaded
+        /// Subscribe to events and play the media when control has been loaded
         /// </summary>
         /// <param name="sender">Sender object</param>
         /// <param name="e">EventArgs</param>
@@ -98,7 +98,7 @@ namespace Popcorn.UserControls.Players
         #region Method -> OnUnloaded
 
         /// <summary>
-        /// Do action when unloaded
+        /// Pause media when control has been unloaded
         /// </summary>
         /// <param name="sender">Sender object</param>
         /// <param name="e">EventArgs</param>
@@ -112,7 +112,7 @@ namespace Popcorn.UserControls.Players
         #region Method -> MediaPlayer_EndReached
 
         /// <summary>
-        /// When a media has been fully played, save Seen property into database
+        /// When a media has been fully played
         /// </summary>
         /// <param name="sender">Sender object</param>
         /// <param name="e">EventArgs</param>
@@ -125,7 +125,7 @@ namespace Popcorn.UserControls.Players
         #region Method -> OnVolumeChanged
 
         /// <summary>
-        /// When media's volume changed, update volume for all MediaPlayer instances (normal screen and fullscreen)
+        /// When media's volume changed, update volume
         /// </summary>
         /// <param name="e">e</param>
         /// <param name="obj">obj</param>
@@ -144,7 +144,7 @@ namespace Popcorn.UserControls.Players
         #region Method -> ChangeMediaVolume
 
         /// <summary>
-        /// Change the media's volume
+        /// Change the media volume
         /// </summary>
         /// <param name="newValue">New volume value</param>
         protected virtual void ChangeMediaVolume(int newValue)
@@ -156,7 +156,7 @@ namespace Popcorn.UserControls.Players
         #region Method -> OnStoppedPlayingMedia
 
         /// <summary>
-        /// When media has finished playing, stop player and reset timer
+        /// When media has finished playing, stop player and dispose control
         /// </summary>
         /// <param name="sender">Sender object</param>
         /// <param name="e">EventArgs</param>
@@ -170,7 +170,7 @@ namespace Popcorn.UserControls.Players
         #region Method -> PlayMedia
 
         /// <summary>
-        /// Play the movie
+        /// Play the media
         /// </summary>
         protected virtual void PlayMedia()
         {
@@ -181,7 +181,7 @@ namespace Popcorn.UserControls.Players
         #region Method -> PauseMedia
 
         /// <summary>
-        /// Pause the movie
+        /// Pause the media
         /// </summary>
         protected virtual void PauseMedia()
         {
@@ -218,7 +218,7 @@ namespace Popcorn.UserControls.Players
         #region Method -> MediaPlayerPlay_Executed
 
         /// <summary>
-        /// Play the current movie
+        /// Play media
         /// </summary>
         /// <param name="sender">Sender object</param>
         /// <param name="e">ExecutedRoutedEventArgs</param>
@@ -245,7 +245,7 @@ namespace Popcorn.UserControls.Players
         #region Method -> MediaPlayerPause_Executed
 
         /// <summary>
-        /// Pause the media
+        /// Pause media
         /// </summary>
         /// <param name="sender">Sender object</param>
         /// <param name="e">CanExecuteRoutedEventArgs</param>
@@ -286,7 +286,7 @@ namespace Popcorn.UserControls.Players
         #region Method -> MovieSliderProgress_ValueChanged
 
         /// <summary>
-        /// Report runtime when movie player progress changed
+        /// Report runtime when media player slider's progress has changed
         /// </summary>
         /// <param name="sender">Sender object</param>
         /// <param name="e">RoutedPropertyChangedEventArgs</param>

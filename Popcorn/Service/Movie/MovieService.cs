@@ -120,6 +120,7 @@ namespace Popcorn.Service.Movie
             var wrapper =
                 await Task.Run(() => JsonConvert.DeserializeObject<WrapperMovieShortDeserialized>(response.Content), ct);
             var movies = GetMoviesListFromWrapper(wrapper);
+
             watch.Stop();
             var elapsedMs = watch.ElapsedMilliseconds;
             Logger.Debug(
@@ -482,6 +483,7 @@ namespace Popcorn.Service.Movie
         public async Task<ResultContainer<Video>> GetMovieTrailerAsync(MovieFull movie)
         {
             var watch = Stopwatch.StartNew();
+
             var trailers = new ResultContainer<Video>();
             try
             {
@@ -532,6 +534,7 @@ namespace Popcorn.Service.Movie
 
             var wrapper =
                 await Task.Run(() => JsonConvert.DeserializeObject<SubtitlesWrapperDeserialized>(response.Content), ct);
+
             var subtitles = new ObservableCollection<Subtitle>();
             Dictionary<string, List<SubtitleDeserialized>> movieSubtitles;
             if (wrapper.Subtitles.TryGetValue(movie.ImdbCode, out movieSubtitles))
@@ -570,9 +573,7 @@ namespace Popcorn.Service.Movie
         public async Task DownloadSubtitleAsync(MovieFull movie)
         {
             if (movie.SelectedSubtitle == null)
-            {
                 return;
-            }
 
             var filePath = Constants.Subtitles + movie.ImdbCode + "\\" + movie.SelectedSubtitle.Language.EnglishName +
                            ".zip";

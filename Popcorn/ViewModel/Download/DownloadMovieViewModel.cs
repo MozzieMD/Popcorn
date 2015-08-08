@@ -1,4 +1,4 @@
-﻿using GalaSoft.MvvmLight;
+﻿(using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.CommandWpf;
 using GalaSoft.MvvmLight.Ioc;
 using GalaSoft.MvvmLight.Messaging;
@@ -35,7 +35,6 @@ namespace Popcorn.ViewModel.Download
         #region Property -> MovieSettingsViewModel
 
         private MovieSettingsViewModel _movieSettings;
-
 
         /// <summary>
         /// The view model used to manage movie's settings
@@ -228,10 +227,8 @@ namespace Popcorn.ViewModel.Download
         {
             DownloadProgress = value;
             if (value < Constants.MinimumBufferingBeforeMoviePlaying)
-            {
                 return;
-            }
-
+            
             if (!IsMovieBuffered)
             {
                 IsMovieBuffered = true;

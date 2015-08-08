@@ -1,13 +1,13 @@
 ﻿namespace Popcorn.UserControls.Movie
 {
     /// <summary>
-    /// Interaction logic for MoviePage.xaml
+    /// Interaction logic for Movie.xaml
     /// </summary>
     public partial class Movie
     {
         #region Constructor
         /// <summary>
-        /// Initializes a new instance of the MoviePage class.
+        /// Initializes a new instance of the Movie class.
         /// </summary>
         public Movie()
         {

@@ -48,6 +48,7 @@ namespace Popcorn.Service.User
                         await CreateUserDataAsync();
                         userData = await context.UserData.FirstOrDefaultAsync();
                     }
+
                     foreach (var movie in movies)
                     {
                         var movieHistory = userData?.MovieHistory?.FirstOrDefault(p => p.ImdbCode == movie.ImdbCode);
@@ -86,6 +87,7 @@ namespace Popcorn.Service.User
                         await CreateUserDataAsync();
                         userData = await context.UserData.FirstOrDefaultAsync();
                     }
+
                     if (userData.MovieHistory == null)
                     {
                         userData.MovieHistory = new List<MovieHistory>
@@ -153,6 +155,7 @@ namespace Popcorn.Service.User
                         await CreateUserDataAsync();
                         userData = await context.UserData.FirstOrDefaultAsync();
                     }
+                    
                     if (userData.MovieHistory == null)
                     {
                         userData.MovieHistory = new List<MovieHistory>

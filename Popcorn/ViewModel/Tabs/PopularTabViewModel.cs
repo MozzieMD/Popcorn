@@ -89,11 +89,8 @@ namespace Popcorn.ViewModel.Tabs
                     Movies.Add(movie);
                 }
 
-                await MovieService.DownloadCoverImageAsync(movies);
                 await UserDataService.ComputeMovieHistoryAsync(movies);
-
-                IsLoadingMovies = false;
-
+                await MovieService.DownloadCoverImageAsync(movies);
                 if (!Movies.Any() && !movies.Any())
                 {
                     IsMovieFound = false;
@@ -105,9 +102,12 @@ namespace Popcorn.ViewModel.Tabs
             }
             catch (Exception)
             {
-                IsLoadingMovies = false;
                 IsMovieFound = Movies.Any();
                 Page--;
+            }
+            finally
+            {
+                IsLoadingMovies = false;
             }
         }
 

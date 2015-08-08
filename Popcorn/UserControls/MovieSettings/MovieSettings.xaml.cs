@@ -1,7 +1,7 @@
 ﻿namespace Popcorn.UserControls.MovieSettings
 {
     /// <summary>
-    /// Logique d'interaction pour MovieSettings.xaml
+    /// Interaction logic for MovieSettings.xaml
     /// </summary>
     public partial class MovieSettings
     {

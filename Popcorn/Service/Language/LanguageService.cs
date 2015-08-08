@@ -76,7 +76,6 @@ namespace Popcorn.Service.Language
             await Task.Run(async () =>
             {
                 var watch = Stopwatch.StartNew();
-
                 using (var context = new ApplicationDbContext())
                 {
                     await context.ApplicationSettings.LoadAsync();
@@ -86,6 +85,7 @@ namespace Popcorn.Service.Language
                         await ApplicationService.CreateApplicationSettingsAsync();
                         applicationSettings = await context.ApplicationSettings.FirstOrDefaultAsync();
                     }
+
                     var languages = applicationSettings.Languages;
                     availableLanguages = new List<ILanguage>();
                     foreach (var language in languages)
@@ -125,11 +125,9 @@ namespace Popcorn.Service.Language
         public async Task<ILanguage> GetCurrentLanguageAsync()
         {
             ILanguage currentLanguage = null;
-
             await Task.Run(async () =>
             {
                 var watch = Stopwatch.StartNew();
-
                 using (var context = new ApplicationDbContext())
                 {
                     await context.ApplicationSettings.LoadAsync();
@@ -139,6 +137,7 @@ namespace Popcorn.Service.Language
                         await ApplicationService.CreateApplicationSettingsAsync();
                         applicationSettings = await context.ApplicationSettings.FirstOrDefaultAsync();
                     }
+
                     var language = applicationSettings.Languages.FirstOrDefault(a => a.IsCurrentLanguage);
                     if (language != null)
                     {
@@ -189,15 +188,16 @@ namespace Popcorn.Service.Language
                         await ApplicationService.CreateApplicationSettingsAsync();
                         applicationSettings = await context.ApplicationSettings.FirstOrDefaultAsync();
                     }
+
                     var currentLanguage = applicationSettings.Languages.First(a => a.Culture == language.Culture);
                     currentLanguage.IsCurrentLanguage = true;
                     foreach (var lang in applicationSettings.Languages.Where(a => a.Culture != language.Culture))
                     {
                         lang.IsCurrentLanguage = false;
                     }
+
                     context.ApplicationSettings.AddOrUpdate(applicationSettings);
                     await context.SaveChangesAsync();
-
                     ChangeLanguage(language);
                 }
 

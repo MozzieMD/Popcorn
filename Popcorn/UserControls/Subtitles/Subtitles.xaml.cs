@@ -1,7 +1,7 @@
 ﻿namespace Popcorn.UserControls.Subtitles
 {
     /// <summary>
-    /// Logique d'interaction pour Subtitles.xaml
+    /// Interaction logic for Subtitles.xaml
     /// </summary>
     public partial class Subtitles
     {

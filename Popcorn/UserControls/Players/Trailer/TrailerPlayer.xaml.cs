@@ -29,6 +29,7 @@ namespace Popcorn.UserControls.Players.Trailer
             InitializeComponent();
 
             Loaded += OnLoaded;
+            Unloaded += OnUnloaded;
         }
 
         #endregion
@@ -36,7 +37,7 @@ namespace Popcorn.UserControls.Players.Trailer
         #region Method -> Onloaded
 
         /// <summary>
-        /// Do action when loaded
+        /// Subscribe to events and play the trailer when control has been loaded
         /// </summary>
         /// <param name="sender">Sender object</param>
         /// <param name="e">EventArgs</param>
@@ -88,7 +89,7 @@ namespace Popcorn.UserControls.Players.Trailer
         #region Method -> MediaPlayer_EndReached
 
         /// <summary>
-        /// When a media has been fully played, save Seen property into database
+        /// When a trailer has been fully played, send the StopPlayingTrailerMessage message
         /// </summary>
         /// <param name="sender">Sender object</param>
         /// <param name="e">EventArgs</param>
@@ -117,7 +118,7 @@ namespace Popcorn.UserControls.Players.Trailer
         #region Method -> PlayMedia
 
         /// <summary>
-        /// Play the movie
+        /// Play the trailer
         /// </summary>
         protected override void PlayMedia()
         {
@@ -133,7 +134,7 @@ namespace Popcorn.UserControls.Players.Trailer
         #region Method -> PauseMedia
 
         /// <summary>
-        /// Pause the movie
+        /// Pause the trailer
         /// </summary>
         protected override void PauseMedia()
         {
@@ -351,6 +352,49 @@ namespace Popcorn.UserControls.Players.Trailer
         protected override void ChangeMediaVolume(int newValue)
         {
             Player.Volume = newValue;
+        }
+
+        #endregion
+
+        #region Dispose
+
+        /// <summary>
+        /// Free resources
+        /// </summary>
+        protected override void Dispose()
+        {
+            if (Disposed)
+                return;
+
+            DispatcherHelper.CheckBeginInvokeOnUI(async () =>
+            {
+                Loaded -= OnLoaded;
+                Unloaded -= OnUnloaded;
+
+                MediaPlayerTimer.Tick -= MediaPlayerTimer_Tick;
+                MediaPlayerTimer.Stop();
+
+                ActivityTimer.Tick -= OnInactivity;
+                ActivityTimer.Stop();
+
+                InputManager.Current.PreProcessInput -= OnActivity;
+
+                Player.VlcMediaPlayer.EndReached -= MediaPlayer_EndReached;
+                MediaPlayerIsPlaying = false;
+
+                await Player.StopAsync();
+                Player.Dispose();
+
+                var vm = DataContext as TrailerPlayerViewModel;
+                if (vm != null)
+                {
+                    vm.StoppedPlayingMedia -= OnStoppedPlayingMedia;
+                }
+
+                Disposed = true;
+
+                GC.SuppressFinalize(this);
+            });
         }
 
         #endregion

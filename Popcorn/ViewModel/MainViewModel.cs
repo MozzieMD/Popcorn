@@ -138,6 +138,7 @@ namespace Popcorn.ViewModel
         public MainViewModel()
         {
             RegisterMessages();
+            
             RegisterCommands();
 
             Tabs = new ObservableCollection<ITab>

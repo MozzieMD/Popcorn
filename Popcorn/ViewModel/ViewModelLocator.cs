@@ -94,30 +94,37 @@ namespace Popcorn.ViewModel
             {
                 SimpleIoc.Default.Unregister<IMovieService>();
             }
+            
             if (SimpleIoc.Default.IsRegistered<IApplicationSettingsService>())
             {
                 SimpleIoc.Default.Unregister<IApplicationSettingsService>();
             }
+
             if (SimpleIoc.Default.IsRegistered<IUserDataService>())
             {
                 SimpleIoc.Default.Unregister<IUserDataService>();
             }
+
             if (SimpleIoc.Default.IsRegistered<ILanguageService>())
             {
                 SimpleIoc.Default.Unregister<ILanguageService>();
             }
+
             if (SimpleIoc.Default.IsRegistered<MainViewModel>())
             {
                 SimpleIoc.Default.Unregister<MainViewModel>();
             }
+
             if (SimpleIoc.Default.IsRegistered<SettingsViewModel>())
             {
                 SimpleIoc.Default.Unregister<SettingsViewModel>();
             }
+
             if (SimpleIoc.Default.IsRegistered<MovieViewModel>())
             {
                 SimpleIoc.Default.Unregister<MovieViewModel>();
             }
+
             if (SimpleIoc.Default.IsRegistered<SearchViewModel>())
             {
                 SimpleIoc.Default.Unregister<SearchViewModel>();

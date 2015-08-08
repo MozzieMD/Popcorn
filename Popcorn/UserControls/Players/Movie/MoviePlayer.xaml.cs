@@ -29,6 +29,7 @@ namespace Popcorn.UserControls.Players.Movie
             InitializeComponent();
 
             Loaded += OnLoaded;
+            Unloaded += OnUnloaded;
         }
 
         #endregion
@@ -36,7 +37,7 @@ namespace Popcorn.UserControls.Players.Movie
         #region Method -> Onloaded
 
         /// <summary>
-        /// Do action when loaded
+        /// Subscribe to events and play the movie when control has been loaded
         /// </summary>
         /// <param name="sender">Sender object</param>
         /// <param name="e">EventArgs</param>
@@ -91,7 +92,7 @@ namespace Popcorn.UserControls.Players.Movie
         #region Method -> MediaPlayer_EndReached
 
         /// <summary>
-        /// When a media has been fully played, save Seen property into database
+        /// When a movie has been fully played, save seen property into database and send a StopPlayingMovieMessage message
         /// </summary>
         /// <param name="sender">Sender object</param>
         /// <param name="e">EventArgs</param>

@@ -29,7 +29,7 @@ namespace Popcorn.UserControls.Tabs
         #region Method -> ScrollViewer_ScrollChanged
 
         /// <summary>
-        /// Decide if we have to load previous or next page regarding to the scroll position
+        /// Decide if we have to load next page regarding to the scroll position
         /// </summary>
         /// <param name="sender">Sender object</param>
         /// <param name="e">ScrollChangedEventArgs</param>

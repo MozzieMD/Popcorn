@@ -25,9 +25,8 @@ namespace Popcorn.Converters
         {
             var title = value as string;
             if (title == null)
-            {
                 return default(string);
-            }
+            
 
             CultureInfo cultureInfo = Thread.CurrentThread.CurrentCulture;
             TextInfo textInfo = cultureInfo.TextInfo;

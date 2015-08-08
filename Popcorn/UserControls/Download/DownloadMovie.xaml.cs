@@ -1,7 +1,7 @@
 ﻿namespace Popcorn.UserControls.Download
 {
     /// <summary>
-    /// Logique d'interaction pour DownloadMovie.xaml
+    /// Interaction logic for DownloadMovie.xaml
     /// </summary>
     public partial class DownloadMovie
     {

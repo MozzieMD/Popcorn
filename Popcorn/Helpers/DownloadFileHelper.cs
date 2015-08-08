@@ -20,13 +20,10 @@ namespace Popcorn.Helpers
         #endregion
 
         /// <summary>
-        ///     Downloads a file from a specified Internet address.
+        /// Downloads a file from a specified Internet address.
         /// </summary>
         /// <param name="remotePath">Internet address of the file to download.</param>
-        /// <param name="localPath">
-        ///     Local file name where to store the content of the download, if null a temporary file name will
-        ///     be generated.
-        /// </param>
+        /// <param name="localPath">Local file name where to store the content of the download, if null a temporary file name will be generated.</param>
         /// <param name="timeOut">Duration in miliseconds before cancelling the  operation.</param>
         public static async Task<Tuple<string, string, Exception>> DownloadFileTaskAsync(string remotePath,
             string localPath = null, int timeOut = 10000)

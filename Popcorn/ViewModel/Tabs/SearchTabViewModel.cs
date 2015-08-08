@@ -110,7 +110,6 @@ namespace Popcorn.ViewModel.Tabs
             }
 
             SearchFilter = searchFilter;
-
             Page++;
             var lastPage = int.MaxValue;
             if (!LastPageFilterMapping.ContainsKey(searchFilter) ||
@@ -132,15 +131,12 @@ namespace Popcorn.ViewModel.Tabs
                         Movies.Add(movie);
                     }
 
-                    await MovieService.DownloadCoverImageAsync(movies);
                     await UserDataService.ComputeMovieHistoryAsync(movies);
-
+                    await MovieService.DownloadCoverImageAsync(movies);
                     if (!LastPageFilterMapping.ContainsKey(searchFilter) && !movies.Any())
                     {
                         LastPageFilterMapping.Add(searchFilter, Page);
                     }
-
-                    IsLoadingMovies = false;
 
                     if (!Movies.Any() && !movies.Any())
                     {
@@ -153,9 +149,12 @@ namespace Popcorn.ViewModel.Tabs
                 }
                 catch
                 {
-                    IsLoadingMovies = false;
                     IsMovieFound = Movies.Any();
                     Page--;
+                }
+                finally
+                {
+                    IsLoadingMovies = false;
                 }
             }
         }

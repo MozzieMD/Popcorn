@@ -24,7 +24,6 @@ namespace Popcorn.Converters
         {
             var runtime = string.Empty;
             var result = System.Convert.ToDouble(value, CultureInfo.InvariantCulture);
-
             if (result >= 60.0)
             {
                 var hours = result/60.0;
