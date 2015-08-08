@@ -8,10 +8,10 @@
              lex:ResxLocalizationProvider.DefaultAssembly="Popcorn"
              lex:ResxLocalizationProvider.DefaultDictionary="Resources"
              xmlns:converters="clr-namespace:Popcorn.Converters"
-             xmlns:playersUserControl="clr-namespace:Popcorn.UserControls.Players"
-             xmlns:playersViewModel="clr-namespace:Popcorn.ViewModel.Players"
              xmlns:controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
              xmlns:trailer="clr-namespace:Popcorn.ViewModel.Trailer"
+             xmlns:trailerVm="clr-namespace:Popcorn.ViewModel.Players.Trailer"
+             xmlns:trailerUc="clr-namespace:Popcorn.UserControls.Players.Trailer"
              mc:Ignorable="d" 
              d:DesignHeight="600" d:DesignWidth="900"
              d:DataContext="{d:DesignInstance trailer:TrailerViewModel}">
@@ -20,8 +20,8 @@
             <converters:RatioConverter x:Key="RatioConverter" />
             <converters:BoolToInverseVisibilityConverter x:Key="BoolToInverseVisibilityConverter" />
 
-            <DataTemplate DataType="{x:Type playersViewModel:TrailerPlayerViewModel}">
-                <playersUserControl:TrailerPlayer></playersUserControl:TrailerPlayer>
+            <DataTemplate DataType="{x:Type trailerVm:TrailerPlayerViewModel}">
+                <trailerUc:TrailerPlayer></trailerUc:TrailerPlayer>
             </DataTemplate>
         </ResourceDictionary>
     </UserControl.Resources>

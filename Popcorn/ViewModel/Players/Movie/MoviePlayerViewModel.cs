@@ -1,5 +1,4 @@
 ﻿using System;
-using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.CommandWpf;
 using GalaSoft.MvvmLight.Ioc;
 using GalaSoft.MvvmLight.Messaging;
@@ -8,11 +7,13 @@ using Popcorn.Model.Movie;
 using Popcorn.Service.User;
 using Popcorn.ViewModel.Tabs;
 
-namespace Popcorn.ViewModel.Players
+namespace Popcorn.ViewModel.Players.Movie
 {
-    public class MoviePlayerViewModel : ViewModelBase, ITab
+    /// <summary>
+    /// Manage movie player
+    /// </summary>
+    public class MoviePlayerViewModel : MediaPlayerViewModel, ITab
     {
-
         #region Property -> MovieService
 
         /// <summary>
@@ -38,30 +39,6 @@ namespace Popcorn.ViewModel.Players
 
         #endregion
 
-        #region Property -> MovieUri
-
-        /// <summary>
-        /// Uri to file path of the media to be played
-        /// </summary>
-        public readonly Uri MovieUri;
-
-        #endregion
-
-        #region Property -> IsInFullScreenMode
-
-        private bool _isInFullScreenMode;
-
-        /// <summary>
-        /// Indicates if player is in fullscreen mode
-        /// </summary>
-        public bool IsInFullScreenMode
-        {
-            get { return _isInFullScreenMode; }
-            set { Set(() => IsInFullScreenMode, ref _isInFullScreenMode, value); }
-        }
-
-        #endregion
-
         #region Property -> Movie
 
         /// <summary>
@@ -72,24 +49,6 @@ namespace Popcorn.ViewModel.Players
         #endregion
 
         #region Commands
-
-        #region Command -> ChangeScreenModeCommand
-
-        /// <summary>
-        /// Command used to change screen mode (fullscreen or boxed)
-        /// </summary>
-        public RelayCommand ChangeScreenModeCommand { get; private set; }
-
-        #endregion
-
-        #region Command -> StopPlayingMediaCommand
-
-        /// <summary>
-        /// Command used to stop playing the movie
-        /// </summary>
-        public RelayCommand StopPlayingMediaCommand { get; private set; }
-
-        #endregion
 
         #endregion
 
@@ -109,7 +68,7 @@ namespace Popcorn.ViewModel.Players
             UserDataService = SimpleIoc.Default.GetInstance<IUserDataService>();
 
             Movie = movie;
-            MovieUri = movieUri;
+            MediaUri = movieUri;
             TabName = !string.IsNullOrEmpty(Movie.Title) ? Movie.Title : Properties.Resources.PlayingTitleTab;
         }
 
@@ -130,11 +89,7 @@ namespace Popcorn.ViewModel.Players
 
             Messenger.Default.Register<StopPlayingMovieMessage>(
                 this,
-                message => { OnStoppedPlayingMovie(new EventArgs()); });
-
-            Messenger.Default.Register<ChangeScreenModeMessage>(
-                this,
-                message => { IsInFullScreenMode = message.IsFullScreen; });
+                message => { OnStoppedPlayingMedia(new EventArgs()); });
         }
 
         #endregion
@@ -146,9 +101,6 @@ namespace Popcorn.ViewModel.Players
         /// </summary>
         private void RegisterCommands()
         {
-            ChangeScreenModeCommand =
-                new RelayCommand(() => { Messenger.Default.Send(new ChangeScreenModeMessage(IsInFullScreenMode)); });
-
             StopPlayingMediaCommand = new RelayCommand(() =>
             {
                 if (IsInFullScreenMode)
@@ -162,25 +114,6 @@ namespace Popcorn.ViewModel.Players
         }
 
         #endregion
-
-        #endregion
-
-        #region Event -> OnStoppedPlayingMovie
-
-        /// <summary>
-        /// Event fired on stopped playing the movie
-        /// </summary>
-        public event EventHandler<EventArgs> StoppedPlayingMovie;
-
-        /// <summary>
-        /// Fire StoppedPlayingMovie event
-        /// </summary>
-        ///<param name="e">Event data</param>
-        private void OnStoppedPlayingMovie(EventArgs e)
-        {
-            var handler = StoppedPlayingMovie;
-            handler?.Invoke(this, e);
-        }
 
         #endregion
     }

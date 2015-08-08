@@ -329,10 +329,11 @@
     <Compile Include="UserControls\Movie\Movie.xaml.cs">
       <DependentUpon>Movie.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UserControls\Players\MoviePlayer.xaml.cs">
+    <Compile Include="UserControls\Players\MediaPlayer.cs" />
+    <Compile Include="UserControls\Players\Movie\MoviePlayer.xaml.cs">
       <DependentUpon>MoviePlayer.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UserControls\Players\TrailerPlayer.xaml.cs">
+    <Compile Include="UserControls\Players\Trailer\TrailerPlayer.xaml.cs">
       <DependentUpon>TrailerPlayer.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserControls\Search\Search.xaml.cs">
@@ -362,14 +363,15 @@
     <Compile Include="ViewModel\Download\DownloadMovieViewModel.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\MovieSettings\MovieSettingsViewModel.cs" />
+    <Compile Include="ViewModel\Players\MediaPlayerViewModel.cs" />
     <Compile Include="ViewModel\Subtitles\SubtitlesViewModel.cs" />
     <Compile Include="ViewModel\Tabs\ITab.cs" />
     <Compile Include="ViewModel\Tabs\GreatestTabViewModel.cs" />
-    <Compile Include="ViewModel\Players\MoviePlayerViewModel.cs" />
+    <Compile Include="ViewModel\Players\Movie\MoviePlayerViewModel.cs" />
     <Compile Include="ViewModel\Tabs\SearchTabViewModel.cs" />
     <Compile Include="ViewModel\Tabs\PopularTabViewModel.cs" />
     <Compile Include="ViewModel\Tabs\RecentTabViewModel.cs" />
-    <Compile Include="ViewModel\Players\TrailerPlayerViewModel.cs" />
+    <Compile Include="ViewModel\Players\Trailer\TrailerPlayerViewModel.cs" />
     <Compile Include="ViewModel\Movie\MovieViewModel.cs" />
     <Compile Include="ViewModel\Search\SearchViewModel.cs" />
     <Compile Include="ViewModel\Settings\SettingsViewModel.cs" />
@@ -408,11 +410,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UserControls\Players\MoviePlayer.xaml">
+    <Page Include="UserControls\Players\Movie\MoviePlayer.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UserControls\Players\TrailerPlayer.xaml">
+    <Page Include="UserControls\Players\Trailer\TrailerPlayer.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

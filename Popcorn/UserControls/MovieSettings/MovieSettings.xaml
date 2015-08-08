@@ -31,8 +31,13 @@
         <Grid.Resources>
             <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.AnimatedSingleRowTabControl.xaml" />
         </Grid.Resources>
-        <TextBlock Grid.Row="0" Text="{lex:LocText MovieSettingsLabel}" FontSize="42" Margin="15,0,0,10"></TextBlock>
-        <TabControl Grid.Row="1" controls:TabControlHelper.IsUnderlined="True" controls:TabControlHelper.Transition="LeftReplace">
+        <TextBlock Grid.Row="0" 
+                   Text="{lex:LocText MovieSettingsLabel}" 
+                   FontSize="42" 
+                   Margin="15,0,0,10"></TextBlock>
+        <TabControl Grid.Row="1" 
+                    controls:TabControlHelper.IsUnderlined="True" 
+                    controls:TabControlHelper.Transition="LeftReplace">
             <TabItem Header="{lex:LocText SubtitlesLabel}" FontSize="14">
                 <Grid Margin="10">
                     <Grid.RowDefinitions>

@@ -12,11 +12,11 @@
         xmlns:command="http://www.galasoft.ch/mvvmlight"
         xmlns:helpers="clr-namespace:Popcorn.Helpers"
         xmlns:lex="http://wpflocalizeextension.codeplex.com"
-        xmlns:playersViewModel="clr-namespace:Popcorn.ViewModel.Players"
-        xmlns:playersUserControl="clr-namespace:Popcorn.UserControls.Players"
         xmlns:tabsViewModel="clr-namespace:Popcorn.ViewModel.Tabs"
         xmlns:tabsUserControl="clr-namespace:Popcorn.UserControls.Tabs"
         xmlns:viewModel="clr-namespace:Popcorn.ViewModel"
+        xmlns:movieVm="clr-namespace:Popcorn.ViewModel.Players.Movie"
+        xmlns:movieUc="clr-namespace:Popcorn.UserControls.Players.Movie"
         lex:LocalizeDictionary.DesignCulture="en"
         lex:ResxLocalizationProvider.DefaultAssembly="Popcorn"
         lex:ResxLocalizationProvider.DefaultDictionary="Resources"
@@ -127,8 +127,8 @@
                 <DataTemplate x:Shared="False" DataType="{x:Type tabsViewModel:SearchTabViewModel}">
                     <tabsUserControl:SearchMovies></tabsUserControl:SearchMovies>
                 </DataTemplate>
-                <DataTemplate x:Shared="False" DataType="{x:Type playersViewModel:MoviePlayerViewModel}">
-                    <playersUserControl:MoviePlayer></playersUserControl:MoviePlayer>
+                <DataTemplate x:Shared="False" DataType="{x:Type movieVm:MoviePlayerViewModel}">
+                    <movieUc:MoviePlayer></movieUc:MoviePlayer>
                 </DataTemplate>
             </controls:MetroAnimatedSingleRowTabControl.Resources>
             

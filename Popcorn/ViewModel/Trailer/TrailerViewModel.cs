@@ -5,7 +5,6 @@ using GalaSoft.MvvmLight.Messaging;
 using Popcorn.Helpers;
 using Popcorn.Messaging;
 using Popcorn.Model.Movie;
-using Popcorn.ViewModel.Players;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,6 +12,7 @@ using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using Popcorn.Service.Movie;
+using Popcorn.ViewModel.Players.Trailer;
 using YoutubeExtractor;
 
 namespace Popcorn.ViewModel.Trailer

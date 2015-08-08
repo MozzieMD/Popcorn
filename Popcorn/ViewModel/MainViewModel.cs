@@ -9,7 +9,7 @@ using GalaSoft.MvvmLight.Threading;
 using Popcorn.Messaging;
 using Popcorn.Events;
 using Popcorn.ViewModel.Tabs;
-using Popcorn.ViewModel.Players;
+using Popcorn.ViewModel.Players.Movie;
 
 namespace Popcorn.ViewModel
 {
