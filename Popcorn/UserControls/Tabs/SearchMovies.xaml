@@ -429,7 +429,7 @@
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
                         <custompanels:ElasticWrapPanel DesiredColumnWidth="230" 
-                                                    Loaded="ElasticWrapPanel_Loaded"/>
+                                                    Loaded="ElasticWrapPanelLoaded"/>
                     </ItemsPanelTemplate>
                 </ItemsControl.ItemsPanel>
             </ItemsControl>

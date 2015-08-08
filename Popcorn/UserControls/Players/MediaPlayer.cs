@@ -109,14 +109,14 @@ namespace Popcorn.UserControls.Players
 
         #endregion
 
-        #region Method -> MediaPlayer_EndReached
+        #region Method -> MediaPlayerEndReached
 
         /// <summary>
         /// When a media has been fully played
         /// </summary>
         /// <param name="sender">Sender object</param>
         /// <param name="e">EventArgs</param>
-        protected virtual void MediaPlayer_EndReached(object sender, EventArgs e)
+        protected virtual void MediaPlayerEndReached(object sender, EventArgs e)
         {
         }
 
@@ -153,19 +153,7 @@ namespace Popcorn.UserControls.Players
 
         #endregion
 
-        #region Method -> OnStoppedPlayingMedia
 
-        /// <summary>
-        /// When media has finished playing, stop player and dispose control
-        /// </summary>
-        /// <param name="sender">Sender object</param>
-        /// <param name="e">EventArgs</param>
-        protected void OnStoppedPlayingMedia(object sender, EventArgs e)
-        {
-            Dispose();
-        }
-
-        #endregion
 
         #region Method -> PlayMedia
 
@@ -189,108 +177,108 @@ namespace Popcorn.UserControls.Players
 
         #endregion
 
-        #region Method -> MediaPlayerTimer_Tick
+        #region Method -> MediaPlayerTimerTick
 
         /// <summary>
         /// Report the playing progress on the timeline
         /// </summary>
         /// <param name="sender">Sender object</param>
         /// <param name="e">EventArgs</param>
-        protected virtual void MediaPlayerTimer_Tick(object sender, EventArgs e)
+        protected virtual void MediaPlayerTimerTick(object sender, EventArgs e)
         {
         }
 
         #endregion
 
-        #region Method -> MediaPlayerPlay_CanExecute
+        #region Method -> MediaPlayerPlayCanExecute
 
         /// <summary>
         /// Each time the CanExecute play command change, update the visibility of Play/Pause buttons in the player
         /// </summary>
         /// <param name="sender">Sender object</param>
         /// <param name="e">CanExecuteRoutedEventArgs</param>
-        protected virtual void MediaPlayerPlay_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+        protected virtual void MediaPlayerPlayCanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
         }
 
         #endregion
 
-        #region Method -> MediaPlayerPlay_Executed
+        #region Method -> MediaPlayerPlayExecuted
 
         /// <summary>
         /// Play media
         /// </summary>
         /// <param name="sender">Sender object</param>
         /// <param name="e">ExecutedRoutedEventArgs</param>
-        protected void MediaPlayerPlay_Executed(object sender, ExecutedRoutedEventArgs e)
+        protected void MediaPlayerPlayExecuted(object sender, ExecutedRoutedEventArgs e)
         {
             PlayMedia();
         }
 
         #endregion
 
-        #region Method -> MediaPlayerPause_CanExecute
+        #region Method -> MediaPlayerPauseCanExecute
 
         /// <summary>
         /// Each time the CanExecute play command change, update the visibility of Play/Pause buttons in the media player
         /// </summary>
         /// <param name="sender">Sender object</param>
         /// <param name="e">CanExecuteRoutedEventArgs</param>
-        protected virtual void MediaPlayerPause_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+        protected virtual void MediaPlayerPauseCanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
         }
 
         #endregion
 
-        #region Method -> MediaPlayerPause_Executed
+        #region Method -> MediaPlayerPauseExecuted
 
         /// <summary>
         /// Pause media
         /// </summary>
         /// <param name="sender">Sender object</param>
         /// <param name="e">CanExecuteRoutedEventArgs</param>
-        protected void MediaPlayerPause_Executed(object sender, ExecutedRoutedEventArgs e)
+        protected void MediaPlayerPauseExecuted(object sender, ExecutedRoutedEventArgs e)
         {
             PauseMedia();
         }
 
         #endregion
 
-        #region Method -> MediaSliderProgress_DragStarted
+        #region Method -> MediaSliderProgressDragStarted
 
         /// <summary>
         /// Report when dragging is used on media player
         /// </summary>
         /// <param name="sender">Sender object</param>
         /// <param name="e">DragStartedEventArgs</param>
-        protected void MediaSliderProgress_DragStarted(object sender, DragStartedEventArgs e)
+        protected void MediaSliderProgressDragStarted(object sender, DragStartedEventArgs e)
         {
             UserIsDraggingMediaPlayerSlider = true;
         }
 
         #endregion
 
-        #region Method -> MediaSliderProgress_DragCompleted
+        #region Method -> MediaSliderProgressDragCompleted
 
         /// <summary>
         /// Report when user has finished dragging the media player progress
         /// </summary>
         /// <param name="sender">Sender object</param>
         /// <param name="e">DragCompletedEventArgs</param>
-        protected virtual void MediaSliderProgress_DragCompleted(object sender, DragCompletedEventArgs e)
+        protected virtual void MediaSliderProgressDragCompleted(object sender, DragCompletedEventArgs e)
         {
         }
 
         #endregion
 
-        #region Method -> MovieSliderProgress_ValueChanged
+        #region Method -> MediaSliderProgressValueChanged
 
         /// <summary>
         /// Report runtime when media player slider's progress has changed
         /// </summary>
         /// <param name="sender">Sender object</param>
         /// <param name="e">RoutedPropertyChangedEventArgs</param>
-        protected virtual void MediaSliderProgress_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        protected virtual void MediaSliderProgressValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
         }
 
@@ -309,43 +297,6 @@ namespace Popcorn.UserControls.Players
             {
                 Volume += (e.Delta > 0) ? 10 : -10;
             }
-        }
-
-        #endregion
-
-        #region Method -> OnInactivity
-
-        /// <summary>
-        /// Hide the PlayerStatusBar on mouse inactivity 
-        /// </summary>
-        /// <param name="sender">Sender object</param>
-        /// <param name="e">EventArgs</param>
-        protected virtual void OnInactivity(object sender, EventArgs e)
-        {
-        }
-
-        #endregion
-
-        #region Method -> OnActivity
-
-        /// <summary>
-        /// Show the PlayerStatusBar on mouse activity 
-        /// </summary>
-        /// <param name="sender">Sender object</param>
-        /// <param name="e">EventArgs</param>
-        protected virtual void OnActivity(object sender, PreProcessInputEventArgs e)
-        {
-        }
-
-        #endregion
-
-        #region Dispose
-
-        /// <summary>
-        /// Free resources
-        /// </summary>
-        protected virtual void Dispose()
-        {
         }
 
         #endregion

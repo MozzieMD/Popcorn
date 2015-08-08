@@ -270,12 +270,12 @@ namespace Popcorn.ViewModel.Trailer
         /// <summary>
         /// Get youtube video depending of choosen quality settings
         /// </summary>
-        /// <param name="videos">List of VideoInfo</param>
+        /// <param name="videosToProcess">List of VideoInfo</param>
         /// <param name="quality">The youtube quality settings</param>
-        private VideoInfo GetVideoByStreamingQuality(IEnumerable<VideoInfo> videos,
+        private VideoInfo GetVideoByStreamingQuality(IEnumerable<VideoInfo> videosToProcess,
             Constants.YoutubeStreamingQuality quality)
         {
-            videos = videos.ToList(); // Prevent multiple enumeration
+            var videos = videosToProcess.ToList(); // Prevent multiple enumeration
 
             if (quality == Constants.YoutubeStreamingQuality.High)
             {

@@ -17,7 +17,7 @@ namespace Popcorn.UserControls.Players.Trailer
     /// <summary>
     /// Interaction logic for TrailerPlayer.xaml
     /// </summary>
-    public partial class TrailerPlayer
+    public partial class TrailerPlayer : IDisposable
     {
         #region Constructor
 
@@ -66,7 +66,7 @@ namespace Popcorn.UserControls.Players.Trailer
 
                 // start the timer used to report time on MediaPlayerSliderProgress
                 MediaPlayerTimer = new DispatcherTimer {Interval = TimeSpan.FromSeconds(1)};
-                MediaPlayerTimer.Tick += MediaPlayerTimer_Tick;
+                MediaPlayerTimer.Tick += MediaPlayerTimerTick;
                 MediaPlayerTimer.Start();
 
                 // start the activity timer used to manage visibility of the PlayerStatusBar
@@ -77,7 +77,7 @@ namespace Popcorn.UserControls.Players.Trailer
                 InputManager.Current.PreProcessInput += OnActivity;
 
                 vm.StoppedPlayingMedia += OnStoppedPlayingMedia;
-                Player.VlcMediaPlayer.EndReached += MediaPlayer_EndReached;
+                Player.VlcMediaPlayer.EndReached += MediaPlayerEndReached;
 
                 Player.LoadMedia(vm.MediaUri);
                 PlayMedia();
@@ -86,14 +86,14 @@ namespace Popcorn.UserControls.Players.Trailer
 
         #endregion
 
-        #region Method -> MediaPlayer_EndReached
+        #region Method -> MediaPlayerEndReached
 
         /// <summary>
         /// When a trailer has been fully played, send the StopPlayingTrailerMessage message
         /// </summary>
         /// <param name="sender">Sender object</param>
         /// <param name="e">EventArgs</param>
-        protected override void MediaPlayer_EndReached(object sender, EventArgs e)
+        protected override void MediaPlayerEndReached(object sender, EventArgs e)
         {
             DispatcherHelper.CheckBeginInvokeOnUI(() =>
             {
@@ -147,14 +147,28 @@ namespace Popcorn.UserControls.Players.Trailer
 
         #endregion
 
-        #region Method -> MediaPlayerTimer_Tick
+        #region Method -> OnStoppedPlayingMedia
+
+        /// <summary>
+        /// When media has finished playing, stop player and dispose control
+        /// </summary>
+        /// <param name="sender">Sender object</param>
+        /// <param name="e">EventArgs</param>
+        private void OnStoppedPlayingMedia(object sender, EventArgs e)
+        {
+            Dispose();
+        }
+
+        #endregion
+
+        #region Method -> MediaPlayerTimerTick
 
         /// <summary>
         /// Report the playing progress on the timeline
         /// </summary>
         /// <param name="sender">Sender object</param>
         /// <param name="e">EventArgs</param>
-        protected override void MediaPlayerTimer_Tick(object sender, EventArgs e)
+        protected override void MediaPlayerTimerTick(object sender, EventArgs e)
         {
             if ((Player != null) && (!UserIsDraggingMediaPlayerSlider))
             {
@@ -166,14 +180,14 @@ namespace Popcorn.UserControls.Players.Trailer
 
         #endregion
 
-        #region Method -> MediaPlayerPlay_CanExecute
+        #region Method -> MediaPlayerPlayCanExecute
 
         /// <summary>
         /// Each time the CanExecute play command change, update the visibility of Play/Pause buttons in the player
         /// </summary>
         /// <param name="sender">Sender object</param>
         /// <param name="e">CanExecuteRoutedEventArgs</param>
-        protected override void MediaPlayerPlay_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+        protected override void MediaPlayerPlayCanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
             if (MediaPlayerStatusBarItemPlay != null && MediaPlayerStatusBarItemPause != null)
             {
@@ -193,14 +207,14 @@ namespace Popcorn.UserControls.Players.Trailer
 
         #endregion
 
-        #region Method -> MediaPlayerPause_CanExecute
+        #region Method -> MediaPlayerPauseCanExecute
 
         /// <summary>
         /// Each time the CanExecute play command change, update the visibility of Play/Pause buttons in the media player
         /// </summary>
         /// <param name="sender">Sender object</param>
         /// <param name="e">CanExecuteRoutedEventArgs</param>
-        protected override void MediaPlayerPause_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+        protected override void MediaPlayerPauseCanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
             if (MediaPlayerStatusBarItemPlay != null && MediaPlayerStatusBarItemPause != null)
             {
@@ -220,14 +234,14 @@ namespace Popcorn.UserControls.Players.Trailer
 
         #endregion
 
-        #region Method -> MediaSliderProgress_DragCompleted
+        #region Method -> MediaSliderProgressDragCompleted
 
         /// <summary>
         /// Report when user has finished dragging the media player progress
         /// </summary>
         /// <param name="sender">Sender object</param>
         /// <param name="e">DragCompletedEventArgs</param>
-        protected override void MediaSliderProgress_DragCompleted(object sender, DragCompletedEventArgs e)
+        protected override void MediaSliderProgressDragCompleted(object sender, DragCompletedEventArgs e)
         {
             UserIsDraggingMediaPlayerSlider = false;
             Player.Time = TimeSpan.FromSeconds(MediaPlayerSliderProgress.Value);
@@ -242,7 +256,7 @@ namespace Popcorn.UserControls.Players.Trailer
         /// </summary>
         /// <param name="sender">Sender object</param>
         /// <param name="e">RoutedPropertyChangedEventArgs</param>
-        protected override void MediaSliderProgress_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        protected override void MediaSliderProgressValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
             MoviePlayerTextProgressStatus.Text =
                 TimeSpan.FromSeconds(MediaPlayerSliderProgress.Value)
@@ -260,7 +274,7 @@ namespace Popcorn.UserControls.Players.Trailer
         /// </summary>
         /// <param name="sender">Sender object</param>
         /// <param name="e">EventArgs</param>
-        protected override void OnInactivity(object sender, EventArgs e)
+        private void OnInactivity(object sender, EventArgs e)
         {
             // remember mouse position
             InactiveMousePosition = Mouse.GetPosition(Container);
@@ -298,7 +312,7 @@ namespace Popcorn.UserControls.Players.Trailer
         /// </summary>
         /// <param name="sender">Sender object</param>
         /// <param name="e">EventArgs</param>
-        protected override void OnActivity(object sender, PreProcessInputEventArgs e)
+        private void OnActivity(object sender, PreProcessInputEventArgs e)
         {
             var inputEventArgs = e.StagingItem.Input;
             if (inputEventArgs is MouseEventArgs || inputEventArgs is KeyboardEventArgs)
@@ -361,7 +375,7 @@ namespace Popcorn.UserControls.Players.Trailer
         /// <summary>
         /// Free resources
         /// </summary>
-        protected override void Dispose()
+        public void Dispose()
         {
             if (Disposed)
                 return;
@@ -371,7 +385,7 @@ namespace Popcorn.UserControls.Players.Trailer
                 Loaded -= OnLoaded;
                 Unloaded -= OnUnloaded;
 
-                MediaPlayerTimer.Tick -= MediaPlayerTimer_Tick;
+                MediaPlayerTimer.Tick -= MediaPlayerTimerTick;
                 MediaPlayerTimer.Stop();
 
                 ActivityTimer.Tick -= OnInactivity;
@@ -379,7 +393,7 @@ namespace Popcorn.UserControls.Players.Trailer
 
                 InputManager.Current.PreProcessInput -= OnActivity;
 
-                Player.VlcMediaPlayer.EndReached -= MediaPlayer_EndReached;
+                Player.VlcMediaPlayer.EndReached -= MediaPlayerEndReached;
                 MediaPlayerIsPlaying = false;
 
                 await Player.StopAsync();

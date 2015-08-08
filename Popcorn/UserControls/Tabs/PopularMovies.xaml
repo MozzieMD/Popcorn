@@ -165,7 +165,7 @@
                       Grid.Row="1"
                       Grid.RowSpan="2"
                       VerticalScrollBarVisibility="Auto" 
-                      ScrollChanged="ScrollViewer_ScrollChanged" 
+                      ScrollChanged="ScrollViewerScrollChanged" 
                       Visibility="{Binding IsConnectionInError, Converter={StaticResource BoolToVisibilityConverter}}">
             <ItemsControl x:Name="ItemsList" 
                         ItemsSource="{Binding Movies}" 
@@ -431,7 +431,7 @@
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
                         <custompanels:ElasticWrapPanel DesiredColumnWidth="230" 
-                                                    Loaded="ElasticWrapPanel_Loaded"/>
+                                                    Loaded="ElasticWrapPanelLoaded"/>
                     </ItemsPanelTemplate>
                 </ItemsControl.ItemsPanel>
             </ItemsControl>

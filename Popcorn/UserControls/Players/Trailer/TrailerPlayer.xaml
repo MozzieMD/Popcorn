@@ -12,8 +12,8 @@
              d:DataContext="{d:DesignInstance playersVm:TrailerPlayerViewModel}">
 
     <UserControl.CommandBindings>
-        <CommandBinding Command="MediaCommands.Play" CanExecute="MediaPlayerPlay_CanExecute" Executed="MediaPlayerPlay_Executed" />
-        <CommandBinding Command="MediaCommands.Pause" CanExecute="MediaPlayerPause_CanExecute" Executed="MediaPlayerPause_Executed" />
+        <CommandBinding Command="MediaCommands.Play" CanExecute="MediaPlayerPlayCanExecute" Executed="MediaPlayerPlayExecuted" />
+        <CommandBinding Command="MediaCommands.Pause" CanExecute="MediaPlayerPauseCanExecute" Executed="MediaPlayerPauseExecuted" />
     </UserControl.CommandBindings>
 
     <Grid x:Name="Container" MouseWheel="MouseWheelMediaPlayer" Background="Black">
@@ -71,9 +71,9 @@
                             HorizontalContentAlignment="Stretch">
                 <Slider x:Name="MediaPlayerSliderProgress"
                         Style="{DynamicResource FlatSlider}"
-                        Thumb.DragStarted="MediaSliderProgress_DragStarted"  
-                        Thumb.DragCompleted="MediaSliderProgress_DragCompleted" 
-                        ValueChanged="MediaSliderProgress_ValueChanged"
+                        Thumb.DragStarted="MediaSliderProgressDragStarted"  
+                        Thumb.DragCompleted="MediaSliderProgressDragCompleted" 
+                        ValueChanged="MediaSliderProgressValueChanged"
                         HorizontalAlignment="Stretch"
                         Width="Auto"/>
             </StatusBarItem>

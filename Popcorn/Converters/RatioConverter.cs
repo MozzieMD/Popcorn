@@ -11,7 +11,7 @@ namespace Popcorn.Converters
     [ValueConversion(typeof (string), typeof (string))]
     public class RatioConverter : MarkupExtension, IValueConverter
     {
-        private static RatioConverter _instance;
+        private RatioConverter _instance;
 
         #region IValueConverter Members
 

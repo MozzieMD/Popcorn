@@ -81,3 +81,6 @@ Popcorn.Tests/Obj
 # Squirrel folder releases
 Releases
 Popcorn/Popcorn
+
+# Sonar folder
+.sonar

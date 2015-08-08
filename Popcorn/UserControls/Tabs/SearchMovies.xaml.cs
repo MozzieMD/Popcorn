@@ -26,14 +26,14 @@ namespace Popcorn.UserControls.Tabs
 
         #region Methods
 
-        #region Method -> ScrollViewer_ScrollChanged
+        #region Method -> ScrollViewerScrollChanged
 
         /// <summary>
         /// Decide if we have to load next page regarding to the scroll position
         /// </summary>
         /// <param name="sender">Sender object</param>
         /// <param name="e">ScrollChangedEventArgs</param>
-        private async void ScrollViewer_ScrollChanged(object sender, ScrollChangedEventArgs e)
+        private async void ScrollViewerScrollChanged(object sender, ScrollChangedEventArgs e)
         {
             var totalHeight = e.VerticalOffset + e.ViewportHeight;
             if (totalHeight.Equals(e.ExtentHeight))
@@ -48,14 +48,14 @@ namespace Popcorn.UserControls.Tabs
 
         #endregion
 
-        #region Method -> ElasticWrapPanel_Loaded
+        #region Method -> ElasticWrapPanelLoaded
 
         /// <summary>
         /// Subscribe NumberOfColumnsChanged to the NumberOfColumnsChanged event of the ElasticWrapPanel
         /// </summary>
         /// <param name="sender">Sender object</param>
         /// <param name="e">RoutedEventArgs</param>
-        private void ElasticWrapPanel_Loaded(object sender, RoutedEventArgs e)
+        private void ElasticWrapPanelLoaded(object sender, RoutedEventArgs e)
         {
             var elasticWrapPanel = sender as ElasticWrapPanel;
             if (elasticWrapPanel != null)
