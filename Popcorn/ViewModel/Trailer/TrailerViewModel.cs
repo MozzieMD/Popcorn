@@ -17,6 +17,9 @@ using YoutubeExtractor;
 
 namespace Popcorn.ViewModel.Trailer
 {
+    /// <summary>
+    /// Manage trailer
+    /// </summary>
     public class TrailerViewModel : ViewModelBase
     {
         #region Properties
@@ -104,24 +107,38 @@ namespace Popcorn.ViewModel.Trailer
         #endregion
 
         #region Constructor
+
         /// <summary>
-        /// Constructor
+        /// Initializes a new instance of the TrailerViewModel class.
         /// </summary>
         /// <param name="movie">Movie's trailer</param>
         public TrailerViewModel(MovieFull movie)
         {
-            MovieService = SimpleIoc.Default.GetInstance<IMovieService>();
+            RegisterCommands();
 
             CancellationLoadingTrailerToken = new CancellationTokenSource();
 
-            // Stop playing a trailer
-            StopLoadingTrailerCommand = new RelayCommand(StopLoadingTrailer);
+            MovieService = SimpleIoc.Default.GetInstance<IMovieService>();
 
             Task.Run(async () =>
             {
                 await GetTrailerAsync(movie);
             });
         }
+
+        #endregion
+
+        #region -> RegisterCommands
+
+        /// <summary>
+        /// Register commands
+        /// </summary>
+        private void RegisterCommands()
+        {
+            StopLoadingTrailerCommand =
+                new RelayCommand(() => { Messenger.Default.Send(new StopPlayingTrailerMessage()); });
+        }
+
         #endregion
 
         #region Method -> GetTrailerAsync
@@ -136,14 +153,12 @@ namespace Popcorn.ViewModel.Trailer
             {
                 // Inform subscribers we are loading movie trailer
                 IsTrailerLoading = true;
-
                 try
                 {
                     // Retrieve trailer from API
                     var trailer = await MovieService.GetMovieTrailerAsync(movie);
                     // No error has been encounter, we can create our VideoInfo
                     VideoInfo video = null;
-
                     try
                     {
                         // Retrieve Youtube Infos
@@ -164,7 +179,7 @@ namespace Popcorn.ViewModel.Trailer
                         if (ex is WebException || ex is VideoNotAvailableException || ex is YoutubeParseException)
                         {
                             // TODO: Inform loading trailer failed
-                            StopLoadingTrailer();
+                            Messenger.Default.Send(new StopPlayingTrailerMessage());
                             return;
                         }
                     }
@@ -172,7 +187,7 @@ namespace Popcorn.ViewModel.Trailer
                     if (video == null)
                     {
                         // TODO: Inform loading trailer failed
-                        StopLoadingTrailer();
+                        Messenger.Default.Send(new StopPlayingTrailerMessage());
                         return;
                     }
 
@@ -185,7 +200,7 @@ namespace Popcorn.ViewModel.Trailer
                 }
                 catch (MovieServiceException e)
                 {
-                    StopLoadingTrailer();
+                    Messenger.Default.Send(new StopPlayingTrailerMessage());
                     if (e.Status == MovieServiceException.State.ConnectionError)
                     {
                         Messenger.Default.Send(new ConnectionErrorMessage(e.Message));
@@ -250,7 +265,7 @@ namespace Popcorn.ViewModel.Trailer
             if (video == null)
             {
                 // We search for an other video quality if none has been found
-                return GetVideoByStreamingQuality(videos, (Constants.YoutubeStreamingQuality)(((int)quality) - 1));
+                return GetVideoByStreamingQuality(videos, (Constants.YoutubeStreamingQuality) (((int) quality) - 1));
             }
 
             return video;
@@ -268,10 +283,18 @@ namespace Popcorn.ViewModel.Trailer
         {
             IsTrailerLoading = false;
             CancellationLoadingTrailerToken?.Cancel();
-            CancellationLoadingTrailerToken?.Dispose();
-            Messenger.Default.Send(new StopPlayingTrailerMessage());
         }
 
         #endregion
+
+        public override void Cleanup()
+        {
+            StopLoadingTrailer();
+            CancellationLoadingTrailerToken?.Dispose();
+
+            TrailerPlayer?.Cleanup();
+
+            base.Cleanup();
+        }
     }
 }

@@ -8,12 +8,12 @@ namespace Popcorn.ViewModel.Players
 {
     public class TrailerPlayerViewModel : ViewModelBase
     {
-        #region Property -> MediaUri
+        #region Property -> MovieUri
 
         /// <summary>
         /// Uri to file path of the media to be played
         /// </summary>
-        public readonly Uri MediaUri;
+        public readonly Uri TrailerUri;
 
         #endregion
 
@@ -57,31 +57,49 @@ namespace Popcorn.ViewModel.Players
         #region Constructor
 
         /// <summary>
-        /// Constructor
+        /// Initializes a new instance of the TrailerPlayerViewModel class.
         /// </summary>
-        /// <param name="uri">Trailer's media Uri</param>
-        public TrailerPlayerViewModel(Uri uri)
+        /// <param name="trailerUri">Trailer's media Uri</param>
+        public TrailerPlayerViewModel(Uri trailerUri)
         {
-            MediaUri = uri;
+            RegisterMessages();
 
+            RegisterCommands();
+
+            TrailerUri = trailerUri;
+        }
+
+        #endregion
+
+        #region Methods
+
+        #region Method -> RegisterMessages
+
+        /// <summary>
+        /// Register messages
+        /// </summary>
+        private void RegisterMessages()
+        {
             Messenger.Default.Register<StopPlayingTrailerMessage>(
                 this,
-                message =>
-                {
-                    OnStoppedPlayingTrailer(new EventArgs());
-                });
+                message => { OnStoppedPlayingTrailer(new EventArgs()); });
 
             Messenger.Default.Register<ChangeScreenModeMessage>(
                 this,
-                message =>
-                {
-                    IsInFullScreenMode = message.IsFullScreen;
-                });
+                message => { IsInFullScreenMode = message.IsFullScreen; });
+        }
 
-            ChangeScreenModeCommand = new RelayCommand(() =>
-            {
-                Messenger.Default.Send(new ChangeScreenModeMessage(IsInFullScreenMode));
-            });
+        #endregion
+
+        #region Method -> RegisterCommands
+
+        /// <summary>
+        /// Register commands
+        /// </summary>
+        private void RegisterCommands()
+        {
+            ChangeScreenModeCommand =
+                new RelayCommand(() => { Messenger.Default.Send(new ChangeScreenModeMessage(IsInFullScreenMode)); });
 
             StopPlayingMediaCommand = new RelayCommand(() =>
             {
@@ -94,6 +112,8 @@ namespace Popcorn.ViewModel.Players
                 Messenger.Default.Send(new StopPlayingTrailerMessage());
             });
         }
+
+        #endregion
 
         #endregion
 

@@ -141,12 +141,12 @@ namespace Popcorn.UserControls.Players
                     window.Closing += (s1, e1) => Dispose();
                 }
 
-                if (vm.MediaUri == null)
+                if (vm.MovieUri == null)
                 {
                     return;
                 }
 
-                Player.LoadMedia(vm.MediaUri);
+                Player.LoadMedia(vm.MovieUri);
                 Player.VlcMediaPlayer.EndReached += MediaPlayer_EndReached;
                 if (!string.IsNullOrEmpty(vm.Movie.SelectedSubtitle?.FilePath))
                 {

@@ -30,7 +30,7 @@ namespace Popcorn.ViewModel.Settings
         #region Constructor
 
         /// <summary>
-        /// SettingsViewModel
+        /// Initializes a new instance of the SettingsViewModel class.
         /// </summary>
         public SettingsViewModel()
         {

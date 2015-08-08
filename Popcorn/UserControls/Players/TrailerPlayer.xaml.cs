@@ -132,12 +132,12 @@ namespace Popcorn.UserControls.Players
                     window.Closing += (s1, e1) => Dispose();
                 }
 
-                if (vm.MediaUri == null)
+                if (vm.TrailerUri == null)
                 {
                     return;
                 }
 
-                Player.LoadMedia(vm.MediaUri);
+                Player.LoadMedia(vm.TrailerUri);
                 Player.VlcMediaPlayer.EndReached += MediaPlayer_EndReached;
                 PlayMedia();
             }
@@ -542,36 +542,35 @@ namespace Popcorn.UserControls.Players
                 return;
             }
 
-            Loaded -= OnLoaded;
-            Unloaded -= OnUnloaded;
-
-            MediaPlayerTimer.Tick -= MediaPlayerTimer_Tick;
-            MediaPlayerTimer.Stop();
-
-            InputManager.Current.PreProcessInput -= OnActivity;
-            _activityTimer.Tick -= OnInactivity;
-            _activityTimer.Stop();
-
-            Player.VlcMediaPlayer.EndReached -= MediaPlayer_EndReached;
-            MediaPlayerIsPlaying = false;
-
-            Task.Run(async () =>
+            DispatcherHelper.CheckBeginInvokeOnUI(async () =>
             {
+                Loaded -= OnLoaded;
+                Unloaded -= OnUnloaded;
+
+                MediaPlayerTimer.Tick -= MediaPlayerTimer_Tick;
+                MediaPlayerTimer.Stop();
+
+                InputManager.Current.PreProcessInput -= OnActivity;
+                _activityTimer.Tick -= OnInactivity;
+                _activityTimer.Stop();
+
+                Player.VlcMediaPlayer.EndReached -= MediaPlayer_EndReached;
+                MediaPlayerIsPlaying = false;
+
                 await Player.StopAsync();
                 Player.Dispose();
+
+                var vm = DataContext as TrailerPlayerViewModel;
+                if (vm != null)
+                {
+                    vm.StoppedPlayingTrailer -= OnStoppedPlayingTrailer;
+                }
+
+                _disposed = true;
+
+                GC.SuppressFinalize(this);
             });
-
-            var vm = DataContext as TrailerPlayerViewModel;
-            if (vm != null)
-            {
-                vm.StoppedPlayingTrailer -= OnStoppedPlayingTrailer;
-            }
-
-            _disposed = true;
-
-            GC.SuppressFinalize(this);
         }
-
 
         #endregion
     }

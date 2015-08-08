@@ -75,7 +75,7 @@ namespace Popcorn.Helpers
         }
 
         /// <summary>
-        /// 
+        /// Execute synchronously an action on each item of an IEnumerable source
         /// </summary>
         /// <typeparam name="TSource">Type of the resource to process the task asynchronously</typeparam>
         /// <typeparam name="TResult">Type of the asynchronously computed result</typeparam>

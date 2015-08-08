@@ -49,14 +49,16 @@ namespace Popcorn.ViewModel.Subtitles
         #region Constructor
 
         /// <summary>
-        /// Constructor
+        /// Initializes a new instance of the SubtitlesViewModel class.
         /// </summary>
         /// <param name="movie">The movie</param>
         public SubtitlesViewModel(MovieFull movie)
         {
-            MovieService = SimpleIoc.Default.GetInstance<IMovieService>();
-            Movie = movie;
             CancellationDownloadingSubtitlesToken = new CancellationTokenSource();
+
+            MovieService = SimpleIoc.Default.GetInstance<IMovieService>();
+
+            Movie = movie;
 
             Task.Run(async () =>
             {
@@ -65,6 +67,8 @@ namespace Popcorn.ViewModel.Subtitles
         }
 
         #endregion
+
+        #region Methods
 
         #region Method -> LoadSubtitlesAsync
 
@@ -88,7 +92,6 @@ namespace Popcorn.ViewModel.Subtitles
         private void StopDownloadingSubtitles()
         {
             CancellationDownloadingSubtitlesToken?.Cancel();
-            CancellationDownloadingSubtitlesToken?.Dispose();
         }
 
         #endregion
@@ -96,7 +99,10 @@ namespace Popcorn.ViewModel.Subtitles
         public override void Cleanup()
         {
             StopDownloadingSubtitles();
+            CancellationDownloadingSubtitlesToken?.Dispose();
             base.Cleanup();
         }
+
+        #endregion
     }
 }

@@ -29,14 +29,13 @@ namespace Popcorn
         #region Constructor
 
         /// <summary>
-        /// Constructor
+        /// Initializes a new instance of the App class.
         /// </summary>
         static App()
         {
-            var watchStart = Stopwatch.StartNew();
-
             Logger.Info(
                 "Popcorn starting...");
+            var watchStart = Stopwatch.StartNew();
 
             AppDomain.CurrentDomain.ProcessExit += (sender, args) => UpdateManager.Dispose();
 

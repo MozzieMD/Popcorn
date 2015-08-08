@@ -4,7 +4,6 @@ using GalaSoft.MvvmLight.Messaging;
 using System.Threading.Tasks;
 using Popcorn.Helpers;
 using Popcorn.Messaging;
-using Popcorn.Comparers;
 using System.Collections.Generic;
 using GalaSoft.MvvmLight.CommandWpf;
 
@@ -20,7 +19,7 @@ namespace Popcorn.ViewModel.Tabs
         /// <summary>
         /// Token to cancel searching movies
         /// </summary>
-        protected CancellationTokenSource CancellationSearchMoviesToken { get; set; }
+        private CancellationTokenSource CancellationSearchMoviesToken { get; set; }
 
         #endregion
 
@@ -29,7 +28,7 @@ namespace Popcorn.ViewModel.Tabs
         /// <summary>
         /// Used to determine the last page of the searched criteria
         /// </summary>
-        private Dictionary<string, int> LastPageFilterMapping { get; set; }
+        private Dictionary<string, int> LastPageFilterMapping { get; }
 
         #endregion
 
@@ -38,31 +37,53 @@ namespace Popcorn.ViewModel.Tabs
         /// <summary>
         /// The filter for searching movies
         /// </summary>
-        public string SearchFilter { get; set; }
+        public string SearchFilter { get; private set; }
 
         #endregion
 
         #region Constructor
 
         /// <summary>
-        /// SearchTabViewModel
+        /// Initializes a new instance of the SearchTabViewModel class.
         /// </summary>
         public SearchTabViewModel()
         {
+            RegisterMessages();
+
+            RegisterCommands();
+
             CancellationSearchMoviesToken = new CancellationTokenSource();
 
             TabName = LocalizationProviderHelper.GetLocalizedValue<string>("SearchTitleTab");
 
             LastPageFilterMapping = new Dictionary<string, int>();
+        }
 
+        #endregion
+
+        #region Methods
+
+        #region Method -> RegisterMessages
+
+        /// <summary>
+        /// Register messages
+        /// </summary>
+        private void RegisterMessages()
+        {
             Messenger.Default.Register<ChangeLanguageMessage>(
                 this,
-                language =>
-                {
-                    TabName = LocalizationProviderHelper.GetLocalizedValue<string>("SearchTitleTab");
-                });
+                language => { TabName = LocalizationProviderHelper.GetLocalizedValue<string>("SearchTitleTab"); });
+        }
 
-            // Reload movies
+        #endregion
+
+        #region Method -> RegisterCommands
+
+        /// <summary>
+        /// Register commands
+        /// </summary>
+        private void RegisterCommands()
+        {
             ReloadMovies = new RelayCommand(async () =>
             {
                 await SearchMoviesAsync(SearchFilter);
@@ -71,8 +92,6 @@ namespace Popcorn.ViewModel.Tabs
         }
 
         #endregion
-
-        #region Methods
 
         #region Method -> SearchMoviesAsync
 
@@ -151,7 +170,6 @@ namespace Popcorn.ViewModel.Tabs
         private void StopSearchingMovies()
         {
             CancellationSearchMoviesToken?.Cancel();
-            CancellationSearchMoviesToken?.Dispose();
             CancellationSearchMoviesToken = new CancellationTokenSource();
         }
 
@@ -162,6 +180,8 @@ namespace Popcorn.ViewModel.Tabs
         public override void Cleanup()
         {
             StopSearchingMovies();
+            CancellationSearchMoviesToken?.Dispose();
+
             base.Cleanup();
         }
     }

@@ -23,12 +23,12 @@ namespace Popcorn
             InitializeComponent();
 
             var vm = DataContext as MainViewModel;
-            if (vm != null)
-            {
-                vm.ConnectionError += OnConnectionInError;
-                vm.ToggleFullScreenChanged += OnToggleFullScreen;
-                vm.BackToNormalScreenMode += OnBackToNormalScreen;
-            }
+            if (vm == null)
+                return;
+
+            vm.ConnectionError += OnConnectionInError;
+            vm.ToggleFullScreenChanged += OnToggleFullScreen;
+            vm.BackToNormalScreenMode += OnBackToNormalScreen;
         }
 
         #endregion
@@ -38,25 +38,23 @@ namespace Popcorn
         #region Method -> OnConnectionInError
 
         /// <summary>
-        /// Open the popup when a connection error has occured
+        /// Open a popup when a connection error has occured
         /// </summary>
         /// <param name="sender">Sender object</param>
         /// <param name="e">Event args</param>
         private async void OnConnectionInError(object sender, ConnectionErrorEventArgs e)
         {
-            // Set and open a MetroDialog to inform that a connection error occured
             var settings = new MetroDialogSettings
             {
                 ColorScheme = MetroDialogColorScheme.Theme
             };
+
             var result = await
                 this.ShowMessageAsync(LocalizationProviderHelper.GetLocalizedValue<string>("ConnectionErrorTitlePopup"),
                     LocalizationProviderHelper.GetLocalizedValue<string>("ConnectionErrorDescriptionPopup"),
                     MessageDialogStyle.Affirmative, settings);
             if (result != MessageDialogResult.Affirmative)
-            {
                 return;
-            }
 
             // Close the movie page
             if (MoviePage.IsOpen)

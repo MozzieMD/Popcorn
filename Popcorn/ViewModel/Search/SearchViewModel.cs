@@ -45,11 +45,26 @@ namespace Popcorn.ViewModel.Search
         #region Constructor
 
         /// <summary>
-        /// Constructor
+        /// Initializes a new instance of the SearchViewModel class.
         /// </summary>
         public SearchViewModel()
         {
-            // When search is empty, notify it
+            RegisterMessages();
+
+            RegisterCommands();
+        }
+
+        #endregion
+
+        #region Methods
+
+        #region Method -> RegisterMessages
+
+        /// <summary>
+        /// Register messages
+        /// </summary>
+        private void RegisterMessages()
+        {
             Messenger.Default.Register<PropertyChangedMessage<string>>(this, e =>
             {
                 if (e.PropertyName == GetPropertyName(() => SearchFilter) && string.IsNullOrEmpty(e.NewValue))
@@ -57,17 +72,22 @@ namespace Popcorn.ViewModel.Search
                     Messenger.Default.Send(new SearchMovieMessage(string.Empty));
                 }
             });
-
-            // Search movies with the current SearchFilter as criteria
-            SearchMovieCommand = new RelayCommand(() =>
-            {
-                Messenger.Default.Send(new SearchMovieMessage(SearchFilter));
-            });
         }
 
         #endregion
 
-        #region Methods
+        #region Method -> RegisterCommands
+
+        /// <summary>
+        /// Register commands
+        /// </summary>
+        private void RegisterCommands()
+        {
+            SearchMovieCommand =
+                new RelayCommand(() => { Messenger.Default.Send(new SearchMovieMessage(SearchFilter)); });
+        }
+
+        #endregion
 
         #endregion
     }

@@ -15,7 +15,7 @@ using Popcorn.Service.Movie;
 namespace Popcorn.ViewModel.Tabs
 {
     /// <summary>
-    /// The movies' content
+    /// Manage tab controls
     /// </summary>
     public class TabsViewModel : ViewModelBase, ITab
     {
@@ -77,7 +77,7 @@ namespace Popcorn.ViewModel.Tabs
         /// <summary>
         /// Token to cancel movie loading
         /// </summary>
-        protected CancellationTokenSource CancellationLoadNextPageToken { get; }
+        protected CancellationTokenSource CancellationLoadNextPageToken { get; private set; }
 
         #endregion
 
@@ -170,19 +170,36 @@ namespace Popcorn.ViewModel.Tabs
         #region Constructor -> MoviesViewModel
 
         /// <summary>
-        /// Initializes a new instance of the MoviesViewModel class.
+        /// Initializes a new instance of the TabsViewModel class.
         /// </summary>
         protected TabsViewModel()
         {
+            RegisterMessages();
+
+            RegisterCommands();
+
+            CancellationLoadNextPageToken = new CancellationTokenSource();
+
+
             MovieService = SimpleIoc.Default.GetInstance<IMovieService>();
             UserDataService = SimpleIoc.Default.GetInstance<IUserDataService>();
 
-            // Set the CancellationToken for having the possibility to stop loading movies
-            CancellationLoadNextPageToken = new CancellationTokenSource();
-
             MaxMoviesPerPage = Constants.MaxMoviesPerPage;
+        }
 
-            // A connection error occured
+        #endregion
+
+        #endregion
+
+        #region Methods
+
+        #region Method -> RegisterMessages
+
+        /// <summary>
+        /// Register messages
+        /// </summary>
+        private void RegisterMessages()
+        {
             Messenger.Default.Register<ConnectionErrorMessage>(this, e =>
             {
                 if (!e.ResetConnectionError)
@@ -204,27 +221,30 @@ namespace Popcorn.ViewModel.Tabs
                     foreach (var movie in Movies)
                     {
                         i++;
-                        var t = Task.Delay(1000 * i).ContinueWith(async _ =>
-                          {
-                              await MovieService.TranslateMovieShortAsync(movie);
-                          });
+                        var t =
+                            Task.Delay(1000*i)
+                                .ContinueWith(async _ => { await MovieService.TranslateMovieShortAsync(movie); });
                         tasks.Add(t);
                     }
                     await Task.WhenAll(tasks);
                 });
-
-            // Record the like action to the database
-            LikeMovieCommand = new RelayCommand<MovieShort>(async movie =>
-            {
-                await UserDataService.LikeMovieAsync(movie);
-            });
         }
 
         #endregion
 
-        #endregion
+        #region Method -> RegisterCommands
 
-        #region Methods
+        /// <summary>
+        /// Register commands
+        /// </summary>
+        /// <returns></returns>
+        private void RegisterCommands()
+        {
+            LikeMovieCommand =
+                new RelayCommand<MovieShort>(async movie => { await UserDataService.LikeMovieAsync(movie); });
+        }
+
+        #endregion
 
         #region Method -> StopLoadingNextPage
 
@@ -234,7 +254,7 @@ namespace Popcorn.ViewModel.Tabs
         private void StopLoadingNextPage()
         {
             CancellationLoadNextPageToken?.Cancel();
-            CancellationLoadNextPageToken?.Dispose();
+            CancellationLoadNextPageToken = new CancellationTokenSource();
         }
 
         #endregion
@@ -242,6 +262,7 @@ namespace Popcorn.ViewModel.Tabs
         public override void Cleanup()
         {
             StopLoadingNextPage();
+            CancellationLoadNextPageToken?.Dispose();
 
             base.Cleanup();
         }

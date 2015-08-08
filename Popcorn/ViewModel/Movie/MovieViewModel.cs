@@ -164,30 +164,37 @@ namespace Popcorn.ViewModel.Movie
         #region Constructor
 
         /// <summary>
-        /// Constructor
+        /// Initializes a new instance of the MovieViewModel class.
         /// </summary>
         public MovieViewModel()
         {
-            MovieService = SimpleIoc.Default.GetInstance<IMovieService>();
+            RegisterMessages();
 
-            // Set the CancellationToken for having the possibility to stop loading a movie
+            RegisterCommands();
+
             CancellationLoadingToken = new CancellationTokenSource();
 
-            // Stop playing trailer
+            MovieService = SimpleIoc.Default.GetInstance<IMovieService>();
+        }
+
+        #endregion
+
+        #region Methods
+
+        #region Method -> RegisterMessages
+
+        /// <summary>
+        /// Register messages
+        /// </summary>
+        private void RegisterMessages()
+        {
             Messenger.Default.Register<StopPlayingTrailerMessage>(
                 this,
-                message =>
-                {
-                    StopPlayingTrailer();
-                });
+                message => { StopPlayingTrailer(); });
 
-            // Stop playing movie
             Messenger.Default.Register<StopPlayingMovieMessage>(
                 this,
-                message =>
-                {
-                    StopPlayingMovie();
-                });
+                message => { StopPlayingMovie(); });
 
             Messenger.Default.Register<ChangeLanguageMessage>(
                 this,
@@ -198,28 +205,30 @@ namespace Popcorn.ViewModel.Movie
                         await MovieService.TranslateMovieFullAsync(Movie);
                     }
                 });
+        }
 
-            // Load requested movie
-            LoadMovieCommand = new RelayCommand<MovieShort>(async movie =>
-            {
-                await LoadMovieAsync(movie);
-            });
+        #endregion
 
-            // Download the requested movie
+        #region Method -> RegisterCommands
+        /// <summary>
+        /// Register commands
+        /// </summary>
+        private void RegisterCommands()
+        {
+            LoadMovieCommand = new RelayCommand<MovieShort>(async movie => { await LoadMovieAsync(movie); });
+
             PlayMovieCommand = new RelayCommand(() =>
             {
                 IsDownloadingMovie = true;
                 DownloadMovie = new DownloadMovieViewModel(Movie);
             });
 
-            // Load requested movie trailer
             PlayTrailerCommand = new RelayCommand(() =>
             {
                 IsPlayingTrailer = true;
                 Trailer = new TrailerViewModel(Movie);
             });
         }
-
         #endregion
 
         #region Method -> LoadMovieAsync
@@ -261,10 +270,7 @@ namespace Popcorn.ViewModel.Movie
         private void StopLoadingMovie()
         {
             IsMovieLoading = false;
-
             CancellationLoadingToken?.Cancel();
-            CancellationLoadingToken?.Dispose();
-            CancellationLoadingToken = new CancellationTokenSource();
         }
 
         #endregion
@@ -277,6 +283,7 @@ namespace Popcorn.ViewModel.Movie
         private void StopPlayingTrailer()
         {
             IsPlayingTrailer = false;
+            Trailer?.Cleanup();
             Trailer = null;
         }
 
@@ -290,7 +297,6 @@ namespace Popcorn.ViewModel.Movie
         private void StopPlayingMovie()
         {
             IsDownloadingMovie = false;
-
             DownloadMovie?.Cleanup();
             DownloadMovie = null;
         }
@@ -300,10 +306,12 @@ namespace Popcorn.ViewModel.Movie
         public override void Cleanup()
         {
             StopLoadingMovie();
+            CancellationLoadingToken?.Dispose();
             StopPlayingTrailer();
             StopPlayingMovie();
-
             base.Cleanup();
         }
+
+        #endregion
     }
 }

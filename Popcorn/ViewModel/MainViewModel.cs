@@ -137,7 +137,32 @@ namespace Popcorn.ViewModel
         /// </summary>
         public MainViewModel()
         {
-            // A connection error occured
+            RegisterMessages();
+            RegisterCommands();
+
+            Tabs = new ObservableCollection<ITab>
+            {
+                new PopularTabViewModel(),
+                new GreatestTabViewModel(),
+                new RecentTabViewModel()
+            };
+
+            SelectedTab = Tabs.FirstOrDefault();
+        }
+
+        #endregion
+
+        #endregion
+
+        #region Methods 
+
+        #region Method -> RegisterMessages
+
+        /// <summary>
+        /// Register messages
+        /// </summary>
+        private void RegisterMessages()
+        {
             Messenger.Default.Register<ConnectionErrorMessage>(this, e =>
             {
                 if (!e.ResetConnectionError)
@@ -151,13 +176,8 @@ namespace Popcorn.ViewModel
                 }
             });
 
-            // Create and open movie tab of the buffered movie
-            Messenger.Default.Register<LoadMovieMessage>(this, e =>
-            {
-                IsMovieFlyoutOpen = true;
-            });
+            Messenger.Default.Register<LoadMovieMessage>(this, e => { IsMovieFlyoutOpen = true; });
 
-            // Create and open movie tab of the buffered movie
             Messenger.Default.Register<MovieBufferedMessage>(this, message =>
             {
                 DispatcherHelper.CheckBeginInvokeOnUI(() =>
@@ -179,18 +199,19 @@ namespace Popcorn.ViewModel
                 message =>
                 {
                     // Remove the movie tab
-                    MoviePlayerViewModel tabToRemove = null;
+                    MoviePlayerViewModel moviePlayer = null;
                     foreach (var tab in Tabs)
                     {
                         var mediaViewModel = tab as MoviePlayerViewModel;
                         if (mediaViewModel != null)
                         {
-                            tabToRemove = mediaViewModel;
+                            moviePlayer = mediaViewModel;
                         }
                     }
-                    if (tabToRemove != null)
+                    if (moviePlayer != null)
                     {
-                        Tabs.Remove(tabToRemove);
+                        Tabs.Remove(moviePlayer);
+                        moviePlayer.Cleanup();
                         SelectedTab = Tabs.FirstOrDefault();
                     }
 
@@ -211,22 +232,25 @@ namespace Popcorn.ViewModel
                     }
                 });
 
-            // Search a movie
-            Messenger.Default.Register<SearchMovieMessage>(this, async message =>
-            {
-                await SearchMovies(message.Filter);
-            });
+            Messenger.Default.Register<SearchMovieMessage>(this,
+                async message => { await SearchMovies(message.Filter); });
+        }
 
-            #region Commands
+        #endregion
 
-            // Close trailer
+        #region Method -> RegisterCommands
+
+        /// <summary>
+        /// Register commands
+        /// </summary>
+        private void RegisterCommands()
+        {
             CloseMoviePageCommand = new RelayCommand(() =>
             {
                 Messenger.Default.Send(new ChangeScreenModeMessage(false));
                 Messenger.Default.Send(new StopPlayingTrailerMessage());
             });
 
-            // The app is about to close
             MainWindowClosingCommand = new RelayCommand(() =>
             {
                 foreach (var tab in Tabs)
@@ -238,31 +262,10 @@ namespace Popcorn.ViewModel
                 ViewModelLocator.Cleanup();
             });
 
-            #endregion
-
-            // Open settings flyout
-            OpenSettingsCommand = new RelayCommand(() =>
-            {
-                IsSettingsFlyoutOpen = true;
-            });
-
-            // Creates the different tabs in the tab control
-            Tabs = new ObservableCollection<ITab>
-            {
-                new PopularTabViewModel(),
-                new GreatestTabViewModel(),
-                new RecentTabViewModel()
-            };
-
-            // Select the Popular tab at the beginning
-            SelectedTab = Tabs.FirstOrDefault();
+            OpenSettingsCommand = new RelayCommand(() => { IsSettingsFlyoutOpen = true; });
         }
 
         #endregion
-
-        #endregion
-
-        #region Methods 
 
         #region Method -> SearchMovies
 
@@ -277,11 +280,11 @@ namespace Popcorn.ViewModel
                 // The search filter is empty. We have to find the search tab if any
                 foreach (var tab in Tabs)
                 {
-                    var moviesViewModel = tab as SearchTabViewModel;
-                    if (moviesViewModel != null)
+                    var searchTab = tab as SearchTabViewModel;
+                    if (searchTab != null)
                     {
                         // We've found it
-                        var searchTabToRemove = moviesViewModel;
+                        var searchTabToRemove = searchTab;
                         // The search tab is currently selected in the UI, we have to pick a different selected tab prior deleting
                         if (searchTabToRemove == SelectedTab)
                         {

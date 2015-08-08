@@ -16,30 +16,52 @@ namespace Popcorn.ViewModel.Tabs
         #region Constructor
 
         /// <summary>
-        /// Constructor
+        /// Initializes a new instance of the GreatestTabViewModel class.
         /// </summary>
         public GreatestTabViewModel()
         {
+            RegisterMessages();
+
+            RegisterCommands();
+
             TabName = LocalizationProviderHelper.GetLocalizedValue<string>("GreatestTitleTab");
-
-            Messenger.Default.Register<ChangeLanguageMessage>(
-                this,
-                language =>
-                {
-                    TabName = LocalizationProviderHelper.GetLocalizedValue<string>("GreatestTitleTab");
-                });
-
-            // Reload movies
-            ReloadMovies = new RelayCommand(async () =>
-            {
-                await LoadNextPageAsync();
-                Messenger.Default.Send(new ConnectionErrorMessage(string.Empty, true));
-            });
 
             if (!Movies.Any())
             {
                 DispatcherHelper.CheckBeginInvokeOnUI(async () => await LoadNextPageAsync());
             }
+        }
+
+        #endregion
+
+        #region Methods
+
+        #region Method -> RegisterMessages
+
+        /// <summary>
+        /// Register messages
+        /// </summary>
+        private void RegisterMessages()
+        {
+            Messenger.Default.Register<ChangeLanguageMessage>(
+                this,
+                language => { TabName = LocalizationProviderHelper.GetLocalizedValue<string>("GreatestTitleTab"); });
+        }
+
+        #endregion
+
+        #region Method -> RegisterCommands
+
+        /// <summary>
+        /// Register commands
+        /// </summary>
+        private void RegisterCommands()
+        {
+            ReloadMovies = new RelayCommand(async () =>
+            {
+                await LoadNextPageAsync();
+                Messenger.Default.Send(new ConnectionErrorMessage(string.Empty, true));
+            });
         }
 
         #endregion
@@ -87,6 +109,8 @@ namespace Popcorn.ViewModel.Tabs
                 Page--;
             }
         }
+
+        #endregion
 
         #endregion
     }

@@ -142,7 +142,7 @@
                                        Visibility="{Binding IsMovieBuffered, Converter={StaticResource BoolToVisibilityConverter}}"/>
             <Button x:Name="StopLoadingMovieButton"
                     Content="{lex:LocText CancelButton}"
-                    Command="{Binding StopPlayingMovieCommand}" Margin="0" Grid.Row="7" Grid.Column="2" Width="100" Height="30" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    Command="{Binding StopDownloadingMovieCommand}" Margin="0" Grid.Row="7" Grid.Column="2" Width="100" Height="30" HorizontalAlignment="Center" VerticalAlignment="Center"/>
         </Grid>
     </Grid>
 </UserControl>

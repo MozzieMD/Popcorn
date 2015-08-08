@@ -136,12 +136,12 @@ namespace Popcorn.ViewModel.Download
 
         #region Commands
 
-        #region Command -> StopPlayingMovieCommand
+        #region Command -> StopDownloadingMovieCommand
 
         /// <summary>
         /// The command used to stop the playing of a movie
         /// </summary>
-        public RelayCommand StopPlayingMovieCommand { get; private set; }
+        public RelayCommand StopDownloadingMovieCommand { get; private set; }
 
         #endregion
 
@@ -150,21 +150,34 @@ namespace Popcorn.ViewModel.Download
         #region Constructor
 
         /// <summary>
-        /// Constructor
+        /// Initializes a new instance of the DownloadMovieViewModel class.
         /// </summary>
         /// <param name="movie">The movie to download</param>
         public DownloadMovieViewModel(MovieFull movie)
         {
-            MovieService = SimpleIoc.Default.GetInstance<IMovieService>();
+            RegisterMessages();
+
+            RegisterCommands();
+
             CancellationDownloadingMovieToken = new CancellationTokenSource();
+
+            MovieService = SimpleIoc.Default.GetInstance<IMovieService>();
+
             Movie = movie;
+            MovieSettings = new MovieSettingsViewModel(movie);
+        }
 
-            // Stop playing a movie
-            StopPlayingMovieCommand = new RelayCommand(() =>
-            {
-                Messenger.Default.Send(new StopPlayingMovieMessage());
-            });
+        #endregion
 
+        #region Methods
+
+        #region Method -> RegisterMessages
+
+        /// <summary>
+        /// Register messages
+        /// </summary>
+        private void RegisterMessages()
+        {
             Messenger.Default.Register<DownloadMovieMessage>(
                 this,
                 async message =>
@@ -178,13 +191,21 @@ namespace Popcorn.ViewModel.Download
                         DownloadMovieAsync(message.Movie,
                             reportDownloadProgress, reportDownloadRate, CancellationDownloadingMovieToken.Token);
                 });
-
-            MovieSettings = new MovieSettingsViewModel(movie);
         }
 
         #endregion
 
-        #region Method -> ReportDownloadProgress
+        #region Method -> RegisterCommands
+        /// <summary>
+        /// Register commands
+        /// </summary>
+        private void RegisterCommands()
+        {
+            StopDownloadingMovieCommand = new RelayCommand(StopDownloadingMovie);
+        }
+        #endregion
+
+        #region Method -> ReportDownloadRate
 
         /// <summary>
         /// Report the download progress
@@ -261,7 +282,7 @@ namespace Popcorn.ViewModel.Download
                     var progress = status.Progress*100.0;
 
                     downloadProgress?.Report(progress);
-                    downloadRate?.Report((double) status.DownloadRate/1024);
+                    downloadRate?.Report(Math.Round((double) status.DownloadRate/1024, 0));
 
                     // We have to flush cache regularly (otherwise memory cache get full very quickly)
                     handle.FlushCache();
@@ -286,35 +307,43 @@ namespace Popcorn.ViewModel.Download
                         }
                     }
 
-                    // Wait for a second before update torrent status
-                    await Task.Delay(1000, ct);
+                    try
+                    {
+                        // Wait for a second before update torrent status
+                        await Task.Delay(1000, ct);
+                    }
+                    catch (TaskCanceledException)
+                    {
+                        break;
+                    }
                 }
             }
         }
 
         #endregion
 
-        #region Method -> StopPlayingMovie
+        #region Method -> StopDownloadingMovie
 
         /// <summary>
         /// Stop downloading a movie
         /// </summary>
-        private void StopPlayingMovie()
+        private void StopDownloadingMovie()
         {
             IsDownloadingMovie = false;
             IsMovieBuffered = false;
-
             CancellationDownloadingMovieToken?.Cancel();
-            CancellationDownloadingMovieToken?.Dispose();
         }
 
         #endregion
 
         public override void Cleanup()
         {
-            StopPlayingMovie();
-
+            StopDownloadingMovie();
+            CancellationDownloadingMovieToken?.Dispose();
+            MovieSettings?.Cleanup();
             base.Cleanup();
         }
+
+        #endregion
     }
 }

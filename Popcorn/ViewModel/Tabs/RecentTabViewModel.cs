@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 using GalaSoft.MvvmLight.Messaging;
 using Popcorn.Helpers;
 using Popcorn.Messaging;
-using Popcorn.Comparers;
 using GalaSoft.MvvmLight.CommandWpf;
 using GalaSoft.MvvmLight.Threading;
 
@@ -17,30 +16,52 @@ namespace Popcorn.ViewModel.Tabs
         #region Constructor
 
         /// <summary>
-        /// Constructor
+        /// Initializes a new instance of the RecentTabViewModel class.
         /// </summary>
         public RecentTabViewModel()
         {
+            RegisterMessages();
+
+            RegisterCommands();
+
             TabName = LocalizationProviderHelper.GetLocalizedValue<string>("RecentTitleTab");
-
-            Messenger.Default.Register<ChangeLanguageMessage>(
-                this,
-                language =>
-                {
-                    TabName = LocalizationProviderHelper.GetLocalizedValue<string>("RecentTitleTab");
-                });
-
-            // Reload movies
-            ReloadMovies = new RelayCommand(async () =>
-            {
-                await LoadNextPageAsync();
-                Messenger.Default.Send(new ConnectionErrorMessage(string.Empty, true));
-            });
 
             if (!Movies.Any())
             {
                 DispatcherHelper.CheckBeginInvokeOnUI(async () => await LoadNextPageAsync());
             }
+        }
+
+        #endregion
+
+        #region Methods
+
+        #region Method -> RegisterMessages
+
+        /// <summary>
+        /// Register messages
+        /// </summary>
+        private void RegisterMessages()
+        {
+            Messenger.Default.Register<ChangeLanguageMessage>(
+                this,
+                language => { TabName = LocalizationProviderHelper.GetLocalizedValue<string>("RecentTitleTab"); });
+        }
+
+        #endregion
+
+        #region Method -> RegisterCommands
+
+        /// <summary>
+        /// Register commands
+        /// </summary>
+        private void RegisterCommands()
+        {
+            ReloadMovies = new RelayCommand(async () =>
+            {
+                await LoadNextPageAsync();
+                Messenger.Default.Send(new ConnectionErrorMessage(string.Empty, true));
+            });
         }
 
         #endregion
@@ -88,6 +109,8 @@ namespace Popcorn.ViewModel.Tabs
                 Page--;
             }
         }
+
+        #endregion
 
         #endregion
     }

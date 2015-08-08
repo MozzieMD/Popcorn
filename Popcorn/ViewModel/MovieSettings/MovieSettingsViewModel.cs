@@ -120,12 +120,22 @@ namespace Popcorn.ViewModel.MovieSettings
         #region Constructor
 
         /// <summary>
-        /// Constructor
+        /// Initializes a new instance of the MovieSettingsViewModel class.
         /// </summary>
         /// <param name="movie">The movie</param>
         public MovieSettingsViewModel(MovieFull movie)
         {
             Movie = movie;
+        }
+
+        #endregion
+
+        #region Methods
+
+        public override void Cleanup()
+        {
+            Subtitles?.Cleanup();
+            base.Cleanup();
         }
 
         #endregion

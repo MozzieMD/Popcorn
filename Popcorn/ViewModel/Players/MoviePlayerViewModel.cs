@@ -38,12 +38,12 @@ namespace Popcorn.ViewModel.Players
 
         #endregion
 
-        #region Property -> MediaUri
+        #region Property -> MovieUri
 
         /// <summary>
         /// Uri to file path of the media to be played
         /// </summary>
-        public readonly Uri MediaUri;
+        public readonly Uri MovieUri;
 
         #endregion
 
@@ -96,44 +96,58 @@ namespace Popcorn.ViewModel.Players
         #region Constructor
 
         /// <summary>
-        /// Constructor
+        /// Initializes a new instance of the MoviePlayerViewModel class.
         /// </summary>
         /// <param name="movie">Movie to play</param>
-        /// <param name="uri">Movie's media Uri</param>
-        public MoviePlayerViewModel(MovieFull movie, Uri uri)
+        /// <param name="movieUri">Movie's media Uri</param>
+        public MoviePlayerViewModel(MovieFull movie, Uri movieUri)
         {
+            RegisterMessages();
+
+            RegisterCommands();
+
             UserDataService = SimpleIoc.Default.GetInstance<IUserDataService>();
 
-            MediaUri = uri;
             Movie = movie;
-
+            MovieUri = movieUri;
             TabName = !string.IsNullOrEmpty(Movie.Title) ? Movie.Title : Properties.Resources.PlayingTitleTab;
+        }
 
+        #endregion
+
+        #region Methods
+
+        #region Method -> RegisterMessages
+
+        /// <summary>
+        /// Register messages
+        /// </summary>
+        private void RegisterMessages()
+        {
             Messenger.Default.Register<ChangeLanguageMessage>(
                 this,
-                language =>
-                {
-                    TabName = Movie.Title;
-                });
+                language => { TabName = Movie.Title; });
 
             Messenger.Default.Register<StopPlayingMovieMessage>(
                 this,
-                message =>
-                {
-                    OnStoppedPlayingMovie(new EventArgs());
-                });
+                message => { OnStoppedPlayingMovie(new EventArgs()); });
 
             Messenger.Default.Register<ChangeScreenModeMessage>(
                 this,
-                message =>
-                {
-                    IsInFullScreenMode = message.IsFullScreen;
-                });
+                message => { IsInFullScreenMode = message.IsFullScreen; });
+        }
 
-            ChangeScreenModeCommand = new RelayCommand(() =>
-            {
-                Messenger.Default.Send(new ChangeScreenModeMessage(IsInFullScreenMode));
-            });
+        #endregion
+
+        #region Method -> RegisterCommands
+
+        /// <summary>
+        /// Register commands
+        /// </summary>
+        private void RegisterCommands()
+        {
+            ChangeScreenModeCommand =
+                new RelayCommand(() => { Messenger.Default.Send(new ChangeScreenModeMessage(IsInFullScreenMode)); });
 
             StopPlayingMediaCommand = new RelayCommand(() =>
             {
@@ -146,6 +160,8 @@ namespace Popcorn.ViewModel.Players
                 Messenger.Default.Send(new StopPlayingMovieMessage());
             });
         }
+
+        #endregion
 
         #endregion
 
