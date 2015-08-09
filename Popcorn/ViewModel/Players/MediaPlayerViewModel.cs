@@ -1,8 +1,7 @@
 ﻿using System;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.CommandWpf;
-using GalaSoft.MvvmLight.Messaging;
-using Popcorn.Messaging;
+using GalaSoft.MvvmLight.Ioc;
 
 namespace Popcorn.ViewModel.Players
 {
@@ -20,18 +19,12 @@ namespace Popcorn.ViewModel.Players
 
         #endregion
 
-        #region Property -> IsInFullScreenMode
-
-        private bool _isInFullScreenMode;
+        #region Property -> Main
 
         /// <summary>
-        /// Indicates if player is in fullscreen mode
+        /// The main view model
         /// </summary>
-        public bool IsInFullScreenMode
-        {
-            get { return _isInFullScreenMode; }
-            set { Set(() => IsInFullScreenMode, ref _isInFullScreenMode, value); }
-        }
+        public MainViewModel Main { get; }
 
         #endregion
 
@@ -51,7 +44,7 @@ namespace Popcorn.ViewModel.Players
                 return _changeScreenModeCommand ??
                        (_changeScreenModeCommand =
                            new RelayCommand(
-                               () => Messenger.Default.Send(new ChangeScreenModeMessage(IsInFullScreenMode))));
+                               () => Main.IsFullScreen = !Main.IsFullScreen));
             }
         }
 
@@ -75,9 +68,7 @@ namespace Popcorn.ViewModel.Players
         /// </summary>
         protected MediaPlayerViewModel()
         {
-            Messenger.Default.Register<ChangeScreenModeMessage>(
-                this,
-                message => { IsInFullScreenMode = message.IsFullScreen; });
+            Main = SimpleIoc.Default.GetInstance<MainViewModel>();
         }
 
         #endregion

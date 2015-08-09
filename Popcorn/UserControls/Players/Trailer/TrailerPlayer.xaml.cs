@@ -6,23 +6,45 @@ using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Media.Animation;
 using System.Windows.Threading;
-using GalaSoft.MvvmLight.Messaging;
 using GalaSoft.MvvmLight.Threading;
-using Popcorn.Messaging;
 using xZune.Vlc.Interop.Media;
 using Popcorn.ViewModel.Players.Trailer;
 
 namespace Popcorn.UserControls.Players.Trailer
 {
     /// <summary>
-    /// Interaction logic for TrailerPlayer.xaml
+    /// Interaction logic for MoviePlayer.xaml
     /// </summary>
     public partial class TrailerPlayer : IDisposable
     {
+        #region Property -> Volume
+
+        /// <summary>
+        /// Get or set the media volume 
+        /// </summary>
+        public int Volume
+        {
+            get { return (int) GetValue(VolumeProperty); }
+
+            set { SetValue(VolumeProperty, value); }
+        }
+
+        #endregion
+
+        #region DependencyProperty -> VolumeProperty
+
+        /// <summary>
+        /// Identifies the <see cref="Volume"/> dependency property. 
+        /// </summary>
+        internal static readonly DependencyProperty VolumeProperty = DependencyProperty.Register("Volume", typeof (int),
+            typeof (TrailerPlayer), new PropertyMetadata(100, OnVolumeChanged));
+
+        #endregion
+
         #region Constructor
 
         /// <summary>
-        /// Initializes a new instance of the TrailerPlayer class.
+        /// Initializes a new instance of the MoviePlayer class.
         /// </summary>
         public TrailerPlayer()
         {
@@ -37,11 +59,11 @@ namespace Popcorn.UserControls.Players.Trailer
         #region Method -> Onloaded
 
         /// <summary>
-        /// Subscribe to events and play the trailer when control has been loaded
+        /// Subscribe to events and play the movie when control has been loaded
         /// </summary>
         /// <param name="sender">Sender object</param>
         /// <param name="e">EventArgs</param>
-        protected override void OnLoaded(object sender, EventArgs e)
+        private void OnLoaded(object sender, EventArgs e)
         {
             if (Player.State == MediaState.Paused)
             {
@@ -57,9 +79,7 @@ namespace Popcorn.UserControls.Players.Trailer
 
                 var vm = DataContext as TrailerPlayerViewModel;
                 if (vm == null)
-                {
                     return;
-                }
 
                 if (vm.MediaUri == null)
                     return;
@@ -86,30 +106,85 @@ namespace Popcorn.UserControls.Players.Trailer
 
         #endregion
 
-        #region Method -> MediaPlayerEndReached
+        #region Method -> OnUnloaded
 
         /// <summary>
-        /// When a trailer has been fully played, send the StopPlayingTrailerMessage message
+        /// Pause media when control has been unloaded
         /// </summary>
         /// <param name="sender">Sender object</param>
         /// <param name="e">EventArgs</param>
-        protected override void MediaPlayerEndReached(object sender, EventArgs e)
+        private void OnUnloaded(object sender, EventArgs e)
+        {
+            PauseMedia();
+        }
+
+        #endregion
+
+        #region Method -> OnVolumeChanged
+
+        /// <summary>
+        /// When media's volume changed, update volume
+        /// </summary>
+        /// <param name="e">e</param>
+        /// <param name="obj">obj</param>
+        private static void OnVolumeChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+        {
+            var moviePlayer = obj as TrailerPlayer;
+            if (moviePlayer == null)
+                return;
+
+            var newVolume = (int) e.NewValue;
+            moviePlayer.ChangeMediaVolume(newVolume);
+        }
+
+        #endregion
+
+        #region Method -> ChangeMediaVolume
+
+        /// <summary>
+        /// Change the media's volume
+        /// </summary>
+        /// <param name="newValue">New volume value</param>
+        private void ChangeMediaVolume(int newValue)
+        {
+            Player.Volume = newValue;
+        }
+
+        #endregion
+
+        #region Method -> MouseWheelMediaPlayer
+
+        /// <summary>
+        /// When user uses the mousewheel, update the volume
+        /// </summary>
+        /// <param name="sender">Sender object</param>
+        /// <param name="e">MouseWheelEventArgs</param>
+        private void MouseWheelMediaPlayer(object sender, MouseWheelEventArgs e)
+        {
+            if ((Volume <= 190 && e.Delta > 0) || (Volume >= 10 && e.Delta < 0))
+            {
+                Volume += (e.Delta > 0) ? 10 : -10;
+            }
+        }
+
+        #endregion
+
+        #region Method -> MediaPlayerEndReached
+
+        /// <summary>
+        /// When a movie has been fully played, save seen property into database and send a StopPlayingMovieMessage message
+        /// </summary>
+        /// <param name="sender">Sender object</param>
+        /// <param name="e">EventArgs</param>
+        private void MediaPlayerEndReached(object sender, EventArgs e)
         {
             DispatcherHelper.CheckBeginInvokeOnUI(() =>
             {
                 var vm = DataContext as TrailerPlayerViewModel;
                 if (vm == null)
-                {
                     return;
-                }
 
-                if (vm.IsInFullScreenMode)
-                {
-                    vm.IsInFullScreenMode = !vm.IsInFullScreenMode;
-                    Messenger.Default.Send(new ChangeScreenModeMessage(vm.IsInFullScreenMode));
-                }
-
-                Messenger.Default.Send(new StopPlayingTrailerMessage());
+                vm.StopPlayingMediaCommand.Execute(null);
             });
         }
 
@@ -118,9 +193,9 @@ namespace Popcorn.UserControls.Players.Trailer
         #region Method -> PlayMedia
 
         /// <summary>
-        /// Play the trailer
+        /// Play the movie
         /// </summary>
-        protected override void PlayMedia()
+        private void PlayMedia()
         {
             Player.Play();
             MediaPlayerIsPlaying = true;
@@ -134,9 +209,9 @@ namespace Popcorn.UserControls.Players.Trailer
         #region Method -> PauseMedia
 
         /// <summary>
-        /// Pause the trailer
+        /// Pause the movie
         /// </summary>
-        protected override void PauseMedia()
+        private void PauseMedia()
         {
             Player.PauseOrResume();
             MediaPlayerIsPlaying = false;
@@ -168,7 +243,7 @@ namespace Popcorn.UserControls.Players.Trailer
         /// </summary>
         /// <param name="sender">Sender object</param>
         /// <param name="e">EventArgs</param>
-        protected override void MediaPlayerTimerTick(object sender, EventArgs e)
+        private void MediaPlayerTimerTick(object sender, EventArgs e)
         {
             if ((Player != null) && (!UserIsDraggingMediaPlayerSlider))
             {
@@ -187,7 +262,7 @@ namespace Popcorn.UserControls.Players.Trailer
         /// </summary>
         /// <param name="sender">Sender object</param>
         /// <param name="e">CanExecuteRoutedEventArgs</param>
-        protected override void MediaPlayerPlayCanExecute(object sender, CanExecuteRoutedEventArgs e)
+        private void MediaPlayerPlayCanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
             if (MediaPlayerStatusBarItemPlay != null && MediaPlayerStatusBarItemPause != null)
             {
@@ -214,7 +289,7 @@ namespace Popcorn.UserControls.Players.Trailer
         /// </summary>
         /// <param name="sender">Sender object</param>
         /// <param name="e">CanExecuteRoutedEventArgs</param>
-        protected override void MediaPlayerPauseCanExecute(object sender, CanExecuteRoutedEventArgs e)
+        private void MediaPlayerPauseCanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
             if (MediaPlayerStatusBarItemPlay != null && MediaPlayerStatusBarItemPause != null)
             {
@@ -241,7 +316,7 @@ namespace Popcorn.UserControls.Players.Trailer
         /// </summary>
         /// <param name="sender">Sender object</param>
         /// <param name="e">DragCompletedEventArgs</param>
-        protected override void MediaSliderProgressDragCompleted(object sender, DragCompletedEventArgs e)
+        private void MediaSliderProgressDragCompleted(object sender, DragCompletedEventArgs e)
         {
             UserIsDraggingMediaPlayerSlider = false;
             Player.Time = TimeSpan.FromSeconds(MediaPlayerSliderProgress.Value);
@@ -256,13 +331,41 @@ namespace Popcorn.UserControls.Players.Trailer
         /// </summary>
         /// <param name="sender">Sender object</param>
         /// <param name="e">RoutedPropertyChangedEventArgs</param>
-        protected override void MediaSliderProgressValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        private void MediaSliderProgressValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
             MoviePlayerTextProgressStatus.Text =
                 TimeSpan.FromSeconds(MediaPlayerSliderProgress.Value)
                     .ToString(@"hh\:mm\:ss", CultureInfo.CurrentCulture) + " / " +
                 TimeSpan.FromSeconds(Player.Length.TotalSeconds)
                     .ToString(@"hh\:mm\:ss", CultureInfo.CurrentCulture);
+        }
+
+        #endregion
+
+        #region Method -> MediaPlayerPlayExecuted
+
+        /// <summary>
+        /// Play media
+        /// </summary>
+        /// <param name="sender">Sender object</param>
+        /// <param name="e">ExecutedRoutedEventArgs</param>
+        private void MediaPlayerPlayExecuted(object sender, ExecutedRoutedEventArgs e)
+        {
+            PlayMedia();
+        }
+
+        #endregion
+
+        #region Method -> MediaPlayerPauseExecuted
+
+        /// <summary>
+        /// Pause media
+        /// </summary>
+        /// <param name="sender">Sender object</param>
+        /// <param name="e">CanExecuteRoutedEventArgs</param>
+        private void MediaPlayerPauseExecuted(object sender, ExecutedRoutedEventArgs e)
+        {
+            PauseMedia();
         }
 
         #endregion
@@ -357,25 +460,17 @@ namespace Popcorn.UserControls.Players.Trailer
 
         #endregion
 
-        #region Method -> ChangeMediaVolume
-
-        /// <summary>
-        /// Change the media's volume
-        /// </summary>
-        /// <param name="newValue">New volume value</param>
-        protected override void ChangeMediaVolume(int newValue)
-        {
-            Player.Volume = newValue;
-        }
-
-        #endregion
-
         #region Dispose
 
         /// <summary>
         /// Free resources
         /// </summary>
         public void Dispose()
+        {
+            Dispose(true);
+        }
+
+        private void Dispose(bool disposing)
         {
             if (Disposed)
                 return;
@@ -407,7 +502,10 @@ namespace Popcorn.UserControls.Players.Trailer
 
                 Disposed = true;
 
-                GC.SuppressFinalize(this);
+                if (disposing)
+                {
+                    GC.SuppressFinalize(this);
+                }
             });
         }
 

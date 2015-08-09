@@ -86,10 +86,6 @@ namespace Popcorn.ViewModel.Players.Movie
             Messenger.Default.Register<ChangeLanguageMessage>(
                 this,
                 language => { TabName = Movie.Title; });
-
-            Messenger.Default.Register<StopPlayingMovieMessage>(
-                this,
-                message => { OnStoppedPlayingMedia(new EventArgs()); });
         }
 
         #endregion
@@ -103,17 +99,18 @@ namespace Popcorn.ViewModel.Players.Movie
         {
             StopPlayingMediaCommand = new RelayCommand(() =>
             {
-                if (IsInFullScreenMode)
-                {
-                    IsInFullScreenMode = !IsInFullScreenMode;
-                    Messenger.Default.Send(new ChangeScreenModeMessage(IsInFullScreenMode));
-                }
-
                 Messenger.Default.Send(new StopPlayingMovieMessage());
             });
         }
 
         #endregion
+
+        public override void Cleanup()
+        {
+            OnStoppedPlayingMedia(new EventArgs());
+
+            base.Cleanup();
+        }
 
         #endregion
     }

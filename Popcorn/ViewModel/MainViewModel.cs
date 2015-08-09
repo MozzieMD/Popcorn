@@ -20,6 +20,34 @@ namespace Popcorn.ViewModel
     {
         #region Properties
 
+        #region Property -> IsMoviePlaying
+
+        /// <summary>
+        /// Specify if a movie is playing
+        /// </summary>
+        private bool IsMoviePlaying { get; set; }
+
+        #endregion
+
+        #region Property -> IsFullScreen
+
+        private bool _isFullScreen;
+
+        /// <summary>
+        /// Indicates if player is in fullscreen mode
+        /// </summary>
+        public bool IsFullScreen
+        {
+            get { return _isFullScreen; }
+            set
+            {
+                Set(() => IsFullScreen, ref _isFullScreen, value);
+                OnWindowStateChanged(new WindowStateChangedEventArgs(IsMoviePlaying));
+            }
+        }
+
+        #endregion
+
         #region Property -> Tabs
 
         private ObservableCollection<ITab> _tabs = new ObservableCollection<ITab>();
@@ -206,6 +234,7 @@ namespace Popcorn.ViewModel
 
                     // Open movie flyout
                     IsMovieFlyoutOpen = false;
+                    IsMoviePlaying = true;
                 });
             });
 
@@ -232,20 +261,7 @@ namespace Popcorn.ViewModel
                     }
 
                     IsMovieFlyoutOpen = true;
-                });
-
-            Messenger.Default.Register<ChangeScreenModeMessage>(
-                this,
-                message =>
-                {
-                    if (message.IsFullScreen)
-                    {
-                        OnToggleFullScreen(new EventArgs());
-                    }
-                    else
-                    {
-                        OnBackToNormalScreenMode(new EventArgs());
-                    }
+                    IsMoviePlaying = false;
                 });
 
             Messenger.Default.Register<SearchMovieMessage>(this,
@@ -263,7 +279,7 @@ namespace Popcorn.ViewModel
         {
             CloseMoviePageCommand = new RelayCommand(() =>
             {
-                Messenger.Default.Send(new ChangeScreenModeMessage(false));
+                //Messenger.Default.Send(new ChangeScreenModeMessage(false));
                 Messenger.Default.Send(new StopPlayingTrailerMessage());
             });
 
@@ -375,39 +391,20 @@ namespace Popcorn.ViewModel
 
         #endregion
 
-        #region Event -> OnToggleFullScreen
+        #region Event -> OnWindowStateChanged
 
         /// <summary>
         /// Fired when fullscreen mode has been requested
         /// </summary>
-        public event EventHandler<EventArgs> ToggleFullScreenChanged;
+        public event EventHandler<WindowStateChangedEventArgs> ToggleFullScreenChanged;
 
         /// <summary>
         /// Fire event ToggleFullScreenChanged
         /// </summary>
         ///<param name="e">Event data</param>
-        private void OnToggleFullScreen(EventArgs e)
+        private void OnWindowStateChanged(WindowStateChangedEventArgs e)
         {
             var handler = ToggleFullScreenChanged;
-            handler?.Invoke(this, e);
-        }
-
-        #endregion
-
-        #region Event -> OnBackToNormalScreenMode
-
-        /// <summary>
-        /// Fired when back to normal screen mode has been requested
-        /// </summary>
-        public event EventHandler<EventArgs> BackToNormalScreenMode;
-
-        /// <summary>
-        /// Fire event BackToNormalScreenMode
-        /// </summary>
-        ///<param name="e">Event data</param>
-        private void OnBackToNormalScreenMode(EventArgs e)
-        {
-            var handler = BackToNormalScreenMode;
             handler?.Invoke(this, e);
         }
 

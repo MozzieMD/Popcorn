@@ -1,5 +1,4 @@
-﻿using System;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 using MahApps.Metro.Controls.Dialogs;
 using Popcorn.ViewModel;
@@ -28,7 +27,6 @@ namespace Popcorn
 
             vm.ConnectionError += OnConnectionInError;
             vm.ToggleFullScreenChanged += OnToggleFullScreen;
-            vm.BackToNormalScreenMode += OnBackToNormalScreen;
         }
 
         #endregion
@@ -72,41 +70,32 @@ namespace Popcorn
         /// </summary>
         /// <param name="sender">Sender object</param>
         /// <param name="e">EventArgs</param>
-        private void OnToggleFullScreen(object sender, EventArgs e)
+        private void OnToggleFullScreen(object sender, WindowStateChangedEventArgs e)
         {
-            SearchBar.Visibility = Visibility.Collapsed;
-            MenuBar.Visibility = Visibility.Collapsed;
-            Grid.SetRow(MainTabControl, 0);
-            Grid.SetRowSpan(MainTabControl, 2);
-            Grid.SetColumn(MainTabControl, 0);
-            Grid.SetColumnSpan(MainTabControl, 2);
-            var headerPanelScroll = MainTabControl.FindChild<ScrollViewer>("HeaderPanelScroll");
-            headerPanelScroll.Visibility = Visibility.Collapsed;
-            UseNoneWindowStyle = true;
-            WindowState = WindowState.Maximized;
-        }
-
-        #endregion
-
-        #region Method -> OnBackToNormalScreen
-
-        /// <summary>
-        /// On back to normal screen, go back to a normal sized window, show menu bar, header tab and let tabcontrol takes its original place
-        /// </summary>
-        /// <param name="sender">Sender object</param>
-        /// <param name="e">EventArgs</param>
-        private void OnBackToNormalScreen(object sender, EventArgs e)
-        {
-            SearchBar.Visibility = Visibility.Visible;
-            MenuBar.Visibility = Visibility.Visible;
-            Grid.SetRow(MainTabControl, 0);
-            Grid.SetRowSpan(MainTabControl, 2);
-            Grid.SetColumn(MainTabControl, 1);
-            Grid.SetColumnSpan(MainTabControl, 1);
-            var headerPanelScroll = MainTabControl.FindChild<ScrollViewer>("HeaderPanelScroll");
-            headerPanelScroll.Visibility = Visibility.Visible;
-            UseNoneWindowStyle = false;
-            WindowState = WindowState.Normal;
+            if (e.IsMoviePlaying)
+            {
+                SearchBar.Visibility = Visibility.Collapsed;
+                MenuBar.Visibility = Visibility.Collapsed;
+                Grid.SetRow(MainTabControl, 0);
+                Grid.SetRowSpan(MainTabControl, 2);
+                Grid.SetColumn(MainTabControl, 0);
+                Grid.SetColumnSpan(MainTabControl, 2);
+                var headerPanelScroll = MainTabControl.FindChild<ScrollViewer>("HeaderPanelScroll");
+                headerPanelScroll.Visibility = Visibility.Collapsed;
+                UseNoneWindowStyle = true;
+            }
+            else
+            {
+                SearchBar.Visibility = Visibility.Visible;
+                MenuBar.Visibility = Visibility.Visible;
+                Grid.SetRow(MainTabControl, 0);
+                Grid.SetRowSpan(MainTabControl, 2);
+                Grid.SetColumn(MainTabControl, 1);
+                Grid.SetColumnSpan(MainTabControl, 1);
+                var headerPanelScroll = MainTabControl.FindChild<ScrollViewer>("HeaderPanelScroll");
+                headerPanelScroll.Visibility = Visibility.Visible;
+                UseNoneWindowStyle = false;
+            }
         }
 
         #endregion

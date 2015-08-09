@@ -18,8 +18,6 @@ namespace Popcorn.ViewModel.Players.Trailer
         /// <param name="trailerUri">Trailer's media Uri</param>
         public TrailerPlayerViewModel(Uri trailerUri)
         {
-            RegisterMessages();
-
             RegisterCommands();
 
             MediaUri = trailerUri;
@@ -28,20 +26,6 @@ namespace Popcorn.ViewModel.Players.Trailer
         #endregion
 
         #region Methods
-
-        #region Method -> RegisterMessages
-
-        /// <summary>
-        /// Register messages
-        /// </summary>
-        private void RegisterMessages()
-        {
-            Messenger.Default.Register<StopPlayingTrailerMessage>(
-                this,
-                message => { OnStoppedPlayingMedia(new EventArgs()); });
-        }
-
-        #endregion
 
         #region Method -> RegisterCommands
 
@@ -52,17 +36,18 @@ namespace Popcorn.ViewModel.Players.Trailer
         {
             StopPlayingMediaCommand = new RelayCommand(() =>
             {
-                if (IsInFullScreenMode)
-                {
-                    IsInFullScreenMode = !IsInFullScreenMode;
-                    Messenger.Default.Send(new ChangeScreenModeMessage(IsInFullScreenMode));
-                }
-
                 Messenger.Default.Send(new StopPlayingTrailerMessage());
             });
         }
 
         #endregion
+
+        public override void Cleanup()
+        {
+            OnStoppedPlayingMedia(new EventArgs());
+
+            base.Cleanup();
+        }
 
         #endregion
     }

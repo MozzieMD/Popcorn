@@ -622,13 +622,16 @@ namespace Popcorn.Service.Movie
         public async Task DownloadBackgroundImageAsync(MovieFull movie)
         {
             var watch = Stopwatch.StartNew();
-
-            var tmdbMovie = TmdbClient.GetMovie(movie.ImdbCode, MovieMethods.Images);
-            var remotePath = new List<string>
+            var remotePath = new List<string>();
+            await Task.Run(() =>
             {
-                TmdbClient.GetImageUrl(Constants.BackgroundImageSizeTmDb,
-                    tmdbMovie.BackdropPath).AbsoluteUri
-            };
+                var tmdbMovie = TmdbClient.GetMovie(movie.ImdbCode, MovieMethods.Images);
+                remotePath = new List<string>
+                {
+                    TmdbClient.GetImageUrl(Constants.BackgroundImageSizeTmDb,
+                        tmdbMovie.BackdropPath).AbsoluteUri
+                };
+            });
 
             await
                 remotePath.ForEachAsync(
