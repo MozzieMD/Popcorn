@@ -26,7 +26,7 @@ namespace Popcorn
                 return;
 
             vm.ConnectionError += OnConnectionInError;
-            vm.ToggleFullScreenChanged += OnToggleFullScreen;
+            vm.WindowStageChanged += OnWindowStateChanged;
         }
 
         #endregion
@@ -63,14 +63,14 @@ namespace Popcorn
 
         #endregion
 
-        #region Method -> OnToggleFullScreen
+        #region Method -> OnWindowStateChanged
 
         /// <summary>
         /// On toggle fullscreen, maximize the main window, collapse menu bar, header tab and let tabcontrol takes up all the place available
         /// </summary>
         /// <param name="sender">Sender object</param>
         /// <param name="e">EventArgs</param>
-        private void OnToggleFullScreen(object sender, WindowStateChangedEventArgs e)
+        private void OnWindowStateChanged(object sender, WindowStateChangedEventArgs e)
         {
             if (e.IsMoviePlaying)
             {

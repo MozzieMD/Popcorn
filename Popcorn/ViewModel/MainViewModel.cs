@@ -22,10 +22,20 @@ namespace Popcorn.ViewModel
 
         #region Property -> IsMoviePlaying
 
+        private bool _isMoviePlaying;
+
         /// <summary>
-        /// Specify if a movie is playing
+        /// Indicates if a movie is playing
         /// </summary>
-        private bool IsMoviePlaying { get; set; }
+        private bool IsMoviePlaying
+        {
+            get { return _isMoviePlaying; }
+            set
+            {
+                Set(() => IsMoviePlaying, ref _isMoviePlaying, value);
+                OnWindowStateChanged(new WindowStateChangedEventArgs(value));
+            }
+        }
 
         #endregion
 
@@ -226,19 +236,13 @@ namespace Popcorn.ViewModel
             {
                 DispatcherHelper.CheckBeginInvokeOnUI(() =>
                 {
-                    // Create a tab with the movie name as the title
                     Tabs.Add(new MoviePlayerViewModel(message.Movie, message.MovieUri));
-
-                    // Select this tab in the tab control
                     SelectedTab = Tabs.Last();
-
-                    // Open movie flyout
                     IsMovieFlyoutOpen = false;
                     IsMoviePlaying = true;
                 });
             });
 
-            // Inform subscribers that a movie has stopped playing
             Messenger.Default.Register<StopPlayingMovieMessage>(
                 this,
                 message =>
@@ -279,7 +283,6 @@ namespace Popcorn.ViewModel
         {
             CloseMoviePageCommand = new RelayCommand(() =>
             {
-                //Messenger.Default.Send(new ChangeScreenModeMessage(false));
                 Messenger.Default.Send(new StopPlayingTrailerMessage());
             });
 
@@ -325,7 +328,6 @@ namespace Popcorn.ViewModel
                             SelectedTab = Tabs.FirstOrDefault();
                         }
 
-                        // Remove the search tab
                         Tabs.Remove(searchTabToRemove);
                         searchTabToRemove.Cleanup();
                         return;
@@ -351,13 +353,8 @@ namespace Popcorn.ViewModel
                     }
                 }
 
-                // There is no current search tab, we have to create it
                 Tabs.Add(new SearchTabViewModel());
-
-                // Select in the UI the search tab we've just created
                 SelectedTab = Tabs.Last();
-
-                // Search movies with criteria
                 var searchMovieTab = SelectedTab as SearchTabViewModel;
                 if (searchMovieTab != null)
                 {
@@ -396,15 +393,15 @@ namespace Popcorn.ViewModel
         /// <summary>
         /// Fired when fullscreen mode has been requested
         /// </summary>
-        public event EventHandler<WindowStateChangedEventArgs> ToggleFullScreenChanged;
+        public event EventHandler<WindowStateChangedEventArgs> WindowStageChanged;
 
         /// <summary>
-        /// Fire event ToggleFullScreenChanged
+        /// Fire event WindowStageChanged
         /// </summary>
         ///<param name="e">Event data</param>
         private void OnWindowStateChanged(WindowStateChangedEventArgs e)
         {
-            var handler = ToggleFullScreenChanged;
+            var handler = WindowStageChanged;
             handler?.Invoke(this, e);
         }
 

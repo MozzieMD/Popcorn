@@ -101,7 +101,7 @@ namespace Popcorn.ViewModel.Download
         /// </summary>
         public double DownloadRate
         {
-            get { return _downloadProgress; }
+            get { return _downloadRate; }
             set { Set(() => DownloadRate, ref _downloadRate, value); }
         }
 
@@ -155,13 +155,9 @@ namespace Popcorn.ViewModel.Download
         public DownloadMovieViewModel(MovieFull movie)
         {
             RegisterMessages();
-
             RegisterCommands();
-
             CancellationDownloadingMovieToken = new CancellationTokenSource();
-
             MovieService = SimpleIoc.Default.GetInstance<IMovieService>();
-
             Movie = movie;
             MovieSettings = new MovieSettingsViewModel(movie);
         }
@@ -250,71 +246,69 @@ namespace Popcorn.ViewModel.Download
             IProgress<double> downloadRate,
             CancellationToken ct)
         {
-            using (var session = new Session())
+            await Task.Run(async () =>
             {
-                IsDownloadingMovie = true;
-
-                // Listening to a port which is randomly between 6881 and 6889
-                session.ListenOn(6881, 6889);
-                var torrentUrl = movie.WatchInFullHdQuality
-                    ? movie.Torrents?.FirstOrDefault(torrent => torrent.Quality == "1080p")?.Url
-                    : movie.Torrents?.FirstOrDefault(torrent => torrent.Quality == "720p")?.Url;
-
-                var addParams = new AddTorrentParams
+                using (var session = new Session())
                 {
-                    // Where do we save the video file
-                    SavePath = Constants.MovieDownloads,
-                    // At this time, no quality selection is available in the interface, so we take the lowest
-                    Url = torrentUrl
-                };
+                    IsDownloadingMovie = true;
 
-                var handle = session.AddTorrent(addParams);
+                    session.ListenOn(6881, 6889);
+                    var torrentUrl = movie.WatchInFullHdQuality
+                        ? movie.Torrents?.FirstOrDefault(torrent => torrent.Quality == "1080p")?.Url
+                        : movie.Torrents?.FirstOrDefault(torrent => torrent.Quality == "720p")?.Url;
 
-                // We have to download sequentially, so that we're able to play the movie without waiting
-                handle.SequentialDownload = true;
-                var alreadyBuffered = false;
-                while (IsDownloadingMovie)
-                {
-                    var status = handle.QueryStatus();
-                    var progress = status.Progress*100.0;
-
-                    downloadProgress?.Report(progress);
-                    downloadRate?.Report(Math.Round((double) status.DownloadRate/1024, 0));
-
-                    // We have to flush cache regularly (otherwise memory cache get full very quickly)
-                    handle.FlushCache();
-                    if (handle.NeedSaveResumeData())
+                    var addParams = new AddTorrentParams
                     {
-                        handle.SaveResumeData();
-                    }
+                        SavePath = Constants.MovieDownloads,
+                        Url = torrentUrl
+                    };
 
-                    if (progress >= Constants.MinimumBufferingBeforeMoviePlaying && !alreadyBuffered)
+                    var handle = session.AddTorrent(addParams);
+
+                    // We have to download sequentially, so that we're able to play the movie without waiting
+                    handle.SequentialDownload = true;
+                    var alreadyBuffered = false;
+                    while (IsDownloadingMovie)
                     {
-                        // Get movie file
-                        foreach (
-                            var filePath in
-                                Directory.GetFiles(status.SavePath + handle.TorrentFile.Name,
-                                    "*" + Constants.VideoFileExtension)
-                            )
+                        var status = handle.QueryStatus();
+                        var progress = status.Progress*100.0;
+
+                        downloadProgress?.Report(progress);
+                        var test = Math.Round(status.DownloadRate/1024.0, 0);
+                        downloadRate?.Report(test);
+
+                        handle.FlushCache();
+                        if (handle.NeedSaveResumeData())
                         {
-                            alreadyBuffered = true;
-                            // Inform subscribers we have finished buffering the movie
-                            Messenger.Default.Send(new MovieBufferedMessage(movie,
-                                new Uri(filePath)));
+                            handle.SaveResumeData();
+                        }
+
+                        if (progress >= Constants.MinimumBufferingBeforeMoviePlaying && !alreadyBuffered)
+                        {
+                            // Get movie file
+                            foreach (
+                                var filePath in
+                                    Directory.GetFiles(status.SavePath + handle.TorrentFile.Name,
+                                        "*" + Constants.VideoFileExtension)
+                                )
+                            {
+                                alreadyBuffered = true;
+                                Messenger.Default.Send(new MovieBufferedMessage(movie,
+                                    new Uri(filePath)));
+                            }
+                        }
+
+                        try
+                        {
+                            await Task.Delay(1000, ct);
+                        }
+                        catch (TaskCanceledException)
+                        {
+                            break;
                         }
                     }
-
-                    try
-                    {
-                        // Wait for a second before update torrent status
-                        await Task.Delay(1000, ct);
-                    }
-                    catch (TaskCanceledException)
-                    {
-                        break;
-                    }
                 }
-            }
+            });
         }
 
         #endregion
