@@ -191,6 +191,7 @@ namespace Popcorn.ViewModel.Download
         #endregion
 
         #region Method -> RegisterCommands
+
         /// <summary>
         /// Register commands
         /// </summary>
@@ -198,6 +199,7 @@ namespace Popcorn.ViewModel.Download
         {
             StopDownloadingMovieCommand = new RelayCommand(StopDownloadingMovie);
         }
+
         #endregion
 
         #region Method -> ReportDownloadRate
@@ -224,7 +226,7 @@ namespace Popcorn.ViewModel.Download
             DownloadProgress = value;
             if (value < Constants.MinimumBufferingBeforeMoviePlaying)
                 return;
-            
+
             if (!IsMovieBuffered)
             {
                 IsMovieBuffered = true;
@@ -274,8 +276,7 @@ namespace Popcorn.ViewModel.Download
                         var progress = status.Progress*100.0;
 
                         downloadProgress?.Report(progress);
-                        var test = Math.Round(status.DownloadRate/1024.0, 0);
-                        downloadRate?.Report(test);
+                        downloadRate?.Report(Math.Round(status.DownloadRate/1024.0, 0));
 
                         handle.FlushCache();
                         if (handle.NeedSaveResumeData())
