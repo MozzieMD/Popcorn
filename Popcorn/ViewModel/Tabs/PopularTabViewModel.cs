@@ -31,7 +31,7 @@ namespace Popcorn.ViewModel.Tabs
 
         #region Method -> InitializeAsync
         /// <summary>
-        /// Load asynchronously the popular movies and return an instance of PopularTabViewModel
+        /// Load asynchronously the popular movies for the current instance
         /// </summary>
         /// <returns>Instance of PopularTabViewModel</returns>
         private async Task<PopularTabViewModel> InitializeAsync()
@@ -86,7 +86,7 @@ namespace Popcorn.ViewModel.Tabs
         #region Method -> LoadNextPageAsync
 
         /// <summary>
-        /// Load next page with an optional search parameter
+        /// Load next page
         /// </summary>
         public async Task LoadNextPageAsync()
         {

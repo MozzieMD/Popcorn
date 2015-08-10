@@ -34,7 +34,7 @@ namespace Popcorn.ViewModel.Settings
         #region Command -> InitializeAsyncCommand
 
         /// <summary>
-        /// Command used to load tabs
+        /// Command used to initialize asynchronously properties
         /// </summary>
         public RelayCommand InitializeAsyncCommand { get; private set; }
 
@@ -59,7 +59,7 @@ namespace Popcorn.ViewModel.Settings
         #region Method -> InitializeAsync
 
         /// <summary>
-        /// Load asynchronously the languages of the application and return an instance of SettingsViewModel
+        /// Load asynchronously the languages of the application for the current instance
         /// </summary>
         /// <returns>Instance of SettingsViewModel</returns>
         private async Task InitializeAsync()

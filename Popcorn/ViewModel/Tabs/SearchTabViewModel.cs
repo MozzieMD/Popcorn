@@ -17,9 +17,9 @@ namespace Popcorn.ViewModel.Tabs
         #region Property -> CancellationSearchMoviesToken
 
         /// <summary>
-        /// Token to cancel searching movies
+        /// Token to cancel the search
         /// </summary>
-        private CancellationTokenSource CancellationSearchMoviesToken { get; set; }
+        private CancellationTokenSource CancellationSearchToken { get; set; }
 
         #endregion
 
@@ -35,7 +35,7 @@ namespace Popcorn.ViewModel.Tabs
         #region Property -> SearchFilter
 
         /// <summary>
-        /// The filter for searching movies
+        /// The search filter
         /// </summary>
         public string SearchFilter { get; private set; }
 
@@ -50,7 +50,7 @@ namespace Popcorn.ViewModel.Tabs
         {
             RegisterMessages();
             RegisterCommands();
-            CancellationSearchMoviesToken = new CancellationTokenSource();
+            CancellationSearchToken = new CancellationTokenSource();
             TabName = LocalizationProviderHelper.GetLocalizedValue<string>("SearchTitleTab");
             LastPageFilterMapping = new Dictionary<string, int>();
         }
@@ -119,7 +119,7 @@ namespace Popcorn.ViewModel.Tabs
                         await MovieService.SearchMoviesAsync(searchFilter,
                             Page,
                             MaxMoviesPerPage,
-                            CancellationSearchMoviesToken.Token);
+                            CancellationSearchToken.Token);
                     var movies = movieResults.ToList();
 
                     foreach (var movie in movies)
@@ -155,8 +155,8 @@ namespace Popcorn.ViewModel.Tabs
         /// </summary>
         private void StopSearchingMovies()
         {
-            CancellationSearchMoviesToken?.Cancel();
-            CancellationSearchMoviesToken = new CancellationTokenSource();
+            CancellationSearchToken?.Cancel();
+            CancellationSearchToken = new CancellationTokenSource();
         }
 
         #endregion
@@ -166,7 +166,7 @@ namespace Popcorn.ViewModel.Tabs
         public override void Cleanup()
         {
             StopSearchingMovies();
-            CancellationSearchMoviesToken?.Dispose();
+            CancellationSearchToken?.Dispose();
 
             base.Cleanup();
         }

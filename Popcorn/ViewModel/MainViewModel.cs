@@ -44,7 +44,7 @@ namespace Popcorn.ViewModel
         private bool _isFullScreen;
 
         /// <summary>
-        /// Indicates if player is in fullscreen mode
+        /// Indicates if application is fullscreen
         /// </summary>
         public bool IsFullScreen
         {
@@ -371,13 +371,10 @@ namespace Popcorn.ViewModel
 
         #region Event -> OnConnectionError
 
-        /// <summary>
-        /// Fired  on connection error
-        /// </summary>
         public event EventHandler<ConnectionErrorEventArgs> ConnectionError;
 
         /// <summary>
-        /// Fire ConnectionError
+        /// Fire on connection error
         /// </summary>
         ///<param name="e">Event data</param>
         private void OnConnectionError(ConnectionErrorEventArgs e)
@@ -390,13 +387,10 @@ namespace Popcorn.ViewModel
 
         #region Event -> OnWindowStateChanged
 
-        /// <summary>
-        /// Fired when fullscreen mode has been requested
-        /// </summary>
         public event EventHandler<WindowStateChangedEventArgs> WindowStageChanged;
 
         /// <summary>
-        /// Fire event WindowStageChanged
+        /// Fire when window state has changed
         /// </summary>
         ///<param name="e">Event data</param>
         private void OnWindowStateChanged(WindowStateChangedEventArgs e)

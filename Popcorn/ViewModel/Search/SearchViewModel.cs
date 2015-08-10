@@ -60,7 +60,7 @@ namespace Popcorn.ViewModel.Search
         #region Method -> CreateInstance
 
         /// <summary>
-        /// Initialize asynchronously an instance of the SearchViewModel class
+        /// Initialize an instance of the SearchViewModel class
         /// </summary>
         /// <returns>Instance of SearchViewModel</returns>
         public static SearchViewModel CreateInstance()

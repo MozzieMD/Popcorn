@@ -30,7 +30,7 @@ namespace Popcorn.ViewModel.Tabs
 
         #region Method -> InitializeAsync
         /// <summary>
-        /// Load asynchronously the greatest movies and return an instance of GreatestTabViewModel
+        /// Load asynchronously the greatest movies for the current instance
         /// </summary>
         /// <returns>Instance of TrailerViewModel</returns>
         private async Task<GreatestTabViewModel> InitializeAsync()

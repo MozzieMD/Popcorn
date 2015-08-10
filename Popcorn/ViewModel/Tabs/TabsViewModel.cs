@@ -44,7 +44,7 @@ namespace Popcorn.ViewModel.Tabs
         private ObservableCollection<MovieShort> _movies = new ObservableCollection<MovieShort>();
 
         /// <summary>
-        /// Movies loaded from the service and shown in the interface
+        /// Tab's movies
         /// </summary>
         public ObservableCollection<MovieShort> Movies
         {
@@ -175,14 +175,10 @@ namespace Popcorn.ViewModel.Tabs
         protected TabsViewModel()
         {
             RegisterMessages();
-
             RegisterCommands();
-
             CancellationLoadNextPageToken = new CancellationTokenSource();
-
             MovieService = SimpleIoc.Default.GetInstance<IMovieService>();
             UserDataService = SimpleIoc.Default.GetInstance<IUserDataService>();
-
             MaxMoviesPerPage = Constants.MaxMoviesPerPage;
         }
 
@@ -221,7 +217,7 @@ namespace Popcorn.ViewModel.Tabs
                     {
                         i++;
                         var t =
-                            Task.Delay(1000*i)
+                            Task.Delay(1000 * i)
                                 .ContinueWith(async _ => { await MovieService.TranslateMovieShortAsync(movie); });
                         tasks.Add(t);
                     }

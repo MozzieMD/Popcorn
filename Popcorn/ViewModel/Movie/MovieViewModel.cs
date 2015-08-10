@@ -180,7 +180,7 @@ namespace Popcorn.ViewModel.Movie
         #region Method -> CreateInstance
 
         /// <summary>
-        /// Initialize asynchronously an instance of the MovieViewModel class
+        /// Initialize an instance of the MovieViewModel class
         /// </summary>
         /// <returns>Instance of MovieViewModel</returns>
         public static MovieViewModel CreateInstance()

@@ -60,9 +60,6 @@ namespace Popcorn.ViewModel.Trailer
 
         #region Property -> IsTrailerLoading
 
-        /// <summary>
-        /// Specify if a trailer is loading
-        /// </summary>
         private bool _isTrailerLoading;
 
         /// <summary>
@@ -78,11 +75,11 @@ namespace Popcorn.ViewModel.Trailer
 
         #region Property -> TrailerPlayer
 
-        /// <summary>
-        /// The trailer
-        /// </summary>
         private TrailerPlayerViewModel _trailerPlayer;
 
+        /// <summary>
+        /// The trailer player
+        /// </summary>
         public TrailerPlayerViewModel TrailerPlayer
         {
             get { return _trailerPlayer; }
@@ -100,6 +97,8 @@ namespace Popcorn.ViewModel.Trailer
 
         #endregion
 
+        #endregion
+
         #region Commands
 
         #region Command -> StopLoadingTrailerCommand
@@ -108,8 +107,6 @@ namespace Popcorn.ViewModel.Trailer
         /// Stop loading the trailer
         /// </summary>
         public RelayCommand StopLoadingTrailerCommand { get; private set; }
-
-        #endregion
 
         #endregion
 
@@ -133,7 +130,7 @@ namespace Popcorn.ViewModel.Trailer
 
         #region Method -> InitializeAsync
         /// <summary>
-        /// Load asynchronously the movie's trailer and return an instance of TrailerViewModel
+        /// Load asynchronously the movie's trailer for the current instance of TrailerViewModel
         /// </summary>
         /// <returns>Instance of TrailerViewModel</returns>
         private async Task<TrailerViewModel> InitializeAsync()
@@ -174,7 +171,7 @@ namespace Popcorn.ViewModel.Trailer
         /// <summary>
         /// Get trailer of a movie
         /// </summary>
-        /// <param name="movie">Movie</param>
+        /// <param name="movie">The movie</param>
         private async Task GetTrailerAsync(MovieFull movie)
         {
             await Task.Run(async () =>

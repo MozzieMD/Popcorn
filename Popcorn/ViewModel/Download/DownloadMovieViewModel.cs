@@ -67,7 +67,7 @@ namespace Popcorn.ViewModel.Download
         private bool _isMovieBuffered;
 
         /// <summary>
-        /// Specify if a movie is downloading
+        /// Specify if a movie is buffered
         /// </summary>
         public bool IsMovieBuffered
         {
@@ -125,7 +125,7 @@ namespace Popcorn.ViewModel.Download
         #region Property -> CancellationDownloadingMovieToken
 
         /// <summary>
-        /// Token to cancel movie downloading
+        /// Token to cancel the download
         /// </summary>
         private CancellationTokenSource CancellationDownloadingMovieToken { get; }
 
@@ -138,7 +138,7 @@ namespace Popcorn.ViewModel.Download
         #region Command -> StopDownloadingMovieCommand
 
         /// <summary>
-        /// The command used to stop the playing of a movie
+        /// The command used to stop the download of a movie
         /// </summary>
         public RelayCommand StopDownloadingMovieCommand { get; private set; }
 
@@ -224,7 +224,7 @@ namespace Popcorn.ViewModel.Download
             DownloadProgress = value;
             if (value < Constants.MinimumBufferingBeforeMoviePlaying)
                 return;
-            
+
             if (!IsMovieBuffered)
             {
                 IsMovieBuffered = true;
@@ -271,10 +271,10 @@ namespace Popcorn.ViewModel.Download
                     while (IsDownloadingMovie)
                     {
                         var status = handle.QueryStatus();
-                        var progress = status.Progress*100.0;
+                        var progress = status.Progress * 100.0;
 
                         downloadProgress?.Report(progress);
-                        var test = Math.Round(status.DownloadRate/1024.0, 0);
+                        var test = Math.Round(status.DownloadRate / 1024.0, 0);
                         downloadRate?.Report(test);
 
                         handle.FlushCache();

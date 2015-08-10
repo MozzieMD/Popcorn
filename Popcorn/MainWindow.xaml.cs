@@ -66,7 +66,8 @@ namespace Popcorn
         #region Method -> OnWindowStateChanged
 
         /// <summary>
-        /// On toggle fullscreen, maximize the main window, collapse menu bar, header tab and let tabcontrol takes up all the place available
+        /// When window got maximized while a movie is playing : collapse menu bar, header tab and let tabcontrol takes up all the place available. 
+        /// Rollback when window go back to normal.
         /// </summary>
         /// <param name="sender">Sender object</param>
         /// <param name="e">EventArgs</param>

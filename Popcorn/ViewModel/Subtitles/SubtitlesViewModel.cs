@@ -55,9 +55,7 @@ namespace Popcorn.ViewModel.Subtitles
         private SubtitlesViewModel(MovieFull movie)
         {
             CancellationDownloadingSubtitlesToken = new CancellationTokenSource();
-
             MovieService = SimpleIoc.Default.GetInstance<IMovieService>();
-
             Movie = movie;
         }
 
@@ -67,7 +65,7 @@ namespace Popcorn.ViewModel.Subtitles
 
         #region Method -> InitializeAsync
         /// <summary>
-        /// Load asynchronously the movie's subtitles and return an instance of SubtitlesViewModel
+        /// Load asynchronously the movie's subtitles for the current instance
         /// </summary>
         /// <returns>Instance of SubtitlesViewModel</returns>
         private async Task<SubtitlesViewModel> InitializeAsync()

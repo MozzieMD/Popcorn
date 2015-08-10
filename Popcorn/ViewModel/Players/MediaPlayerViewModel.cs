@@ -44,7 +44,7 @@ namespace Popcorn.ViewModel.Players
         #region Command -> StopPlayingMediaCommand
 
         /// <summary>
-        /// Command used to stop playing the movie
+        /// Command used to stop playing the media
         /// </summary>
         public RelayCommand StopPlayingMediaCommand { get; set; }
 
