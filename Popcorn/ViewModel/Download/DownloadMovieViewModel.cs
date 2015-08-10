@@ -293,8 +293,8 @@ namespace Popcorn.ViewModel.Download
                                 )
                             {
                                 alreadyBuffered = true;
-                                Messenger.Default.Send(new MovieBufferedMessage(movie,
-                                    new Uri(filePath)));
+                                movie.FilePath = new Uri(filePath);
+                                Messenger.Default.Send(new MovieBufferedMessage(movie));
                             }
                         }
 

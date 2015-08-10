@@ -10,17 +10,31 @@ namespace Popcorn.ViewModel.Players.Trailer
     /// </summary>
     public sealed class TrailerPlayerViewModel : MediaPlayerViewModel
     {
+        #region Property -> Trailer
+
+        private Model.Trailer.Trailer _trailer;
+
+        /// <summary>
+        /// The trailer
+        /// </summary>
+        public Model.Trailer.Trailer Trailer
+        {
+            get { return _trailer; }
+            set { Set(() => Trailer, ref _trailer, value); }
+        }
+
+        #endregion
+
         #region Constructor
 
         /// <summary>
         /// Initializes a new instance of the TrailerPlayerViewModel class.
         /// </summary>
-        /// <param name="trailerUri">Trailer's media Uri</param>
-        public TrailerPlayerViewModel(Uri trailerUri)
+        /// <param name="trailer">The trailer</param>
+        public TrailerPlayerViewModel(Model.Trailer.Trailer trailer)
         {
             RegisterCommands();
-
-            MediaUri = trailerUri;
+            Trailer = trailer;
         }
 
         #endregion

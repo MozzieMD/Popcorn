@@ -214,7 +214,7 @@
                             </StackPanel.OpacityMask>
                             <Image x:Name="Poster"
                                    Source="{Binding Path=Movie.PosterImagePath, Converter={StaticResource UriToCachedImageConverter}}" 
-                                   Width="{Binding ElementName=MoviePageContainer, Path=ActualWidth, Converter={StaticResource RatioConverter}, ConverterParameter=0.25}"/>
+                                   Width="{Binding ElementName=Content, Path=ActualWidth, Converter={StaticResource RatioConverter}, ConverterParameter=0.25}"/>
                         </StackPanel>
                     </Grid>
                 </Border>

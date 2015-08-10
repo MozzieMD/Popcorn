@@ -81,7 +81,7 @@ namespace Popcorn.UserControls.Players.Trailer
                 if (vm == null)
                     return;
 
-                if (vm.MediaUri == null)
+                if (vm.Trailer.Uri == null)
                     return;
 
                 // start the timer used to report time on MediaPlayerSliderProgress
@@ -99,7 +99,7 @@ namespace Popcorn.UserControls.Players.Trailer
                 vm.StoppedPlayingMedia += OnStoppedPlayingMedia;
                 Player.VlcMediaPlayer.EndReached += MediaPlayerEndReached;
 
-                Player.LoadMedia(vm.MediaUri);
+                Player.LoadMedia(vm.Trailer.Uri);
                 PlayMedia();
             }
         }

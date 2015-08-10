@@ -1,7 +1,6 @@
 ﻿using System;
 using GalaSoft.MvvmLight.Messaging;
 using Popcorn.Model.Movie;
-using Popcorn.Model.Subtitle;
 
 namespace Popcorn.Messaging
 {
@@ -11,15 +10,6 @@ namespace Popcorn.Messaging
     public class MovieBufferedMessage : MessageBase
     {
         #region Properties
-
-        #region Property -> MovieUri
-
-        /// <summary>
-        /// The Uri of the buffered movie
-        /// </summary>
-        public readonly Uri MovieUri;
-
-        #endregion
 
         #region Property -> Movie
 
@@ -38,11 +28,9 @@ namespace Popcorn.Messaging
         /// Constructor
         /// </summary>
         /// <param name="movie">The buffered movie</param>
-        /// <param name="movieUri">The Uri of the buffered movie</param>
-        public MovieBufferedMessage(MovieFull movie, Uri movieUri)
+        public MovieBufferedMessage(MovieFull movie)
         {
             Movie = movie;
-            MovieUri = movieUri;
         }
 
         #endregion

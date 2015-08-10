@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Popcorn.Model.Movie.Json;
 using System.Collections.ObjectModel;
+using System;
 
 namespace Popcorn.Model.Movie
 {
@@ -46,6 +47,21 @@ namespace Popcorn.Model.Movie
         {
             get { return base.Genres; }
             set { Set(() => Genres, ref base.Genres, value); }
+        }
+
+        #endregion
+
+        #region Property -> FilePath
+
+        private Uri _filePath;
+
+        /// <summary>
+        /// Local path of the downloaded movie file
+        /// </summary>
+        public Uri FilePath
+        {
+            get { return _filePath; }
+            set { Set(() => FilePath, ref _filePath, value); }
         }
 
         #endregion

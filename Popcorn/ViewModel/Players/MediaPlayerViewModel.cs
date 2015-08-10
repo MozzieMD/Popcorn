@@ -10,15 +10,6 @@ namespace Popcorn.ViewModel.Players
     /// </summary>
     public class MediaPlayerViewModel : ViewModelBase
     {
-        #region Property -> MovieUri
-
-        /// <summary>
-        /// Uri to file path of the media to be played
-        /// </summary>
-        public Uri MediaUri { get; protected set; }
-
-        #endregion
-
         #region Property -> Main
 
         /// <summary>

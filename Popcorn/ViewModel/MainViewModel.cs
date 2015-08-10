@@ -236,7 +236,7 @@ namespace Popcorn.ViewModel
             {
                 DispatcherHelper.CheckBeginInvokeOnUI(() =>
                 {
-                    Tabs.Add(new MoviePlayerViewModel(message.Movie, message.MovieUri));
+                    Tabs.Add(new MoviePlayerViewModel(message.Movie));
                     SelectedTab = Tabs.Last();
                     IsMovieFlyoutOpen = false;
                     IsMoviePlaying = true;

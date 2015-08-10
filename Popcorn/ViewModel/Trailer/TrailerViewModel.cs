@@ -124,11 +124,8 @@ namespace Popcorn.ViewModel.Trailer
         private TrailerViewModel(MovieFull movie)
         {
             RegisterCommands();
-
             CancellationLoadingTrailerToken = new CancellationTokenSource();
-
             MovieService = SimpleIoc.Default.GetInstance<IMovieService>();
-
             Movie = movie;
         }
 
@@ -225,7 +222,7 @@ namespace Popcorn.ViewModel.Trailer
                     if (!CancellationLoadingTrailerToken.IsCancellationRequested)
                     {
                         // Inform we have loaded trailer successfully
-                        TrailerPlayer = new TrailerPlayerViewModel(new Uri(video.DownloadUrl));
+                        TrailerPlayer = new TrailerPlayerViewModel(new Model.Trailer.Trailer(new Uri(video.DownloadUrl)));
                         IsTrailerLoading = false;
                     }
                 }
@@ -296,7 +293,7 @@ namespace Popcorn.ViewModel.Trailer
             if (video == null)
             {
                 // We search for an other video quality if none has been found
-                return GetVideoByStreamingQuality(videos, (Constants.YoutubeStreamingQuality) (((int) quality) - 1));
+                return GetVideoByStreamingQuality(videos, (Constants.YoutubeStreamingQuality)(((int)quality) - 1));
             }
 
             return video;

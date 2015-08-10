@@ -81,7 +81,7 @@ namespace Popcorn.UserControls.Players.Movie
                 if (vm == null)
                     return;
 
-                if (vm.MediaUri == null)
+                if (vm.Movie.FilePath == null)
                     return;
 
                 // start the timer used to report time on MediaPlayerSliderProgress
@@ -99,7 +99,7 @@ namespace Popcorn.UserControls.Players.Movie
                 vm.StoppedPlayingMedia += OnStoppedPlayingMedia;
                 Player.VlcMediaPlayer.EndReached += MediaPlayerEndReached;
 
-                Player.LoadMedia(vm.MediaUri);
+                Player.LoadMedia(vm.Movie.FilePath);
                 if (!string.IsNullOrEmpty(vm.Movie.SelectedSubtitle?.FilePath))
                 {
                     Player.AddOption("--sub-file = " + vm.Movie.SelectedSubtitle.FilePath);

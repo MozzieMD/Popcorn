@@ -58,17 +58,12 @@ namespace Popcorn.ViewModel.Players.Movie
         /// Initializes a new instance of the MoviePlayerViewModel class.
         /// </summary>
         /// <param name="movie">Movie to play</param>
-        /// <param name="movieUri">Movie's media Uri</param>
-        public MoviePlayerViewModel(MovieFull movie, Uri movieUri)
+        public MoviePlayerViewModel(MovieFull movie)
         {
             RegisterMessages();
-
             RegisterCommands();
-
             UserDataService = SimpleIoc.Default.GetInstance<IUserDataService>();
-
             Movie = movie;
-            MediaUri = movieUri;
             TabName = !string.IsNullOrEmpty(Movie.Title) ? Movie.Title : Properties.Resources.PlayingTitleTab;
         }
 
