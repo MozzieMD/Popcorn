@@ -88,6 +88,21 @@ namespace Popcorn.ViewModel.Movie
 
         #endregion
 
+        #region Property -> IsTrailerLoading
+
+        private bool _isTrailerLoading;
+
+        /// <summary>
+        /// Specify if a trailer is loading
+        /// </summary>
+        public bool IsTrailerLoading
+        {
+            get { return _isTrailerLoading; }
+            set { Set(() => IsTrailerLoading, ref _isTrailerLoading, value); }
+        }
+
+        #endregion
+
         #region Property -> IsPlayingTrailer
 
         private bool _isPlayingTrailer;
@@ -123,7 +138,16 @@ namespace Popcorn.ViewModel.Movie
         /// <summary>
         /// Token to cancel movie loading
         /// </summary>
-        private CancellationTokenSource CancellationLoadingToken { get; set; }
+        private CancellationTokenSource CancellationLoadingToken { get; }
+
+        #endregion
+
+        #region Property -> CancellationLoadingTrailerToken
+
+        /// <summary>
+        /// Token to cancel trailer loading
+        /// </summary>
+        private CancellationTokenSource CancellationLoadingTrailerToken { get; set; }
 
         #endregion
 
@@ -137,6 +161,19 @@ namespace Popcorn.ViewModel.Movie
         /// Command used to load the movie
         /// </summary>
         public RelayCommand<MovieShort> LoadMovieCommand { get; private set; }
+
+        #endregion
+
+        #region Commands
+
+        #region Command -> StopLoadingTrailerCommand
+
+        /// <summary>
+        /// Stop loading the trailer
+        /// </summary>
+        public RelayCommand StopLoadingTrailerCommand { get; private set; }
+
+        #endregion
 
         #endregion
 
@@ -170,6 +207,7 @@ namespace Popcorn.ViewModel.Movie
             RegisterMessages();
             RegisterCommands();
             CancellationLoadingToken = new CancellationTokenSource();
+            CancellationLoadingTrailerToken = new CancellationTokenSource();
             MovieService = SimpleIoc.Default.GetInstance<IMovieService>();
         }
 
@@ -236,8 +274,13 @@ namespace Popcorn.ViewModel.Movie
             PlayTrailerCommand = new RelayCommand(async () =>
             {
                 IsPlayingTrailer = true;
-                Trailer = await TrailerViewModel.CreateAsync(Movie);
+
+                IsTrailerLoading = true;
+                Trailer = await TrailerViewModel.CreateAsync(Movie, CancellationLoadingTrailerToken);
+                IsTrailerLoading = false;
             });
+
+            StopLoadingTrailerCommand = new RelayCommand(StopLoadingTrailer);
         }
 
         #endregion
@@ -291,6 +334,22 @@ namespace Popcorn.ViewModel.Movie
         /// <summary>
         /// Stop playing a trailer
         /// </summary>
+        private void StopLoadingTrailer()
+        {
+            IsTrailerLoading = false;
+            CancellationLoadingTrailerToken?.Cancel();
+            CancellationLoadingTrailerToken?.Dispose();
+            CancellationLoadingTrailerToken = new CancellationTokenSource();
+            StopPlayingTrailer();
+        }
+
+        #endregion
+
+        #region Method -> StopPlayingTrailer
+
+        /// <summary>
+        /// Stop playing a trailer
+        /// </summary>
         private void StopPlayingTrailer()
         {
             IsPlayingTrailer = false;
@@ -318,8 +377,10 @@ namespace Popcorn.ViewModel.Movie
         {
             StopLoadingMovie();
             CancellationLoadingToken?.Dispose();
-            StopPlayingTrailer();
             StopPlayingMovie();
+            StopLoadingTrailer();
+            CancellationLoadingTrailerToken?.Dispose();
+            StopPlayingTrailer();
             base.Cleanup();
         }
 

@@ -204,4 +204,7 @@
   <data name="OnLabel" xml:space="preserve">
     <value>On</value>
   </data>
+  <data name="StartingLabel" xml:space="preserve">
+    <value>Application starting...</value>
+  </data>
 </root>

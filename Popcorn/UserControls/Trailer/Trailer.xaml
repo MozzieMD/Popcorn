@@ -45,33 +45,6 @@
             <RowDefinition Height="52*"/>
             <RowDefinition Height="58*"/>
         </Grid.RowDefinitions>
-        <TextBlock FontSize="36"
-                   Foreground="White"
-                   Text="{lex:LocText LoadingTrailerLabel}" 
-                   TextTrimming="CharacterEllipsis"
-                   Visibility="{Binding IsTrailerLoading, Converter={StaticResource BoolToInverseVisibilityConverter}}" 
-                   Grid.Row="2" 
-                   Grid.ColumnSpan="5" 
-                   Grid.Column="0" 
-                   HorizontalAlignment="Center" 
-                   VerticalAlignment="Center"/>
-        <controls:ProgressRing Grid.Column="1"  
-                               Grid.Row="3"  
-                               IsActive="True"
-                               Foreground="{DynamicResource AccentColorBrush}"
-                               Grid.ColumnSpan="3" 
-                               Visibility="{Binding IsTrailerLoading, Converter={StaticResource BoolToInverseVisibilityConverter}}"/>
-        <Button Content="{lex:LocText CancelButton}"
-                Command="{Binding StopLoadingTrailerCommand}" 
-                Margin="0" 
-                Grid.Row="7" 
-                Grid.Column="1"
-                Grid.ColumnSpan="3"
-                Width="100" 
-                Height="30"
-                Visibility="{Binding IsTrailerLoading, Converter={StaticResource BoolToInverseVisibilityConverter}}" 
-                HorizontalAlignment="Center" 
-                VerticalAlignment="Center"/>
         <Grid HorizontalAlignment="Center"
               VerticalAlignment="Center"
               Grid.Row="0"

@@ -20,6 +20,24 @@ namespace Popcorn.ViewModel
     {
         #region Properties
 
+        #region Property -> IsStarting
+
+        private bool _isStarting;
+
+        /// <summary>
+        /// Indicates if the application is starting
+        /// </summary>
+        public bool IsStarting
+        {
+            get { return _isStarting; }
+            set
+            {
+                Set(() => IsStarting, ref _isStarting, value);
+            }
+        }
+
+        #endregion
+
         #region Property -> IsMoviePlaying
 
         private bool _isMoviePlaying;
@@ -202,7 +220,9 @@ namespace Popcorn.ViewModel
         /// <returns>Instance of MainViewModel</returns>
         private async Task InitializeAsync()
         {
+            IsStarting = true;
             Tabs.Add(await PopularTabViewModel.CreateAsync());
+            IsStarting = false;
             Tabs.Add(await GreatestTabViewModel.CreateAsync());
             Tabs.Add(await RecentTabViewModel.CreateAsync());
             SelectedTab = Tabs.FirstOrDefault();

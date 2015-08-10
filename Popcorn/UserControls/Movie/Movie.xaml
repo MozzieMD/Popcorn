@@ -25,6 +25,7 @@
             <converters:GenresConverter x:Key="GenresConverter" />
             <converters:StringRatingToIntRatingConverter x:Key="StringRatingToIntRatingConverter" />
             <converters:MultiBooleanToBoolConverter x:Key="MultiBooleanToBoolConverter"/>
+            <converters:BoolToInverseVisibilityConverter x:Key="BoolToInverseVisibilityConverter"/>
 
             <DataTemplate DataType="{x:Type downloadViewModel:DownloadMovieViewModel}">
                 <downloadUserControl:DownloadMovie></downloadUserControl:DownloadMovie>
@@ -88,7 +89,7 @@
                 </Style.Triggers>
             </Style>
 
-            <Style x:Key="AnimationContentOnMovieDownloading" TargetType="{x:Type Grid}">
+            <Style x:Key="AnimationContentOnMediaLoading" TargetType="{x:Type Grid}">
                 <Style.Triggers>
                     <DataTrigger Value="True">
                         <DataTrigger.Binding>
@@ -136,14 +137,48 @@
         <Grid x:Name="MoviePageContainer"
               Opacity="0.0"
               Style="{StaticResource AnimationContentOnMovieLoading}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="3*"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="3*"></RowDefinition>
+            </Grid.RowDefinitions>
             <Image x:Name="BackgroundImage" 
+                   Grid.Row="0"
+                   Grid.RowSpan="3"
                    Source="{Binding Path=Movie.BackgroundImagePath, Converter={StaticResource UriToCachedImageConverter}}" 
                    Stretch="UniformToFill" 
                    Opacity="0.3"/>
-            <ContentControl Content="{Binding DownloadMovie}"/>
-            <ContentControl Content="{Binding Trailer}"/>
+            <TextBlock FontSize="36"
+                       Grid.Row="0"
+                       Foreground="White"
+                       Text="{lex:LocText LoadingTrailerLabel}" 
+                       TextTrimming="CharacterEllipsis"
+                       Visibility="{Binding IsTrailerLoading, Converter={StaticResource BoolToInverseVisibilityConverter}}" 
+                       HorizontalAlignment="Center" 
+                       VerticalAlignment="Bottom"/>
+            <controls:ProgressRing IsActive="True"
+                                   Grid.Row="1"
+                                   VerticalAlignment="Center"
+                                   Foreground="{DynamicResource AccentColorBrush}"
+                                   Visibility="{Binding IsTrailerLoading, Converter={StaticResource BoolToInverseVisibilityConverter}}"/>
+            <Button Content="{lex:LocText CancelButton}"
+                    Command="{Binding StopLoadingTrailerCommand}" 
+                    Width="100" 
+                    Height="30"
+                    Grid.Row="2"
+                    Visibility="{Binding IsTrailerLoading, Converter={StaticResource BoolToInverseVisibilityConverter}}"
+                    HorizontalAlignment="Center" 
+                    VerticalAlignment="Top"/>
+            <ContentControl Content="{Binding DownloadMovie}"
+                            Grid.Row="0"
+                            Grid.RowSpan="3"/>
+            <ContentControl Content="{Binding Trailer}"
+                            Grid.Row="0"
+                            Grid.RowSpan="3"/>
             <Grid x:Name="Content" 
-                  Style="{StaticResource AnimationContentOnMovieDownloading}">
+                  Grid.Row="0"
+                  Grid.RowSpan="3"
+                  Style="{StaticResource AnimationContentOnMediaLoading}">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="1*"></RowDefinition>
                     <RowDefinition Height="1*"></RowDefinition>

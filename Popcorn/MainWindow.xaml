@@ -38,6 +38,7 @@
         <ResourceDictionary>
             <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
             <converters:RatioConverter x:Key="RatioConverter" />
+            <converters:BoolToInverseVisibilityConverter x:Key="BoolToInverseVisibilityConverter"/>
         </ResourceDictionary>
     </Window.Resources>
 
@@ -94,6 +95,18 @@
             <RowDefinition Height="*"></RowDefinition>
         </Grid.RowDefinitions>
 
+        <StackPanel Orientation="Vertical" Grid.Column="1" Grid.Row="1" VerticalAlignment="Center">
+            <TextBlock FontSize="36"
+                       Text="{lex:LocText StartingLabel}" 
+                       TextTrimming="CharacterEllipsis"
+                       Visibility="{Binding IsStarting, Converter={StaticResource BoolToInverseVisibilityConverter}}" 
+                       VerticalAlignment="Center"
+                       HorizontalAlignment="Center"/>
+            <controls:ProgressRing IsActive="True"
+                                   Foreground="{DynamicResource AccentColorBrush}"
+                                   VerticalAlignment="Center"
+                                   Visibility="{Binding IsStarting, Converter={StaticResource BoolToInverseVisibilityConverter}}"/>
+        </StackPanel>
         <Grid x:Name="SearchBar"
               Grid.Column="0" 
               Grid.Row="0" 

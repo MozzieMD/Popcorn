@@ -1,5 +1,4 @@
 ﻿using GalaSoft.MvvmLight;
-using GalaSoft.MvvmLight.CommandWpf;
 using GalaSoft.MvvmLight.Ioc;
 using GalaSoft.MvvmLight.Messaging;
 using Popcorn.Helpers;
@@ -38,7 +37,7 @@ namespace Popcorn.ViewModel.Trailer
         /// <summary>
         /// Represent the subtitle's movie
         /// </summary>
-        private readonly MovieFull Movie;
+        private MovieFull Movie { get; }
 
         #endregion
 
@@ -58,21 +57,6 @@ namespace Popcorn.ViewModel.Trailer
 
         #endregion
 
-        #region Property -> IsTrailerLoading
-
-        private bool _isTrailerLoading;
-
-        /// <summary>
-        /// Specify if a trailer is loading
-        /// </summary>
-        public bool IsTrailerLoading
-        {
-            get { return _isTrailerLoading; }
-            set { Set(() => IsTrailerLoading, ref _isTrailerLoading, value); }
-        }
-
-        #endregion
-
         #region Property -> TrailerPlayer
 
         private TrailerPlayerViewModel _trailerPlayer;
@@ -88,28 +72,6 @@ namespace Popcorn.ViewModel.Trailer
 
         #endregion
 
-        #region Property -> CancellationLoadingTrailerToken
-
-        /// <summary>
-        /// Token to cancel trailer loading
-        /// </summary>
-        private CancellationTokenSource CancellationLoadingTrailerToken { get; }
-
-        #endregion
-
-        #endregion
-
-        #region Commands
-
-        #region Command -> StopLoadingTrailerCommand
-
-        /// <summary>
-        /// Stop loading the trailer
-        /// </summary>
-        public RelayCommand StopLoadingTrailerCommand { get; private set; }
-
-        #endregion
-
         #endregion
 
         #region Constructor
@@ -120,8 +82,6 @@ namespace Popcorn.ViewModel.Trailer
         /// <param name="movie">Movie's trailer</param>
         private TrailerViewModel(MovieFull movie)
         {
-            RegisterCommands();
-            CancellationLoadingTrailerToken = new CancellationTokenSource();
             MovieService = SimpleIoc.Default.GetInstance<IMovieService>();
             Movie = movie;
         }
@@ -129,55 +89,45 @@ namespace Popcorn.ViewModel.Trailer
         #endregion
 
         #region Method -> InitializeAsync
+
         /// <summary>
         /// Load asynchronously the movie's trailer for the current instance of TrailerViewModel
         /// </summary>
         /// <returns>Instance of TrailerViewModel</returns>
-        private async Task<TrailerViewModel> InitializeAsync()
+        private async Task<TrailerViewModel> InitializeAsync(CancellationTokenSource ct)
         {
-            await GetTrailerAsync(Movie);
+            await LoadTrailerAsync(Movie, ct);
             return this;
         }
+
         #endregion
 
         #region Method -> CreateAsync
+
         /// <summary>
         /// Initialize asynchronously an instance of the TrailerViewModel class
         /// </summary>
         /// <param name="movie">The movie</param>
         /// <returns>Instance of TrailerViewModel</returns>
-        public static Task<TrailerViewModel> CreateAsync(MovieFull movie)
+        public static Task<TrailerViewModel> CreateAsync(MovieFull movie, CancellationTokenSource ct)
         {
             var ret = new TrailerViewModel(movie);
-            return ret.InitializeAsync();
-        }
-        #endregion
-
-        #region -> RegisterCommands
-
-        /// <summary>
-        /// Register commands
-        /// </summary>
-        private void RegisterCommands()
-        {
-            StopLoadingTrailerCommand =
-                new RelayCommand(() => { Messenger.Default.Send(new StopPlayingTrailerMessage()); });
+            return ret.InitializeAsync(ct);
         }
 
         #endregion
 
-        #region Method -> GetTrailerAsync
+        #region Method -> LoadTrailerAsync
 
         /// <summary>
         /// Get trailer of a movie
         /// </summary>
         /// <param name="movie">The movie</param>
-        private async Task GetTrailerAsync(MovieFull movie)
+        private async Task LoadTrailerAsync(MovieFull movie, CancellationTokenSource ct)
         {
             await Task.Run(async () =>
             {
                 // Inform subscribers we are loading movie trailer
-                IsTrailerLoading = true;
                 try
                 {
                     // Retrieve trailer from API
@@ -216,11 +166,10 @@ namespace Popcorn.ViewModel.Trailer
                         return;
                     }
 
-                    if (!CancellationLoadingTrailerToken.IsCancellationRequested)
+                    if (!ct.IsCancellationRequested)
                     {
                         // Inform we have loaded trailer successfully
                         TrailerPlayer = new TrailerPlayerViewModel(new Model.Trailer.Trailer(new Uri(video.DownloadUrl)));
-                        IsTrailerLoading = false;
                     }
                 }
                 catch (MovieServiceException e)
@@ -231,8 +180,7 @@ namespace Popcorn.ViewModel.Trailer
                         Messenger.Default.Send(new ConnectionErrorMessage(e.Message));
                     }
                 }
-
-            }, CancellationLoadingTrailerToken.Token);
+            }, ct.Token);
         }
 
         #endregion
@@ -290,7 +238,7 @@ namespace Popcorn.ViewModel.Trailer
             if (video == null)
             {
                 // We search for an other video quality if none has been found
-                return GetVideoByStreamingQuality(videos, (Constants.YoutubeStreamingQuality)(((int)quality) - 1));
+                return GetVideoByStreamingQuality(videos, (Constants.YoutubeStreamingQuality) (((int) quality) - 1));
             }
 
             return video;
@@ -298,25 +246,8 @@ namespace Popcorn.ViewModel.Trailer
 
         #endregion
 
-
-        #region Method -> StopLoadingTrailer
-
-        /// <summary>
-        /// Stop loading a trailer
-        /// </summary>
-        private void StopLoadingTrailer()
-        {
-            IsTrailerLoading = false;
-            CancellationLoadingTrailerToken?.Cancel();
-        }
-
-        #endregion
-
         public override void Cleanup()
         {
-            StopLoadingTrailer();
-            CancellationLoadingTrailerToken?.Dispose();
-
             TrailerPlayer?.Cleanup();
 
             base.Cleanup();
