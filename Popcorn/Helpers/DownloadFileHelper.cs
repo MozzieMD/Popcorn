@@ -25,8 +25,10 @@ namespace Popcorn.Helpers
         /// <param name="remotePath">Internet address of the file to download.</param>
         /// <param name="localPath">Local file name where to store the content of the download, if null a temporary file name will be generated.</param>
         /// <param name="timeOut">Duration in miliseconds before cancelling the  operation.</param>
+        /// <param name="progress">Report the progress of the download</param>
+        /// <param name="ct">Cancellation token</param>
         public static async Task<Tuple<string, string, Exception>> DownloadFileTaskAsync(string remotePath,
-            string localPath = null, int timeOut = 10000)
+            string localPath = null, int timeOut = 10000, IProgress<long> progress = null, CancellationTokenSource ct = null)
         {
             try
             {
@@ -36,6 +38,13 @@ namespace Popcorn.Helpers
                 {
                     Logger.Debug("DownloadFileTaskAsync (null remote path): skipping");
                     throw new ArgumentNullException(nameof(remotePath));
+                }
+
+                if (localPath == null)
+                {
+                    Logger.Debug(
+                        $"DownloadFileTaskAsync (null local path): generating a temporary file name for {remotePath}");
+                    localPath = Path.GetTempFileName();
                 }
 
                 if (File.Exists(localPath))
@@ -53,15 +62,16 @@ namespace Popcorn.Helpers
                     Directory.CreateDirectory(direcory);
                 }
 
-                if (localPath == null)
-                {
-                    Logger.Debug(
-                        $"DownloadFileTaskAsync (null local path): generating a temporary file name for {remotePath}");
-                    localPath = Path.GetTempFileName();
-                }
-
                 using (var client = new NoKeepAliveWebClient())
                 {
+                    if (progress != null)
+                    {
+                        client.DownloadProgressChanged += delegate(object sender, DownloadProgressChangedEventArgs e)
+                        {
+                            progress.Report(e.BytesReceived/e.TotalBytesToReceive);
+                        };
+                    }
+
                     TimerCallback timerCallback = c =>
                     {
                         var webClient = (WebClient) c;
@@ -69,7 +79,9 @@ namespace Popcorn.Helpers
                         webClient.CancelAsync();
                         Logger.Debug($"DownloadFileTaskAsync (time out due): {remotePath}");
                     };
-                    using (var timer = new Timer(timerCallback, client, timeOut, Timeout.Infinite))
+
+                    using(ct?.Token.Register(() => client.CancelAsync()))
+                    using (new Timer(timerCallback, client, timeOut, Timeout.Infinite))
                     {
                         await client.DownloadFileTaskAsync(remotePath, localPath);
                     }
@@ -83,7 +95,8 @@ namespace Popcorn.Helpers
             }
             catch (Exception ex)
             {
-                Logger.Error($"DownloadFileTaskAsync (download failed): {remotePath} Additional informations : {ex.Message}");
+                Logger.Error(
+                    $"DownloadFileTaskAsync (download failed): {remotePath} Additional informations : {ex.Message}");
                 return new Tuple<string, string, Exception>(remotePath, null, ex);
             }
         }

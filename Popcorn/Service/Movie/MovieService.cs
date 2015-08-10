@@ -570,7 +570,9 @@ namespace Popcorn.Service.Movie
         /// Download a subtitle
         /// </summary>
         /// <param name="movie">The movie of which to retrieve its subtitles</param>
-        public async Task DownloadSubtitleAsync(MovieFull movie)
+        /// <param name="progress">Report the progress of the download</param>
+        /// <param name="ct">Cancellation token</param>
+        public async Task DownloadSubtitleAsync(MovieFull movie, IProgress<long> progress, CancellationTokenSource ct)
         {
             if (movie.SelectedSubtitle == null)
                 return;
@@ -582,9 +584,9 @@ namespace Popcorn.Service.Movie
             {
                 var result = await
                     DownloadFileHelper.DownloadFileTaskAsync(
-                        Constants.YifySubtitles + movie.SelectedSubtitle.Url, filePath);
+                        Constants.YifySubtitles + movie.SelectedSubtitle.Url, filePath, 10000, progress, ct);
 
-                if (result.Item3 != null && !string.IsNullOrEmpty(result.Item2))
+                if (result.Item3 == null && !string.IsNullOrEmpty(result.Item2))
                 {
                     using (var archive = ZipFile.OpenRead(result.Item2))
                     {

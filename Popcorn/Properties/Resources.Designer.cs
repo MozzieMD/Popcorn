@@ -124,6 +124,15 @@ namespace Popcorn.Properties {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à Downloading subtitles....
+        /// </summary>
+        public static string DownloadingSubtitlesLabel {
+            get {
+                return ResourceManager.GetString("DownloadingSubtitlesLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à Download limit (kB/s).
         /// </summary>
         public static string DownloadLimitLabel {

@@ -207,4 +207,7 @@
   <data name="StartingLabel" xml:space="preserve">
     <value>Démarrage de l'application...</value>
   </data>
+  <data name="DownloadingSubtitlesLabel" xml:space="preserve">
+    <value>Téléchargement des sous-titres...</value>
+  </data>
 </root>

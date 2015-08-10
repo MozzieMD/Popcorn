@@ -62,6 +62,21 @@ namespace Popcorn.ViewModel.Download
 
         #endregion
 
+        #region Property -> IsDownloadingSubtitles
+
+        private bool _isDownloadingSubtitles;
+
+        /// <summary>
+        /// Specify if subtitles are downloading
+        /// </summary>
+        public bool IsDownloadingSubtitles
+        {
+            get { return _isDownloadingSubtitles; }
+            set { Set(() => IsDownloadingSubtitles, ref _isDownloadingSubtitles, value); }
+        }
+
+        #endregion
+
         #region Property -> IsMovieBuffered
 
         private bool _isMovieBuffered;
@@ -77,32 +92,47 @@ namespace Popcorn.ViewModel.Download
 
         #endregion
 
-        #region Property -> DownloadProgress
+        #region Property -> MovieDownloadProgress
 
-        private double _downloadProgress;
+        private double _movieDownloadProgress;
 
         /// <summary>
         /// Specify the movie download progress
         /// </summary>
-        public double DownloadProgress
+        public double MovieDownloadProgress
         {
-            get { return _downloadProgress; }
-            set { Set(() => DownloadProgress, ref _downloadProgress, value); }
+            get { return _movieDownloadProgress; }
+            set { Set(() => MovieDownloadProgress, ref _movieDownloadProgress, value); }
         }
 
         #endregion
 
-        #region Property -> DownloadRate
+        #region Property -> MovieDownloadRate
 
-        private double _downloadRate;
+        private double _movieDownloadRate;
 
         /// <summary>
         /// Specify the movie download rate
         /// </summary>
-        public double DownloadRate
+        public double MovieDownloadRate
         {
-            get { return _downloadRate; }
-            set { Set(() => DownloadRate, ref _downloadRate, value); }
+            get { return _movieDownloadRate; }
+            set { Set(() => MovieDownloadRate, ref _movieDownloadRate, value); }
+        }
+
+        #endregion
+
+        #region Property -> SubtitlesDownloadProgress
+
+        private long _subtitlesDownloadProgress;
+
+        /// <summary>
+        /// Specify the subtitles' progress download
+        /// </summary>
+        public long SubtitlesDownloadProgress
+        {
+            get { return _subtitlesDownloadProgress; }
+            set { Set(() => SubtitlesDownloadProgress, ref _subtitlesDownloadProgress, value); }
         }
 
         #endregion
@@ -127,7 +157,7 @@ namespace Popcorn.ViewModel.Download
         /// <summary>
         /// Token to cancel the download
         /// </summary>
-        private CancellationTokenSource CancellationDownloadingMovieToken { get; }
+        private CancellationTokenSource CancellationDownloadingMovieToken { get; set; }
 
         #endregion
 
@@ -177,11 +207,14 @@ namespace Popcorn.ViewModel.Download
                 this,
                 async message =>
                 {
-                    var reportDownloadProgress = new Progress<double>(ReportDownloadProgress);
-                    var reportDownloadRate = new Progress<double>(ReportDownloadRate);
+                    var reportDownloadProgress = new Progress<double>(ReportMovieDownloadProgress);
+                    var reportDownloadRate = new Progress<double>(ReportMovieDownloadRate);
+                    var reportDownloadSubtitles = new Progress<long>(ReportSubtitlesDownloadProgress);
 
+                    IsDownloadingSubtitles = true;
                     await
-                        MovieService.DownloadSubtitleAsync(message.Movie);
+                        MovieService.DownloadSubtitleAsync(message.Movie, reportDownloadSubtitles, CancellationDownloadingMovieToken);
+                    IsDownloadingSubtitles = false;
                     await
                         DownloadMovieAsync(message.Movie,
                             reportDownloadProgress, reportDownloadRate, CancellationDownloadingMovieToken.Token);
@@ -200,28 +233,41 @@ namespace Popcorn.ViewModel.Download
         }
         #endregion
 
-        #region Method -> ReportDownloadRate
+        #region Method -> ReportMovieDownloadRate
 
         /// <summary>
         /// Report the download progress
         /// </summary>
         /// <param name="value"></param>
-        private void ReportDownloadRate(double value)
+        private void ReportMovieDownloadRate(double value)
         {
-            DownloadRate = value;
+            MovieDownloadRate = value;
         }
 
         #endregion
 
-        #region Method -> ReportDownloadProgress
+        #region Method -> ReportSubtitlesDownloadProgress
+
+        /// <summary>
+        /// Report the download progress of the subtitles
+        /// </summary>
+        /// <param name="value"></param>
+        private void ReportSubtitlesDownloadProgress(long value)
+        {
+            SubtitlesDownloadProgress = value;
+        }
+
+        #endregion
+
+        #region Method -> ReportMovieDownloadProgress
 
         /// <summary>
         /// Report the download progress
         /// </summary>
         /// <param name="value">The value to report</param>
-        private void ReportDownloadProgress(double value)
+        private void ReportMovieDownloadProgress(double value)
         {
-            DownloadProgress = value;
+            MovieDownloadProgress = value;
             if (value < Constants.MinimumBufferingBeforeMoviePlaying)
                 return;
 
@@ -323,6 +369,7 @@ namespace Popcorn.ViewModel.Download
             IsDownloadingMovie = false;
             IsMovieBuffered = false;
             CancellationDownloadingMovieToken?.Cancel();
+            CancellationDownloadingMovieToken = new CancellationTokenSource();
         }
 
         #endregion

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using TMDbLib.Objects.General;
@@ -91,7 +92,9 @@ namespace Popcorn.Service.Movie
         /// Download a subtitle
         /// </summary>
         /// <param name="movie">The movie of which to retrieve its subtitles</param>
-        Task DownloadSubtitleAsync(MovieFull movie);
+        /// <param name="progress">Report the progress of the download</param>
+        /// <param name="ct">Cancellation token</param>
+        Task DownloadSubtitleAsync(MovieFull movie, IProgress<long> progress, CancellationTokenSource ct);
 
         /// <summary>
         /// Get the link to the youtube trailer of a movie
