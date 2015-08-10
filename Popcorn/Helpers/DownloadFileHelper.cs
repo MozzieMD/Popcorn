@@ -40,7 +40,11 @@ namespace Popcorn.Helpers
 
                 if (File.Exists(localPath))
                 {
-                    return new Tuple<string, string, Exception>(remotePath, localPath, null);
+                    var fileInfo = new FileInfo(localPath).Length;
+                    if (fileInfo != 0)
+                    {
+                        return new Tuple<string, string, Exception>(remotePath, localPath, null);
+                    }
                 }
 
                 var direcory = Path.GetDirectoryName(localPath);
