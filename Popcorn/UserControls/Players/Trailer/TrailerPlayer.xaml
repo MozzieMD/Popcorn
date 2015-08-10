@@ -17,15 +17,8 @@
     </UserControl.CommandBindings>
 
     <Grid x:Name="Container" MouseWheel="MouseWheelMediaPlayer" Background="Black">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*" />
-            <RowDefinition Height="Auto" />
-        </Grid.RowDefinitions>
-
-        <wpf:VlcPlayer x:Name="Player" Stretch="Uniform" StretchDirection="Both" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"
-                       Grid.Row="0"/>
-
-        <StatusBar Grid.Row="1" x:Name="PlayerStatusBar">
+        <wpf:VlcPlayer x:Name="Player" Stretch="Uniform" StretchDirection="Both" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
+        <StatusBar VerticalAlignment="Bottom" x:Name="PlayerStatusBar">
             <StatusBar.ItemsPanel>
                 <ItemsPanelTemplate>
                     <Grid>

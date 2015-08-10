@@ -408,7 +408,7 @@ namespace Popcorn.UserControls.Players.Movie
             DispatcherHelper.CheckBeginInvokeOnUI(async () =>
             {
                 await Task.Delay(500);
-                PlayerStatusBar.Visibility = Visibility.Collapsed;
+                PlayerStatusBar.Visibility = Visibility.Hidden;
             });
         }
 
@@ -428,7 +428,7 @@ namespace Popcorn.UserControls.Players.Movie
             {
                 if (e.StagingItem.Input is MouseEventArgs)
                 {
-                    var mouseEventArgs = (MouseEventArgs) e.StagingItem.Input;
+                    var mouseEventArgs = (MouseEventArgs)e.StagingItem.Input;
 
                     // no button is pressed and the position is still the same as the application became inactive
                     if (mouseEventArgs.LeftButton == MouseButtonState.Released &&
@@ -445,22 +445,19 @@ namespace Popcorn.UserControls.Players.Movie
 
                 var opacityAnimation = new DoubleAnimationUsingKeyFrames
                 {
-                    Duration = new Duration(TimeSpan.FromSeconds(0.5)),
+                    Duration = new Duration(TimeSpan.FromSeconds(0.1)),
                     KeyFrames = new DoubleKeyFrameCollection
+                {
+                    new EasingDoubleKeyFrame(0.0, KeyTime.FromPercent(0)),
+                    new EasingDoubleKeyFrame(1.0, KeyTime.FromPercent(1.0), new PowerEase
                     {
-                        new EasingDoubleKeyFrame(0.0, KeyTime.FromPercent(0)),
-                        new EasingDoubleKeyFrame(1.0, KeyTime.FromPercent(1.0), new PowerEase
-                        {
-                            EasingMode = EasingMode.EaseInOut
-                        })
-                    }
+                        EasingMode = EasingMode.EaseInOut
+                    })
+                }
                 };
 
                 PlayerStatusBar.BeginAnimation(OpacityProperty, opacityAnimation);
-                DispatcherHelper.CheckBeginInvokeOnUI(() =>
-                {
-                    PlayerStatusBar.Visibility = Visibility.Visible;
-                });
+                PlayerStatusBar.Visibility = Visibility.Visible;
             }
         }
 
