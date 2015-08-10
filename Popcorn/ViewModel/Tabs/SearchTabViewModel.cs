@@ -49,13 +49,9 @@ namespace Popcorn.ViewModel.Tabs
         public SearchTabViewModel()
         {
             RegisterMessages();
-
             RegisterCommands();
-
             CancellationSearchMoviesToken = new CancellationTokenSource();
-
             TabName = LocalizationProviderHelper.GetLocalizedValue<string>("SearchTitleTab");
-
             LastPageFilterMapping = new Dictionary<string, int>();
         }
 
@@ -137,24 +133,15 @@ namespace Popcorn.ViewModel.Tabs
                     {
                         LastPageFilterMapping.Add(searchFilter, Page);
                     }
-
-                    if (!Movies.Any() && !movies.Any())
-                    {
-                        IsMovieFound = false;
-                    }
-                    else
-                    {
-                        IsMovieFound = true;
-                    }
                 }
                 catch
                 {
-                    IsMovieFound = Movies.Any();
                     Page--;
                 }
                 finally
                 {
                     IsLoadingMovies = false;
+                    IsMovieFound = Movies.Any();
                 }
             }
         }

@@ -20,9 +20,7 @@ namespace Popcorn.ViewModel.Tabs
         private GreatestTabViewModel()
         {
             RegisterMessages();
-
             RegisterCommands();
-
             TabName = LocalizationProviderHelper.GetLocalizedValue<string>("GreatestTitleTab");
         }
 
@@ -108,23 +106,15 @@ namespace Popcorn.ViewModel.Tabs
 
                 await UserDataService.ComputeMovieHistoryAsync(movies);
                 await MovieService.DownloadCoverImageAsync(movies);
-                if (!Movies.Any() && !movies.Any())
-                {
-                    IsMovieFound = false;
-                }
-                else
-                {
-                    IsMovieFound = true;
-                }
             }
             catch
             {
-                IsMovieFound = Movies.Any();
                 Page--;
             }
             finally
             {
                 IsLoadingMovies = false;
+                IsMovieFound = Movies.Any();
             }
         }
 
