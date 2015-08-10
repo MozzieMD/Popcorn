@@ -60,7 +60,7 @@ namespace Popcorn.Helpers
                     localPath = Path.GetTempFileName();
                 }
 
-                using (var client = new WebClient())
+                using (var client = new NoKeepAliveWebClient())
                 {
                     TimerCallback timerCallback = c =>
                     {
@@ -83,7 +83,7 @@ namespace Popcorn.Helpers
             }
             catch (Exception ex)
             {
-                Logger.Error($"DownloadFileTaskAsync (download failed): {remotePath}\nAdditional informations : {ex.Message}");
+                Logger.Error($"DownloadFileTaskAsync (download failed): {remotePath} Additional informations : {ex.Message}");
                 return new Tuple<string, string, Exception>(remotePath, null, ex);
             }
         }

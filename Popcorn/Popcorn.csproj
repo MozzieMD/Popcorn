@@ -245,6 +245,9 @@
     <Compile Include="Helpers\DownloadFileHelper.cs" />
     <Compile Include="Helpers\Extensions.cs" />
     <Compile Include="Helpers\LocalizationProviderHelper.cs" />
+    <Compile Include="Helpers\NoKeepAliveWebClient.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Messaging\ChangeLanguageMessage.cs" />
     <Compile Include="Messaging\ConnectionErrorMessage.cs" />
     <Compile Include="Messaging\DownloadMovieMessage.cs" />
