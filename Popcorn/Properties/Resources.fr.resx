@@ -205,7 +205,7 @@
     <value>Activé</value>
   </data>
   <data name="StartingLabel" xml:space="preserve">
-    <value>Démarrage de l'application...</value>
+    <value>Démarrage...</value>
   </data>
   <data name="DownloadingSubtitlesLabel" xml:space="preserve">
     <value>Téléchargement des sous-titres...</value>

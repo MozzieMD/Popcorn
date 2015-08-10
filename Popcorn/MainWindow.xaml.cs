@@ -83,7 +83,6 @@ namespace Popcorn
                 Grid.SetColumnSpan(MainTabControl, 2);
                 var headerPanelScroll = MainTabControl.FindChild<ScrollViewer>("HeaderPanelScroll");
                 headerPanelScroll.Visibility = Visibility.Collapsed;
-                UseNoneWindowStyle = true;
             }
             else
             {
@@ -95,7 +94,6 @@ namespace Popcorn
                 Grid.SetColumnSpan(MainTabControl, 1);
                 var headerPanelScroll = MainTabControl.FindChild<ScrollViewer>("HeaderPanelScroll");
                 headerPanelScroll.Visibility = Visibility.Visible;
-                UseNoneWindowStyle = false;
             }
         }
 

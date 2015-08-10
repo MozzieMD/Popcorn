@@ -295,7 +295,7 @@ namespace Popcorn.Properties {
         }
         
         /// <summary>
-        ///   Recherche une chaîne localisée semblable à Application starting....
+        ///   Recherche une chaîne localisée semblable à Starting....
         /// </summary>
         public static string StartingLabel {
             get {
