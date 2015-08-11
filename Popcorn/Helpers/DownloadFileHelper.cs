@@ -80,10 +80,17 @@ namespace Popcorn.Helpers
                         Logger.Debug($"DownloadFileTaskAsync (time out due): {remotePath}");
                     };
 
-                    using(ct?.Token.Register(() => client.CancelAsync()))
-                    using (new Timer(timerCallback, client, timeOut, Timeout.Infinite))
+                    try
                     {
-                        await client.DownloadFileTaskAsync(remotePath, localPath);
+                        using (ct?.Token.Register(() => client.CancelAsync()))
+                        using (new Timer(timerCallback, client, timeOut, Timeout.Infinite))
+                        {
+                            await client.DownloadFileTaskAsync(remotePath, localPath);
+                        }
+                    }
+                    catch (ObjectDisposedException)
+                    {
+                        //TODO:Manage the disposed client when cancel async
                     }
 
                     watch.Stop();

@@ -49,7 +49,7 @@
             </Style>
             
             <Style x:Key="FlatButton"
-           TargetType="{x:Type ToggleButton}">
+           TargetType="{x:Type RadioButton}">
                 <Setter Property="Background"
                 Value="#11171c" />
                 <Setter Property="Foreground"
@@ -62,7 +62,7 @@
                 Value="0" />
                 <Setter Property="Template">
                     <Setter.Value>
-                        <ControlTemplate TargetType="{x:Type ToggleButton}">
+                        <ControlTemplate TargetType="{x:Type RadioButton}">
                             <Border x:Name="Border"
                             Margin="0"
                             Background="{TemplateBinding Background}"
@@ -207,7 +207,7 @@
                          Grid.Column="2"
                          Style="{StaticResource ListBoxButtons}">
                     <ListBoxItem>
-                        <ToggleButton Style="{StaticResource FlatButton}"
+                        <RadioButton Style="{StaticResource FlatButton}"
                             Height="40"
                             Command="{Binding SelectPopularTab}"
                             IsEnabled="{Binding IsStarting, Converter={StaticResource InverseBooleanConverter}}"
@@ -221,10 +221,10 @@
                                 </Rectangle>
                                 <TextBlock Margin="10,0,0,0" Text="{lex:LocText PopularTitleTab}" FontSize="16" FontWeight="Medium"></TextBlock>
                             </StackPanel>
-                        </ToggleButton>
+                        </RadioButton>
                     </ListBoxItem>
                     <ListBoxItem>
-                        <ToggleButton Style="{StaticResource FlatButton}"
+                        <RadioButton Style="{StaticResource FlatButton}"
                             Height="40"                            
                             IsEnabled="{Binding IsStarting, Converter={StaticResource InverseBooleanConverter}}"
                             Command="{Binding SelectGreatestTab}"
@@ -238,10 +238,10 @@
                                 </Rectangle>
                                 <TextBlock Margin="10,0,0,0" Text="{lex:LocText GreatestTitleTab}" FontSize="16" FontWeight="Medium"></TextBlock>
                             </StackPanel>
-                        </ToggleButton>
+                        </RadioButton>
                     </ListBoxItem>
                     <ListBoxItem>
-                        <ToggleButton Style="{StaticResource FlatButton}"
+                        <RadioButton Style="{StaticResource FlatButton}"
                             Height="40"                  
                             IsEnabled="{Binding IsStarting, Converter={StaticResource InverseBooleanConverter}}"
                             Command="{Binding SelectRecentTab}"
@@ -255,13 +255,14 @@
                                 </Rectangle>
                                 <TextBlock Margin="10,0,0,0" Text="{lex:LocText RecentTitleTab}" FontSize="16" FontWeight="Medium"></TextBlock>
                             </StackPanel>
-                        </ToggleButton>
+                        </RadioButton>
                     </ListBoxItem>
-                    <ListBoxItem Visibility="{Binding IsSearchTabSelected, Converter={StaticResource BoolToInverseVisibilityConverter}}">
-                        <ToggleButton Style="{StaticResource FlatButton}"
+                    <ListBoxItem Visibility="{Binding IsMovieSearchActive, Converter={StaticResource BoolToInverseVisibilityConverter}}">
+                        <RadioButton Style="{StaticResource FlatButton}"
                             Height="40"
                             IsEnabled="{Binding IsStarting, Converter={StaticResource InverseBooleanConverter}}"
                             HorizontalContentAlignment="Left"
+                            Command="{Binding SelectSearchTab}"
                             IsChecked="{Binding IsSearchTabSelected, Mode=OneWay}">
                             <StackPanel Orientation="Horizontal">
                                 <Rectangle Width="20" Height="25" Fill="White">
@@ -271,7 +272,7 @@
                                 </Rectangle>
                                 <TextBlock Margin="10,0,0,0" Text="{lex:LocText SearchTitleTab}" FontSize="16" FontWeight="Medium"></TextBlock>
                             </StackPanel>
-                        </ToggleButton>
+                        </RadioButton>
                     </ListBoxItem>
                 </ListBox>
             </Grid>

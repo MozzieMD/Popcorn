@@ -178,6 +178,24 @@ namespace Popcorn.ViewModel
 
         #endregion
 
+        #region Property -> IsMovieSearchActive
+
+        private bool _isMovieSearchActive;
+
+        /// <summary>
+        /// Indicates if a movie search is active
+        /// </summary>
+        public bool IsMovieSearchActive
+        {
+            get { return _isMovieSearchActive; }
+            set
+            {
+                Set(() => IsMovieSearchActive, ref _isMovieSearchActive, value);
+            }
+        }
+
+        #endregion
+
         #region Property -> IsConnectionInError
 
         private bool _isConnectionInError;
@@ -251,6 +269,15 @@ namespace Popcorn.ViewModel
         /// Command used to select the recent movies tab
         /// </summary>
         public RelayCommand SelectRecentTab { get; private set; }
+
+        #endregion
+
+        #region Command -> SelectSearchTab
+
+        /// <summary>
+        /// Command used to select the search movies tab
+        /// </summary>
+        public RelayCommand SelectSearchTab { get; private set; }
 
         #endregion
 
@@ -458,6 +485,24 @@ namespace Popcorn.ViewModel
                 }
             });
 
+            SelectSearchTab = new RelayCommand(() =>
+            {
+                if (SelectedTab is SearchTabViewModel)
+                    return;
+                foreach (var tab in Tabs)
+                {
+                    var searchTab = tab as SearchTabViewModel;
+                    if (searchTab != null)
+                    {
+                        SelectedTab = searchTab;
+                        IsGreatestTabSelected = false;
+                        IsPopularTabSelected = false;
+                        IsRecentTabSelected = false;
+                        IsSearchTabSelected = true;
+                    }
+                }
+            });
+
             CloseMoviePageCommand = new RelayCommand(() =>
             {
                 Messenger.Default.Send(new StopPlayingTrailerMessage());
@@ -507,17 +552,18 @@ namespace Popcorn.ViewModel
 
                         Tabs.Remove(searchTabToRemove);
                         searchTabToRemove.Cleanup();
+                        IsMovieSearchActive = false;
+                        IsGreatestTabSelected = false;
+                        IsPopularTabSelected = true;
+                        IsRecentTabSelected = false;
+                        IsSearchTabSelected = false;
                         return;
                     }
                 }
-
-                IsGreatestTabSelected = false;
-                IsPopularTabSelected = true;
-                IsRecentTabSelected = false;
-                IsSearchTabSelected = false;
             }
             else
             {
+                IsMovieSearchActive = true;
                 IsGreatestTabSelected = false;
                 IsPopularTabSelected = false;
                 IsRecentTabSelected = false;
