@@ -232,17 +232,17 @@
                     <ColumnDefinition Width="1*"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
                 <Border BorderThickness="1" 
-                        CornerRadius="40" 
+                        CornerRadius="30" 
                         HorizontalAlignment="Left" 
                         VerticalAlignment="Top" 
                         Grid.Row="3" 
-                        Grid.RowSpan="18" 
+                        Grid.RowSpan="21" 
                         Grid.Column="2" 
                         Grid.ColumnSpan="10">
                     <Grid>
                         <Border x:Name="mask" 
                                 Background="Black" 
-                                CornerRadius="40"/>
+                                CornerRadius="30"/>
                         <StackPanel>
                             <StackPanel.OpacityMask>
                                 <VisualBrush Visual="{Binding ElementName=mask}"/>

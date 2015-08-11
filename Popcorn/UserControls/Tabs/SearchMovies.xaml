@@ -18,8 +18,8 @@
     <UserControl.Resources>
         <ResourceDictionary>
             <Style x:Key="LargeTileStyle" TargetType="controls:Tile">
-                <Setter Property="Width" Value="230" />
-                <Setter Property="Height" Value="345" />
+                <Setter Property="Width" Value="200" />
+                <Setter Property="Height" Value="300" />
                 <Setter Property="TitleFontSize" Value="14" />
             </Style>
 
@@ -171,6 +171,8 @@
                       Visibility="{Binding IsConnectionInError, Converter={StaticResource BoolToVisibilityConverter}}">
             <ItemsControl x:Name="ItemsList" 
                         ItemsSource="{Binding Movies}" 
+                        VirtualizingStackPanel.IsVirtualizing="True"
+                        VirtualizingStackPanel.VirtualizationMode="Recycling"
                         VerticalAlignment="Top">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
@@ -178,8 +180,7 @@
                             <controls:Tile Style="{StaticResource LargeTileStyle}" 
                                         Command="{Binding MoviePage.LoadMovieCommand, Source={StaticResource Locator}}" 
                                         CommandParameter="{Binding }" 
-                                        Background="#FF2F2F2F"
-                                        HorizontalAlignment="Left">
+                                        Background="#FF2F2F2F">
                                 <Grid>
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="8*"></RowDefinition>
@@ -407,13 +408,13 @@
                                 <TextBlock Name="Title" 
                                         Text="{Binding Title}" 
                                         ToolTip="{Binding Title}" 
-                                        Width="220" 
+                                        Width="200" 
                                         TextTrimming="CharacterEllipsis" 
                                         FontSize="14" 
                                         HorizontalAlignment="Left"/>
                                 <TextBlock Text="{Binding Genres, Converter={StaticResource GenresConverter}}"
                                         ToolTip="{Binding Genres, Converter={StaticResource GenresConverter}}"
-                                        Width="220" 
+                                        Width="200" 
                                         TextTrimming="CharacterEllipsis"
                                         Foreground="Gray" 
                                         FontSize="12" 
@@ -428,7 +429,7 @@
                 </ItemsControl.ItemTemplate>
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
-                        <custompanels:ElasticWrapPanel DesiredColumnWidth="230" 
+                        <custompanels:ElasticWrapPanel DesiredColumnWidth="200" 
                                                     Loaded="ElasticWrapPanelLoaded"/>
                     </ItemsPanelTemplate>
                 </ItemsControl.ItemsPanel>

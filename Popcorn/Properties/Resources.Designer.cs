@@ -196,6 +196,15 @@ namespace Popcorn.Properties {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à Movies.
+        /// </summary>
+        public static string MoviesLabel {
+            get {
+                return ResourceManager.GetString("MoviesLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à Off.
         /// </summary>
         public static string OffLabel {

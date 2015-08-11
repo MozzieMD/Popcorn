@@ -210,4 +210,7 @@
   <data name="DownloadingSubtitlesLabel" xml:space="preserve">
     <value>Téléchargement des sous-titres...</value>
   </data>
+  <data name="MoviesLabel" xml:space="preserve">
+    <value>Films</value>
+  </data>
 </root>

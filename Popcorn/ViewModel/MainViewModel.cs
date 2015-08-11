@@ -106,6 +106,78 @@ namespace Popcorn.ViewModel
 
         #endregion
 
+        #region Property -> IsPopularTabSelected
+
+        private bool _isPopularTabSelected;
+
+        /// <summary>
+        /// Indicates if the popular movies tab is selected
+        /// </summary>
+        public bool IsPopularTabSelected
+        {
+            get { return _isPopularTabSelected; }
+            set
+            {
+                Set(() => IsPopularTabSelected, ref _isPopularTabSelected, value);
+            }
+        }
+
+        #endregion
+
+        #region Property -> IsGreatestTabSelected
+
+        private bool _isGreatestTabSelected;
+
+        /// <summary>
+        /// Indicates if the greatest movies tab is selected
+        /// </summary>
+        public bool IsGreatestTabSelected
+        {
+            get { return _isGreatestTabSelected; }
+            set
+            {
+                Set(() => IsGreatestTabSelected, ref _isGreatestTabSelected, value);
+            }
+        }
+
+        #endregion
+
+        #region Property -> IsRecentTabSelected
+
+        private bool _isRecentTabSelected;
+
+        /// <summary>
+        /// Indicates if the recent movies tab is selected
+        /// </summary>
+        public bool IsRecentTabSelected
+        {
+            get { return _isRecentTabSelected; }
+            set
+            {
+                Set(() => IsRecentTabSelected, ref _isRecentTabSelected, value);
+            }
+        }
+
+        #endregion
+
+        #region Property -> IsSearchTabSelected
+
+        private bool _isSearchTabSelected;
+
+        /// <summary>
+        /// Indicates if the search movies tab is selected
+        /// </summary>
+        public bool IsSearchTabSelected
+        {
+            get { return _isSearchTabSelected; }
+            set
+            {
+                Set(() => IsSearchTabSelected, ref _isSearchTabSelected, value);
+            }
+        }
+
+        #endregion
+
         #region Property -> IsConnectionInError
 
         private bool _isConnectionInError;
@@ -154,6 +226,33 @@ namespace Popcorn.ViewModel
         #endregion
 
         #region Commands
+
+        #region Command -> SelectGreatestTab
+
+        /// <summary>
+        /// Command used to select the greatest movies tab
+        /// </summary>
+        public RelayCommand SelectGreatestTab { get; private set; }
+
+        #endregion
+
+        #region Command -> SelectPopularTab
+
+        /// <summary>
+        /// Command used to select the popular movies tab
+        /// </summary>
+        public RelayCommand SelectPopularTab { get; private set; }
+
+        #endregion
+
+        #region Command -> SelectRecentTab
+
+        /// <summary>
+        /// Command used to select the recent movies tab
+        /// </summary>
+        public RelayCommand SelectRecentTab { get; private set; }
+
+        #endregion
 
         #region Command -> CloseMoviePageCommand
 
@@ -222,10 +321,14 @@ namespace Popcorn.ViewModel
         {
             IsStarting = true;
             Tabs.Add(await PopularTabViewModel.CreateAsync());
+            SelectedTab = Tabs.FirstOrDefault();
+            IsGreatestTabSelected = false;
+            IsPopularTabSelected = true;
+            IsRecentTabSelected = false;
+            IsSearchTabSelected = false;
             IsStarting = false;
             Tabs.Add(await GreatestTabViewModel.CreateAsync());
             Tabs.Add(await RecentTabViewModel.CreateAsync());
-            SelectedTab = Tabs.FirstOrDefault();
         }
 
         #endregion
@@ -301,6 +404,60 @@ namespace Popcorn.ViewModel
         /// </summary>
         private void RegisterCommands()
         {
+            SelectGreatestTab = new RelayCommand(() =>
+            {
+                if (SelectedTab is GreatestTabViewModel)
+                    return;
+                foreach (var tab in Tabs)
+                {
+                    var greatestTab = tab as GreatestTabViewModel;
+                    if (greatestTab != null)
+                    {
+                        SelectedTab = greatestTab;
+                        IsGreatestTabSelected = true;
+                        IsPopularTabSelected = false;
+                        IsRecentTabSelected = false;
+                        IsSearchTabSelected = false;
+                    }
+                }
+            });
+
+            SelectPopularTab = new RelayCommand(() =>
+            {
+                if (SelectedTab is PopularTabViewModel)
+                    return;
+                foreach (var tab in Tabs)
+                {
+                    var popularTab = tab as PopularTabViewModel;
+                    if (popularTab != null)
+                    {
+                        SelectedTab = popularTab;
+                        IsGreatestTabSelected = false;
+                        IsPopularTabSelected = true;
+                        IsRecentTabSelected = false;
+                        IsSearchTabSelected = false;
+                    }
+                }
+            });
+
+            SelectRecentTab = new RelayCommand(() =>
+            {
+                if (SelectedTab is RecentTabViewModel)
+                    return;
+                foreach (var tab in Tabs)
+                {
+                    var recentTab = tab as RecentTabViewModel;
+                    if (recentTab != null)
+                    {
+                        SelectedTab = recentTab;
+                        IsGreatestTabSelected = false;
+                        IsPopularTabSelected = false;
+                        IsRecentTabSelected = true;
+                        IsSearchTabSelected = false;
+                    }
+                }
+            });
+
             CloseMoviePageCommand = new RelayCommand(() =>
             {
                 Messenger.Default.Send(new StopPlayingTrailerMessage());
@@ -353,9 +510,19 @@ namespace Popcorn.ViewModel
                         return;
                     }
                 }
+
+                IsGreatestTabSelected = false;
+                IsPopularTabSelected = true;
+                IsRecentTabSelected = false;
+                IsSearchTabSelected = false;
             }
             else
             {
+                IsGreatestTabSelected = false;
+                IsPopularTabSelected = false;
+                IsRecentTabSelected = false;
+                IsSearchTabSelected = true;
+
                 foreach (var tab in Tabs)
                 {
                     // Looking for a Search tab. If any, search movies with the criteria, and select this tab to be shown in the UI

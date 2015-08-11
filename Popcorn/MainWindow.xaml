@@ -39,6 +39,72 @@
             <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
             <converters:RatioConverter x:Key="RatioConverter" />
             <converters:BoolToInverseVisibilityConverter x:Key="BoolToInverseVisibilityConverter"/>
+            <converters:InverseBooleanConverter x:Key="InverseBooleanConverter"/>
+            
+            <Style x:Key="ListBoxButtons" TargetType="{x:Type ListBox}">
+                <Setter Property="Background" 
+                        Value="#11171c"></Setter>
+                <Setter Property="BorderThickness"
+                        Value="0"></Setter>
+            </Style>
+            
+            <Style x:Key="FlatButton"
+           TargetType="{x:Type ToggleButton}">
+                <Setter Property="Background"
+                Value="#11171c" />
+                <Setter Property="Foreground"
+                Value="White" />
+                <Setter Property="FontSize"
+                Value="{DynamicResource FlatButtonFontSize}" />
+                <Setter Property="Padding"
+                Value="10,5,10,5" />
+                <Setter Property="BorderThickness"
+                Value="0" />
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type ToggleButton}">
+                            <Border x:Name="Border"
+                            Margin="0"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}">
+                                <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                          Margin="{TemplateBinding Padding}"
+                                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                          RecognizesAccessKey="True" />
+                            </Border>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsPressed"
+                                 Value="True">
+                                    <Setter Property="Background"
+                                    Value="#3c4c55"
+                                    TargetName="Border" />
+                                    <Setter Property="Foreground"
+                                    Value="White" />
+                                </Trigger>
+                                <Trigger Property="IsChecked"
+                                 Value="True">
+                                    <Setter Property="Background"
+                                    Value="#3c4c55"
+                                    TargetName="Border" />
+                                    <Setter Property="Foreground"
+                                    Value="White" />
+                                </Trigger>
+                                <Trigger Property="IsEnabled"
+                                 Value="False">
+                                    <Setter Property="Foreground"
+                                    Value="{DynamicResource GrayBrush2}" />
+                                </Trigger>
+                                <Trigger Property="IsMouseOver"
+                                 Value="True">
+                                    <Setter Property="Background"
+                                    Value="#1c242b" />
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
         </ResourceDictionary>
     </Window.Resources>
 
@@ -87,7 +153,7 @@
 
     <Grid x:Name="LayoutRoot">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="2*"></ColumnDefinition>
+            <ColumnDefinition Width="Auto" MinWidth="90"></ColumnDefinition>
             <ColumnDefinition Width="12*"></ColumnDefinition>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
@@ -114,22 +180,120 @@
             <searchUserControl:Search x:Name="SearchUc"
                                  Width="{Binding ElementName=SearchBar, Path=ActualWidth, Converter={StaticResource RatioConverter}, ConverterParameter=0.8}"/>
         </Grid>
-        <StackPanel x:Name="MenuBar"
-                    Grid.Column="0" 
-                    Grid.Row="1" 
-                    Background="#11171c"></StackPanel>
-
+        <Grid x:Name="MenuBar"
+              Grid.Column="0" 
+              Grid.Row="1" 
+              Background="#11171c">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="20"></ColumnDefinition>
+                    <ColumnDefinition Width="5"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="20"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="20"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="2.5"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                </Grid.RowDefinitions>
+                <Label Content="{lex:LocText MoviesLabel}" 
+                       FontSize="14"
+                       Grid.Row="1"
+                       Foreground="#3c4c55"
+                       Grid.Column="1"
+                       Grid.ColumnSpan="2"></Label>
+                <ListBox Grid.Row="3"
+                         Grid.Column="2"
+                         Style="{StaticResource ListBoxButtons}">
+                    <ListBoxItem>
+                        <ToggleButton Style="{StaticResource FlatButton}"
+                            Height="40"
+                            Command="{Binding SelectPopularTab}"
+                            IsEnabled="{Binding IsStarting, Converter={StaticResource InverseBooleanConverter}}"
+                            IsChecked="{Binding IsPopularTabSelected, Mode=OneWay}"
+                            HorizontalContentAlignment="Left">
+                            <StackPanel Orientation="Horizontal">
+                                <Rectangle Width="20" Height="18" Fill="White">
+                                    <Rectangle.OpacityMask>
+                                        <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_medical_pulse}"/>
+                                    </Rectangle.OpacityMask>
+                                </Rectangle>
+                                <TextBlock Margin="10,0,0,0" Text="{lex:LocText PopularTitleTab}" FontSize="16" FontWeight="Medium"></TextBlock>
+                            </StackPanel>
+                        </ToggleButton>
+                    </ListBoxItem>
+                    <ListBoxItem>
+                        <ToggleButton Style="{StaticResource FlatButton}"
+                            Height="40"                            
+                            IsEnabled="{Binding IsStarting, Converter={StaticResource InverseBooleanConverter}}"
+                            Command="{Binding SelectGreatestTab}"
+                            IsChecked="{Binding IsGreatestTabSelected, Mode=OneWay}"
+                            HorizontalContentAlignment="Left">
+                            <StackPanel Orientation="Horizontal">
+                                <Rectangle Width="20" Height="19" Fill="White">
+                                    <Rectangle.OpacityMask>
+                                        <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_star}"/>
+                                    </Rectangle.OpacityMask>
+                                </Rectangle>
+                                <TextBlock Margin="10,0,0,0" Text="{lex:LocText GreatestTitleTab}" FontSize="16" FontWeight="Medium"></TextBlock>
+                            </StackPanel>
+                        </ToggleButton>
+                    </ListBoxItem>
+                    <ListBoxItem>
+                        <ToggleButton Style="{StaticResource FlatButton}"
+                            Height="40"                  
+                            IsEnabled="{Binding IsStarting, Converter={StaticResource InverseBooleanConverter}}"
+                            Command="{Binding SelectRecentTab}"
+                            IsChecked="{Binding IsRecentTabSelected, Mode=OneWay}"
+                            HorizontalContentAlignment="Left">
+                            <StackPanel Orientation="Horizontal">
+                                <Rectangle Width="20" Height="20" Fill="White">
+                                    <Rectangle.OpacityMask>
+                                        <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_calendar}"/>
+                                    </Rectangle.OpacityMask>
+                                </Rectangle>
+                                <TextBlock Margin="10,0,0,0" Text="{lex:LocText RecentTitleTab}" FontSize="16" FontWeight="Medium"></TextBlock>
+                            </StackPanel>
+                        </ToggleButton>
+                    </ListBoxItem>
+                    <ListBoxItem Visibility="{Binding IsSearchTabSelected, Converter={StaticResource BoolToInverseVisibilityConverter}}">
+                        <ToggleButton Style="{StaticResource FlatButton}"
+                            Height="40"
+                            IsEnabled="{Binding IsStarting, Converter={StaticResource InverseBooleanConverter}}"
+                            HorizontalContentAlignment="Left"
+                            IsChecked="{Binding IsSearchTabSelected, Mode=OneWay}">
+                            <StackPanel Orientation="Horizontal">
+                                <Rectangle Width="20" Height="25" Fill="White">
+                                    <Rectangle.OpacityMask>
+                                        <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_page_search}"/>
+                                    </Rectangle.OpacityMask>
+                                </Rectangle>
+                                <TextBlock Margin="10,0,0,0" Text="{lex:LocText SearchTitleTab}" FontSize="16" FontWeight="Medium"></TextBlock>
+                            </StackPanel>
+                        </ToggleButton>
+                    </ListBoxItem>
+                </ListBox>
+            </Grid>
+        </Grid>
+        <Grid Grid.Column="1"
+              Grid.Row="0">
+            <Label Content="{Binding SelectedTab.TabName}"
+                   FontSize="28"
+                   Foreground="#484b4e"
+                   Margin="26,0,0,0"
+                   HorizontalAlignment="Left"
+                   VerticalAlignment="Center"></Label>
+        </Grid>
         <controls:MetroAnimatedSingleRowTabControl 
             Grid.Column="1" 
-            Grid.Row="0" 
-            Grid.RowSpan="2" 
+            Grid.Row="1" 
             x:Name="MainTabControl" 
-            TabStripMargin="17.3"
             ItemsSource="{Binding Tabs}"
             SelectedItem="{Binding SelectedTab}"
-            controls:TabControlHelper.IsUnderlined="True"
             helpers:TabContent.IsCached="True"
-            controls:TabControlHelper.Transition="LeftReplace">
+            controls:TabControlHelper.Transition="LeftReplace"
+            Margin="20,0,20,0">
 
             <controls:MetroAnimatedSingleRowTabControl.Resources>
                 <DataTemplate DataType="{x:Type tabsViewModel:GreatestTabViewModel}">
@@ -151,8 +315,7 @@
             
             <controls:MetroAnimatedSingleRowTabControl.ItemContainerStyle>
                 <Style TargetType="{x:Type TabItem}">
-                    <Setter Property="Header" Value="{Binding TabName}" />
-                    <Setter Property="controls:ControlsHelper.HeaderFontSize" Value="28"></Setter>
+                    <Setter Property="Visibility" Value="Collapsed"></Setter>
                 </Style>
             </controls:MetroAnimatedSingleRowTabControl.ItemContainerStyle>
         </controls:MetroAnimatedSingleRowTabControl>

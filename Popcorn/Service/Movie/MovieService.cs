@@ -770,7 +770,7 @@ namespace Popcorn.Service.Movie
                 movie.Actors.ForEachAsync(
                     actor =>
                         DownloadFileHelper.DownloadFileTaskAsync(actor.SmallImage,
-                            Constants.DirectorMovieDirectory + actor.Name + Constants.ImageFileExtension),
+                            Constants.ActorMovieDirectory + actor.Name + Constants.ImageFileExtension),
                     (actor, t) =>
                     {
                         if (t.Item3 == null && !string.IsNullOrEmpty(t.Item2))
