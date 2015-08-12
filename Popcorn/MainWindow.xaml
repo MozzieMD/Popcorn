@@ -286,7 +286,7 @@
             <Label Content="{Binding SelectedTab.TabName}"
                    FontSize="28"
                    Foreground="#484b4e"
-                   Margin="26,0,0,0"
+                   Margin="16,0,0,0"
                    HorizontalAlignment="Left"
                    VerticalAlignment="Center"></Label>
         </Grid>
@@ -297,24 +297,23 @@
             ItemsSource="{Binding Tabs}"
             SelectedItem="{Binding SelectedTab}"
             helpers:TabContent.IsCached="True"
-            controls:TabControlHelper.Transition="LeftReplace"
-            Margin="20,0,20,0">
+            controls:TabControlHelper.Transition="LeftReplace">
 
             <controls:MetroAnimatedSingleRowTabControl.Resources>
                 <DataTemplate DataType="{x:Type tabsViewModel:GreatestTabViewModel}">
-                    <tabsUserControl:GreatestMovies></tabsUserControl:GreatestMovies>
+                    <tabsUserControl:GreatestMovies Margin="20,0,20,0"/>
                 </DataTemplate>
                 <DataTemplate DataType="{x:Type tabsViewModel:PopularTabViewModel}">
-                    <tabsUserControl:PopularMovies></tabsUserControl:PopularMovies>
+                    <tabsUserControl:PopularMovies Margin="20,0,20,0"/>
                 </DataTemplate>
                 <DataTemplate DataType="{x:Type tabsViewModel:RecentTabViewModel}">
-                    <tabsUserControl:RecentMovies></tabsUserControl:RecentMovies>
+                    <tabsUserControl:RecentMovies Margin="20,0,20,0"/>
                 </DataTemplate>
                 <DataTemplate DataType="{x:Type tabsViewModel:SearchTabViewModel}">
-                    <tabsUserControl:SearchMovies></tabsUserControl:SearchMovies>
+                    <tabsUserControl:SearchMovies Margin="20,0,20,0"/>
                 </DataTemplate>
                 <DataTemplate DataType="{x:Type movieVm:MoviePlayerViewModel}">
-                    <movieUc:MoviePlayer></movieUc:MoviePlayer>
+                    <movieUc:MoviePlayer/>
                 </DataTemplate>
             </controls:MetroAnimatedSingleRowTabControl.Resources>
             

@@ -592,7 +592,7 @@ namespace Popcorn.Service.Movie
                     {
                         foreach (var entry in archive.Entries)
                         {
-                            if (entry.FullName.EndsWith(".srt", StringComparison.OrdinalIgnoreCase))
+                            if (!entry.FullName.StartsWith("_") && entry.FullName.EndsWith(".srt", StringComparison.OrdinalIgnoreCase))
                             {
                                 var subtitlePath = Path.Combine(Constants.Subtitles + movie.ImdbCode,
                                     entry.FullName);
