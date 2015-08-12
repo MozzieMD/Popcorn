@@ -304,15 +304,6 @@ namespace Popcorn.Properties {
         }
         
         /// <summary>
-        ///   Recherche une chaîne localisée semblable à Starting....
-        /// </summary>
-        public static string StartingLabel {
-            get {
-                return ResourceManager.GetString("StartingLabel", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Recherche une chaîne localisée semblable à Subtitles.
         /// </summary>
         public static string SubtitlesLabel {

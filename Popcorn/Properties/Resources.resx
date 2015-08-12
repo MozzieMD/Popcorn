@@ -204,9 +204,6 @@
   <data name="OnLabel" xml:space="preserve">
     <value>On</value>
   </data>
-  <data name="StartingLabel" xml:space="preserve">
-    <value>Starting...</value>
-  </data>
   <data name="DownloadingSubtitlesLabel" xml:space="preserve">
     <value>Downloading subtitles...</value>
   </data>

@@ -21,98 +21,6 @@
                 <Setter Property="TitleFontSize" Value="14" />
             </Style>
 
-            <Style x:Key="MetroCircleToggleButtonStyle"
-           TargetType="{x:Type ToggleButton}">
-                <Setter Property="FocusVisualStyle"
-                Value="{StaticResource MetroCircleButtonFocusVisual}" />
-                <Setter Property="Background"
-                Value="Transparent" />
-                <Setter Property="BorderThickness"
-                Value="2" />
-                <Setter Property="HorizontalContentAlignment"
-                Value="Center" />
-                <Setter Property="Foreground"
-                Value="{StaticResource BlackBrush}" />
-                <Setter Property="VerticalContentAlignment"
-                Value="Center" />
-                <Setter Property="Padding"
-                Value="1" />
-                <Setter Property="Template">
-                    <Setter.Value>
-                        <ControlTemplate TargetType="{x:Type ToggleButton}">
-                            <Grid>
-                                <Ellipse Fill="{TemplateBinding Background}"
-                                 Margin="4"
-                                 StrokeThickness="0" />
-                                <Ellipse x:Name="ellipsebg"
-                                 Fill="{StaticResource AccentColorBrush}"
-                                 Opacity="0"
-                                 Margin="4"
-                                 StrokeThickness="0" />
-                                <Ellipse x:Name="ellipse"
-                                 Margin="4"
-                                 Stroke="#ADADAD"
-                                 StrokeThickness="{Binding RelativeSource={x:Static RelativeSource.TemplatedParent}, Path=BorderThickness.Left}" />
-                                <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                          Margin="{TemplateBinding Padding}"
-                                          RecognizesAccessKey="True"
-                                          SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
-                                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
-                            </Grid>
-                            <ControlTemplate.Triggers>
-                                <Trigger Property="ToggleButton.IsChecked"
-                                 Value="True">
-                                    <Trigger.EnterActions>
-                                        <BeginStoryboard>
-                                            <Storyboard>
-                                                <DoubleAnimation Storyboard.TargetName="ellipsebg"
-                                                         Storyboard.TargetProperty="Opacity"
-                                                         From="0"
-                                                         To="1"
-                                                         Duration="0:0:0.3" />
-                                            </Storyboard>
-                                        </BeginStoryboard>
-                                    </Trigger.EnterActions>
-                                    <!-- some out fading -->
-                                    <Trigger.ExitActions>
-                                        <BeginStoryboard>
-                                            <Storyboard>
-                                                <DoubleAnimation Storyboard.TargetName="ellipsebg"
-                                                         Storyboard.TargetProperty="Opacity"
-                                                         To="0"
-                                                         Duration="0:0:0.3" />
-                                            </Storyboard>
-                                        </BeginStoryboard>
-                                    </Trigger.ExitActions>
-                                    <Setter Property="Foreground"
-                                    Value="{StaticResource IdealForegroundColorBrush}" />
-                                    <Setter TargetName="ellipse"
-                                    Property="Stroke"
-                                    Value="{StaticResource AccentColorBrush}" />
-                                </Trigger>
-                                <Trigger Property="IsMouseOver"
-                                 Value="True">
-                                    <Setter TargetName="ellipse"
-                                    Property="Opacity"
-                                    Value="1" />
-                                </Trigger>
-                                <Trigger Property="IsMouseOver"
-                                 Value="False">
-                                    <Setter TargetName="ellipse"
-                                    Property="Opacity"
-                                    Value=".5" />
-                                </Trigger>
-                                <Trigger Property="IsEnabled"
-                                 Value="False">
-                                    <Setter Property="Foreground"
-                                    Value="{StaticResource GrayBrush7}" />
-                                </Trigger>
-                            </ControlTemplate.Triggers>
-                        </ControlTemplate>
-                    </Setter.Value>
-                </Setter>
-            </Style>
-
             <converters:StringRatingToIntRatingConverter x:Key="StringRatingToIntRatingConverter" />
             <converters:UriToCachedImageConverter x:Key="UriToCachedImageConverter" />
             <converters:GenresConverter x:Key="GenresConverter"/>
@@ -174,11 +82,14 @@
                         VerticalAlignment="Top">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <StackPanel Margin="10,0,0,30">
+                        <StackPanel Margin="0,0,0,30"
+                                    HorizontalAlignment="Left" 
+                                    Orientation="Vertical">
                             <controls:Tile Style="{StaticResource LargeTileStyle}" 
                                         Command="{Binding MoviePage.LoadMovieCommand, Source={StaticResource Locator}}" 
                                         CommandParameter="{Binding }" 
-                                        Background="#FF2F2F2F">
+                                        Background="#FF2F2F2F"
+                                        Margin="0,0,0,5">
                                 <Grid>
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="8*"></RowDefinition>
@@ -235,7 +146,7 @@
                                             Height="50"
                                             Opacity="0.0"
                                             IsChecked="{Binding IsLiked}"
-                                            Style="{StaticResource MetroCircleToggleButtonStyle}">
+                                            Style="{DynamicResource MetroCircleToggleButtonStyle}">
                                             <Rectangle Width="20"
                                             Height="20"
                                             Fill="White">
@@ -268,7 +179,7 @@
                                             IsChecked="{Binding IsSeen}"
                                             IsEnabled="False"
                                             Opacity="0.0"
-                                            Style="{StaticResource MetroCircleToggleButtonStyle}">
+                                            Style="{DynamicResource MetroCircleToggleButtonStyle}">
                                             <Rectangle Width="20"
                                             Height="20"
                                             Fill="White">
@@ -400,35 +311,30 @@
                                     </Grid.Triggers>
                                 </Grid>
                             </controls:Tile>
-                            <StackPanel Margin="2.5,5,0,0" 
-                                    HorizontalAlignment="Left" 
-                                    Orientation="Vertical">
-                                <TextBlock Name="Title" 
-                                        Text="{Binding Title}" 
-                                        ToolTip="{Binding Title}" 
-                                        Width="200" 
-                                        TextTrimming="CharacterEllipsis" 
-                                        FontSize="14" 
-                                        HorizontalAlignment="Left"/>
-                                <TextBlock Text="{Binding Genres, Converter={StaticResource GenresConverter}}"
-                                        ToolTip="{Binding Genres, Converter={StaticResource GenresConverter}}"
-                                        Width="200" 
-                                        TextTrimming="CharacterEllipsis"
-                                        Foreground="Gray" 
-                                        FontSize="12" 
-                                        HorizontalAlignment="Left"></TextBlock>
-                                <TextBlock Text="{Binding Year}" 
-                                        Foreground="Gray" 
-                                        HorizontalAlignment="Left" 
-                                        FontSize="12"/>
-                            </StackPanel>
+                            <TextBlock Name="Title" 
+                                       Text="{Binding Title}" 
+                                       Width="200" 
+                                       TextTrimming="CharacterEllipsis" 
+                                       FontSize="14" 
+                                       HorizontalAlignment="Left"/>
+                            <TextBlock Text="{Binding Genres, Converter={StaticResource GenresConverter}}"
+                                       Width="200" 
+                                       TextTrimming="CharacterEllipsis"
+                                       Foreground="Gray" 
+                                       FontSize="12" 
+                                       HorizontalAlignment="Left"></TextBlock>
+                            <TextBlock Text="{Binding Year}" 
+                                       Foreground="Gray" 
+                                       HorizontalAlignment="Left" 
+                                       FontSize="12"
+                                       Width="200"/>
                         </StackPanel>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
-                        <custompanels:ElasticWrapPanel DesiredColumnWidth="200" 
-                                                    Loaded="ElasticWrapPanelLoaded"/>
+                        <custompanels:ElasticWrapPanel DesiredColumnWidth="220" 
+                                                       Loaded="ElasticWrapPanelLoaded"/>
                     </ItemsPanelTemplate>
                 </ItemsControl.ItemsPanel>
             </ItemsControl>

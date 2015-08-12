@@ -39,8 +39,7 @@
             <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
             <converters:RatioConverter x:Key="RatioConverter" />
             <converters:BoolToInverseVisibilityConverter x:Key="BoolToInverseVisibilityConverter"/>
-            <converters:InverseBooleanConverter x:Key="InverseBooleanConverter"/>
-            
+
             <Style x:Key="ListBoxButtons" TargetType="{x:Type ListBox}">
                 <Setter Property="Background" 
                         Value="#11171c"></Setter>
@@ -153,7 +152,7 @@
 
     <Grid x:Name="LayoutRoot">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto" MinWidth="90"></ColumnDefinition>
+            <ColumnDefinition Width="Auto" MinWidth="220"></ColumnDefinition>
             <ColumnDefinition Width="12*"></ColumnDefinition>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
@@ -161,24 +160,20 @@
             <RowDefinition Height="*"></RowDefinition>
         </Grid.RowDefinitions>
 
-        <StackPanel Orientation="Vertical" Grid.Column="1" Grid.Row="1" VerticalAlignment="Center">
-            <TextBlock FontSize="36"
-                       Text="{lex:LocText StartingLabel}" 
-                       TextTrimming="CharacterEllipsis"
-                       Visibility="{Binding IsStarting, Converter={StaticResource BoolToInverseVisibilityConverter}}" 
-                       VerticalAlignment="Center"
-                       HorizontalAlignment="Center"/>
+        <Grid Grid.Column="1" 
+              Grid.Row="1" 
+              VerticalAlignment="Center">
             <controls:ProgressRing IsActive="True"
                                    Foreground="{DynamicResource AccentColorBrush}"
                                    VerticalAlignment="Center"
                                    Visibility="{Binding IsStarting, Converter={StaticResource BoolToInverseVisibilityConverter}}"/>
-        </StackPanel>
+        </Grid>
         <Grid x:Name="SearchBar"
               Grid.Column="0" 
               Grid.Row="0" 
               Background="#cc4d4d">
             <searchUserControl:Search x:Name="SearchUc"
-                                 Width="{Binding ElementName=SearchBar, Path=ActualWidth, Converter={StaticResource RatioConverter}, ConverterParameter=0.8}"/>
+                                      Width="{Binding ElementName=SearchBar, Path=ActualWidth, Converter={StaticResource RatioConverter}, ConverterParameter=0.8}"/>
         </Grid>
         <Grid x:Name="MenuBar"
               Grid.Column="0" 
@@ -189,7 +184,7 @@
                     <ColumnDefinition Width="20"></ColumnDefinition>
                     <ColumnDefinition Width="5"></ColumnDefinition>
                     <ColumnDefinition Width="*"></ColumnDefinition>
-                    <ColumnDefinition Width="20"></ColumnDefinition>
+                    <ColumnDefinition Width="25"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="20"></RowDefinition>
@@ -205,13 +200,14 @@
                        Grid.ColumnSpan="2"></Label>
                 <ListBox Grid.Row="3"
                          Grid.Column="2"
+                         Visibility="{Binding IsStarting, Converter={StaticResource BoolToVisibilityConverter}}"
                          Style="{StaticResource ListBoxButtons}">
                     <ListBoxItem>
                         <RadioButton Style="{StaticResource FlatButton}"
                             Height="40"
                             Command="{Binding SelectPopularTab}"
-                            IsEnabled="{Binding IsStarting, Converter={StaticResource InverseBooleanConverter}}"
                             IsChecked="{Binding IsPopularTabSelected, Mode=OneWay}"
+                            VerticalAlignment="Center"
                             HorizontalContentAlignment="Left">
                             <StackPanel Orientation="Horizontal">
                                 <Rectangle Width="20" Height="18" Fill="White">
@@ -219,16 +215,16 @@
                                         <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_medical_pulse}"/>
                                     </Rectangle.OpacityMask>
                                 </Rectangle>
-                                <TextBlock Margin="10,0,0,0" Text="{lex:LocText PopularTitleTab}" FontSize="16" FontWeight="Medium"></TextBlock>
+                                <TextBlock Margin="10,0,0,0" Text="{lex:LocText PopularTitleTab}" FontSize="16"></TextBlock>
                             </StackPanel>
                         </RadioButton>
                     </ListBoxItem>
                     <ListBoxItem>
                         <RadioButton Style="{StaticResource FlatButton}"
                             Height="40"                            
-                            IsEnabled="{Binding IsStarting, Converter={StaticResource InverseBooleanConverter}}"
                             Command="{Binding SelectGreatestTab}"
                             IsChecked="{Binding IsGreatestTabSelected, Mode=OneWay}"
+                            VerticalAlignment="Center"
                             HorizontalContentAlignment="Left">
                             <StackPanel Orientation="Horizontal">
                                 <Rectangle Width="20" Height="19" Fill="White">
@@ -236,41 +232,49 @@
                                         <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_star}"/>
                                     </Rectangle.OpacityMask>
                                 </Rectangle>
-                                <TextBlock Margin="10,0,0,0" Text="{lex:LocText GreatestTitleTab}" FontSize="16" FontWeight="Medium"></TextBlock>
+                                <TextBlock Margin="10,0,0,0" Text="{lex:LocText GreatestTitleTab}" FontSize="16"></TextBlock>
                             </StackPanel>
                         </RadioButton>
                     </ListBoxItem>
                     <ListBoxItem>
                         <RadioButton Style="{StaticResource FlatButton}"
                             Height="40"                  
-                            IsEnabled="{Binding IsStarting, Converter={StaticResource InverseBooleanConverter}}"
                             Command="{Binding SelectRecentTab}"
                             IsChecked="{Binding IsRecentTabSelected, Mode=OneWay}"
+                            VerticalAlignment="Center"
                             HorizontalContentAlignment="Left">
                             <StackPanel Orientation="Horizontal">
-                                <Rectangle Width="20" Height="20" Fill="White">
+                                <Rectangle Width="20" 
+                                           Height="20" 
+                                           Fill="White"
+                                           VerticalAlignment="Center">
                                     <Rectangle.OpacityMask>
                                         <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_calendar}"/>
                                     </Rectangle.OpacityMask>
                                 </Rectangle>
-                                <TextBlock Margin="10,0,0,0" Text="{lex:LocText RecentTitleTab}" FontSize="16" FontWeight="Medium"></TextBlock>
+                                <TextBlock Margin="10,0,0,0" 
+                                           Text="{lex:LocText RecentTitleTab}"
+                                           FontSize="16" 
+                                           VerticalAlignment="Center"></TextBlock>
                             </StackPanel>
                         </RadioButton>
                     </ListBoxItem>
                     <ListBoxItem Visibility="{Binding IsMovieSearchActive, Converter={StaticResource BoolToInverseVisibilityConverter}}">
                         <RadioButton Style="{StaticResource FlatButton}"
                             Height="40"
-                            IsEnabled="{Binding IsStarting, Converter={StaticResource InverseBooleanConverter}}"
                             HorizontalContentAlignment="Left"
                             Command="{Binding SelectSearchTab}"
                             IsChecked="{Binding IsSearchTabSelected, Mode=OneWay}">
                             <StackPanel Orientation="Horizontal">
-                                <Rectangle Width="20" Height="25" Fill="White">
+                                <Rectangle Width="20" 
+                                           Height="25" 
+                                           Fill="White"                             
+                                           VerticalAlignment="Center">
                                     <Rectangle.OpacityMask>
                                         <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_page_search}"/>
                                     </Rectangle.OpacityMask>
                                 </Rectangle>
-                                <TextBlock Margin="10,0,0,0" Text="{lex:LocText SearchTitleTab}" FontSize="16" FontWeight="Medium"></TextBlock>
+                                <TextBlock Margin="10,0,0,0" Text="{lex:LocText SearchTitleTab}" FontSize="16"></TextBlock>
                             </StackPanel>
                         </RadioButton>
                     </ListBoxItem>

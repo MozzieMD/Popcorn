@@ -419,7 +419,11 @@ namespace Popcorn.ViewModel
                 });
 
             Messenger.Default.Register<SearchMovieMessage>(this,
-                async message => { await SearchMovies(message.Filter); });
+                async message =>
+                {
+                    if(!IsStarting)
+                        await SearchMovies(message.Filter);
+                });
         }
 
         #endregion

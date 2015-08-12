@@ -204,9 +204,6 @@
   <data name="OnLabel" xml:space="preserve">
     <value>Activé</value>
   </data>
-  <data name="StartingLabel" xml:space="preserve">
-    <value>Démarrage...</value>
-  </data>
   <data name="DownloadingSubtitlesLabel" xml:space="preserve">
     <value>Téléchargement des sous-titres...</value>
   </data>
