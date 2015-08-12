@@ -6,6 +6,7 @@ using GalaSoft.MvvmLight.CommandWpf;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using GalaSoft.MvvmLight.Threading;
+using MahApps.Metro.Controls.Dialogs;
 using Popcorn.Messaging;
 using Popcorn.Events;
 using Popcorn.ViewModel.Tabs;
@@ -372,6 +373,7 @@ namespace Popcorn.ViewModel
                 if (!e.ResetConnectionError)
                 {
                     IsConnectionInError = true;
+                    //DialogCoordinator.Instance.ShowMessageAsync(this, "Message from VM", "MVVM based messages!").ContinueWith(t => Console.WriteLine(t.Result));
                     OnConnectionError(new ConnectionErrorEventArgs(e.Message));
                 }
                 else

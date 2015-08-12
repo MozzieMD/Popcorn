@@ -25,10 +25,8 @@
                       Width="{Binding Source={x:Static SystemParameters.PrimaryScreenWidth}, Converter={converters:RatioConverter}, ConverterParameter='0.7' }" 
                       MinHeight="{Binding Source={x:Static SystemParameters.PrimaryScreenHeight}, Converter={converters:RatioConverter}, ConverterParameter='0.5' }" 
                       MinWidth="{Binding Source={x:Static SystemParameters.PrimaryScreenWidth}, Converter={converters:RatioConverter}, ConverterParameter='0.5' }" 
-                      Title="Popcorn"
                       AllowsTransparency="True"
                       DataContext="{Binding Main, Source={StaticResource Locator}}"
-                      Icon="Resources/Images/icon.ico"
                       ShowTitleBar="False"
                       WindowStartupLocation="CenterScreen"
                       IgnoreTaskbarOnMaximize="True"
@@ -39,6 +37,7 @@
             <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
             <converters:RatioConverter x:Key="RatioConverter" />
             <converters:BoolToInverseVisibilityConverter x:Key="BoolToInverseVisibilityConverter"/>
+            <converters:InverseBooleanConverter x:Key="InverseBooleanConverter"/>
 
             <Style x:Key="ListBoxButtons" TargetType="{x:Type ListBox}">
                 <Setter Property="Background" 
@@ -104,6 +103,39 @@
                     </Setter.Value>
                 </Setter>
             </Style>
+
+            <Style TargetType="{x:Type Grid}" x:Key="AnimationUserBar">
+                <Style.Triggers>
+                    <DataTrigger Binding="{Binding IsStarting}"
+                                 Value="False">
+                        <DataTrigger.EnterActions>
+                            <BeginStoryboard>
+                                <Storyboard>
+                                    <DoubleAnimation 
+                                        Duration="0:0:1" 
+                                        From="0" To="220"
+                                        Storyboard.TargetProperty="Width">
+                                        <DoubleAnimation.EasingFunction>
+                                            <ExponentialEase EasingMode="EaseOut"
+                                                             Exponent="3"/>
+                                        </DoubleAnimation.EasingFunction>
+                                    </DoubleAnimation>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </DataTrigger.EnterActions>
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
+
+            <Style TargetType="{x:Type controls:WindowButtonCommands}">
+                <Style.Triggers>
+                    <DataTrigger Binding="{Binding ShowTitleBar, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type controls:MetroWindow}}}"
+                     Value="False">
+                        <Setter Property="Background"
+                    Value="White" />
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
         </ResourceDictionary>
     </Window.Resources>
 
@@ -121,6 +153,9 @@
 
     <controls:MetroWindow.RightWindowCommands>
         <controls:WindowCommands>
+            <Button Command="{Binding OpenSettingsCommand}"
+                    ToolTip="{lex:LocText LoginLabel}"
+                    Content="{lex:LocText LoginLabel}" />
             <Button Command="{Binding OpenSettingsCommand}"
                     ToolTip="{lex:LocText SettingsMenuTitle}"
                     Content="{lex:LocText SettingsMenuTitle}" />
@@ -153,15 +188,19 @@
     <Grid x:Name="LayoutRoot">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto" MinWidth="220"></ColumnDefinition>
-            <ColumnDefinition Width="12*"></ColumnDefinition>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+            <ColumnDefinition Width="Auto"></ColumnDefinition>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="77"></RowDefinition>
+            <RowDefinition Height="Auto" MinHeight="80"></RowDefinition>
+            <RowDefinition Height="80"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="80"></RowDefinition>
         </Grid.RowDefinitions>
 
         <Grid Grid.Column="1" 
-              Grid.Row="1" 
+              Grid.Row="0"
+              Grid.RowSpan="4"
               VerticalAlignment="Center">
             <controls:ProgressRing IsActive="True"
                                    Foreground="{DynamicResource AccentColorBrush}"
@@ -178,6 +217,7 @@
         <Grid x:Name="MenuBar"
               Grid.Column="0" 
               Grid.Row="1" 
+              Grid.RowSpan="3"
               Background="#11171c">
             <Grid>
                 <Grid.ColumnDefinitions>
@@ -293,6 +333,7 @@
         <controls:MetroAnimatedSingleRowTabControl 
             Grid.Column="1" 
             Grid.Row="1" 
+            Grid.RowSpan="3"
             x:Name="MainTabControl" 
             ItemsSource="{Binding Tabs}"
             SelectedItem="{Binding SelectedTab}"
@@ -301,16 +342,16 @@
 
             <controls:MetroAnimatedSingleRowTabControl.Resources>
                 <DataTemplate DataType="{x:Type tabsViewModel:GreatestTabViewModel}">
-                    <tabsUserControl:GreatestMovies Margin="20,0,20,0"/>
+                    <tabsUserControl:GreatestMovies Margin="20,0,0,0"/>
                 </DataTemplate>
                 <DataTemplate DataType="{x:Type tabsViewModel:PopularTabViewModel}">
-                    <tabsUserControl:PopularMovies Margin="20,0,20,0"/>
+                    <tabsUserControl:PopularMovies Margin="20,0,0,0"/>
                 </DataTemplate>
                 <DataTemplate DataType="{x:Type tabsViewModel:RecentTabViewModel}">
-                    <tabsUserControl:RecentMovies Margin="20,0,20,0"/>
+                    <tabsUserControl:RecentMovies Margin="20,0,0,0"/>
                 </DataTemplate>
                 <DataTemplate DataType="{x:Type tabsViewModel:SearchTabViewModel}">
-                    <tabsUserControl:SearchMovies Margin="20,0,20,0"/>
+                    <tabsUserControl:SearchMovies Margin="20,0,0,0"/>
                 </DataTemplate>
                 <DataTemplate DataType="{x:Type movieVm:MoviePlayerViewModel}">
                     <movieUc:MoviePlayer/>
@@ -323,5 +364,24 @@
                 </Style>
             </controls:MetroAnimatedSingleRowTabControl.ItemContainerStyle>
         </controls:MetroAnimatedSingleRowTabControl>
+        <Grid Grid.Column="2"
+              Grid.Row="0"
+              Background="White"
+              Style="{StaticResource AnimationUserBar}"
+              Visibility="{Binding IsStarting, Converter={StaticResource BoolToVisibilityConverter}}">
+        </Grid>
+        <Grid Grid.Column="2"
+              Grid.Row="1"
+              Grid.RowSpan="2"
+              Background="#ecedef"
+              Style="{StaticResource AnimationUserBar}"             
+              Visibility="{Binding IsStarting, Converter={StaticResource BoolToVisibilityConverter}}">
+        </Grid>
+        <Grid Grid.Column="2"
+              Grid.Row="3"
+              Background="#c4ccd8"
+              Style="{StaticResource AnimationUserBar}"              
+              Visibility="{Binding IsStarting, Converter={StaticResource BoolToVisibilityConverter}}">
+        </Grid>
     </Grid>
 </controls:MetroWindow>

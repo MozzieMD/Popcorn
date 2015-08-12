@@ -210,4 +210,7 @@
   <data name="MoviesLabel" xml:space="preserve">
     <value>Films</value>
   </data>
+  <data name="LoginLabel" xml:space="preserve">
+    <value>Se connecter</value>
+  </data>
 </root>
