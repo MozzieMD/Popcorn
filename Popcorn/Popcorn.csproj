@@ -234,6 +234,12 @@
     <Compile Include="Converters\RuntimeConverter.cs" />
     <Compile Include="Converters\StringRatingToIntRatingConverter.cs" />
     <Compile Include="Converters\WindowStateToBooleanConverter.cs" />
+    <Compile Include="CustomDialogs\SigninDialog.xaml.cs">
+      <DependentUpon>SigninDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CustomDialogs\SignupDialog.xaml.cs">
+      <DependentUpon>SignupDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="CustomPanels\ElasticWrapPanel.cs" />
     <Compile Include="Entity\Localization\Language.cs" />
     <Compile Include="Entity\Settings\ApplicationSettings.cs" />
@@ -383,6 +389,14 @@
     <Compile Include="ViewModel\Trailer\TrailerViewModel.cs" />
     <Compile Include="ViewModel\ViewModelLocator.cs" />
     <Compile Include="ViewModel\Tabs\TabsViewModel.cs" />
+    <Page Include="CustomDialogs\SigninDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="CustomDialogs\SignupDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

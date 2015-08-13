@@ -30,14 +30,16 @@
                       ShowTitleBar="False"
                       WindowStartupLocation="CenterScreen"
                       IgnoreTaskbarOnMaximize="True"
+                      Icon="Resources/Images/icon.ico"
                       WindowState="{Binding IsFullScreen, Converter={converters:WindowStateToBooleanConverter}, Mode=TwoWay}"
-                      d:DataContext="{d:DesignInstance viewModel:MainViewModel}">
+                      d:DataContext="{d:DesignInstance viewModel:MainViewModel}"
+                      xmlns:dialog="clr-namespace:MahApps.Metro.Controls.Dialogs;assembly=MahApps.Metro"
+                      dialog:DialogParticipation.Register="{Binding}">
     <Window.Resources>
         <ResourceDictionary>
             <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
             <converters:RatioConverter x:Key="RatioConverter" />
             <converters:BoolToInverseVisibilityConverter x:Key="BoolToInverseVisibilityConverter"/>
-            <converters:InverseBooleanConverter x:Key="InverseBooleanConverter"/>
 
             <Style x:Key="ListBoxButtons" TargetType="{x:Type ListBox}">
                 <Setter Property="Background" 
@@ -153,7 +155,7 @@
 
     <controls:MetroWindow.RightWindowCommands>
         <controls:WindowCommands>
-            <Button Command="{Binding OpenSettingsCommand}"
+            <Button Command="{Binding ShowLoginDialogCommand}"
                     ToolTip="{lex:LocText LoginLabel}"
                     Content="{lex:LocText LoginLabel}" />
             <Button Command="{Binding OpenSettingsCommand}"

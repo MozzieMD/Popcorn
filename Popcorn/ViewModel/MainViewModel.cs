@@ -7,6 +7,7 @@ using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using GalaSoft.MvvmLight.Threading;
 using MahApps.Metro.Controls.Dialogs;
+using Popcorn.CustomDialogs;
 using Popcorn.Messaging;
 using Popcorn.Events;
 using Popcorn.ViewModel.Tabs;
@@ -20,6 +21,14 @@ namespace Popcorn.ViewModel
     public class MainViewModel : ViewModelBase
     {
         #region Properties
+
+        #region Property -> IDialogCoordinator
+
+        /// <summary>
+        /// Used to define the dialog context
+        /// </summary>
+        private readonly IDialogCoordinator _dialogCoordinator;
+        #endregion
 
         #region Property -> IsStarting
 
@@ -318,6 +327,29 @@ namespace Popcorn.ViewModel
 
         #endregion
 
+        #region Command -> InitializeAsyncCommand
+
+        private RelayCommand _showLoginDialogCommand;
+
+        /// <summary>
+        /// Show login dialog
+        /// </summary>
+        public RelayCommand ShowLoginDialogCommand
+        {
+            get
+            {
+                return _showLoginDialogCommand ?? (_showLoginDialogCommand = new RelayCommand(async () =>
+                {
+                    var customDialog = new SigninDialog(new SigninDialogSettings());
+                    await _dialogCoordinator.ShowMetroDialogAsync(this, customDialog);
+                    var result = await customDialog.WaitForButtonPressAsync();
+                    await _dialogCoordinator.HideMetroDialogAsync(this, customDialog);
+                }));
+            }
+        }
+
+        #endregion
+
         #endregion
 
         #region Constructors
@@ -327,10 +359,18 @@ namespace Popcorn.ViewModel
         /// <summary>
         /// Initializes a new instance of the MainViewModel class.
         /// </summary>
-        public MainViewModel()
+        public MainViewModel():
+            this(DialogCoordinator.Instance)
+        { }
+
+        /// <summary>
+        /// Initializes a new instance of the MainViewModel class.
+        /// </summary>
+        private MainViewModel(IDialogCoordinator dialogCoordinator)
         {
             RegisterMessages();
             RegisterCommands();
+            _dialogCoordinator = dialogCoordinator;
         }
 
         #endregion
