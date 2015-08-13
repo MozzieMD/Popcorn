@@ -54,6 +54,11 @@
                     MinWidth="80"
                     Content="{Binding SignupButtonText, RelativeSource={RelativeSource AncestorType=dialogs:CustomDialog, Mode=FindAncestor}, UpdateSourceTrigger=PropertyChanged}"
                     Margin="5 0 5 0" />
+            <Button x:Name="PART_CancelButton"
+                    Height="35"
+                    MinWidth="80"
+                    Content="{Binding CancelButtonText, RelativeSource={RelativeSource AncestorType=dialogs:CustomDialog, Mode=FindAncestor}, UpdateSourceTrigger=PropertyChanged}"
+                    Margin="5 0 5 0" />
         </StackPanel>
     </Grid>
 </dialogs:CustomDialog>

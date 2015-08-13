@@ -108,8 +108,8 @@
 
             <Style TargetType="{x:Type Grid}" x:Key="AnimationUserBar">
                 <Style.Triggers>
-                    <DataTrigger Binding="{Binding IsStarting}"
-                                 Value="False">
+                    <DataTrigger Binding="{Binding IsUserSignin}"
+                                 Value="True">
                         <DataTrigger.EnterActions>
                             <BeginStoryboard>
                                 <Storyboard>

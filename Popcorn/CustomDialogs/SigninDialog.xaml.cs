@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
@@ -50,9 +52,10 @@ namespace Popcorn.CustomDialogs
     {
         public string Username { get; set; }
         public string Password { get; set; }
+        public bool ShouldSignup { get; set; }
     }
 
-    public partial class SigninDialog
+    public partial class SigninDialog : INotifyDataErrorInfo
     {
         internal SigninDialog(SigninDialogSettings settings)
         {
@@ -84,11 +87,14 @@ namespace Popcorn.CustomDialogs
 
             TaskCompletionSource<SigninDialogData> tcs = new TaskCompletionSource<SigninDialogData>();
 
-            RoutedEventHandler negativeHandler = null;
-            KeyEventHandler negativeKeyHandler = null;
+            RoutedEventHandler signupHandler = null;
+            KeyEventHandler signupKeyHandler = null;
 
-            RoutedEventHandler affirmativeHandler = null;
-            KeyEventHandler affirmativeKeyHandler = null;
+            RoutedEventHandler signinHandler = null;
+            KeyEventHandler signinKeyHandler = null;
+
+            RoutedEventHandler cancelHandler = null;
+            KeyEventHandler cancelKeyHandler = null;
 
             KeyEventHandler escapeKeyHandler = null;
 
@@ -101,16 +107,18 @@ namespace Popcorn.CustomDialogs
             });
 
             cleanUpHandlers = () => {
-                PART_TextBox.KeyDown -= affirmativeKeyHandler;
-                PART_TextBox2.KeyDown -= affirmativeKeyHandler;
+                PART_TextBox.KeyDown -= signinKeyHandler;
+                PART_TextBox2.KeyDown -= signinKeyHandler;
 
                 this.KeyDown -= escapeKeyHandler;
 
-                PART_SignupButton.Click -= negativeHandler;
-                PART_SigninButton.Click -= affirmativeHandler;
+                PART_SignupButton.Click -= signupHandler;
+                PART_SigninButton.Click -= signinHandler;
+                PART_CancelButton.Click -= cancelHandler;
 
-                PART_SignupButton.KeyDown -= negativeKeyHandler;
-                PART_SigninButton.KeyDown -= affirmativeKeyHandler;
+                PART_SignupButton.KeyDown -= signupKeyHandler;
+                PART_SigninButton.KeyDown -= signinKeyHandler;
+                PART_CancelButton.KeyDown -= cancelKeyHandler;
 
                 cancellationTokenRegistration.Dispose();
             };
@@ -125,26 +133,73 @@ namespace Popcorn.CustomDialogs
                 }
             };
 
-            negativeKeyHandler = (sender, e) =>
+            signupKeyHandler = (sender, e) =>
             {
                 if (e.Key == Key.Enter)
                 {
                     cleanUpHandlers();
 
+                    tcs.TrySetResult(new SigninDialogData { ShouldSignup = true });
+                }
+            };
+
+            signupHandler = (sender, e) =>
+            {
+                cleanUpHandlers();
+
+                tcs.TrySetResult(new SigninDialogData { ShouldSignup = true });
+
+                e.Handled = true;
+            };
+
+            signinKeyHandler = (sender, e) =>
+            {
+                if (e.Key == Key.Enter)
+                {
+                    var isValid = IsUsernameValid(Username)
+                                  && IsPasswordValid(Password);
+                    if (isValid)
+                    {
+                        cleanUpHandlers();
+                        tcs.TrySetResult(new SigninDialogData
+                        {
+                            Username = Username,
+                            Password = PART_TextBox2.Password,
+                            ShouldSignup = false
+                        });
+                    }
+                }
+            };
+
+            signinHandler = (sender, e) =>
+            {
+                var isValid = IsUsernameValid(Username)
+                              && IsPasswordValid(Password);
+                if (isValid)
+                {
+                    cleanUpHandlers();
+
+                    tcs.TrySetResult(new SigninDialogData
+                    {
+                        Username = Username,
+                        Password = PART_TextBox2.Password,
+                        ShouldSignup = false
+                    });
+
+                    e.Handled = true;
+                }
+            };
+
+            cancelKeyHandler = (sender, e) =>
+            {
+                if (e.Key == Key.Enter)
+                {
+                    cleanUpHandlers();
                     tcs.TrySetResult(null);
                 }
             };
 
-            affirmativeKeyHandler = (sender, e) =>
-            {
-                if (e.Key == Key.Enter)
-                {
-                    cleanUpHandlers();
-                    tcs.TrySetResult(new SigninDialogData { Username = Username, Password = PART_TextBox2.Password });
-                }
-            };
-
-            negativeHandler = (sender, e) =>
+            cancelHandler = (sender, e) =>
             {
                 cleanUpHandlers();
 
@@ -153,25 +208,18 @@ namespace Popcorn.CustomDialogs
                 e.Handled = true;
             };
 
-            affirmativeHandler = (sender, e) =>
-            {
-                cleanUpHandlers();
+            PART_SignupButton.KeyDown += signupKeyHandler;
+            PART_SigninButton.KeyDown += signinKeyHandler;
+            PART_CancelButton.KeyDown += cancelKeyHandler;
 
-                tcs.TrySetResult(new SigninDialogData { Username = Username, Password = PART_TextBox2.Password });
-
-                e.Handled = true;
-            };
-
-            PART_SignupButton.KeyDown += negativeKeyHandler;
-            PART_SigninButton.KeyDown += affirmativeKeyHandler;
-
-            PART_TextBox.KeyDown += affirmativeKeyHandler;
-            PART_TextBox2.KeyDown += affirmativeKeyHandler;
+            PART_TextBox.KeyDown += signinKeyHandler;
+            PART_TextBox2.KeyDown += signinKeyHandler;
 
             this.KeyDown += escapeKeyHandler;
 
-            PART_SignupButton.Click += negativeHandler;
-            PART_SigninButton.Click += affirmativeHandler;
+            PART_SignupButton.Click += signupHandler;
+            PART_SigninButton.Click += signinHandler;
+            PART_CancelButton.Click += cancelHandler;
 
             return tcs.Task;
         }
@@ -198,13 +246,14 @@ namespace Popcorn.CustomDialogs
             }
         }
 
-        public static readonly DependencyProperty MessageProperty = DependencyProperty.Register("Message", typeof(string), typeof(LoginDialog), new PropertyMetadata(default(string)));
-        public static readonly DependencyProperty UsernameProperty = DependencyProperty.Register("Username", typeof(string), typeof(LoginDialog), new PropertyMetadata(default(string)));
-        public static readonly DependencyProperty UsernameWatermarkProperty = DependencyProperty.Register("UsernameWatermark", typeof(string), typeof(LoginDialog), new PropertyMetadata(default(string)));
-        public static readonly DependencyProperty PasswordProperty = DependencyProperty.Register("Password", typeof(string), typeof(LoginDialog), new PropertyMetadata(default(string)));
-        public static readonly DependencyProperty PasswordWatermarkProperty = DependencyProperty.Register("PasswordWatermark", typeof(string), typeof(LoginDialog), new PropertyMetadata(default(string)));
-        public static readonly DependencyProperty SigninButtonTextProperty = DependencyProperty.Register("SigninButtonText", typeof(string), typeof(LoginDialog), new PropertyMetadata("OK"));
-        public static readonly DependencyProperty SignupButtonTextProperty = DependencyProperty.Register("SignupButtonText", typeof(string), typeof(LoginDialog), new PropertyMetadata("Cancel"));
+        public static readonly DependencyProperty MessageProperty = DependencyProperty.Register("Message", typeof(string), typeof(SigninDialog), new PropertyMetadata(default(string)));
+        public static readonly DependencyProperty UsernameProperty = DependencyProperty.Register("Username", typeof(string), typeof(SigninDialog), new PropertyMetadata(default(string)));
+        public static readonly DependencyProperty UsernameWatermarkProperty = DependencyProperty.Register("UsernameWatermark", typeof(string), typeof(SigninDialog), new PropertyMetadata(default(string)));
+        public static readonly DependencyProperty PasswordProperty = DependencyProperty.Register("Password", typeof(string), typeof(SigninDialog), new PropertyMetadata(default(string)));
+        public static readonly DependencyProperty PasswordWatermarkProperty = DependencyProperty.Register("PasswordWatermark", typeof(string), typeof(SigninDialog), new PropertyMetadata(default(string)));
+        public static readonly DependencyProperty SigninButtonTextProperty = DependencyProperty.Register("SigninButtonText", typeof(string), typeof(SigninDialog), new PropertyMetadata("Signin"));
+        public static readonly DependencyProperty SignupButtonTextProperty = DependencyProperty.Register("SignupButtonText", typeof(string), typeof(SigninDialog), new PropertyMetadata("Signup"));
+        public static readonly DependencyProperty CancelButtonTextProperty = DependencyProperty.Register("CancelButtonText", typeof(string), typeof(SigninDialog), new PropertyMetadata("Cancel"));
 
         public string Message
         {
@@ -247,5 +296,100 @@ namespace Popcorn.CustomDialogs
             get { return (string)GetValue(SignupButtonTextProperty); }
             set { SetValue(SignupButtonTextProperty, value); }
         }
+
+        public string CancelButtonText
+        {
+            get { return (string)GetValue(CancelButtonTextProperty); }
+            set { SetValue(CancelButtonTextProperty, value); }
+        }
+
+        // Validates the Username property, updating the errors collection as needed.
+        public bool IsUsernameValid(string value)
+        {
+            bool isValid = true;
+
+            if (string.IsNullOrEmpty(value))
+            {
+                AddError("Username", USERNAME_EMPTY_ERROR, false);
+                isValid = false;
+            }
+            else RemoveError("Username", USERNAME_EMPTY_ERROR);
+
+            return isValid;
+        }
+
+        // Validates the Password property, updating the errors collection as needed.
+        public bool IsPasswordValid(string value)
+        {
+            bool isValid = true;
+
+            if (string.IsNullOrEmpty(value))
+            {
+                AddError("Password", PASSWORD_EMPTY_ERROR, false);
+                isValid = false;
+            }
+            else RemoveError("Password", PASSWORD_EMPTY_ERROR);
+
+            return isValid;
+        }
+
+        private Dictionary<String, List<String>> errors =
+            new Dictionary<string, List<string>>();
+        private const string USERNAME_EMPTY_ERROR = "Username must be filled.";
+        private const string PASSWORD_EMPTY_ERROR = "Password must be filled.";
+
+        // Adds the specified error to the errors collection if it is not 
+        // already present, inserting it in the first position if isWarning is 
+        // false. Raises the ErrorsChanged event if the collection changes. 
+        public void AddError(string propertyName, string error, bool isWarning)
+        {
+            if (!errors.ContainsKey(propertyName))
+                errors[propertyName] = new List<string>();
+
+            if (!errors[propertyName].Contains(error))
+            {
+                if (isWarning) errors[propertyName].Add(error);
+                else errors[propertyName].Insert(0, error);
+                RaiseErrorsChanged(propertyName);
+            }
+        }
+
+        // Removes the specified error from the errors collection if it is
+        // present. Raises the ErrorsChanged event if the collection changes.
+        public void RemoveError(string propertyName, string error)
+        {
+            if (errors.ContainsKey(propertyName) &&
+                errors[propertyName].Contains(error))
+            {
+                errors[propertyName].Remove(error);
+                if (errors[propertyName].Count == 0) errors.Remove(propertyName);
+                RaiseErrorsChanged(propertyName);
+            }
+        }
+
+        public void RaiseErrorsChanged(string propertyName)
+        {
+            if (ErrorsChanged != null)
+                ErrorsChanged(this, new DataErrorsChangedEventArgs(propertyName));
+        }
+
+        #region INotifyDataErrorInfo Members
+
+        public event EventHandler<DataErrorsChangedEventArgs> ErrorsChanged;
+
+        public System.Collections.IEnumerable GetErrors(string propertyName)
+        {
+            if (String.IsNullOrEmpty(propertyName) ||
+                !errors.ContainsKey(propertyName))
+                return null;
+            return errors[propertyName];
+        }
+
+        public bool HasErrors
+        {
+            get { return errors.Count > 0; }
+        }
+
+        #endregion
     }
 }

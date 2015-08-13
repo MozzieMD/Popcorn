@@ -48,6 +48,24 @@ namespace Popcorn.ViewModel
 
         #endregion
 
+        #region Property -> IsUserSignin
+
+        private bool _isUserSignin;
+
+        /// <summary>
+        /// Indicates if the user is signed in
+        /// </summary>
+        public bool IsUserSignin
+        {
+            get { return _isUserSignin; }
+            set
+            {
+                Set(() => IsUserSignin, ref _isUserSignin, value);
+            }
+        }
+
+        #endregion
+
         #region Property -> IsMoviePlaying
 
         private bool _isMoviePlaying;
@@ -340,10 +358,24 @@ namespace Popcorn.ViewModel
             {
                 return _showLoginDialogCommand ?? (_showLoginDialogCommand = new RelayCommand(async () =>
                 {
-                    var customDialog = new SigninDialog(new SigninDialogSettings());
-                    await _dialogCoordinator.ShowMetroDialogAsync(this, customDialog);
-                    var result = await customDialog.WaitForButtonPressAsync();
-                    await _dialogCoordinator.HideMetroDialogAsync(this, customDialog);
+                    var signinDialog = new SigninDialog(new SigninDialogSettings());
+                    await _dialogCoordinator.ShowMetroDialogAsync(this, signinDialog);
+                    var signinDialogResult = await signinDialog.WaitForButtonPressAsync();
+                    await _dialogCoordinator.HideMetroDialogAsync(this, signinDialog);
+                    if(signinDialogResult == null)
+                        return;
+
+                    if (signinDialogResult.ShouldSignup)
+                    {
+                        var signupDialog = new SignupDialog(new SignupDialogSettings());
+                        await _dialogCoordinator.ShowMetroDialogAsync(this, signupDialog);
+                        var signupDialogResult = await signupDialog.WaitForButtonPressAsync();
+                        await _dialogCoordinator.HideMetroDialogAsync(this, signupDialog);
+                    }
+                    else
+                    {
+                        // Signin
+                    }
                 }));
             }
         }
