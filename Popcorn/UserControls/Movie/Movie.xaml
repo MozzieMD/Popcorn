@@ -180,83 +180,39 @@
                   Grid.RowSpan="3"
                   Style="{StaticResource AnimationContentOnMediaLoading}">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="1*"></RowDefinition>
-                    <RowDefinition Height="1*"></RowDefinition>
-                    <RowDefinition Height="1*"></RowDefinition>
-                    <RowDefinition Height="1*"></RowDefinition>
-                    <RowDefinition Height="1*"></RowDefinition>
-                    <RowDefinition Height="1*"></RowDefinition>
-                    <RowDefinition Height="1*"></RowDefinition>
-                    <RowDefinition Height="1*"></RowDefinition>
-                    <RowDefinition Height="1*"></RowDefinition>
-                    <RowDefinition Height="1*"></RowDefinition>
-                    <RowDefinition Height="1*"></RowDefinition>
-                    <RowDefinition Height="1*"></RowDefinition>
-                    <RowDefinition Height="1*"></RowDefinition>
-                    <RowDefinition Height="1*"></RowDefinition>
-                    <RowDefinition Height="1*"></RowDefinition>
-                    <RowDefinition Height="1*"></RowDefinition>
-                    <RowDefinition Height="1*"></RowDefinition>
-                    <RowDefinition Height="1*"></RowDefinition>
-                    <RowDefinition Height="1*"></RowDefinition>
-                    <RowDefinition Height="1*"></RowDefinition>
-                    <RowDefinition Height="1*"></RowDefinition>
-                    <RowDefinition Height="1*"></RowDefinition>
-                    <RowDefinition Height="1*"></RowDefinition>
-                    <RowDefinition Height="1*"></RowDefinition>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="6*"/>
+                    <RowDefinition Height="1*"/>
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="1*"></ColumnDefinition>
-                    <ColumnDefinition Width="1*"></ColumnDefinition>
-                    <ColumnDefinition Width="1*"></ColumnDefinition>
-                    <ColumnDefinition Width="1*"></ColumnDefinition>
-                    <ColumnDefinition Width="1*"></ColumnDefinition>
-                    <ColumnDefinition Width="1*"></ColumnDefinition>
-                    <ColumnDefinition Width="1*"></ColumnDefinition>
-                    <ColumnDefinition Width="1*"></ColumnDefinition>
-                    <ColumnDefinition Width="1*"></ColumnDefinition>
-                    <ColumnDefinition Width="1*"></ColumnDefinition>
-                    <ColumnDefinition Width="1*"></ColumnDefinition>
-                    <ColumnDefinition Width="1*"></ColumnDefinition>
-                    <ColumnDefinition Width="1*"></ColumnDefinition>
-                    <ColumnDefinition Width="1*"></ColumnDefinition>
-                    <ColumnDefinition Width="1*"></ColumnDefinition>
-                    <ColumnDefinition Width="1*"></ColumnDefinition>
-                    <ColumnDefinition Width="1*"></ColumnDefinition>
-                    <ColumnDefinition Width="1*"></ColumnDefinition>
-                    <ColumnDefinition Width="1*"></ColumnDefinition>
-                    <ColumnDefinition Width="1*"></ColumnDefinition>
-                    <ColumnDefinition Width="1*"></ColumnDefinition>
-                    <ColumnDefinition Width="1*"></ColumnDefinition>
-                    <ColumnDefinition Width="1*"></ColumnDefinition>
-                    <ColumnDefinition Width="1*"></ColumnDefinition>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="3*"
+                                      MaxWidth="300"/>
+                    <ColumnDefinition Width="50"/>
+                    <ColumnDefinition Width="6*"/>
+                    <ColumnDefinition Width="1*"/>
                 </Grid.ColumnDefinitions>
-                <Border BorderThickness="1" 
-                        CornerRadius="30" 
+                <Border CornerRadius="40" 
                         HorizontalAlignment="Left" 
                         VerticalAlignment="Top" 
-                        Grid.Row="3" 
-                        Grid.RowSpan="21" 
-                        Grid.Column="2" 
-                        Grid.ColumnSpan="10">
+                        Grid.Row="1" 
+                        Grid.Column="1">
                     <Grid>
                         <Border x:Name="mask" 
                                 Background="Black" 
-                                CornerRadius="30"/>
+                                CornerRadius="40"/>
                         <StackPanel>
                             <StackPanel.OpacityMask>
                                 <VisualBrush Visual="{Binding ElementName=mask}"/>
                             </StackPanel.OpacityMask>
                             <Image x:Name="Poster"
-                                   Source="{Binding Path=Movie.PosterImagePath, Converter={StaticResource UriToCachedImageConverter}}" 
-                                   Width="{Binding ElementName=Content, Path=ActualWidth, Converter={StaticResource RatioConverter}, ConverterParameter=0.25}"/>
+                                   Source="{Binding Path=Movie.PosterImagePath, Converter={StaticResource UriToCachedImageConverter}}"/>
                         </StackPanel>
                     </Grid>
                 </Border>
-                <StackPanel Grid.Row="3" 
-                            Grid.RowSpan="21"
-                            Grid.Column="10" 
-                            Grid.ColumnSpan="13" 
+                <StackPanel Grid.Row="1" 
+                            Grid.RowSpan="2"
+                            Grid.Column="3" 
                             Orientation="Vertical">
                     <DockPanel>
                         <DockPanel DockPanel.Dock="Top">
