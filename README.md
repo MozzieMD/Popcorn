@@ -3,6 +3,18 @@ Watch movies easier
 
 ![Screenshot](https://cloud.githubusercontent.com/assets/8962802/7871113/0fc91c7c-058e-11e5-8bdc-beb548e09b7a.jpg)
 
+![Screenshot2](https://cloud.githubusercontent.com/assets/8962802/9288477/cc6a211c-4348-11e5-906c-68a28ca01893.jpg)
+
+![Screenshot3](https://cloud.githubusercontent.com/assets/8962802/9288479/d6378914-4348-11e5-8cf3-a97ee39a0b68.jpg)
+
+![Screenshot4](https://cloud.githubusercontent.com/assets/8962802/9288481/dee26ee4-4348-11e5-972e-b7609bd07ca8.jpg)
+
+![Screenshot5](https://cloud.githubusercontent.com/assets/8962802/9288484/e6f0a25e-4348-11e5-9317-f8c0dee12729.jpg)
+
+![Screenshot6](https://cloud.githubusercontent.com/assets/8962802/9288485/eff1c0e0-4348-11e5-8739-8b3296667816.jpg)
+
+![Screenshot7](https://cloud.githubusercontent.com/assets/8962802/9288487/f5f93b26-4348-11e5-9331-7e414980699b.jpg)
+
 ## What is Popcorn?
 Popcorn is a project which aims to provide a simple interface to watch any movie.
 
