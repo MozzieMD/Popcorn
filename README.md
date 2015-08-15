@@ -1,7 +1,7 @@
 # Popcorn
 Watch movies easier
 
-![Screenshot](https://cloud.githubusercontent.com/assets/8962802/7871113/0fc91c7c-058e-11e5-8bdc-beb548e09b7a.jpg)
+![Screenshot1](https://cloud.githubusercontent.com/assets/8962802/9288496/60c4e7de-4349-11e5-9132-213aa018e94d.jpg)
 
 ![Screenshot2](https://cloud.githubusercontent.com/assets/8962802/9288477/cc6a211c-4348-11e5-906c-68a28ca01893.jpg)
 
