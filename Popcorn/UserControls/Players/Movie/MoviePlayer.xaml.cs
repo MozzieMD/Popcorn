@@ -428,7 +428,7 @@ namespace Popcorn.UserControls.Players.Movie
             {
                 if (e.StagingItem.Input is MouseEventArgs)
                 {
-                    var mouseEventArgs = (MouseEventArgs)e.StagingItem.Input;
+                    var mouseEventArgs = (MouseEventArgs) e.StagingItem.Input;
 
                     // no button is pressed and the position is still the same as the application became inactive
                     if (mouseEventArgs.LeftButton == MouseButtonState.Released &&
@@ -447,13 +447,13 @@ namespace Popcorn.UserControls.Players.Movie
                 {
                     Duration = new Duration(TimeSpan.FromSeconds(0.1)),
                     KeyFrames = new DoubleKeyFrameCollection
-                {
-                    new EasingDoubleKeyFrame(0.0, KeyTime.FromPercent(0)),
-                    new EasingDoubleKeyFrame(1.0, KeyTime.FromPercent(1.0), new PowerEase
                     {
-                        EasingMode = EasingMode.EaseInOut
-                    })
-                }
+                        new EasingDoubleKeyFrame(0.0, KeyTime.FromPercent(0)),
+                        new EasingDoubleKeyFrame(1.0, KeyTime.FromPercent(1.0), new PowerEase
+                        {
+                            EasingMode = EasingMode.EaseInOut
+                        })
+                    }
                 };
 
                 PlayerStatusBar.BeginAnimation(OpacityProperty, opacityAnimation);
@@ -478,38 +478,38 @@ namespace Popcorn.UserControls.Players.Movie
             if (Disposed)
                 return;
 
+            Loaded -= OnLoaded;
+            Unloaded -= OnUnloaded;
+
+            MediaPlayerTimer.Tick -= MediaPlayerTimerTick;
+            MediaPlayerTimer.Stop();
+
+            ActivityTimer.Tick -= OnInactivity;
+            ActivityTimer.Stop();
+
+            InputManager.Current.PreProcessInput -= OnActivity;
+
+            Player.VlcMediaPlayer.EndReached -= MediaPlayerEndReached;
+            MediaPlayerIsPlaying = false;
+
             DispatcherHelper.CheckBeginInvokeOnUI(async () =>
             {
-                Loaded -= OnLoaded;
-                Unloaded -= OnUnloaded;
-
-                MediaPlayerTimer.Tick -= MediaPlayerTimerTick;
-                MediaPlayerTimer.Stop();
-
-                ActivityTimer.Tick -= OnInactivity;
-                ActivityTimer.Stop();
-
-                InputManager.Current.PreProcessInput -= OnActivity;
-
-                Player.VlcMediaPlayer.EndReached -= MediaPlayerEndReached;
-                MediaPlayerIsPlaying = false;
-
                 await Player.StopAsync();
                 Player.Dispose();
-
-                var vm = DataContext as MoviePlayerViewModel;
-                if (vm != null)
-                {
-                    vm.StoppedPlayingMedia -= OnStoppedPlayingMedia;
-                }
-
-                Disposed = true;
-
-                if (disposing)
-                {
-                    GC.SuppressFinalize(this);
-                }
             });
+
+            var vm = DataContext as MoviePlayerViewModel;
+            if (vm != null)
+            {
+                vm.StoppedPlayingMedia -= OnStoppedPlayingMedia;
+            }
+
+            Disposed = true;
+
+            if (disposing)
+            {
+                GC.SuppressFinalize(this);
+            }
         }
 
         #endregion

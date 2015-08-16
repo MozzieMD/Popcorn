@@ -29,7 +29,6 @@ namespace Popcorn.ViewModel.MovieSettings
 
         #region Property -> Subtitles
 
-
         private SubtitlesViewModel _subtitles;
 
         /// <summary>

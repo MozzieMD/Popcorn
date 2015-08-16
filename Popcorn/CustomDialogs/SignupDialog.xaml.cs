@@ -14,7 +14,10 @@ namespace Popcorn.CustomDialogs
         private const string DefaultTitle = "Signup";
         private const string DefaultSignupButtonText = "Signup";
         private const string DefaultMessage = "Connect with your account to access social functionalities of Popcorn.";
-        private const string DefaultUsernameWatermark = "Username...";
+        private const string DefaultUsernameWatermark = "User name...";
+        private const string DefaultFirstNameWatermark = "First name...";
+        private const string DefaultLastNameWatermark = "Last name...";
+        private const string DefaultEmailWatermark = "Email...";
         private const string DefaultPasswordWatermark = "Password...";
         private const string DefaultConfirmPasswordWatermark = "Confirm password...";
         private const bool DefaultEnablePasswordPreview = false;
@@ -25,6 +28,9 @@ namespace Popcorn.CustomDialogs
             Message = DefaultMessage;
             SignupButtonText = DefaultSignupButtonText;
             UsernameWatermark = DefaultUsernameWatermark;
+            FirstNameWatermark = DefaultFirstNameWatermark;
+            LastNameWatermark = DefaultLastNameWatermark;
+            EmailWatermark = DefaultEmailWatermark;
             PasswordWatermark = DefaultPasswordWatermark;
             ConfirmPasswordWatermark = DefaultConfirmPasswordWatermark;
             EnablePasswordPreview = DefaultEnablePasswordPreview;
@@ -42,6 +48,12 @@ namespace Popcorn.CustomDialogs
 
         public string UsernameWatermark { get; set; }
 
+        public string FirstNameWatermark { get; set; }
+
+        public string LastNameWatermark { get; set; }
+
+        public string EmailWatermark { get; set; }
+
         public string PasswordWatermark { get; set; }
 
         public string ConfirmPasswordWatermark { get; set; }
@@ -52,6 +64,9 @@ namespace Popcorn.CustomDialogs
     public class SignupDialogData
     {
         public string Username { get; set; }
+        public string Email { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
         public string Password { get; set; }
         public string ConfirmPassword { get; set; }
     }
@@ -67,6 +82,9 @@ namespace Popcorn.CustomDialogs
             Title = settings.Title;
             SignupButtonText = settings.SignupButtonText;
             UsernameWatermark = settings.UsernameWatermark;
+            FirstNameWatermark = settings.FirstNameWatermark;
+            LastNameWatermark = settings.LastNameWatermark;
+            EmailWatermark = settings.EmailWatermark;
             PasswordWatermark = settings.PasswordWatermark;
             ConfirmPasswordWatermark = settings.ConfirmPasswordWatermark;
         }
@@ -135,6 +153,9 @@ namespace Popcorn.CustomDialogs
                 if (e.Key == Key.Enter)
                 {
                     var isValid = IsUsernameValid(Username)
+                                   && IsEmailValid(Email)
+                                   && IsFirstNameValid(FirstName)
+                                   && IsLastNameValid(LastName)
                                    && IsPasswordValid(Password)
                                    && IsConfirmPasswordValid(ConfirmPassword);
                     if (isValid)
@@ -144,8 +165,11 @@ namespace Popcorn.CustomDialogs
                         tcs.TrySetResult(new SignupDialogData
                         {
                             Username = Username,
-                            Password = PART_TextBox2.Password,
-                            ConfirmPassword = PART_TextBox3.Password
+                            FirstName = FirstName,
+                            LastName = LastName,
+                            Email = Email,
+                            Password = Password,
+                            ConfirmPassword = ConfirmPassword
                         });
                     }
                 }
@@ -154,6 +178,9 @@ namespace Popcorn.CustomDialogs
             signupHandler = (sender, e) =>
             {
                 var isValid = IsUsernameValid(Username)
+                               && IsEmailValid(Email)
+                               && IsFirstNameValid(FirstName)
+                               && IsLastNameValid(LastName)
                                && IsPasswordValid(Password)
                                && IsConfirmPasswordValid(ConfirmPassword);
                 if (isValid)
@@ -163,8 +190,11 @@ namespace Popcorn.CustomDialogs
                     tcs.TrySetResult(new SignupDialogData
                     {
                         Username = Username,
-                        Password = PART_TextBox2.Password,
-                        ConfirmPassword = PART_TextBox3.Password
+                        FirstName = FirstName,
+                        LastName = LastName,
+                        Email = Email,
+                        Password = Password,
+                        ConfirmPassword = ConfirmPassword
                     });
 
                     e.Handled = true;
@@ -231,6 +261,12 @@ namespace Popcorn.CustomDialogs
         public static readonly DependencyProperty MessageProperty = DependencyProperty.Register("Message", typeof(string), typeof(SignupDialog), new PropertyMetadata(default(string)));
         public static readonly DependencyProperty UsernameProperty = DependencyProperty.Register("Username", typeof(string), typeof(SignupDialog), new PropertyMetadata(default(string)));
         public static readonly DependencyProperty UsernameWatermarkProperty = DependencyProperty.Register("UsernameWatermark", typeof(string), typeof(SignupDialog), new PropertyMetadata(default(string)));
+        public static readonly DependencyProperty FirstNameProperty = DependencyProperty.Register("FirstName", typeof(string), typeof(SignupDialog), new PropertyMetadata(default(string)));
+        public static readonly DependencyProperty FirstNameWatermarkProperty = DependencyProperty.Register("FirstNameWatermark", typeof(string), typeof(SignupDialog), new PropertyMetadata(default(string)));
+        public static readonly DependencyProperty LastNameProperty = DependencyProperty.Register("LastName", typeof(string), typeof(SignupDialog), new PropertyMetadata(default(string)));
+        public static readonly DependencyProperty LastNameWatermarkProperty = DependencyProperty.Register("LastNameWatermark", typeof(string), typeof(SignupDialog), new PropertyMetadata(default(string)));
+        public static readonly DependencyProperty EmailProperty = DependencyProperty.Register("Email", typeof(string), typeof(SignupDialog), new PropertyMetadata(default(string)));
+        public static readonly DependencyProperty EmailWatermarkProperty = DependencyProperty.Register("EmailWatermark", typeof(string), typeof(SignupDialog), new PropertyMetadata(default(string)));
         public static readonly DependencyProperty PasswordProperty = DependencyProperty.Register("Password", typeof(string), typeof(SignupDialog), new PropertyMetadata(default(string)));
         public static readonly DependencyProperty ConfirmPasswordProperty = DependencyProperty.Register("ConfirmPassword", typeof(string), typeof(SignupDialog), new PropertyMetadata(default(string)));
         public static readonly DependencyProperty PasswordWatermarkProperty = DependencyProperty.Register("PasswordWatermark", typeof(string), typeof(SignupDialog), new PropertyMetadata(default(string)));
@@ -248,6 +284,42 @@ namespace Popcorn.CustomDialogs
         {
             get { return (string)GetValue(UsernameProperty); }
             set { SetValue(UsernameProperty, value); }
+        }
+
+        public string FirstName
+        {
+            get { return (string)GetValue(FirstNameProperty); }
+            set { SetValue(FirstNameProperty, value); }
+        }
+
+        public string FirstNameWatermark
+        {
+            get { return (string)GetValue(FirstNameWatermarkProperty); }
+            set { SetValue(FirstNameWatermarkProperty, value); }
+        }
+
+        public string LastName
+        {
+            get { return (string)GetValue(LastNameProperty); }
+            set { SetValue(LastNameProperty, value); }
+        }
+
+        public string LastNameWatermark
+        {
+            get { return (string)GetValue(LastNameWatermarkProperty); }
+            set { SetValue(LastNameWatermarkProperty, value); }
+        }
+
+        public string Email
+        {
+            get { return (string)GetValue(EmailProperty); }
+            set { SetValue(EmailProperty, value); }
+        }
+
+        public string EmailWatermark
+        {
+            get { return (string)GetValue(EmailWatermarkProperty); }
+            set { SetValue(EmailWatermarkProperty, value); }
         }
 
         public string Password
@@ -307,6 +379,51 @@ namespace Popcorn.CustomDialogs
             return isValid;
         }
 
+        // Validates the FirstName property, updating the errors collection as needed.
+        public bool IsFirstNameValid(string value)
+        {
+            bool isValid = true;
+
+            if (string.IsNullOrEmpty(value))
+            {
+                AddError("FirstName", FIRSTNAME_EMPTY_ERROR, false);
+                isValid = false;
+            }
+            else RemoveError("FirstName", FIRSTNAME_EMPTY_ERROR);
+
+            return isValid;
+        }
+
+        // Validates the LastName property, updating the errors collection as needed.
+        public bool IsLastNameValid(string value)
+        {
+            bool isValid = true;
+
+            if (string.IsNullOrEmpty(value))
+            {
+                AddError("LastName", LASTNAME_EMPTY_ERROR, false);
+                isValid = false;
+            }
+            else RemoveError("LastName", LASTNAME_EMPTY_ERROR);
+
+            return isValid;
+        }
+
+        // Validates the Email property, updating the errors collection as needed.
+        public bool IsEmailValid(string value)
+        {
+            bool isValid = true;
+
+            if (string.IsNullOrEmpty(value))
+            {
+                AddError("Email", EMAIL_EMPTY_ERROR, false);
+                isValid = false;
+            }
+            else RemoveError("Email", EMAIL_EMPTY_ERROR);
+
+            return isValid;
+        }
+
         // Validates the Password property, updating the errors collection as needed.
         public bool IsPasswordValid(string value)
         {
@@ -343,6 +460,9 @@ namespace Popcorn.CustomDialogs
         private Dictionary<String, List<String>> errors =
             new Dictionary<string, List<string>>();
         private const string USERNAME_EMPTY_ERROR = "Username must be filled.";
+        private const string EMAIL_EMPTY_ERROR = "Email must be filled.";
+        private const string FIRSTNAME_EMPTY_ERROR = "First name must be filled.";
+        private const string LASTNAME_EMPTY_ERROR = "Last name must be filled.";
         private const string PASSWORD_EMPTY_ERROR = "Password must be filled.";
         private const string PASSWORD_FORMAT_ERROR = "Password must contain at least 6 characters.";
         private const string CONFIRMPASSWORD_MISMATCH_ERROR = "Passwords must match.";

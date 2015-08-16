@@ -16,6 +16,9 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <TextBlock Grid.Row="0"
                    Margin="0 5 0 0"
@@ -32,7 +35,34 @@
                  Text="{Binding Username, RelativeSource={RelativeSource AncestorType=dialogs:CustomDialog, Mode=FindAncestor}, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged, NotifyOnValidationError=True}"
                  TextWrapping="Wrap"
                  Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=dialogs:CustomDialog, Mode=FindAncestor}, UpdateSourceTrigger=PropertyChanged}" />
-        <PasswordBox Grid.Row="2"
+        <TextBox Grid.Row="2"
+                 Margin="0 5 0 0"
+                 FontSize="{DynamicResource DialogMessageFontSize}"
+                 x:Name="PART_TextBoxEmail"
+                 controls:TextBoxHelper.Watermark="{Binding EmailWatermark, RelativeSource={RelativeSource AncestorType=dialogs:CustomDialog, Mode=FindAncestor}, UpdateSourceTrigger=PropertyChanged}"
+                 controls:TextBoxHelper.SelectAllOnFocus="True"
+                 Text="{Binding Email, RelativeSource={RelativeSource AncestorType=dialogs:CustomDialog, Mode=FindAncestor}, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged, NotifyOnValidationError=True}"
+                 TextWrapping="Wrap"
+                 Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=dialogs:CustomDialog, Mode=FindAncestor}, UpdateSourceTrigger=PropertyChanged}" />
+        <TextBox Grid.Row="3"
+                 Margin="0 5 0 0"
+                 FontSize="{DynamicResource DialogMessageFontSize}"
+                 x:Name="PART_TextBoxFirstName"
+                 controls:TextBoxHelper.Watermark="{Binding FirstNameWatermark, RelativeSource={RelativeSource AncestorType=dialogs:CustomDialog, Mode=FindAncestor}, UpdateSourceTrigger=PropertyChanged}"
+                 controls:TextBoxHelper.SelectAllOnFocus="True"
+                 Text="{Binding FirstName, RelativeSource={RelativeSource AncestorType=dialogs:CustomDialog, Mode=FindAncestor}, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged, NotifyOnValidationError=True}"
+                 TextWrapping="Wrap"
+                 Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=dialogs:CustomDialog, Mode=FindAncestor}, UpdateSourceTrigger=PropertyChanged}" />
+        <TextBox Grid.Row="4"
+                 Margin="0 5 0 0"
+                 FontSize="{DynamicResource DialogMessageFontSize}"
+                 x:Name="PART_TextBoxLastName"
+                 controls:TextBoxHelper.Watermark="{Binding LastNameWatermark, RelativeSource={RelativeSource AncestorType=dialogs:CustomDialog, Mode=FindAncestor}, UpdateSourceTrigger=PropertyChanged}"
+                 controls:TextBoxHelper.SelectAllOnFocus="True"
+                 Text="{Binding LastName, RelativeSource={RelativeSource AncestorType=dialogs:CustomDialog, Mode=FindAncestor}, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged, NotifyOnValidationError=True}"
+                 TextWrapping="Wrap"
+                 Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=dialogs:CustomDialog, Mode=FindAncestor}, UpdateSourceTrigger=PropertyChanged}" />
+        <PasswordBox Grid.Row="5"
                      Margin="0 5 0 0"
                      FontSize="{DynamicResource DialogMessageFontSize}"
                      x:Name="PART_TextBox2"
@@ -40,7 +70,7 @@
                      controls:TextBoxHelper.Watermark="{Binding PasswordWatermark, RelativeSource={RelativeSource AncestorType=dialogs:CustomDialog, Mode=FindAncestor}, UpdateSourceTrigger=PropertyChanged}"
                      controls:TextBoxHelper.SelectAllOnFocus="True"
                      Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=dialogs:CustomDialog, Mode=FindAncestor}, UpdateSourceTrigger=PropertyChanged}" />
-        <PasswordBox Grid.Row="3"
+        <PasswordBox Grid.Row="6"
                      Margin="0 5 0 0"
                      FontSize="{DynamicResource DialogMessageFontSize}"
                      x:Name="PART_TextBox3"
@@ -48,7 +78,7 @@
                      controls:TextBoxHelper.Watermark="{Binding ConfirmPasswordWatermark, RelativeSource={RelativeSource AncestorType=dialogs:CustomDialog, Mode=FindAncestor}, UpdateSourceTrigger=PropertyChanged}"
                      controls:TextBoxHelper.SelectAllOnFocus="True"
                      Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=dialogs:CustomDialog, Mode=FindAncestor}, UpdateSourceTrigger=PropertyChanged}" />
-        <StackPanel Grid.Row="4"
+        <StackPanel Grid.Row="7"
                     Orientation="Horizontal"
                     HorizontalAlignment="Right"
                     Height="85">

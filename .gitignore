@@ -56,6 +56,7 @@ packages/Nuget.Core.2.8.6
 packages/NUnit.2.6.4
 packages/Ragnar.0.6.0
 packages/RestSharp.105.1.0
+packages/RestSharp.105.2.1
 packages/Splat.1.6.2
 packages/squirrel.windows.0.99.2
 packages/TMDbLib.0.8.3

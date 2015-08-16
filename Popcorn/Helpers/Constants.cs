@@ -58,6 +58,11 @@ namespace Popcorn.Helpers
         public const string YtsApiEndpoint = "http://yts.to/api/v2";
 
         /// <summary>
+        /// Endpoint to Popcorn API
+        /// </summary>
+        public const string PopcornApiEndpoint = "http://popcornauthentication.azurewebsites.net";
+
+        /// <summary>
         /// Endpoint to Yify Subtitles
         /// </summary>
         public const string YifySubtitles = "http://yifysubtitles.com";

@@ -4,12 +4,16 @@ using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Messaging;
 using GalaSoft.MvvmLight.CommandWpf;
 using System.Collections.ObjectModel;
+using System.Threading;
 using System.Threading.Tasks;
+using GalaSoft.MvvmLight.Ioc;
 using GalaSoft.MvvmLight.Threading;
 using MahApps.Metro.Controls.Dialogs;
 using Popcorn.CustomDialogs;
 using Popcorn.Messaging;
 using Popcorn.Events;
+using Popcorn.Model.Account;
+using Popcorn.Service.User;
 using Popcorn.ViewModel.Tabs;
 using Popcorn.ViewModel.Players.Movie;
 
@@ -28,6 +32,14 @@ namespace Popcorn.ViewModel
         /// Used to define the dialog context
         /// </summary>
         private readonly IDialogCoordinator _dialogCoordinator;
+        #endregion
+
+        #region Property -> IUserDataService
+
+        /// <summary>
+        /// Used to interacts with user's data
+        /// </summary>
+        private IUserDataService UserDataService { get; }
         #endregion
 
         #region Property -> IsStarting
@@ -362,7 +374,7 @@ namespace Popcorn.ViewModel
                     await _dialogCoordinator.ShowMetroDialogAsync(this, signinDialog);
                     var signinDialogResult = await signinDialog.WaitForButtonPressAsync();
                     await _dialogCoordinator.HideMetroDialogAsync(this, signinDialog);
-                    if(signinDialogResult == null)
+                    if (signinDialogResult == null)
                         return;
 
                     if (signinDialogResult.ShouldSignup)
@@ -371,10 +383,21 @@ namespace Popcorn.ViewModel
                         await _dialogCoordinator.ShowMetroDialogAsync(this, signupDialog);
                         var signupDialogResult = await signupDialog.WaitForButtonPressAsync();
                         await _dialogCoordinator.HideMetroDialogAsync(this, signupDialog);
+                        var user =
+                            await
+                                UserDataService.CreateUser(signupDialogResult.Username, signupDialogResult.FirstName,
+                                    signupDialogResult.LastName, signupDialogResult.Password, signupDialogResult.Email,
+                                    new CancellationToken());
+                        var bearer = await UserDataService.Signin(user, new CancellationToken());
                     }
                     else
                     {
-                        // Signin
+                        var user = new User
+                        {
+                            Username = signinDialogResult.Username,
+                            Password = signinDialogResult.Password
+                        };
+                        var bearer = await UserDataService.Signin(user, new CancellationToken());
                     }
                 }));
             }
@@ -403,6 +426,7 @@ namespace Popcorn.ViewModel
             RegisterMessages();
             RegisterCommands();
             _dialogCoordinator = dialogCoordinator;
+            UserDataService = SimpleIoc.Default.GetInstance<IUserDataService>();
         }
 
         #endregion
@@ -445,7 +469,6 @@ namespace Popcorn.ViewModel
                 if (!e.ResetConnectionError)
                 {
                     IsConnectionInError = true;
-                    //DialogCoordinator.Instance.ShowMessageAsync(this, "Message from VM", "MVVM based messages!").ContinueWith(t => Console.WriteLine(t.Result));
                     OnConnectionError(new ConnectionErrorEventArgs(e.Message));
                 }
                 else

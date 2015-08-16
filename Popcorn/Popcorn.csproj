@@ -269,6 +269,9 @@
       <DependentUpon>201507202042572_Add-EnglishName.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Model\Account\Bearer.cs" />
+    <Compile Include="Model\Account\Json\BearerDeserialized.cs" />
+    <Compile Include="Model\Account\Json\UserDeserialized.cs" />
     <Compile Include="Model\Cast\Actor.cs" />
     <Compile Include="Model\Cast\Director.cs" />
     <Compile Include="Model\Cast\Json\ActorDeserialized.cs" />
@@ -297,6 +300,7 @@
     <Compile Include="Model\Subtitle\Subtitle.cs" />
     <Compile Include="Model\Torrent\Torrent.cs" />
     <Compile Include="Model\Trailer\Trailer.cs" />
+    <Compile Include="Model\Account\User.cs" />
     <Compile Include="Service\Movie\MovieService.cs" />
     <Compile Include="Service\Movie\MovieServiceException.cs" />
     <Compile Include="Service\Movie\IMovieService.cs" />

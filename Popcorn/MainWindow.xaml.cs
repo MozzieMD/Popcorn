@@ -78,7 +78,7 @@ namespace Popcorn
                 SearchBar.Visibility = Visibility.Collapsed;
                 MenuBar.Visibility = Visibility.Collapsed;
                 Grid.SetRow(MainTabControl, 0);
-                Grid.SetRowSpan(MainTabControl, 3);
+                Grid.SetRowSpan(MainTabControl, 4);
                 Grid.SetColumn(MainTabControl, 0);
                 Grid.SetColumnSpan(MainTabControl, 3);
                 var headerPanelScroll = MainTabControl.FindChild<ScrollViewer>("HeaderPanelScroll");
