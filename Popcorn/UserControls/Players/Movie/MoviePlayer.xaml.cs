@@ -8,7 +8,7 @@ using System.Windows.Media.Animation;
 using System.Windows.Threading;
 using GalaSoft.MvvmLight.Threading;
 using xZune.Vlc.Interop.Media;
-using Popcorn.ViewModel.Players.Movie;
+using Popcorn.ViewModels.Players.Movie;
 
 namespace Popcorn.UserControls.Players.Movie
 {
@@ -189,7 +189,7 @@ namespace Popcorn.UserControls.Players.Movie
                 if (vm == null)
                     return;
 
-                await vm.UserDataService.SeenMovieAsync(vm.Movie);
+                await vm.UserService.SeenMovieAsync(vm.Movie);
                 vm.StopPlayingMediaCommand.Execute(null);
             });
         }

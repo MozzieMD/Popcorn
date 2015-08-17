@@ -1,5 +1,5 @@
 ﻿using GalaSoft.MvvmLight.Messaging;
-using Popcorn.Model.Localization;
+using Popcorn.Models.Localization;
 
 namespace Popcorn.Messaging
 {

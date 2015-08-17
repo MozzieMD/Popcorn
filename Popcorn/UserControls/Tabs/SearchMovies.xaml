@@ -10,7 +10,7 @@
              xmlns:styles="clr-namespace:Popcorn.Resources.Styles"
              xmlns:lex="http://wpflocalizeextension.codeplex.com"
              xmlns:tabs="clr-namespace:Popcorn.UserControls.Tabs"
-             xmlns:tabs1="clr-namespace:Popcorn.ViewModel.Tabs"
+             xmlns:tabs1="clr-namespace:Popcorn.ViewModels.Tabs"
              lex:LocalizeDictionary.DesignCulture="en"
              lex:ResxLocalizationProvider.DefaultAssembly="Popcorn"
              lex:ResxLocalizationProvider.DefaultDictionary="Resources"
@@ -50,7 +50,7 @@
                                     Width="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=Grid}, Path=ActualWidth, Mode=OneWay}">
             <controls:MetroProgressBar.Visibility>
                 <MultiBinding Converter="{StaticResource MultiBooleanToVisibilityConverter}">
-                    <Binding Path="IsConnectionInError" Converter="{StaticResource InverseBooleanConverter}" />
+                    <Binding Path="Main.IsConnectionInError" Converter="{StaticResource InverseBooleanConverter}" Source="{StaticResource Locator}" />
                     <Binding Path="IsLoadingMovies" />
                 </MultiBinding>
             </controls:MetroProgressBar.Visibility>
@@ -69,14 +69,14 @@
                 VerticalAlignment="Top"
                 Content="{lex:LocText ReloadLabel}"
                 FontSize="18"
-                Visibility="{Binding IsConnectionInError, Converter={StaticResource BoolToInverseVisibilityConverter}}"
+                Visibility="{Binding Main.IsConnectionInError, Converter={StaticResource BoolToInverseVisibilityConverter}, Source={StaticResource Locator}}"
                 Command="{Binding ReloadMovies}"/>
         <ScrollViewer x:Name="Scroll" 
                       Grid.Row="1"
                       Grid.RowSpan="2"
                       VerticalScrollBarVisibility="Auto" 
                       ScrollChanged="ScrollViewerScrollChanged" 
-                      Visibility="{Binding IsConnectionInError, Converter={StaticResource BoolToVisibilityConverter}}">
+                      Visibility="{Binding Main.IsConnectionInError, Converter={StaticResource BoolToVisibilityConverter}, Source={StaticResource Locator}}">
             <ItemsControl x:Name="ItemsList" 
                         ItemsSource="{Binding Movies}" 
                         VirtualizingStackPanel.IsVirtualizing="True"

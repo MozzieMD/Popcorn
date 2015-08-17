@@ -29,23 +29,19 @@ namespace Popcorn.CustomDialogs
             EnablePasswordPreview = DefaultEnablePasswordPreview;
         }
 
-        public string Title { get; set; }
+        public string Title { get; }
 
-        public string Message { get; set; }
+        public string Message { get; }
 
-        public string SigninButtonText { get; set; }
+        public string SigninButtonText { get; }
 
-        public string SignupButtonText { get; set; }
+        public string SignupButtonText { get; }
 
-        public string InitialUsername { get; set; }
+        public string UsernameWatermark { get; }
 
-        public string InitialPassword { get; set; }
+        public string PasswordWatermark { get; }
 
-        public string UsernameWatermark { get; set; }
-
-        public string PasswordWatermark { get; set; }
-
-        public bool EnablePasswordPreview { get; set; }
+        public bool EnablePasswordPreview { get; }
     }
 
     public class SigninDialogData
@@ -60,8 +56,6 @@ namespace Popcorn.CustomDialogs
         internal SigninDialog(SigninDialogSettings settings)
         {
             InitializeComponent();
-            Username = settings.InitialUsername;
-            Password = settings.InitialPassword;
             Message = settings.Message;
             Title = settings.Title;
             SigninButtonText = settings.SigninButtonText;
@@ -74,7 +68,7 @@ namespace Popcorn.CustomDialogs
         {
             Dispatcher.BeginInvoke(new Action(() =>
             {
-                this.Focus();
+                Focus();
                 if (string.IsNullOrEmpty(PART_TextBox.Text))
                 {
                     PART_TextBox.Focus();
@@ -215,7 +209,7 @@ namespace Popcorn.CustomDialogs
             PART_TextBox.KeyDown += signinKeyHandler;
             PART_TextBox2.KeyDown += signinKeyHandler;
 
-            this.KeyDown += escapeKeyHandler;
+            KeyDown += escapeKeyHandler;
 
             PART_SignupButton.Click += signupHandler;
             PART_SigninButton.Click += signinHandler;
@@ -226,10 +220,10 @@ namespace Popcorn.CustomDialogs
 
         protected override void OnLoaded()
         {
-            var settings = this.DialogSettings as SigninDialogSettings;
+            var settings = DialogSettings as SigninDialogSettings;
             if (settings != null && settings.EnablePasswordPreview)
             {
-                var win8MetroPasswordStyle = this.FindResource("Win8MetroPasswordBox") as Style;
+                var win8MetroPasswordStyle = FindResource("Win8MetroPasswordBox") as Style;
                 if (win8MetroPasswordStyle != null)
                 {
                     PART_TextBox2.Style = win8MetroPasswordStyle;
@@ -239,7 +233,7 @@ namespace Popcorn.CustomDialogs
             switch (DialogSettings.ColorScheme)
             {
                 case MetroDialogColorScheme.Accented:
-                    this.PART_SignupButton.Style = this.FindResource("AccentedDialogHighlightedSquareButton") as Style;
+                    PART_SignupButton.Style = FindResource("AccentedDialogHighlightedSquareButton") as Style;
                     PART_TextBox.SetResourceReference(ForegroundProperty, "BlackColorBrush");
                     PART_TextBox2.SetResourceReference(ForegroundProperty, "BlackColorBrush");
                     break;
@@ -304,70 +298,70 @@ namespace Popcorn.CustomDialogs
         }
 
         // Validates the Username property, updating the errors collection as needed.
-        public bool IsUsernameValid(string value)
+        private bool IsUsernameValid(string value)
         {
-            bool isValid = true;
+            var isValid = true;
 
             if (string.IsNullOrEmpty(value))
             {
-                AddError("Username", USERNAME_EMPTY_ERROR, false);
+                AddError("Username", UsernameEmptyError, false);
                 isValid = false;
             }
-            else RemoveError("Username", USERNAME_EMPTY_ERROR);
+            else RemoveError("Username", UsernameEmptyError);
 
             return isValid;
         }
 
         // Validates the Password property, updating the errors collection as needed.
-        public bool IsPasswordValid(string value)
+        private bool IsPasswordValid(string value)
         {
-            bool isValid = true;
+            var isValid = true;
 
             if (string.IsNullOrEmpty(value))
             {
-                AddError("Password", PASSWORD_EMPTY_ERROR, false);
+                AddError("Password", PasswordEmptyError, false);
                 isValid = false;
             }
-            else RemoveError("Password", PASSWORD_EMPTY_ERROR);
+            else RemoveError("Password", PasswordEmptyError);
 
             return isValid;
         }
 
-        private Dictionary<String, List<String>> errors =
+        private readonly Dictionary<string, List<string>> _errors =
             new Dictionary<string, List<string>>();
-        private const string USERNAME_EMPTY_ERROR = "Username must be filled.";
-        private const string PASSWORD_EMPTY_ERROR = "Password must be filled.";
+        private const string UsernameEmptyError = "Username must be filled.";
+        private const string PasswordEmptyError = "Password must be filled.";
 
         // Adds the specified error to the errors collection if it is not 
         // already present, inserting it in the first position if isWarning is 
         // false. Raises the ErrorsChanged event if the collection changes. 
-        public void AddError(string propertyName, string error, bool isWarning)
+        private void AddError(string propertyName, string error, bool isWarning)
         {
-            if (!errors.ContainsKey(propertyName))
-                errors[propertyName] = new List<string>();
+            if (!_errors.ContainsKey(propertyName))
+                _errors[propertyName] = new List<string>();
 
-            if (!errors[propertyName].Contains(error))
+            if (!_errors[propertyName].Contains(error))
             {
-                if (isWarning) errors[propertyName].Add(error);
-                else errors[propertyName].Insert(0, error);
+                if (isWarning) _errors[propertyName].Add(error);
+                else _errors[propertyName].Insert(0, error);
                 RaiseErrorsChanged(propertyName);
             }
         }
 
         // Removes the specified error from the errors collection if it is
         // present. Raises the ErrorsChanged event if the collection changes.
-        public void RemoveError(string propertyName, string error)
+        private void RemoveError(string propertyName, string error)
         {
-            if (errors.ContainsKey(propertyName) &&
-                errors[propertyName].Contains(error))
+            if (_errors.ContainsKey(propertyName) &&
+                _errors[propertyName].Contains(error))
             {
-                errors[propertyName].Remove(error);
-                if (errors[propertyName].Count == 0) errors.Remove(propertyName);
+                _errors[propertyName].Remove(error);
+                if (_errors[propertyName].Count == 0) _errors.Remove(propertyName);
                 RaiseErrorsChanged(propertyName);
             }
         }
 
-        public void RaiseErrorsChanged(string propertyName)
+        private void RaiseErrorsChanged(string propertyName)
         {
             if (ErrorsChanged != null)
                 ErrorsChanged(this, new DataErrorsChangedEventArgs(propertyName));
@@ -379,16 +373,13 @@ namespace Popcorn.CustomDialogs
 
         public System.Collections.IEnumerable GetErrors(string propertyName)
         {
-            if (String.IsNullOrEmpty(propertyName) ||
-                !errors.ContainsKey(propertyName))
+            if (string.IsNullOrEmpty(propertyName) ||
+                !_errors.ContainsKey(propertyName))
                 return null;
-            return errors[propertyName];
+            return _errors[propertyName];
         }
 
-        public bool HasErrors
-        {
-            get { return errors.Count > 0; }
-        }
+        public bool HasErrors => _errors.Count > 0;
 
         #endregion
     }

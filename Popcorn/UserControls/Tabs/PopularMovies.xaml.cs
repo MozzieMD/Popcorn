@@ -3,7 +3,7 @@ using System.Windows.Controls;
 using Popcorn.CustomPanels;
 using Popcorn.Events;
 using Popcorn.Helpers;
-using Popcorn.ViewModel.Tabs;
+using Popcorn.ViewModels.Tabs;
 
 namespace Popcorn.UserControls.Tabs
 {

@@ -8,7 +8,7 @@ using System.Windows.Media.Animation;
 using System.Windows.Threading;
 using GalaSoft.MvvmLight.Threading;
 using xZune.Vlc.Interop.Media;
-using Popcorn.ViewModel.Players.Trailer;
+using Popcorn.ViewModels.Players.Trailer;
 
 namespace Popcorn.UserControls.Players.Trailer
 {
@@ -420,19 +420,16 @@ namespace Popcorn.UserControls.Players.Trailer
             var inputEventArgs = e.StagingItem.Input;
             if (inputEventArgs is MouseEventArgs || inputEventArgs is KeyboardEventArgs)
             {
-                if (e.StagingItem.Input is MouseEventArgs)
-                {
-                    var mouseEventArgs = (MouseEventArgs) e.StagingItem.Input;
+                var mouseEventArgs = e.StagingItem.Input as MouseEventArgs;
 
-                    // no button is pressed and the position is still the same as the application became inactive
-                    if (mouseEventArgs.LeftButton == MouseButtonState.Released &&
-                        mouseEventArgs.RightButton == MouseButtonState.Released &&
-                        mouseEventArgs.MiddleButton == MouseButtonState.Released &&
-                        mouseEventArgs.XButton1 == MouseButtonState.Released &&
-                        mouseEventArgs.XButton2 == MouseButtonState.Released &&
-                        InactiveMousePosition == mouseEventArgs.GetPosition(Container))
-                        return;
-                }
+                // no button is pressed and the position is still the same as the application became inactive
+                if (mouseEventArgs?.LeftButton == MouseButtonState.Released &&
+                    mouseEventArgs.RightButton == MouseButtonState.Released &&
+                    mouseEventArgs.MiddleButton == MouseButtonState.Released &&
+                    mouseEventArgs.XButton1 == MouseButtonState.Released &&
+                    mouseEventArgs.XButton2 == MouseButtonState.Released &&
+                    InactiveMousePosition == mouseEventArgs.GetPosition(Container))
+                    return;
 
                 if (!PlayerStatusBar.Opacity.Equals(0.0))
                     return;

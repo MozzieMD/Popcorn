@@ -1,6 +1,5 @@
 ﻿using GalaSoft.MvvmLight.Messaging;
-using Popcorn.Model.Movie;
-using Popcorn.Model.Subtitle;
+using Popcorn.Models.Movie;
 
 namespace Popcorn.Messaging
 {

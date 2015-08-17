@@ -234,6 +234,9 @@
     <Compile Include="Converters\RuntimeConverter.cs" />
     <Compile Include="Converters\StringRatingToIntRatingConverter.cs" />
     <Compile Include="Converters\WindowStateToBooleanConverter.cs" />
+    <Compile Include="CustomDialogs\ExceptionDialog.xaml.cs">
+      <DependentUpon>ExceptionDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="CustomDialogs\SigninDialog.xaml.cs">
       <DependentUpon>SigninDialog.xaml</DependentUpon>
     </Compile>
@@ -244,7 +247,6 @@
     <Compile Include="Entity\Localization\Language.cs" />
     <Compile Include="Entity\Settings\ApplicationSettings.cs" />
     <Compile Include="Entity\User\UserData.cs" />
-    <Compile Include="Events\ConnectionErrorEventArgs.cs" />
     <Compile Include="Events\NumberOfColumnsChangedEventArgs.cs" />
     <Compile Include="Events\WindowStateChangedEventArgs.cs" />
     <Compile Include="Helpers\Constants.cs" />
@@ -255,7 +257,8 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Messaging\ChangeLanguageMessage.cs" />
-    <Compile Include="Messaging\ConnectionErrorMessage.cs" />
+    <Compile Include="Messaging\LoginMessage.cs" />
+    <Compile Include="Messaging\ManageExceptionMessage.cs" />
     <Compile Include="Messaging\DownloadMovieMessage.cs" />
     <Compile Include="Messaging\LoadMovieMessage.cs" />
     <Compile Include="Messaging\SearchMovieMessage.cs" />
@@ -269,42 +272,40 @@
       <DependentUpon>201507202042572_Add-EnglishName.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
-    <Compile Include="Model\Account\Bearer.cs" />
-    <Compile Include="Model\Account\Json\BearerDeserialized.cs" />
-    <Compile Include="Model\Account\Json\UserDeserialized.cs" />
-    <Compile Include="Model\Cast\Actor.cs" />
-    <Compile Include="Model\Cast\Director.cs" />
-    <Compile Include="Model\Cast\Json\ActorDeserialized.cs" />
-    <Compile Include="Model\Cast\Json\DirectorDeserialized.cs" />
-    <Compile Include="Model\Localization\CustomLanguage.cs" />
-    <Compile Include="Model\Localization\EnglishLanguage.cs" />
-    <Compile Include="Model\Localization\FrenchLanguage.cs" />
-    <Compile Include="Model\Localization\ILanguage.cs" />
+    <Compile Include="Models\Account\Bearer.cs" />
+    <Compile Include="Models\Account\Json\BearerDeserialized.cs" />
+    <Compile Include="Models\Account\Json\UserDeserialized.cs" />
+    <Compile Include="Models\Cast\Actor.cs" />
+    <Compile Include="Models\Cast\Director.cs" />
+    <Compile Include="Models\Cast\Json\ActorDeserialized.cs" />
+    <Compile Include="Models\Cast\Json\DirectorDeserialized.cs" />
+    <Compile Include="Models\Localization\CustomLanguage.cs" />
+    <Compile Include="Models\Localization\EnglishLanguage.cs" />
+    <Compile Include="Models\Localization\FrenchLanguage.cs" />
+    <Compile Include="Models\Localization\ILanguage.cs" />
     <Compile Include="Helpers\TabContent.cs" />
-    <Compile Include="Messaging\MovieBufferedMessage.cs" />
+    <Compile Include="Messaging\PlayMovieMessage.cs" />
     <Compile Include="Messaging\StopPlayingMovieMessage.cs" />
     <Compile Include="Entity\ApplicationDbContext.cs" />
     <Compile Include="Entity\User\MovieHistory.cs" />
-    <Compile Include="Model\Localization\Language.cs" />
-    <Compile Include="Model\Movie\MovieFull.cs" />
-    <Compile Include="Model\Movie\Json\DataMovieShortDeserialized.cs" />
-    <Compile Include="Model\Movie\Json\MetaDeserialized.cs" />
-    <Compile Include="Model\Movie\MovieShort.cs" />
-    <Compile Include="Model\Movie\Json\MovieFullDeserialized.cs" />
-    <Compile Include="Model\Movie\Json\MovieImagesDeserialized.cs" />
-    <Compile Include="Model\Movie\Json\MovieShortDeserialized.cs" />
-    <Compile Include="Model\Movie\Json\WrapperMovieFullDeserialized.cs" />
-    <Compile Include="Model\Movie\Json\WrapperMovieShortDeserialized.cs" />
-    <Compile Include="Model\Subtitle\Json\SubtitleDeserialized.cs" />
-    <Compile Include="Model\Subtitle\Json\SubtitlesWrapperDeserialized.cs" />
-    <Compile Include="Model\Subtitle\Subtitle.cs" />
-    <Compile Include="Model\Torrent\Torrent.cs" />
-    <Compile Include="Model\Trailer\Trailer.cs" />
-    <Compile Include="Model\Account\User.cs" />
-    <Compile Include="Service\Movie\MovieService.cs" />
-    <Compile Include="Service\Movie\MovieServiceException.cs" />
-    <Compile Include="Service\Movie\IMovieService.cs" />
-    <Compile Include="Model\Torrent\Deserialized\TorrentDeserialized.cs" />
+    <Compile Include="Models\Localization\Language.cs" />
+    <Compile Include="Models\Movie\MovieFull.cs" />
+    <Compile Include="Models\Movie\Json\DataMovieShortDeserialized.cs" />
+    <Compile Include="Models\Movie\Json\MetaDeserialized.cs" />
+    <Compile Include="Models\Movie\MovieShort.cs" />
+    <Compile Include="Models\Movie\Json\MovieFullDeserialized.cs" />
+    <Compile Include="Models\Movie\Json\MovieImagesDeserialized.cs" />
+    <Compile Include="Models\Movie\Json\MovieShortDeserialized.cs" />
+    <Compile Include="Models\Movie\Json\WrapperMovieFullDeserialized.cs" />
+    <Compile Include="Models\Movie\Json\WrapperMovieShortDeserialized.cs" />
+    <Compile Include="Models\Subtitle\Json\SubtitleDeserialized.cs" />
+    <Compile Include="Models\Subtitle\Json\SubtitlesWrapperDeserialized.cs" />
+    <Compile Include="Models\Subtitle\Subtitle.cs" />
+    <Compile Include="Models\Torrent\Torrent.cs" />
+    <Compile Include="Models\Trailer\Trailer.cs" />
+    <Compile Include="Models\Account\User.cs" />
+    <Compile Include="Services\Movie\MovieService.cs" />
+    <Compile Include="Models\Torrent\Deserialized\TorrentDeserialized.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.fr.Designer.cs">
       <DependentUpon>Resources.fr.resx</DependentUpon>
@@ -329,12 +330,9 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
-    <Compile Include="Service\Language\ILanguageService.cs" />
-    <Compile Include="Service\Language\LanguageService.cs" />
-    <Compile Include="Service\Settings\ApplicationSettingsService.cs" />
-    <Compile Include="Service\Settings\IApplicationSettingsService.cs" />
-    <Compile Include="Service\User\IUserDataService.cs" />
-    <Compile Include="Service\User\UserDataService.cs" />
+    <Compile Include="Services\Language\LanguageService.cs" />
+    <Compile Include="Services\Settings\ApplicationSettingsService.cs" />
+    <Compile Include="Services\User\UserService.cs" />
     <Compile Include="UserControls\Download\DownloadMovie.xaml.cs">
       <DependentUpon>DownloadMovie.xaml</DependentUpon>
     </Compile>
@@ -375,24 +373,29 @@
     <Compile Include="UserControls\Trailer\Trailer.xaml.cs">
       <DependentUpon>Trailer.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ViewModel\Download\DownloadMovieViewModel.cs" />
-    <Compile Include="ViewModel\MainViewModel.cs" />
-    <Compile Include="ViewModel\MovieSettings\MovieSettingsViewModel.cs" />
-    <Compile Include="ViewModel\Players\MediaPlayerViewModel.cs" />
-    <Compile Include="ViewModel\Subtitles\SubtitlesViewModel.cs" />
-    <Compile Include="ViewModel\Tabs\ITab.cs" />
-    <Compile Include="ViewModel\Tabs\GreatestTabViewModel.cs" />
-    <Compile Include="ViewModel\Players\Movie\MoviePlayerViewModel.cs" />
-    <Compile Include="ViewModel\Tabs\SearchTabViewModel.cs" />
-    <Compile Include="ViewModel\Tabs\PopularTabViewModel.cs" />
-    <Compile Include="ViewModel\Tabs\RecentTabViewModel.cs" />
-    <Compile Include="ViewModel\Players\Trailer\TrailerPlayerViewModel.cs" />
-    <Compile Include="ViewModel\Movie\MovieViewModel.cs" />
-    <Compile Include="ViewModel\Search\SearchViewModel.cs" />
-    <Compile Include="ViewModel\Settings\SettingsViewModel.cs" />
-    <Compile Include="ViewModel\Trailer\TrailerViewModel.cs" />
-    <Compile Include="ViewModel\ViewModelLocator.cs" />
-    <Compile Include="ViewModel\Tabs\TabsViewModel.cs" />
+    <Compile Include="ViewModels\Download\DownloadMovieViewModel.cs" />
+    <Compile Include="ViewModels\Main\MainViewModel.cs" />
+    <Compile Include="ViewModels\MovieSettings\MovieSettingsViewModel.cs" />
+    <Compile Include="ViewModels\Players\MediaPlayerViewModel.cs" />
+    <Compile Include="ViewModels\Subtitles\SubtitlesViewModel.cs" />
+    <Compile Include="ViewModels\Tabs\ITab.cs" />
+    <Compile Include="ViewModels\Tabs\GreatestTabViewModel.cs" />
+    <Compile Include="ViewModels\Players\Movie\MoviePlayerViewModel.cs" />
+    <Compile Include="ViewModels\Tabs\SearchTabViewModel.cs" />
+    <Compile Include="ViewModels\Tabs\PopularTabViewModel.cs" />
+    <Compile Include="ViewModels\Tabs\RecentTabViewModel.cs" />
+    <Compile Include="ViewModels\Players\Trailer\TrailerPlayerViewModel.cs" />
+    <Compile Include="ViewModels\Movie\MovieViewModel.cs" />
+    <Compile Include="ViewModels\Search\SearchViewModel.cs" />
+    <Compile Include="ViewModels\Settings\SettingsViewModel.cs" />
+    <Compile Include="ViewModels\Trailer\TrailerViewModel.cs" />
+    <Compile Include="ViewModels\User\UserViewModel.cs" />
+    <Compile Include="ViewModels\ViewModelLocator.cs" />
+    <Compile Include="ViewModels\Tabs\TabsViewModel.cs" />
+    <Page Include="CustomDialogs\ExceptionDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="CustomDialogs\SigninDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -401,7 +404,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="MainWindow.xaml">
+    <Page Include="Windows\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -409,7 +412,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="MainWindow.xaml.cs">
+    <Compile Include="Windows\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>

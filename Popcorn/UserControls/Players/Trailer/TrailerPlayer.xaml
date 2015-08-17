@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:wpf="clr-namespace:xZune.Vlc.Wpf;assembly=xZune.Vlc.Wpf"
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
-             xmlns:playersVm="clr-namespace:Popcorn.ViewModel.Players.Trailer"
+             xmlns:playersVm="clr-namespace:Popcorn.ViewModels.Players.Trailer"
              xmlns:playersUc="clr-namespace:Popcorn.UserControls.Players"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300"
