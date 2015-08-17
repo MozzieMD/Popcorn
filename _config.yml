@@ -21,7 +21,7 @@ description: "Popcorn is a project which aims to provide a simple interface to w
 source_link: "https://github.com/bbougot/Popcorn"
 favicon:     "https://raw.githubusercontent.com/bbougot/Popcorn/master/Popcorn/icon.ico"
 touch_icon:  #put a path like: "img/apple-touch-icon.png"
-google_analytics_key: "UA-66418508-1"
+google_analytics_key: UA-66418508-1
 
 
 ### template colors, used site-wide via css ###
@@ -33,4 +33,3 @@ colors:
   purple:    '#c869bf'
   orange:    '#fab125'
   turquoise: '#0fbfcf'
-  
