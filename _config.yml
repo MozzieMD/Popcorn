@@ -15,13 +15,13 @@ highlighter: pygments
 
 
 ### content configuration ###
-title:       "SinglePaged - Title: Edit me in _config.yml!"
-keywords:    "SinglePaged, jekyll, template, github, blog, single page"
-description: "A single-page template for Jekyll based blogs (like what you'd use on github pages!)"
-source_link: "https://github.com/t413/SinglePaged"
-favicon:     #put a path like: "img/favicon.ico"
+title:       "Popcorn - Watch movies easier"
+keywords:    "Popcorn, .NET, movies, streaming, watch"
+description: "Popcorn is a project which aims to provide a simple interface to watch any movie."
+source_link: "https://github.com/bbougot/Popcorn"
+favicon:     "https://raw.githubusercontent.com/bbougot/Popcorn/master/Popcorn/icon.ico"
 touch_icon:  #put a path like: "img/apple-touch-icon.png"
-google_analytics_key: ## put YOUR key here to enable tracking! (blank to disable)
+google_analytics_key: "UA-66418508-1"
 
 
 ### template colors, used site-wide via css ###
