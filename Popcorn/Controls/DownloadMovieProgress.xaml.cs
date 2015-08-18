@@ -2,7 +2,7 @@
 using System.Windows;
 using Popcorn.Helpers;
 
-namespace Popcorn.CustomControls
+namespace Popcorn.Controls
 {
     /// <summary>
     /// Interaction logic for DownloadMovieProgress.xaml
@@ -128,19 +128,19 @@ namespace Popcorn.CustomControls
         {
             if (DownloadProgress >= 2.0)
             {
-                NumericTextBlock.Text =
+                DisplayText.Text =
                     $"{LocalizationProviderHelper.GetLocalizedValue<string>("CurrentlyPlayingLabel")} : {MovieTitle}";
             }
             else
             {
                 if (DownloadRate >= 1000)
                 {
-                    NumericTextBlock.Text =
+                    DisplayText.Text =
                         $"{LocalizationProviderHelper.GetLocalizedValue<string>("BufferingLabel")} : {Math.Round(DownloadProgress*50, 0)} % ({DownloadRate/1000} MB/s)";
                 }
                 else
                 {
-                    NumericTextBlock.Text =
+                    DisplayText.Text =
                         $"{LocalizationProviderHelper.GetLocalizedValue<string>("BufferingLabel")} : {Math.Round(DownloadProgress*50, 0)} % ({DownloadRate} kB/s)";
                 }
             }

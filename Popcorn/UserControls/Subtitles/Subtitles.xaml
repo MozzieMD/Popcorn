@@ -5,13 +5,13 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:converters="clr-namespace:Popcorn.Converters"
              xmlns:subtitles="clr-namespace:Popcorn.ViewModels.Subtitles"
+             xmlns:customControls="clr-namespace:Popcorn.Controls"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300"
              d:DataContext="{d:DesignInstance subtitles:SubtitlesViewModel}">
     <UserControl.Resources>
         <ResourceDictionary>
             <converters:UriToCachedImageConverter x:Key="UriToCachedImageConverter" />
-            <converters:CapitalizeTitleConverter x:Key="CapitalizeTitleConverter"/>
             
             <Style x:Key="StandardListBox"
                    TargetType="{x:Type ListBox}">
@@ -74,8 +74,9 @@
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <StackPanel>
-                        <TextBlock FontSize="40"
-                                   Text="{Binding Language.EnglishName, Converter={StaticResource CapitalizeTitleConverter}}"/>
+                        <TextBlock FontSize="40">
+                            <customControls:CapitalizeText Text="{Binding Language.EnglishName}"/>
+                        </TextBlock>
                         <Image Source="{Binding FlagImagePath, Converter={StaticResource UriToCachedImageConverter}}" 
                                HorizontalAlignment="Right" 
                                VerticalAlignment="Bottom"></Image>

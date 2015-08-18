@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Windows;
 
-namespace Popcorn.CustomControls
+namespace Popcorn.Controls
 {
     /// <summary>
     /// Interaction logic for MovieGenres.xaml
@@ -83,11 +83,11 @@ namespace Popcorn.CustomControls
             foreach (var genre in Genres)
             {
                 index++;
-                NumericTextBlock.Text += genre;
+                DisplayText.Text += genre;
                 // Add the comma at the end of each genre.
                 if (index != Genres.Count())
                 {
-                    NumericTextBlock.Text += ", ";
+                    DisplayText.Text += ", ";
                 }
             }
         }

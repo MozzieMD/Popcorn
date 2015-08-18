@@ -6,7 +6,7 @@ using System.Windows.Input;
 using MahApps.Metro.Controls.Dialogs;
 using System.Collections.Generic;
 
-namespace Popcorn.CustomDialogs
+namespace Popcorn.Dialogs
 {
     public class SignupDialogSettings : MetroDialogSettings
     {

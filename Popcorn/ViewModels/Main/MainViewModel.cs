@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 using GalaSoft.MvvmLight.Ioc;
 using GalaSoft.MvvmLight.Threading;
 using MahApps.Metro.Controls.Dialogs;
-using Popcorn.CustomDialogs;
+using Popcorn.Dialogs;
 using Popcorn.Messaging;
 using Popcorn.Events;
 using Popcorn.Services.User;

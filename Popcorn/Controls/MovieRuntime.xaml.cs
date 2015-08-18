@@ -2,7 +2,7 @@
 using System.Globalization;
 using System.Windows;
 
-namespace Popcorn.CustomControls
+namespace Popcorn.Controls
 {
     /// <summary>
     /// Interaction logic for MovieRuntime.xaml
@@ -84,11 +84,11 @@ namespace Popcorn.CustomControls
 
                 if (minutes < 10.0)
                 {
-                    NumericTextBlock.Text = $"{Math.Floor(hours)}h0{minutes}";
+                    DisplayText.Text = $"{Math.Floor(hours)}h0{minutes}";
                 }
                 else
                 {
-                    NumericTextBlock.Text = $"{Math.Floor(hours)}h{minutes}";
+                    DisplayText.Text = $"{Math.Floor(hours)}h{minutes}";
                 }
             }
         }

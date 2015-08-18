@@ -4,7 +4,7 @@ using System.Windows;
 using System.Windows.Input;
 using MahApps.Metro.Controls.Dialogs;
 
-namespace Popcorn.CustomDialogs
+namespace Popcorn.Dialogs
 {
     public class ExceptionDialogSettings : MetroDialogSettings
     {

@@ -9,7 +9,7 @@
              xmlns:movieSettingsViewModel="clr-namespace:Popcorn.ViewModels.MovieSettings"
              xmlns:lex="http://wpflocalizeextension.codeplex.com"
              xmlns:download="clr-namespace:Popcorn.ViewModels.Download"
-             xmlns:customControls="clr-namespace:Popcorn.CustomControls"
+             xmlns:customControls="clr-namespace:Popcorn.Controls"
              lex:LocalizeDictionary.DesignCulture="en"
              lex:ResxLocalizationProvider.DefaultAssembly="Popcorn"
              lex:ResxLocalizationProvider.DefaultDictionary="Resources"

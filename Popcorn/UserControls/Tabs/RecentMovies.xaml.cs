@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
-using Popcorn.CustomPanels;
+using Popcorn.Panels;
 using Popcorn.Events;
 using Popcorn.Helpers;
 using Popcorn.ViewModels.Tabs;

@@ -34,7 +34,7 @@
                       WindowState="{Binding IsFullScreen, Converter={converters:WindowStateToBooleanConverter}, Mode=TwoWay}"
                       d:DataContext="{d:DesignInstance viewModel:MainViewModel}"
                       xmlns:dialog="clr-namespace:MahApps.Metro.Controls.Dialogs;assembly=MahApps.Metro"
-                      xmlns:customControls="clr-namespace:Popcorn.CustomControls"
+                      xmlns:customControls="clr-namespace:Popcorn.Controls"
                       dialog:DialogParticipation.Register="{Binding }">
     <Window.Resources>
         <ResourceDictionary>

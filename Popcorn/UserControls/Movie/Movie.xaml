@@ -11,7 +11,7 @@
              xmlns:trailerViewModel="clr-namespace:Popcorn.ViewModels.Trailer"
              xmlns:styles="clr-namespace:Popcorn.Resources.Styles"
              xmlns:lex="http://wpflocalizeextension.codeplex.com"
-             xmlns:customControls="clr-namespace:Popcorn.CustomControls"
+             xmlns:customControls="clr-namespace:Popcorn.Controls"
              lex:LocalizeDictionary.DesignCulture="en"
              lex:ResxLocalizationProvider.DefaultAssembly="Popcorn"
              lex:ResxLocalizationProvider.DefaultDictionary="Resources"

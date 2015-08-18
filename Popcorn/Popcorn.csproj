@@ -224,7 +224,6 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Comparers\MovieComparer.cs" />
-    <Compile Include="Converters\CapitalizeTitleConverter.cs" />
     <Compile Include="Converters\InverseBooleanConverter.cs" />
     <Compile Include="Converters\BoolToInverseVisibilityConverter.cs" />
     <Compile Include="Converters\BoolToVisibilityConverter.cs" />
@@ -234,28 +233,31 @@
     <Compile Include="Converters\RatioConverter.cs" />
     <Compile Include="Converters\StringRatingToIntRatingConverter.cs" />
     <Compile Include="Converters\WindowStateToBooleanConverter.cs" />
-    <Compile Include="CustomControls\DownloadMovieProgress.xaml.cs">
+    <Compile Include="Controls\CapitalizeText.xaml.cs">
+      <DependentUpon>CapitalizeText.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\DownloadMovieProgress.xaml.cs">
       <DependentUpon>DownloadMovieProgress.xaml</DependentUpon>
     </Compile>
-    <Compile Include="CustomControls\MovieGenres.xaml.cs">
+    <Compile Include="Controls\MovieGenres.xaml.cs">
       <DependentUpon>MovieGenres.xaml</DependentUpon>
     </Compile>
-    <Compile Include="CustomControls\MovieRuntime.xaml.cs">
+    <Compile Include="Controls\MovieRuntime.xaml.cs">
       <DependentUpon>MovieRuntime.xaml</DependentUpon>
     </Compile>
-    <Compile Include="CustomControls\MoviesNumberSummary.xaml.cs">
+    <Compile Include="Controls\MoviesNumberSummary.xaml.cs">
       <DependentUpon>MoviesNumberSummary.xaml</DependentUpon>
     </Compile>
-    <Compile Include="CustomDialogs\ExceptionDialog.xaml.cs">
+    <Compile Include="Dialogs\ExceptionDialog.xaml.cs">
       <DependentUpon>ExceptionDialog.xaml</DependentUpon>
     </Compile>
-    <Compile Include="CustomDialogs\SigninDialog.xaml.cs">
+    <Compile Include="Dialogs\SigninDialog.xaml.cs">
       <DependentUpon>SigninDialog.xaml</DependentUpon>
     </Compile>
-    <Compile Include="CustomDialogs\SignupDialog.xaml.cs">
+    <Compile Include="Dialogs\SignupDialog.xaml.cs">
       <DependentUpon>SignupDialog.xaml</DependentUpon>
     </Compile>
-    <Compile Include="CustomPanels\ElasticWrapPanel.cs" />
+    <Compile Include="Panels\ElasticWrapPanel.cs" />
     <Compile Include="Entity\Localization\Language.cs" />
     <Compile Include="Entity\Settings\ApplicationSettings.cs" />
     <Compile Include="Entity\User\UserData.cs" />
@@ -404,31 +406,35 @@
     <Compile Include="ViewModels\User\UserViewModel.cs" />
     <Compile Include="ViewModels\ViewModelLocator.cs" />
     <Compile Include="ViewModels\Tabs\TabsViewModel.cs" />
-    <Page Include="CustomControls\DownloadMovieProgress.xaml">
+    <Page Include="Controls\CapitalizeText.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="CustomControls\MovieGenres.xaml">
+    <Page Include="Controls\DownloadMovieProgress.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="CustomControls\MovieRuntime.xaml">
+    <Page Include="Controls\MovieGenres.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="CustomControls\MoviesNumberSummary.xaml">
+    <Page Include="Controls\MovieRuntime.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="CustomDialogs\ExceptionDialog.xaml">
+    <Page Include="Controls\MoviesNumberSummary.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="CustomDialogs\SigninDialog.xaml">
+    <Page Include="Dialogs\ExceptionDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="CustomDialogs\SignupDialog.xaml">
+    <Page Include="Dialogs\SigninDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Dialogs\SignupDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace Popcorn.CustomControls
+namespace Popcorn.Controls
 {
     /// <summary>
     /// Interaction logic for MoviesNumberSummary.xaml
@@ -119,7 +119,7 @@ namespace Popcorn.CustomControls
         /// <param name="maxNumberOfMovies">The maximum number of movies</param>
         private void FormatSummaryWithMaximumNumberOfMovies(double maxNumberOfMovies)
         {
-            NumericTextBlock.Text = $"{CurrentNumberOfMovies} movies of {maxNumberOfMovies}";
+            DisplayText.Text = $"{CurrentNumberOfMovies} movies of {maxNumberOfMovies}";
         }
 
         #endregion
@@ -132,7 +132,7 @@ namespace Popcorn.CustomControls
         /// <param name="currentNumberOfMovies">The current number of movies</param>
         private void FormatSummaryWithMaxNumberOfMovies(double currentNumberOfMovies)
         {
-            NumericTextBlock.Text = $"{currentNumberOfMovies} movies of {MaxNumberOfMovies}";
+            DisplayText.Text = $"{currentNumberOfMovies} movies of {MaxNumberOfMovies}";
         }
 
         #endregion

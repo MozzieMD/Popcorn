@@ -3,7 +3,7 @@ using System.Windows;
 using System.Windows.Controls;
 using Popcorn.Events;
 
-namespace Popcorn.CustomPanels
+namespace Popcorn.Panels
 {
     /// <summary>
     /// Custom panel which resize elements and stretch them in itself when window is resizing
