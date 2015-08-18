@@ -189,8 +189,7 @@ namespace Popcorn.UserControls.Players.Movie
                 if (vm == null)
                     return;
 
-                await vm.UserService.SeenMovieAsync(vm.Movie);
-                vm.StopPlayingMediaCommand.Execute(null);
+                await vm.HasSeenMovie();
             });
         }
 

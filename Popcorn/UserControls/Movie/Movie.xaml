@@ -11,6 +11,7 @@
              xmlns:trailerViewModel="clr-namespace:Popcorn.ViewModels.Trailer"
              xmlns:styles="clr-namespace:Popcorn.Resources.Styles"
              xmlns:lex="http://wpflocalizeextension.codeplex.com"
+             xmlns:customControls="clr-namespace:Popcorn.CustomControls"
              lex:LocalizeDictionary.DesignCulture="en"
              lex:ResxLocalizationProvider.DefaultAssembly="Popcorn"
              lex:ResxLocalizationProvider.DefaultDictionary="Resources"
@@ -21,8 +22,6 @@
         <ResourceDictionary>
             <converters:UriToCachedImageConverter x:Key="UriToCachedImageConverter" />
             <converters:RatioConverter x:Key="RatioConverter" />
-            <converters:RuntimeConverter x:Key="RuntimeConverter" />
-            <converters:GenresConverter x:Key="GenresConverter" />
             <converters:StringRatingToIntRatingConverter x:Key="StringRatingToIntRatingConverter" />
             <converters:MultiBooleanToBoolConverter x:Key="MultiBooleanToBoolConverter"/>
             <converters:BoolToInverseVisibilityConverter x:Key="BoolToInverseVisibilityConverter"/>
@@ -236,10 +235,11 @@
                                              StrokeThickness="5"
                                              Stroke="#FFFFFF"/>
                                 </Canvas>
-                                <TextBlock Text="{Binding Movie.Runtime, Converter={StaticResource RuntimeConverter}}" 
-                                           Margin="15,0,0,0" 
-                                           VerticalAlignment="Center" 
-                                           FontSize="16"/>
+                                <Label Margin="15,0,0,0" 
+                                       VerticalAlignment="Center" 
+                                       FontSize="16">
+                                    <customControls:MovieRuntime Runtime="{Binding Movie.Runtime}"/>
+                                </Label>
                                 <Canvas Background="LightGray" 
                                         VerticalAlignment="Center" 
                                         Margin="10,0,0,5">
@@ -249,10 +249,11 @@
                                              StrokeThickness="5"
                                              Stroke="#FFFFFF"/>
                                 </Canvas>
-                                <TextBlock Text="{Binding Movie.Genres, Converter={StaticResource GenresConverter}}" 
-                                           Margin="15,0,0,0" 
+                                <TextBlock Margin="15,0,0,0" 
                                            VerticalAlignment="Center" 
-                                           FontSize="16"/>
+                                           FontSize="16">
+                                    <customControls:MovieGenres Genres="{Binding Movie.Genres}"/>
+                                </TextBlock>
                                 <Canvas Background="LightGray" 
                                         VerticalAlignment="Center" 
                                         Margin="10,0,0,5">

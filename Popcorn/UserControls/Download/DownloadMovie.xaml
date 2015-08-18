@@ -9,6 +9,7 @@
              xmlns:movieSettingsViewModel="clr-namespace:Popcorn.ViewModels.MovieSettings"
              xmlns:lex="http://wpflocalizeextension.codeplex.com"
              xmlns:download="clr-namespace:Popcorn.ViewModels.Download"
+             xmlns:customControls="clr-namespace:Popcorn.CustomControls"
              lex:LocalizeDictionary.DesignCulture="en"
              lex:ResxLocalizationProvider.DefaultAssembly="Popcorn"
              lex:ResxLocalizationProvider.DefaultDictionary="Resources"
@@ -17,7 +18,6 @@
              d:DataContext="{d:DesignInstance download:DownloadMovieViewModel}">
     <UserControl.Resources>
         <ResourceDictionary>
-            <converters:MovieDownloadProgressConverter x:Key="MovieDownloadProgressConverter"/>
             <converters:MultiBooleanToBoolConverter x:Key="MultiBooleanToBoolConverter"/>
             
             <DataTemplate DataType="{x:Type movieSettingsViewModel:MovieSettingsViewModel}">
@@ -196,17 +196,13 @@
                 <RowDefinition Height="114*"/>
                 <RowDefinition Height="128*"/>
             </Grid.RowDefinitions>
-            <TextBlock x:Name="LoadingMovieText"
+            <Label x:Name="LoadingMovieText"
                        FontSize="18"
                        Grid.Row="2" Grid.ColumnSpan="3" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center">
-                <TextBlock.Text>
-                    <MultiBinding Converter="{StaticResource MovieDownloadProgressConverter}">
-                        <Binding Path="MovieDownloadProgress"/>
-                        <Binding Path="MovieDownloadRate"/>
-                        <Binding Path="Movie.Title"></Binding>
-                    </MultiBinding>
-                </TextBlock.Text>
-            </TextBlock>
+                <customControls:DownloadMovieProgress DownloadProgress="{Binding MovieDownloadProgress}"
+                                                      DownloadRate="{Binding MovieDownloadRate}"
+                                                      MovieTitle="{Binding Movie.Title}"></customControls:DownloadMovieProgress>
+            </Label>
             <controls:MetroProgressBar x:Name="BufferingMovieProgressBar"
                                        Minimum="0.0"
                                        Maximum="2.0"

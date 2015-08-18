@@ -96,7 +96,8 @@ namespace Popcorn.ViewModels.Tabs
                     await MovieService.GetTopRatedMoviesAsync(Page,
                         MaxMoviesPerPage,
                         CancellationLoadNextPageToken.Token);
-                var movies = movieResults.ToList();
+                var movies = movieResults.Item1.ToList();
+                MaxNumberOfMovies = movieResults.Item2;
 
                 foreach (var movie in movies)
                 {
@@ -114,6 +115,7 @@ namespace Popcorn.ViewModels.Tabs
             {
                 IsLoadingMovies = false;
                 IsMovieFound = Movies.Any();
+                CurrentNumberOfMovies = Movies.Count();
             }
         }
 

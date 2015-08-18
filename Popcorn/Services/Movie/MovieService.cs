@@ -88,8 +88,8 @@ namespace Popcorn.Services.Movie
         /// <param name="page">Page to return</param>
         /// <param name="limit">The maximum number of movies to return</param>
         /// <param name="ct">Cancellation token</param>
-        /// <returns>Popular movies</returns>
-        public async Task<IEnumerable<MovieShort>> GetPopularMoviesAsync(int page,
+        /// <returns>Popular movies and the number of movies found</returns>
+        public async Task<Tuple<IEnumerable<MovieShort>, int>> GetPopularMoviesAsync(int page,
             int limit,
             CancellationToken ct)
         {
@@ -120,13 +120,14 @@ namespace Popcorn.Services.Movie
             var wrapper =
                 await Task.Run(() => JsonConvert.DeserializeObject<WrapperMovieShortDeserialized>(response.Content), ct);
             var movies = GetMoviesListFromWrapper(wrapper);
+            var nbMovies = wrapper.Data.MovieCount;
 
             watch.Stop();
             var elapsedMs = watch.ElapsedMilliseconds;
             Logger.Debug(
                 $"GetPopularMoviesAsync ({page}, {limit}) in {elapsedMs} milliseconds.");
 
-            return movies;
+            return new Tuple<IEnumerable<MovieShort>, int>(movies, nbMovies);
         }
 
         #endregion
@@ -139,8 +140,8 @@ namespace Popcorn.Services.Movie
         /// <param name="page">Page to return</param>
         /// <param name="limit">The maximum number of movies to return</param>
         /// <param name="ct">Cancellation token</param>
-        /// <returns>Top rated movies</returns>
-        public async Task<IEnumerable<MovieShort>> GetTopRatedMoviesAsync(int page,
+        /// <returns>Top rated movies and the number of movies found</returns>
+        public async Task<Tuple<IEnumerable<MovieShort>, int>> GetTopRatedMoviesAsync(int page,
             int limit,
             CancellationToken ct)
         {
@@ -170,13 +171,14 @@ namespace Popcorn.Services.Movie
             var wrapper =
                 await Task.Run(() => JsonConvert.DeserializeObject<WrapperMovieShortDeserialized>(response.Content), ct);
             var movies = GetMoviesListFromWrapper(wrapper);
+            var nbMovies = wrapper.Data.MovieCount;
 
             watch.Stop();
             var elapsedMs = watch.ElapsedMilliseconds;
             Logger.Debug(
                 $"GetTopRatedMoviesAsync ({page}, {limit}) in {elapsedMs} milliseconds.");
 
-            return movies;
+            return new Tuple<IEnumerable<MovieShort>, int>(movies, nbMovies);
         }
 
         #endregion
@@ -189,8 +191,8 @@ namespace Popcorn.Services.Movie
         /// <param name="page">Page to return</param>
         /// <param name="limit">The maximum number of movies to return</param>
         /// <param name="ct">Cancellation token</param>
-        /// <returns>Recent movies</returns>
-        public async Task<IEnumerable<MovieShort>> GetRecentMoviesAsync(int page,
+        /// <returns>Recent movies and the number of movies found</returns>
+        public async Task<Tuple<IEnumerable<MovieShort>, int>> GetRecentMoviesAsync(int page,
             int limit,
             CancellationToken ct)
         {
@@ -220,13 +222,14 @@ namespace Popcorn.Services.Movie
             var wrapper =
                 await Task.Run(() => JsonConvert.DeserializeObject<WrapperMovieShortDeserialized>(response.Content), ct);
             var movies = GetMoviesListFromWrapper(wrapper);
+            var nbMovies = wrapper.Data.MovieCount;
 
             watch.Stop();
             var elapsedMs = watch.ElapsedMilliseconds;
             Logger.Debug(
                 $"GetRecentMoviesAsync ({page}, {limit}) in {elapsedMs} milliseconds.");
 
-            return movies;
+            return new Tuple<IEnumerable<MovieShort>, int>(movies, nbMovies);
         }
 
         #endregion
@@ -240,8 +243,8 @@ namespace Popcorn.Services.Movie
         /// <param name="page">Page to return</param>
         /// <param name="limit">The maximum number of movies to return</param>
         /// <param name="ct">Cancellation token</param>
-        /// <returns>Searched movies</returns>
-        public async Task<IEnumerable<MovieShort>> SearchMoviesAsync(string criteria,
+        /// <returns>Searched movies and the number of movies found</returns>
+        public async Task<Tuple<IEnumerable<MovieShort>, int>> SearchMoviesAsync(string criteria,
             int page,
             int limit,
             CancellationToken ct)
@@ -272,13 +275,14 @@ namespace Popcorn.Services.Movie
             var wrapper =
                 await Task.Run(() => JsonConvert.DeserializeObject<WrapperMovieShortDeserialized>(response.Content), ct);
             var movies = GetMoviesListFromWrapper(wrapper);
+            var nbMovies = wrapper.Data.MovieCount;
 
             watch.Stop();
             var elapsedMs = watch.ElapsedMilliseconds;
             Logger.Debug(
                 $"SearchMoviesAsync ({criteria}, {page}, {limit}) in {elapsedMs} milliseconds.");
 
-            return movies;
+            return new Tuple<IEnumerable<MovieShort>, int>(movies, nbMovies);
         }
 
         #endregion

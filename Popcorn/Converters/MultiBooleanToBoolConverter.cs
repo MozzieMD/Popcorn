@@ -15,7 +15,7 @@ namespace Popcorn.Converters
         /// <param name="targetType">The type of the binding target property.</param>
         /// <param name="parameter">The converter parameter to use.</param>
         /// <param name="culture">The culture to use in the converter.</param>
-        /// <returns>Visible if all booleans are true, collapsed otherwise</returns>
+        /// <returns>True if all booleans are true, false otherwise</returns>
         public object Convert(object[] values, Type targetType, object parameter,
             System.Globalization.CultureInfo culture)
         {

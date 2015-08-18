@@ -227,16 +227,25 @@
     <Compile Include="Converters\CapitalizeTitleConverter.cs" />
     <Compile Include="Converters\InverseBooleanConverter.cs" />
     <Compile Include="Converters\BoolToInverseVisibilityConverter.cs" />
-    <Compile Include="Converters\GenresConverter.cs" />
     <Compile Include="Converters\BoolToVisibilityConverter.cs" />
-    <Compile Include="Converters\MovieDownloadProgressConverter.cs" />
     <Compile Include="Converters\MultiBooleanToBoolConverter.cs" />
     <Compile Include="Converters\MultiBooleanToVisibilityConverter.cs" />
     <Compile Include="Converters\UriToCachedImageConverter.cs" />
     <Compile Include="Converters\RatioConverter.cs" />
-    <Compile Include="Converters\RuntimeConverter.cs" />
     <Compile Include="Converters\StringRatingToIntRatingConverter.cs" />
     <Compile Include="Converters\WindowStateToBooleanConverter.cs" />
+    <Compile Include="CustomControls\DownloadMovieProgress.xaml.cs">
+      <DependentUpon>DownloadMovieProgress.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CustomControls\MovieGenres.xaml.cs">
+      <DependentUpon>MovieGenres.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CustomControls\MovieRuntime.xaml.cs">
+      <DependentUpon>MovieRuntime.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CustomControls\MoviesNumberSummary.xaml.cs">
+      <DependentUpon>MoviesNumberSummary.xaml</DependentUpon>
+    </Compile>
     <Compile Include="CustomDialogs\ExceptionDialog.xaml.cs">
       <DependentUpon>ExceptionDialog.xaml</DependentUpon>
     </Compile>
@@ -395,6 +404,22 @@
     <Compile Include="ViewModels\User\UserViewModel.cs" />
     <Compile Include="ViewModels\ViewModelLocator.cs" />
     <Compile Include="ViewModels\Tabs\TabsViewModel.cs" />
+    <Page Include="CustomControls\DownloadMovieProgress.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="CustomControls\MovieGenres.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="CustomControls\MovieRuntime.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="CustomControls\MoviesNumberSummary.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="CustomDialogs\ExceptionDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

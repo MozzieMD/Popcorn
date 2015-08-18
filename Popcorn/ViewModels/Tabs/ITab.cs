@@ -7,6 +7,20 @@
     {
         #region Properties
 
+        #region Property -> CurrentNumberOfMovies
+        /// <summary>
+        /// The current number of movies in the tab
+        /// </summary>
+        int CurrentNumberOfMovies { get; set; }
+        #endregion
+
+        #region Property -> MaxNumberOfMovies
+        /// <summary>
+        /// The maximum number of movies found
+        /// </summary>
+        int MaxNumberOfMovies { get; set; }
+        #endregion
+
         #region Property -> TabName
         /// <summary>
         /// Tab's name

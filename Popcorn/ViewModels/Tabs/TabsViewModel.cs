@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using GalaSoft.MvvmLight;
@@ -49,6 +50,36 @@ namespace Popcorn.ViewModels.Tabs
         {
             get { return _movies; }
             set { Set(() => Movies, ref _movies, value); }
+        }
+
+        #endregion
+
+        #region Property -> CurrentNumberOfMovies
+
+        private int _currentNumberofMovies;
+
+        /// <summary>
+        /// The current number of movies in the tab
+        /// </summary>
+        public int CurrentNumberOfMovies
+        {
+            get { return _currentNumberofMovies; }
+            set { Set(() => CurrentNumberOfMovies, ref _currentNumberofMovies, value); }
+        }
+
+        #endregion
+
+        #region Property -> MaxNumberOfMovies
+
+        private int _maxNumberOfMovies;
+
+        /// <summary>
+        /// The maximum number of movies found
+        /// </summary>
+        public int MaxNumberOfMovies
+        {
+            get { return _maxNumberOfMovies; }
+            set { Set(() => MaxNumberOfMovies, ref _maxNumberOfMovies, value); }
         }
 
         #endregion
@@ -184,7 +215,7 @@ namespace Popcorn.ViewModels.Tabs
                 async message =>
                 {
                     var i = 0;
-                    foreach (var movie in Movies)
+                    foreach (var movie in Movies.ToList())
                     {
                         i++;
                         await Task.Delay(1000*i);

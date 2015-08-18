@@ -1,15 +1,15 @@
 ﻿using System;
-using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.CommandWpf;
 using GalaSoft.MvvmLight.Ioc;
 using Popcorn.ViewModels.Main;
+using Popcorn.ViewModels.Tabs;
 
 namespace Popcorn.ViewModels.Players
 {
     /// <summary>
     /// Manage media player
     /// </summary>
-    public class MediaPlayerViewModel : ViewModelBase
+    public class MediaPlayerViewModel : TabsViewModel
     {
         #region Property -> Main
 

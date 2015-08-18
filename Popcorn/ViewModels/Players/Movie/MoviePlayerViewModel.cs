@@ -1,44 +1,17 @@
 ﻿using System;
+using System.Threading.Tasks;
 using GalaSoft.MvvmLight.CommandWpf;
-using GalaSoft.MvvmLight.Ioc;
 using GalaSoft.MvvmLight.Messaging;
 using Popcorn.Messaging;
 using Popcorn.Models.Movie;
-using Popcorn.Services.User;
-using Popcorn.ViewModels.Tabs;
 
 namespace Popcorn.ViewModels.Players.Movie
 {
     /// <summary>
     /// Manage movie player
     /// </summary>
-    public sealed class MoviePlayerViewModel : MediaPlayerViewModel, ITab
+    public sealed class MoviePlayerViewModel : MediaPlayerViewModel
     {
-        #region Property -> MovieService
-
-        /// <summary>
-        /// The service used to consume APIs
-        /// </summary>
-        public UserService UserService { get; }
-
-        #endregion
-
-        #region Property -> TabName
-
-
-        private string _tabName;
-
-        /// <summary>
-        /// The name of the tab shown into the interface
-        /// </summary>
-        public string TabName
-        {
-            get { return _tabName; }
-            set { Set(() => TabName, ref _tabName, value); }
-        }
-
-        #endregion
-
         #region Property -> Movie
 
         /// <summary>
@@ -62,7 +35,6 @@ namespace Popcorn.ViewModels.Players.Movie
         {
             RegisterMessages();
             RegisterCommands();
-            UserService = SimpleIoc.Default.GetInstance<UserService>();
             Movie = movie;
             TabName = !string.IsNullOrEmpty(Movie.Title) ? Movie.Title : Properties.Resources.PlayingTitleTab;
         }
@@ -70,6 +42,17 @@ namespace Popcorn.ViewModels.Players.Movie
         #endregion
 
         #region Methods
+
+        #region -> Method
+        /// <summary>
+        /// When a movie has been seen, save this information in user data
+        /// </summary>
+        public async Task HasSeenMovie()
+        {
+            await UserService.SeenMovieAsync(Movie);
+            Messenger.Default.Send(new StopPlayingMovieMessage());
+        }
+        #endregion
 
         #region Method -> RegisterMessages
 

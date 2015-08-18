@@ -10,9 +10,12 @@
              xmlns:styles="clr-namespace:Popcorn.Resources.Styles"
              xmlns:lex="http://wpflocalizeextension.codeplex.com"
              xmlns:tabs="clr-namespace:Popcorn.UserControls.Tabs"
+             xmlns:customControls="clr-namespace:Popcorn.CustomControls"
+             xmlns:tabsViewModels="clr-namespace:Popcorn.ViewModels.Tabs"
              lex:LocalizeDictionary.DesignCulture="en"
              lex:ResxLocalizationProvider.DefaultAssembly="Popcorn"
-             lex:ResxLocalizationProvider.DefaultDictionary="Resources">
+             lex:ResxLocalizationProvider.DefaultDictionary="Resources"
+             d:DataContext="{d:DesignInstance tabsViewModels:PopularTabViewModel}">
     <UserControl.Resources>
         <ResourceDictionary>
             <Style x:Key="LargeTileStyle" TargetType="controls:Tile">
@@ -23,7 +26,6 @@
 
             <converters:StringRatingToIntRatingConverter x:Key="StringRatingToIntRatingConverter" />
             <converters:UriToCachedImageConverter x:Key="UriToCachedImageConverter" />
-            <converters:GenresConverter x:Key="GenresConverter"/>
             <converters:BoolToInverseVisibilityConverter x:Key="BoolToInverseVisibilityConverter"/>
             <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
             <converters:MultiBooleanToVisibilityConverter x:Key="MultiBooleanToVisibilityConverter"/>
@@ -322,12 +324,13 @@
                                        Width="200" 
                                        TextTrimming="CharacterEllipsis" 
                                        HorizontalAlignment="Left"/>
-                            <TextBlock Text="{Binding Genres, Converter={StaticResource GenresConverter}}"
-                                       Width="200" 
+                            <TextBlock Width="200" 
                                        TextTrimming="CharacterEllipsis"
                                        Foreground="Gray" 
                                        FontSize="12" 
-                                       HorizontalAlignment="Left"></TextBlock>
+                                       HorizontalAlignment="Left">
+                                <customControls:MovieGenres Genres="{Binding Genres}"/>
+                            </TextBlock>
                             <TextBlock Text="{Binding Year}" 
                                        Width="200" 
                                        Foreground="Gray" 

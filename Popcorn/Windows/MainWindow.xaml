@@ -34,6 +34,7 @@
                       WindowState="{Binding IsFullScreen, Converter={converters:WindowStateToBooleanConverter}, Mode=TwoWay}"
                       d:DataContext="{d:DesignInstance viewModel:MainViewModel}"
                       xmlns:dialog="clr-namespace:MahApps.Metro.Controls.Dialogs;assembly=MahApps.Metro"
+                      xmlns:customControls="clr-namespace:Popcorn.CustomControls"
                       dialog:DialogParticipation.Register="{Binding }">
     <Window.Resources>
         <ResourceDictionary>
@@ -47,7 +48,7 @@
                 <Setter Property="BorderThickness"
                         Value="0"></Setter>
             </Style>
-            
+
             <Style x:Key="FlatButton"
            TargetType="{x:Type RadioButton}">
                 <Setter Property="Background"
@@ -234,12 +235,12 @@
                     <RowDefinition Height="2.5"></RowDefinition>
                     <RowDefinition Height="Auto"></RowDefinition>
                 </Grid.RowDefinitions>
-                <Label Content="{lex:LocText MoviesLabel}" 
+                <TextBlock Text="{lex:LocText MoviesLabel}" 
                        FontSize="14"
                        Grid.Row="1"
                        Foreground="#3c4c55"
                        Grid.Column="1"
-                       Grid.ColumnSpan="2"></Label>
+                       Grid.ColumnSpan="2"></TextBlock>
                 <ListBox Grid.Row="3"
                          Grid.Column="2"
                          Visibility="{Binding IsStarting, Converter={StaticResource BoolToVisibilityConverter}}"
@@ -254,7 +255,7 @@
                             <StackPanel Orientation="Horizontal">
                                 <Rectangle Width="20" Height="18" Fill="White">
                                     <Rectangle.OpacityMask>
-                                        <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_medical_pulse}"/>
+                                        <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_medical_pulse}"/>
                                     </Rectangle.OpacityMask>
                                 </Rectangle>
                                 <TextBlock Margin="10,0,0,0" Text="{lex:LocText PopularTitleTab}" FontSize="16"></TextBlock>
@@ -271,7 +272,7 @@
                             <StackPanel Orientation="Horizontal">
                                 <Rectangle Width="20" Height="19" Fill="White">
                                     <Rectangle.OpacityMask>
-                                        <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_star}"/>
+                                        <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_star}"/>
                                     </Rectangle.OpacityMask>
                                 </Rectangle>
                                 <TextBlock Margin="10,0,0,0" Text="{lex:LocText GreatestTitleTab}" FontSize="16"></TextBlock>
@@ -291,7 +292,7 @@
                                            Fill="White"
                                            VerticalAlignment="Center">
                                     <Rectangle.OpacityMask>
-                                        <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_calendar}"/>
+                                        <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_calendar}"/>
                                     </Rectangle.OpacityMask>
                                 </Rectangle>
                                 <TextBlock Margin="10,0,0,0" 
@@ -313,7 +314,7 @@
                                            Fill="White"                             
                                            VerticalAlignment="Center">
                                     <Rectangle.OpacityMask>
-                                        <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_page_search}"/>
+                                        <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_page_search}"/>
                                     </Rectangle.OpacityMask>
                                 </Rectangle>
                                 <TextBlock Margin="10,0,0,0" Text="{lex:LocText SearchTitleTab}" FontSize="16"></TextBlock>
@@ -325,12 +326,23 @@
         </Grid>
         <Grid Grid.Column="1"
               Grid.Row="0">
-            <Label Content="{Binding SelectedTab.TabName}"
-                   FontSize="28"
-                   Foreground="#484b4e"
-                   Margin="16,0,0,0"
-                   HorizontalAlignment="Left"
-                   VerticalAlignment="Center"></Label>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="{Binding SelectedTab.TabName}"
+                       FontSize="28"
+                       Foreground="#484b4e"
+                       Margin="16,0,0,10"
+                       HorizontalAlignment="Left"
+                       VerticalAlignment="Center"/>
+                <Label x:Name="MaxNumberOfMovies"
+                       Margin="5,0,0,0"
+                       FontSize="18"
+                       FontStyle="Italic"
+                       Foreground="#484b4e"
+                       VerticalAlignment="Center">
+                    <customControls:MoviesNumberSummary MaxNumberOfMovies="{Binding SelectedTab.MaxNumberOfMovies}"
+                                                        CurrentNumberOfMovies="{Binding SelectedTab.CurrentNumberOfMovies}"/>
+                </Label>
+            </StackPanel>
         </Grid>
         <controls:MetroAnimatedSingleRowTabControl 
             Grid.Column="1" 
