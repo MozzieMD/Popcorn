@@ -103,8 +103,8 @@ namespace Popcorn.CustomDialogs
             }
         }
 
-        public static readonly DependencyProperty MessageProperty = DependencyProperty.Register("Message", typeof(string), typeof(SigninDialog), new PropertyMetadata(default(string)));
-        public static readonly DependencyProperty OkButtonTextProperty = DependencyProperty.Register("OkButtonText", typeof(string), typeof(SigninDialog), new PropertyMetadata("Ok"));
+        public static readonly DependencyProperty MessageProperty = DependencyProperty.Register("Message", typeof(string), typeof(ExceptionDialog), new PropertyMetadata(default(string)));
+        public static readonly DependencyProperty OkButtonTextProperty = DependencyProperty.Register("OkButtonText", typeof(string), typeof(ExceptionDialog), new PropertyMetadata("Ok"));
 
         public string Message
         {

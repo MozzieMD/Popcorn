@@ -50,7 +50,7 @@ namespace Popcorn
             watchStart.Stop();
             var elapsedStartMs = watchStart.ElapsedMilliseconds;
             Logger.Info(
-                "Popcorn started in {0} milliseconds.", elapsedStartMs);
+                $"Popcorn started in {elapsedStartMs} milliseconds.");
 
             Task.Run(async () =>
             {
@@ -92,9 +92,7 @@ namespace Popcorn
                 if (updateInfo.ReleasesToApply.Any())
                 {
                     Logger.Info(
-                        "A new update has been found!\nCurrently installed version: {0}\nNew update: {1}",
-                        updateInfo.CurrentlyInstalledVersion?.Version?.Build,
-                        updateInfo.FutureReleaseEntry?.Version?.Build);
+                        $"A new update has been found!\nCurrently installed version: {updateInfo.CurrentlyInstalledVersion?.Version?.Build}. New update: {updateInfo.FutureReleaseEntry?.Version?.Build}");
 
                     await UpdateManager.DownloadReleases(updateInfo.ReleasesToApply, x =>
                     {

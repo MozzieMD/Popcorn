@@ -57,11 +57,17 @@
         </controls:MetroProgressBar>
         <TextBlock Text="{lex:LocText EmptySearchLabel}" 
                    Grid.Row="1"
-                   Visibility="{Binding IsMovieFound, Converter={StaticResource BoolToVisibilityConverter}}" 
                    HorizontalAlignment="Center"
                    VerticalAlignment="Bottom"
                    FontSize="36"
-                   Foreground="#FF7D7D7D"/>
+                   Foreground="#FF7D7D7D">
+            <TextBlock.Visibility>
+                <MultiBinding Converter="{StaticResource MultiBooleanToVisibilityConverter}">
+                    <Binding Path="Main.IsConnectionInError" Converter="{StaticResource InverseBooleanConverter}" Source="{StaticResource Locator}" />
+                    <Binding Path="IsMovieFound" Converter="{StaticResource InverseBooleanConverter}" />
+                </MultiBinding>
+            </TextBlock.Visibility>
+        </TextBlock>
         <Button Width="140"
                 Height="40"
                 Grid.Row="2"

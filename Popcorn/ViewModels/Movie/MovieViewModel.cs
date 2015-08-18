@@ -1,4 +1,6 @@
-﻿using System.Net;
+﻿using System;
+using System.Net;
+using System.Net.Sockets;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.CommandWpf;
 using GalaSoft.MvvmLight.Ioc;
@@ -291,10 +293,9 @@ namespace Popcorn.ViewModels.Movie
                 await MovieService.DownloadActorImageAsync(Movie);
                 await MovieService.DownloadBackgroundImageAsync(Movie);
             }
-            catch (WebException e)
+            catch (Exception ex) when (ex is SocketException || ex is WebException)
             {
-                IsMovieLoading = false;
-                Messenger.Default.Send(new ManageExceptionMessage(e));
+                Messenger.Default.Send(new ManageExceptionMessage(ex));
             }
         }
 

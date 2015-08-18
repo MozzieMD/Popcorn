@@ -5,6 +5,7 @@ using GalaSoft.MvvmLight.Messaging;
 using GalaSoft.MvvmLight.CommandWpf;
 using System.Collections.ObjectModel;
 using System.Net;
+using System.Net.Sockets;
 using System.Threading;
 using System.Threading.Tasks;
 using GalaSoft.MvvmLight.Ioc;
@@ -88,6 +89,24 @@ namespace Popcorn.ViewModels.Main
             {
                 Set(() => IsMoviePlaying, ref _isMoviePlaying, value);
                 OnWindowStateChanged(new WindowStateChangedEventArgs(value));
+            }
+        }
+
+        #endregion
+
+        #region Property -> IsManagingException
+
+        private bool _isManagingException;
+
+        /// <summary>
+        /// Indicates if an exception is currently managed
+        /// </summary>
+        private bool IsManagingException
+        {
+            get { return _isManagingException; }
+            set
+            {
+                Set(() => IsManagingException, ref _isManagingException, value);
             }
         }
 
@@ -381,7 +400,7 @@ namespace Popcorn.ViewModels.Main
             RegisterMessages();
             RegisterCommands();
             DialogCoordinator = dialogCoordinator;
-            AppDomain.CurrentDomain.UnhandledException += UnhandledException;
+            AppDomain.CurrentDomain.UnhandledException += OnUnhandledException;
         }
 
         #endregion
@@ -421,7 +440,7 @@ namespace Popcorn.ViewModels.Main
         {
             Messenger.Default.Register<ManageExceptionMessage>(this, e =>
             {
-                ManageUnHandledException(e.UnHandledException);
+                ManageException(e.UnHandledException);
             });
 
             Messenger.Default.Register<LoadMovieMessage>(this, e => { IsMovieFlyoutOpen = true; });
@@ -592,6 +611,8 @@ namespace Popcorn.ViewModels.Main
             if (signinDialogResult.ShouldSignup)
             {
                 var user = await OpenSignupModal();
+                if (user == null)
+                    return;
                 await Signin(user);
             }
             else
@@ -620,6 +641,8 @@ namespace Popcorn.ViewModels.Main
             await DialogCoordinator.ShowMetroDialogAsync(this, signupDialog);
             var signupDialogResult = await signupDialog.WaitForButtonPressAsync();
             await DialogCoordinator.HideMetroDialogAsync(this, signupDialog);
+            if (signupDialogResult == null)
+                return null;
             return await
                 UserService.CreateUser(signupDialogResult.Username, signupDialogResult.FirstName,
                     signupDialogResult.LastName, signupDialogResult.Password, signupDialogResult.Email,
@@ -642,43 +665,47 @@ namespace Popcorn.ViewModels.Main
 
         #endregion
 
-        #region Method -> UnhandledException
+        #region Method -> OnUnhandledException
 
         /// <summary>
         /// Display a dialog on unhandled exception
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void UnhandledException(object sender, UnhandledExceptionEventArgs e)
+        private void OnUnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
             var ex = e.ExceptionObject as Exception;
             if (ex != null)
             {
-                ManageUnHandledException(ex);
+                ManageException(ex);
             }
         }
 
         #endregion
 
-        #region Method -> ManageUnHandledException
+        #region Method -> ManageException
 
         /// <summary>
-        /// Manage an error
+        /// Manage an exception
         /// </summary>
         /// <param name="exception">The exception</param>
-        private void ManageUnHandledException(Exception exception)
+        private void ManageException(Exception exception)
         {
+            if (IsManagingException)
+                return;
+            IsManagingException = true;
+            IsMovieFlyoutOpen = false;
+            if (exception is WebException || exception is SocketException)
+                IsConnectionInError = true;
+
             DispatcherHelper.CheckBeginInvokeOnUI(async () =>
             {
-                var exceptionDialog = new ExceptionDialog(new ExceptionDialogSettings("Woops", exception.Message));
+                var exceptionDialog = new ExceptionDialog(new ExceptionDialogSettings("Something happened...", exception.Message));
                 await DialogCoordinator.ShowMetroDialogAsync(this, exceptionDialog);
                 await exceptionDialog.WaitForButtonPressAsync();
+                IsManagingException = false;
                 await DialogCoordinator.HideMetroDialogAsync(this, exceptionDialog);
             });
-
-            IsMovieFlyoutOpen = false;
-            if (exception is WebException)
-                IsConnectionInError = true;
         }
 
         #endregion

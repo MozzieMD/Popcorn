@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Threading;
 using System.Threading.Tasks;
 using GalaSoft.MvvmLight;
@@ -184,17 +183,13 @@ namespace Popcorn.ViewModels.Tabs
                 this,
                 async message =>
                 {
-                    var tasks = new List<Task>();
-                    int i = 0;
+                    var i = 0;
                     foreach (var movie in Movies)
                     {
                         i++;
-                        var t =
-                            Task.Delay(1000 * i)
-                                .ContinueWith(async _ => { await MovieService.TranslateMovieShortAsync(movie); });
-                        tasks.Add(t);
+                        await Task.Delay(1000*i);
+                        await MovieService.TranslateMovieShortAsync(movie);
                     }
-                    await Task.WhenAll(tasks);
                 });
         }
 
