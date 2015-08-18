@@ -14,6 +14,7 @@ using MahApps.Metro.Controls.Dialogs;
 using Popcorn.Dialogs;
 using Popcorn.Messaging;
 using Popcorn.Events;
+using Popcorn.Helpers;
 using Popcorn.Services.User;
 using Popcorn.ViewModels.Tabs;
 using Popcorn.ViewModels.Players.Movie;
@@ -695,13 +696,12 @@ namespace Popcorn.ViewModels.Main
                 return;
 
             IsManagingException = true;
-            IsMovieFlyoutOpen = false;
             if (exception is WebException || exception is SocketException)
                 IsConnectionInError = true;
 
             DispatcherHelper.CheckBeginInvokeOnUI(async () =>
             {
-                var exceptionDialog = new ExceptionDialog(new ExceptionDialogSettings("Something happened...", exception.Message));
+                var exceptionDialog = new ExceptionDialog(new ExceptionDialogSettings(LocalizationProviderHelper.GetLocalizedValue<string>("EmbarrassingError"), exception.Message));
                 await DialogCoordinator.ShowMetroDialogAsync(this, exceptionDialog);
                 await exceptionDialog.WaitForButtonPressAsync();
                 IsManagingException = false;

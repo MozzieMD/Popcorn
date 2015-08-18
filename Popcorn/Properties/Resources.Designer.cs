@@ -142,6 +142,15 @@ namespace Popcorn.Properties {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à That&apos;s embarrassing....
+        /// </summary>
+        public static string EmbarrassingError {
+            get {
+                return ResourceManager.GetString("EmbarrassingError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à No movie found.
         /// </summary>
         public static string EmptySearchLabel {
@@ -214,11 +223,29 @@ namespace Popcorn.Properties {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à movies.
+        /// </summary>
+        public static string MoviesWord {
+            get {
+                return ResourceManager.GetString("MoviesWord", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à Off.
         /// </summary>
         public static string OffLabel {
             get {
                 return ResourceManager.GetString("OffLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à of.
+        /// </summary>
+        public static string OfWord {
+            get {
+                return ResourceManager.GetString("OfWord", resourceCulture);
             }
         }
         
@@ -327,6 +354,15 @@ namespace Popcorn.Properties {
         public static string TrailerButton {
             get {
                 return ResourceManager.GetString("TrailerButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à The trailer is not available for the current language..
+        /// </summary>
+        public static string TrailerNotAvailable {
+            get {
+                return ResourceManager.GetString("TrailerNotAvailable", resourceCulture);
             }
         }
         

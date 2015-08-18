@@ -487,20 +487,19 @@ namespace Popcorn.UserControls.Players.Trailer
             {
                 await Player.StopAsync();
                 Player.Dispose();
+                var vm = DataContext as TrailerPlayerViewModel;
+                if (vm != null)
+                {
+                    vm.StoppedPlayingMedia -= OnStoppedPlayingMedia;
+                }
+
+                Disposed = true;
+
+                if (disposing)
+                {
+                    GC.SuppressFinalize(this);
+                }
             });
-
-            var vm = DataContext as TrailerPlayerViewModel;
-            if (vm != null)
-            {
-                vm.StoppedPlayingMedia -= OnStoppedPlayingMedia;
-            }
-
-            Disposed = true;
-
-            if (disposing)
-            {
-                GC.SuppressFinalize(this);
-            }
         }
 
         #endregion

@@ -495,20 +495,19 @@ namespace Popcorn.UserControls.Players.Movie
             {
                 await Player.StopAsync();
                 Player.Dispose();
+                var vm = DataContext as MoviePlayerViewModel;
+                if (vm != null)
+                {
+                    vm.StoppedPlayingMedia -= OnStoppedPlayingMedia;
+                }
+
+                Disposed = true;
+
+                if (disposing)
+                {
+                    GC.SuppressFinalize(this);
+                }
             });
-
-            var vm = DataContext as MoviePlayerViewModel;
-            if (vm != null)
-            {
-                vm.StoppedPlayingMedia -= OnStoppedPlayingMedia;
-            }
-
-            Disposed = true;
-
-            if (disposing)
-            {
-                GC.SuppressFinalize(this);
-            }
         }
 
         #endregion

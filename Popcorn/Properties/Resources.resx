@@ -213,4 +213,16 @@
   <data name="LoginLabel" xml:space="preserve">
     <value>Login</value>
   </data>
+  <data name="EmbarrassingError" xml:space="preserve">
+    <value>That's embarrassing...</value>
+  </data>
+  <data name="OfWord" xml:space="preserve">
+    <value>of</value>
+  </data>
+  <data name="TrailerNotAvailable" xml:space="preserve">
+    <value>The trailer is not available for the current language.</value>
+  </data>
+  <data name="MoviesWord" xml:space="preserve">
+    <value>movies</value>
+  </data>
 </root>

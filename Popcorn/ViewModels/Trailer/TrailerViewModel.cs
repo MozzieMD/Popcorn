@@ -155,7 +155,8 @@ namespace Popcorn.ViewModels.Trailer
                     {
                         if (ex is WebException || ex is VideoNotAvailableException || ex is YoutubeParseException)
                         {
-                            // TODO: Inform loading trailer failed
+                            if(ex is VideoNotAvailableException)
+                                Messenger.Default.Send(new ManageExceptionMessage(new Exception(LocalizationProviderHelper.GetLocalizedValue<string>("TrailerNotAvailable"))));
                             Messenger.Default.Send(new StopPlayingTrailerMessage());
                             return;
                         }

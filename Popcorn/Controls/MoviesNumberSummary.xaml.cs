@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using Popcorn.Helpers;
 
 namespace Popcorn.Controls
 {
@@ -119,7 +120,7 @@ namespace Popcorn.Controls
         /// <param name="maxNumberOfMovies">The maximum number of movies</param>
         private void FormatSummaryWithMaximumNumberOfMovies(double maxNumberOfMovies)
         {
-            DisplayText.Text = $"{CurrentNumberOfMovies} movies of {maxNumberOfMovies}";
+            DisplayText.Text = $"{CurrentNumberOfMovies} {LocalizationProviderHelper.GetLocalizedValue<string>("MoviesWord")} {LocalizationProviderHelper.GetLocalizedValue<string>("OfWord")} {maxNumberOfMovies}";
         }
 
         #endregion
@@ -132,7 +133,7 @@ namespace Popcorn.Controls
         /// <param name="currentNumberOfMovies">The current number of movies</param>
         private void FormatSummaryWithMaxNumberOfMovies(double currentNumberOfMovies)
         {
-            DisplayText.Text = $"{currentNumberOfMovies} movies of {MaxNumberOfMovies}";
+            DisplayText.Text = $"{currentNumberOfMovies} {LocalizationProviderHelper.GetLocalizedValue<string>("MoviesWord")} {LocalizationProviderHelper.GetLocalizedValue<string>("OfWord")} {MaxNumberOfMovies}";
         }
 
         #endregion
