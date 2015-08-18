@@ -6,6 +6,8 @@ using Popcorn.Helpers;
 using Popcorn.Messaging;
 using System.Collections.Generic;
 using GalaSoft.MvvmLight.CommandWpf;
+using GalaSoft.MvvmLight.Ioc;
+using Popcorn.ViewModels.Main;
 
 namespace Popcorn.ViewModels.Tabs
 {
@@ -82,6 +84,8 @@ namespace Popcorn.ViewModels.Tabs
         {
             ReloadMovies = new RelayCommand(async () =>
             {
+                var mainViewModel = SimpleIoc.Default.GetInstance<MainViewModel>();
+                mainViewModel.IsConnectionInError = false;
                 await SearchMoviesAsync(SearchFilter);
             });
         }

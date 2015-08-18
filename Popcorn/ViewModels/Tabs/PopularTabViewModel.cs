@@ -2,9 +2,11 @@
 using System.Linq;
 using System.Threading.Tasks;
 using GalaSoft.MvvmLight.CommandWpf;
+using GalaSoft.MvvmLight.Ioc;
 using GalaSoft.MvvmLight.Messaging;
 using Popcorn.Helpers;
 using Popcorn.Messaging;
+using Popcorn.ViewModels.Main;
 
 namespace Popcorn.ViewModels.Tabs
 {
@@ -76,6 +78,8 @@ namespace Popcorn.ViewModels.Tabs
         {
             ReloadMovies = new RelayCommand(async () =>
             {
+                var mainViewModel = SimpleIoc.Default.GetInstance<MainViewModel>();
+                mainViewModel.IsConnectionInError = false;
                 await LoadNextPageAsync();
             });
         }

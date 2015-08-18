@@ -80,6 +80,7 @@ namespace Popcorn.Controls
             if (Genres == null)
                 return;
 
+            DisplayText.Text = string.Empty;
             foreach (var genre in Genres)
             {
                 index++;

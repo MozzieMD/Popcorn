@@ -108,7 +108,7 @@ namespace Popcorn.Helpers
             Func<TSource, Task<TResult>> taskSelector, Action<TSource, TResult> resultProcessor,
             SemaphoreSlim oneAtATime)
         {
-            TResult result = await taskSelector(item);
+            var result = await taskSelector(item);
             await oneAtATime.WaitAsync();
             try
             {

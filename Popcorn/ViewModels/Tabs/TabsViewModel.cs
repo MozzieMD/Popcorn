@@ -214,11 +214,9 @@ namespace Popcorn.ViewModels.Tabs
                 this,
                 async message =>
                 {
-                    var i = 0;
                     foreach (var movie in Movies.ToList())
                     {
-                        i++;
-                        await Task.Delay(1000*i);
+                        await Task.Delay(1000);
                         await MovieService.TranslateMovieShortAsync(movie);
                     }
                 });

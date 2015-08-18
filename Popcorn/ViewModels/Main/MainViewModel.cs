@@ -693,6 +693,7 @@ namespace Popcorn.ViewModels.Main
         {
             if (IsManagingException)
                 return;
+
             IsManagingException = true;
             IsMovieFlyoutOpen = false;
             if (exception is WebException || exception is SocketException)

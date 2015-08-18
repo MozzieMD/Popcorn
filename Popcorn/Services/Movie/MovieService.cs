@@ -116,9 +116,11 @@ namespace Popcorn.Services.Movie
             if (response.ErrorException != null)
                 Messenger.Default.Send(new ManageExceptionMessage(new WebException(response.ErrorException.Message)));
 
-
             var wrapper =
                 await Task.Run(() => JsonConvert.DeserializeObject<WrapperMovieShortDeserialized>(response.Content), ct);
+            if (wrapper == null)
+                return new Tuple<IEnumerable<MovieShort>, int>(new List<MovieShort>(), 0);
+
             var movies = GetMoviesListFromWrapper(wrapper);
             var nbMovies = wrapper.Data.MovieCount;
 
@@ -170,6 +172,9 @@ namespace Popcorn.Services.Movie
 
             var wrapper =
                 await Task.Run(() => JsonConvert.DeserializeObject<WrapperMovieShortDeserialized>(response.Content), ct);
+            if (wrapper == null)
+                return new Tuple<IEnumerable<MovieShort>, int>(new List<MovieShort>(), 0);
+
             var movies = GetMoviesListFromWrapper(wrapper);
             var nbMovies = wrapper.Data.MovieCount;
 
@@ -221,6 +226,9 @@ namespace Popcorn.Services.Movie
 
             var wrapper =
                 await Task.Run(() => JsonConvert.DeserializeObject<WrapperMovieShortDeserialized>(response.Content), ct);
+            if (wrapper == null)
+                return new Tuple<IEnumerable<MovieShort>, int>(new List<MovieShort>(), 0);
+
             var movies = GetMoviesListFromWrapper(wrapper);
             var nbMovies = wrapper.Data.MovieCount;
 
@@ -274,6 +282,9 @@ namespace Popcorn.Services.Movie
 
             var wrapper =
                 await Task.Run(() => JsonConvert.DeserializeObject<WrapperMovieShortDeserialized>(response.Content), ct);
+            if (wrapper == null)
+                return new Tuple<IEnumerable<MovieShort>, int>(new List<MovieShort>(), 0);
+
             var movies = GetMoviesListFromWrapper(wrapper);
             var nbMovies = wrapper.Data.MovieCount;
 
@@ -435,9 +446,6 @@ namespace Popcorn.Services.Movie
         private static List<MovieShort> GetMoviesListFromWrapper(WrapperMovieShortDeserialized wrapper)
         {
             var movies = new List<MovieShort>();
-            if (wrapper == null)
-                return movies;
-
             foreach (var movie in wrapper.Data.Movies)
             {
                 movies.Add(new MovieShort
