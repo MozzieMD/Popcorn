@@ -7,7 +7,6 @@
              xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
              mc:Ignorable="d" 
              xmlns:converters="clr-namespace:Popcorn.Converters"
-             xmlns:styles="clr-namespace:Popcorn.Resources.Styles"
              xmlns:lex="http://wpflocalizeextension.codeplex.com"
              xmlns:tabs="clr-namespace:Popcorn.UserControls.Tabs"
              xmlns:tabsViewModels="clr-namespace:Popcorn.ViewModels.Tabs"
@@ -24,12 +23,11 @@
                 <Setter Property="TitleFontSize" Value="14" />
             </Style>
 
-            <converters:StringRatingToIntRatingConverter x:Key="StringRatingToIntRatingConverter" />
             <converters:UriToCachedImageConverter x:Key="UriToCachedImageConverter" />
             <converters:BoolToInverseVisibilityConverter x:Key="BoolToInverseVisibilityConverter"/>
             <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
             <converters:MultiBooleanToVisibilityConverter x:Key="MultiBooleanToVisibilityConverter"/>
-            <converters:InverseBooleanConverter x:Key="InverseBooleanConverter"/>
+            <converters:BoolToInverseBoolConverter x:Key="BoolToInverseBoolConverter"/>
         </ResourceDictionary>
     </UserControl.Resources>
 
@@ -50,7 +48,7 @@
                                     Width="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=Grid}, Path=ActualWidth, Mode=OneWay}">
             <controls:MetroProgressBar.Visibility>
                 <MultiBinding Converter="{StaticResource MultiBooleanToVisibilityConverter}">
-                    <Binding Path="Main.IsConnectionInError" Converter="{StaticResource InverseBooleanConverter}" Source="{StaticResource Locator}" />
+                    <Binding Path="Main.IsConnectionInError" Converter="{StaticResource BoolToInverseBoolConverter}" Source="{StaticResource Locator}" />
                     <Binding Path="IsLoadingMovies" />
                 </MultiBinding>
             </controls:MetroProgressBar.Visibility>
@@ -63,8 +61,8 @@
                    Foreground="#FF7D7D7D">
             <TextBlock.Visibility>
                 <MultiBinding Converter="{StaticResource MultiBooleanToVisibilityConverter}">
-                    <Binding Path="Main.IsConnectionInError" Converter="{StaticResource InverseBooleanConverter}" Source="{StaticResource Locator}" />
-                    <Binding Path="IsMovieFound" Converter="{StaticResource InverseBooleanConverter}" />
+                    <Binding Path="Main.IsConnectionInError" Converter="{StaticResource BoolToInverseBoolConverter}" Source="{StaticResource Locator}" />
+                    <Binding Path="IsMovieFound" Converter="{StaticResource BoolToInverseBoolConverter}" />
                 </MultiBinding>
             </TextBlock.Visibility>
         </TextBlock>
@@ -111,14 +109,14 @@
                                         Stretch="UniformToFill" 
                                         VerticalAlignment="Center"
                                         HorizontalAlignment="Center"/>
-                                    <styles:Rating 
+                                    <customControls:Rating 
                                         Grid.Row="1"
                                         x:Name="Rating"
                                         Width="60" 
                                         Margin="10"
                                         HorizontalAlignment="Left" 
                                         VerticalContentAlignment="Bottom" 
-                                        RatingValue="{Binding Rating, Converter={StaticResource StringRatingToIntRatingConverter}}" 
+                                        RatingValue="{Binding RatingValue}" 
                                         Opacity="0.0"/>
                                     <Grid 
                                         Grid.Row="0"

@@ -9,7 +9,6 @@
              xmlns:downloadViewModel="clr-namespace:Popcorn.ViewModels.Download"
              xmlns:trailerUserControl="clr-namespace:Popcorn.UserControls.Trailer"
              xmlns:trailerViewModel="clr-namespace:Popcorn.ViewModels.Trailer"
-             xmlns:styles="clr-namespace:Popcorn.Resources.Styles"
              xmlns:lex="http://wpflocalizeextension.codeplex.com"
              xmlns:customControls="clr-namespace:Popcorn.Controls"
              lex:LocalizeDictionary.DesignCulture="en"
@@ -22,7 +21,6 @@
         <ResourceDictionary>
             <converters:UriToCachedImageConverter x:Key="UriToCachedImageConverter" />
             <converters:RatioConverter x:Key="RatioConverter" />
-            <converters:StringRatingToIntRatingConverter x:Key="StringRatingToIntRatingConverter" />
             <converters:MultiBooleanToBoolConverter x:Key="MultiBooleanToBoolConverter"/>
             <converters:BoolToInverseVisibilityConverter x:Key="BoolToInverseVisibilityConverter"/>
 
@@ -263,10 +261,10 @@
                                              StrokeThickness="5"
                                              Stroke="#FFFFFF"/>
                                 </Canvas>
-                                <styles:Rating Margin="15,0,0,4" 
+                                <customControls:Rating Margin="15,0,0,4" 
                                                Height="20" 
                                                Width="60" 
-                                               RatingValue="{Binding Movie.Rating, Converter={StaticResource StringRatingToIntRatingConverter}}" />
+                                               RatingValue="{Binding Movie.RatingValue}" />
                                 <Canvas Background="LightGray" 
                                         VerticalAlignment="Center" 
                                         Margin="10,0,0,5">

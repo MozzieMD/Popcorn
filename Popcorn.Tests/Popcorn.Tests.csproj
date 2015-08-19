@@ -83,7 +83,6 @@
   </Choose>
   <ItemGroup>
     <Compile Include="Converters\UriToCachedImageConverterTest.cs" />
-    <Compile Include="Converters\StringRatingToIntRatingConverterTest.cs" />
     <Compile Include="Converters\RatioConverterTest.cs" />
     <Compile Include="Converters\BoolToVisibilityConverterTest.cs" />
     <Compile Include="Converters\BoolToInverseVisibilityConverterTest.cs" />

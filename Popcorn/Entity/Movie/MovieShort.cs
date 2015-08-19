@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using Popcorn.Models.Torrent;
 
 namespace Popcorn.Entity.Movie
 {
@@ -22,7 +21,7 @@ namespace Popcorn.Entity.Movie
         public string Title { get; set; }
         public string TitleLong { get; set; }
         public int Year { get; set; }
-        public string Rating { get; set; }
+        public double Rating { get; set; }
         public int Runtime { get; set; }
         public virtual ICollection<Genre> Genres { get; set; }
         public string Language { get; set; }

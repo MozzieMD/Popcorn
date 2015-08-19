@@ -2,7 +2,7 @@
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 
-namespace Popcorn.Resources.Styles
+namespace Popcorn.Controls
 {
     /// <summary>
     /// Interaction logic for Rating.xaml

@@ -23,6 +23,21 @@ namespace Popcorn.Models.Movie
 
         #endregion
 
+        #region Property -> RatingValue
+
+        private double _ratingValue;
+
+        /// <summary>
+        /// Movie rating
+        /// </summary>
+        public double RatingValue
+        {
+            get { return _ratingValue; }
+            set { Set(() => RatingValue, ref _ratingValue, value); }
+        }
+        
+        #endregion
+
         #region Property -> Genres
 
         /// <summary>

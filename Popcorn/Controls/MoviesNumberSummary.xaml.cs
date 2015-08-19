@@ -107,7 +107,7 @@ namespace Popcorn.Controls
             var moviesNumberSummary = d as MoviesNumberSummary;
             var newValue = e.NewValue as double?;
             if (newValue.HasValue)
-                moviesNumberSummary?.FormatSummaryWithMaxNumberOfMovies(newValue.Value);
+                moviesNumberSummary?.FormatSummaryWithCurrentNumberOfMovies(newValue.Value);
         }
 
         #endregion
@@ -131,7 +131,7 @@ namespace Popcorn.Controls
         /// Format summary with the maximum movie's number
         /// </summary>
         /// <param name="currentNumberOfMovies">The current number of movies</param>
-        private void FormatSummaryWithMaxNumberOfMovies(double currentNumberOfMovies)
+        private void FormatSummaryWithCurrentNumberOfMovies(double currentNumberOfMovies)
         {
             DisplayText.Text = $"{currentNumberOfMovies} {LocalizationProviderHelper.GetLocalizedValue<string>("MoviesWord")} {LocalizationProviderHelper.GetLocalizedValue<string>("OfWord")} {MaxNumberOfMovies}";
         }

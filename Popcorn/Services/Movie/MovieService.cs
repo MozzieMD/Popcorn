@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.Globalization;
 using System.IO;
 using System.IO.Compression;
 using System.Threading;
@@ -359,6 +360,9 @@ namespace Popcorn.Services.Movie
                 if (wrapper == null)
                     return;
 
+                var rating = Convert.ToDouble(movie.Rating, CultureInfo.InvariantCulture);
+                rating /= 2.0;
+
                 movie = new MovieShort
                 {
                     ApiVersion = wrapper.Meta.ApiVersion,
@@ -374,7 +378,7 @@ namespace Popcorn.Services.Movie
                     MediumCoverImage = wrapper.Movie.Images.MediumCoverImage,
                     CoverImagePath = string.Empty,
                     MpaRating = wrapper.Movie.MpaRating,
-                    Rating = wrapper.Movie.Rating,
+                    RatingValue = rating,
                     Runtime = wrapper.Movie.Runtime,
                     ServerTime = wrapper.Meta.ServerTime,
                     ServerTimezone = wrapper.Meta.ServerTimezone,
@@ -429,6 +433,10 @@ namespace Popcorn.Services.Movie
 
                 var tmdbInfos = TmdbClient.GetMovie(wrapper.Movie.ImdbCode,
                     MovieMethods.Credits);
+
+                var rating = Convert.ToDouble(movie.Rating, CultureInfo.InvariantCulture);
+                rating /= 2.0;
+
                 movie = new MovieFull
                 {
                     Id = wrapper.Movie.Id,
@@ -448,7 +456,7 @@ namespace Popcorn.Services.Movie
                     LikeCount = wrapper.Movie.LikeCount,
                     MpaRating = wrapper.Movie.MpaRating,
                     PosterImagePath = string.Empty,
-                    Rating = wrapper.Movie.Rating,
+                    RatingValue = rating,
                     RtAudienceRating = wrapper.Movie.RtAudienceRating,
                     RtAudienceScore = wrapper.Movie.RtAudienceScore,
                     RtCriticsRating = wrapper.Movie.RtCriticsRating,
@@ -548,6 +556,9 @@ namespace Popcorn.Services.Movie
             var movies = new List<MovieShort>();
             foreach (var movie in wrapper.Data.Movies)
             {
+                var rating = Convert.ToDouble(movie.Rating, CultureInfo.InvariantCulture);
+                rating /= 2.0;
+
                 movies.Add(new MovieShort
                 {
                     ApiVersion = movie.ApiVersion,
@@ -563,7 +574,7 @@ namespace Popcorn.Services.Movie
                     MediumCoverImage = movie.MediumCoverImage,
                     CoverImagePath = string.Empty,
                     MpaRating = movie.MpaRating,
-                    Rating = movie.Rating,
+                    RatingValue = rating,
                     Runtime = movie.Runtime,
                     ServerTime = movie.ServerTime,
                     ServerTimezone = movie.ServerTimezone,

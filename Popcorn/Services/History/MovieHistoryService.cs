@@ -327,7 +327,7 @@ namespace Popcorn.Services.History
                 ImdbCode = movie.ImdbCode,
                 IsFavorite = movie.IsFavorite,
                 Runtime = movie.Runtime,
-                Rating = movie.Rating,
+                RatingValue = movie.Rating,
                 MpaRating = movie.MpaRating,
                 Title = movie.Title,
                 TitleLong = movie.TitleLong,
@@ -405,7 +405,7 @@ namespace Popcorn.Services.History
                 DateUploadedUnix = movie.DateUploadedUnix,
                 CoverImagePath = movie.CoverImagePath,
                 MpaRating = movie.MpaRating,
-                Rating = movie.Rating,
+                Rating = movie.RatingValue,
                 ExecutionTime = movie.ExecutionTime,
                 ApiVersion = movie.ApiVersion
             };
@@ -506,7 +506,7 @@ namespace Popcorn.Services.History
                 Genres = genres,
                 DateUploadedUnix = movie.DateUploadedUnix,
                 MpaRating = movie.MpaRating,
-                Rating = movie.Rating,
+                Rating = movie.RatingValue,
                 Images = images,
                 DescriptionFull = movie.DescriptionFull,
                 Actors = actors,

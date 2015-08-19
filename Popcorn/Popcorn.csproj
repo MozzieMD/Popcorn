@@ -225,14 +225,13 @@
     </ApplicationDefinition>
     <Compile Include="Comparers\MovieFullComparer.cs" />
     <Compile Include="Comparers\MovieShortComparer.cs" />
-    <Compile Include="Converters\InverseBooleanConverter.cs" />
+    <Compile Include="Converters\BoolToInverseBoolConverter.cs" />
     <Compile Include="Converters\BoolToInverseVisibilityConverter.cs" />
     <Compile Include="Converters\BoolToVisibilityConverter.cs" />
     <Compile Include="Converters\MultiBooleanToBoolConverter.cs" />
     <Compile Include="Converters\MultiBooleanToVisibilityConverter.cs" />
     <Compile Include="Converters\UriToCachedImageConverter.cs" />
     <Compile Include="Converters\RatioConverter.cs" />
-    <Compile Include="Converters\StringRatingToIntRatingConverter.cs" />
     <Compile Include="Converters\WindowStateToBooleanConverter.cs" />
     <Compile Include="Controls\CapitalizeText.xaml.cs">
       <DependentUpon>CapitalizeText.xaml</DependentUpon>
@@ -267,9 +266,9 @@
     <Compile Include="Entity\Movie\Torrent.cs" />
     <Compile Include="Messaging\ChangeFavoriteMovieMessage.cs" />
     <Compile Include="Messaging\ChangeHasBeenSeenMovieMessage.cs" />
-    <Compile Include="Migrations\201508191822138_Initial.cs" />
-    <Compile Include="Migrations\201508191822138_Initial.Designer.cs">
-      <DependentUpon>201508191822138_Initial.cs</DependentUpon>
+    <Compile Include="Migrations\201508191937353_Initial.cs" />
+    <Compile Include="Migrations\201508191937353_Initial.Designer.cs">
+      <DependentUpon>201508191937353_Initial.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Panels\ElasticWrapPanel.cs" />
@@ -342,7 +341,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="Resources\Styles\Rating.xaml.cs">
+    <Compile Include="Controls\Rating.xaml.cs">
       <DependentUpon>Rating.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\Settings.Designer.cs">
@@ -471,7 +470,7 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="Resources\Styles\Rating.xaml">
+    <Page Include="Controls\Rating.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -552,8 +551,8 @@
     <Resource Include="Resources\Images\stop.png" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201508191822138_Initial.resx">
-      <DependentUpon>201508191822138_Initial.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201508191937353_Initial.resx">
+      <DependentUpon>201508191937353_Initial.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.fr.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>

@@ -7,7 +7,7 @@ namespace Popcorn.Converters
     /// Convert a boolean to its inverse
     /// </summary>
     [ValueConversion(typeof (bool), typeof (bool))]
-    public class InverseBooleanConverter : IValueConverter
+    public class BoolToInverseBoolConverter : IValueConverter
     {
         #region IValueConverter Members
 
