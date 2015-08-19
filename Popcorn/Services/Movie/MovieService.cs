@@ -434,7 +434,7 @@ namespace Popcorn.Services.Movie
                 var tmdbInfos = TmdbClient.GetMovie(wrapper.Movie.ImdbCode,
                     MovieMethods.Credits);
 
-                var rating = Convert.ToDouble(movie.Rating, CultureInfo.InvariantCulture);
+                var rating = Convert.ToDouble(wrapper.Movie.Rating, CultureInfo.InvariantCulture);
                 rating /= 2.0;
 
                 movie = new MovieFull

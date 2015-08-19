@@ -57,21 +57,6 @@ namespace Popcorn.ViewModels.Main
 
         #endregion
 
-        #region Property -> IsStarting
-
-        private bool _isStarting;
-
-        /// <summary>
-        /// Indicates if the application is starting
-        /// </summary>
-        public bool IsStarting
-        {
-            get { return _isStarting; }
-            set { Set(() => IsStarting, ref _isStarting, value); }
-        }
-
-        #endregion
-
         #region Property -> IsUserSignin
 
         private bool _isUserSignin;
@@ -477,7 +462,6 @@ namespace Popcorn.ViewModels.Main
         /// <returns>Instance of MainViewModel</returns>
         private async Task InitializeAsync()
         {
-            IsStarting = true;
             Tabs.Add(new PopularTabViewModel());
             SelectedTab = Tabs.First();
             await SelectedTab.LoadMoviesAsync();
@@ -487,7 +471,6 @@ namespace Popcorn.ViewModels.Main
             IsSearchTabSelected = false;
             IsFavoritesTabSelected = false;
             IsSeenTabSelected = false;
-            IsStarting = false;
             Tabs.Add(new GreatestTabViewModel());
             Tabs.Add(new RecentTabViewModel());
             Tabs.Add(new FavoritesTabViewModel());
@@ -549,8 +532,7 @@ namespace Popcorn.ViewModels.Main
             Messenger.Default.Register<SearchMovieMessage>(this,
                 async message =>
                 {
-                    if (!IsStarting)
-                        await SearchMovies(message.Filter);
+                    await SearchMovies(message.Filter);
                 });
         }
 

@@ -200,16 +200,6 @@
             <RowDefinition Height="*"></RowDefinition>
             <RowDefinition Height="80"></RowDefinition>
         </Grid.RowDefinitions>
-
-        <Grid Grid.Column="1" 
-              Grid.Row="0"
-              Grid.RowSpan="4"
-              VerticalAlignment="Center">
-            <controls:ProgressRing IsActive="True"
-                                   Foreground="{DynamicResource AccentColorBrush}"
-                                   VerticalAlignment="Center"
-                                   Visibility="{Binding IsStarting, Converter={StaticResource BoolToInverseVisibilityConverter}}"/>
-        </Grid>
         <Grid x:Name="SearchBar"
               Grid.Column="0" 
               Grid.Row="0" 
@@ -247,7 +237,6 @@
                        Grid.ColumnSpan="2"></TextBlock>
                 <ListBox Grid.Row="3"
                          Grid.Column="2"
-                         Visibility="{Binding IsStarting, Converter={StaticResource BoolToVisibilityConverter}}"
                          Style="{StaticResource ListBoxButtons}">
                     <ListBoxItem>
                         <RadioButton Style="{StaticResource FlatButton}"
@@ -334,7 +323,6 @@
                        Grid.ColumnSpan="2"></TextBlock>
                 <ListBox Grid.Row="7"
                          Grid.Column="2"
-                         Visibility="{Binding IsStarting, Converter={StaticResource BoolToVisibilityConverter}}"
                          Style="{StaticResource ListBoxButtons}">
                     <ListBoxItem>
                         <RadioButton Style="{StaticResource FlatButton}"
@@ -436,21 +424,18 @@
         <Grid Grid.Column="2"
               Grid.Row="0"
               Background="White"
-              Style="{StaticResource AnimationUserBar}"
-              Visibility="{Binding IsStarting, Converter={StaticResource BoolToVisibilityConverter}}">
+              Style="{StaticResource AnimationUserBar}">
         </Grid>
         <Grid Grid.Column="2"
               Grid.Row="1"
               Grid.RowSpan="2"
               Background="#ecedef"
-              Style="{StaticResource AnimationUserBar}"             
-              Visibility="{Binding IsStarting, Converter={StaticResource BoolToVisibilityConverter}}">
+              Style="{StaticResource AnimationUserBar}">
         </Grid>
         <Grid Grid.Column="2"
               Grid.Row="3"
               Background="#c4ccd8"
-              Style="{StaticResource AnimationUserBar}"              
-              Visibility="{Binding IsStarting, Converter={StaticResource BoolToVisibilityConverter}}">
+              Style="{StaticResource AnimationUserBar}">
         </Grid>
     </Grid>
 </controls:MetroWindow>
