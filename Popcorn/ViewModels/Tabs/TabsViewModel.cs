@@ -10,6 +10,7 @@ using Popcorn.Helpers;
 using Popcorn.Messaging;
 using Popcorn.Services.User;
 using GalaSoft.MvvmLight.Ioc;
+using Popcorn.Services.History;
 using Popcorn.Services.Movie;
 
 namespace Popcorn.ViewModels.Tabs
@@ -36,6 +37,15 @@ namespace Popcorn.ViewModels.Tabs
         /// Services used to interacts with user
         /// </summary>
         protected UserService UserService { get; }
+
+        #endregion
+
+        #region Property -> MovieHistoryService
+
+        /// <summary>
+        /// Services used to interacts with movie history
+        /// </summary>
+        protected MovieHistoryService MovieHistoryService { get; }
 
         #endregion
 
@@ -203,6 +213,7 @@ namespace Popcorn.ViewModels.Tabs
             CancellationLoadNextPageToken = new CancellationTokenSource();
             MovieService = SimpleIoc.Default.GetInstance<MovieService>();
             UserService = SimpleIoc.Default.GetInstance<UserService>();
+            MovieHistoryService = SimpleIoc.Default.GetInstance<MovieHistoryService>();
             MaxMoviesPerPage = Constants.MaxMoviesPerPage;
         }
 
@@ -234,7 +245,7 @@ namespace Popcorn.ViewModels.Tabs
                 this,
                 async message =>
                 {
-                    await UserService.ComputeMovieHistoryAsync(Movies);
+                    await MovieHistoryService.ComputeMovieHistoryAsync(Movies);
                 });
         }
 
@@ -251,7 +262,7 @@ namespace Popcorn.ViewModels.Tabs
             SetFavoriteMovieCommand =
                 new RelayCommand<MovieShort>(async movie =>
                 {
-                    await UserService.SetFavoriteMovieAsync(movie);
+                    await MovieHistoryService.SetFavoriteMovieAsync(movie);
                     Messenger.Default.Send(new ChangeFavoriteMovieMessage(movie));
                 });
         }

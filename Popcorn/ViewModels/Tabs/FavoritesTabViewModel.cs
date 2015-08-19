@@ -74,13 +74,12 @@ namespace Popcorn.ViewModels.Tabs
         public override async Task LoadMoviesAsync()
         {
             IsLoadingMovies = true;
-            var favoritesMovies = await UserService.GetFavoritesMoviesAsync();
+            var favoritesMovies = await MovieHistoryService.GetFavoritesMoviesAsync();
             var movies = favoritesMovies.ToList();
             var moviesToAdd = movies.Except(Movies, new MovieShortComparer()).ToList();
             var moviesToRemove = Movies.Except(movies, new MovieShortComparer()).ToList();
             try
             {
-                MaxNumberOfMovies = movies.Count();
                 foreach (var movie in moviesToAdd)
                 {
                     Movies.Add(movie);
@@ -99,6 +98,7 @@ namespace Popcorn.ViewModels.Tabs
                 IsLoadingMovies = false;
                 IsMovieFound = Movies.Any();
                 CurrentNumberOfMovies = Movies.Count();
+                MaxNumberOfMovies = movies.Count();
             }
         }
 

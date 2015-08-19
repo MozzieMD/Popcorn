@@ -92,7 +92,7 @@ namespace Popcorn.ViewModels.Tabs
 
                 IsLoadingMovies = false;
 
-                await UserService.ComputeMovieHistoryAsync(movies);
+                await MovieHistoryService.ComputeMovieHistoryAsync(movies);
                 await MovieService.DownloadCoverImageAsync(movies);
             }
             catch

@@ -1,5 +1,6 @@
 ﻿using GalaSoft.MvvmLight.Ioc;
 using Microsoft.Practices.ServiceLocation;
+using Popcorn.Services.History;
 using Popcorn.Services.Language;
 using Popcorn.Services.Movie;
 using Popcorn.Services.Settings;
@@ -23,6 +24,7 @@ namespace Popcorn.ViewModels
             SimpleIoc.Default.Register(() => new ApplicationSettingsService());
             SimpleIoc.Default.Register(() => new LanguageService());
             SimpleIoc.Default.Register(() => new UserService());
+            SimpleIoc.Default.Register(() => new MovieHistoryService());
             SimpleIoc.Default.Register(() => new MovieService());
             SimpleIoc.Default.Register(() => new MainViewModel());
             SimpleIoc.Default.Register(() => new SettingsViewModel());

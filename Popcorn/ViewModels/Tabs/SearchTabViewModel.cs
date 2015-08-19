@@ -133,7 +133,7 @@ namespace Popcorn.ViewModels.Tabs
 
                     IsLoadingMovies = false;
 
-                    await UserService.ComputeMovieHistoryAsync(movies);
+                    await MovieHistoryService.ComputeMovieHistoryAsync(movies);
                     await MovieService.DownloadCoverImageAsync(movies);
                     if (!LastPageFilterMapping.ContainsKey(searchFilter) && !movies.Any())
                     {

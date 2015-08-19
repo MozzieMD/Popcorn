@@ -323,6 +323,7 @@
     <Compile Include="Models\Torrent\Torrent.cs" />
     <Compile Include="Models\Trailer\Trailer.cs" />
     <Compile Include="Models\Account\User.cs" />
+    <Compile Include="Services\History\MovieHistoryService.cs" />
     <Compile Include="Services\Movie\MovieService.cs" />
     <Compile Include="Models\Torrent\Deserialized\TorrentDeserialized.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
