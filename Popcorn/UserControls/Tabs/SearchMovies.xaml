@@ -9,8 +9,8 @@
              xmlns:converters="clr-namespace:Popcorn.Converters"
              xmlns:lex="http://wpflocalizeextension.codeplex.com"
              xmlns:tabs="clr-namespace:Popcorn.UserControls.Tabs"
-             xmlns:tabsViewModels="clr-namespace:Popcorn.ViewModels.Tabs"
              xmlns:customControls="clr-namespace:Popcorn.Controls"
+             xmlns:tabsViewModels="clr-namespace:Popcorn.ViewModels.Tabs"
              lex:LocalizeDictionary.DesignCulture="en"
              lex:ResxLocalizationProvider.DefaultAssembly="Popcorn"
              lex:ResxLocalizationProvider.DefaultDictionary="Resources"
@@ -82,9 +82,9 @@
                       ScrollChanged="ScrollViewerScrollChanged" 
                       Visibility="{Binding Main.IsConnectionInError, Converter={StaticResource BoolToVisibilityConverter}, Source={StaticResource Locator}}">
             <ItemsControl x:Name="ItemsList" 
-                        ItemsSource="{Binding Movies}" 
                         VirtualizingStackPanel.IsVirtualizing="True"
                         VirtualizingStackPanel.VirtualizationMode="Recycling"
+                        ItemsSource="{Binding Movies}" 
                         VerticalAlignment="Top">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
@@ -98,29 +98,37 @@
                                         Margin="0,0,0,5">
                                 <Grid>
                                     <Grid.RowDefinitions>
-                                        <RowDefinition Height="8*"></RowDefinition>
-                                        <RowDefinition Height="2*"></RowDefinition>
+                                        <RowDefinition Height="50"></RowDefinition>
+                                        <RowDefinition Height="200"></RowDefinition>
+                                        <RowDefinition Height="50"></RowDefinition>
                                     </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="10"></ColumnDefinition>
+                                        <ColumnDefinition Width="180"></ColumnDefinition>
+                                        <ColumnDefinition Width="10"></ColumnDefinition>
+                                    </Grid.ColumnDefinitions>
                                     <Image  
                                         Grid.Row="0"
-                                        Grid.RowSpan="2"
+                                        Grid.RowSpan="3"
+                                        Grid.Column="0"
+                                        Grid.ColumnSpan="3"
                                         x:Name="BackgroundImage"
                                         Source="{Binding CoverImagePath, Converter={StaticResource UriToCachedImageConverter}}" 
-                                        Stretch="UniformToFill" 
                                         VerticalAlignment="Center"
                                         HorizontalAlignment="Center"/>
                                     <customControls:Rating 
-                                        Grid.Row="1"
+                                        Grid.Row="2"
+                                        Grid.Column="1"
                                         x:Name="Rating"
                                         Width="60" 
-                                        Margin="10"
                                         HorizontalAlignment="Left" 
-                                        VerticalContentAlignment="Bottom" 
+                                        VerticalAlignment="Center" 
                                         RatingValue="{Binding RatingValue}" 
                                         Opacity="0.0"/>
                                     <Grid 
                                         Grid.Row="0"
-                                        Grid.RowSpan="2"
+                                        Grid.RowSpan="3"
+                                        Grid.Column="1"
                                         x:Name="PlayCanvas"
                                         VerticalAlignment="Center"
                                         HorizontalAlignment="Center"
@@ -139,74 +147,57 @@
                                                 Stroke="#FFFFFF" 
                                                 Fill="#00000000" />
                                     </Grid>
-                                    <StackPanel Grid.Row="1" 
-                                            VerticalAlignment="Bottom"
-                                            HorizontalAlignment="Right"
-                                            Orientation="Horizontal">
-                                        <ToggleButton
-                                            x:Name="Like"
-                                            CommandParameter="{Binding }"
-                                            Command="{Binding DataContext.SetFavoriteMovieCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type tabs:SearchMovies}}}"
-                                            HorizontalAlignment="Right"
-                                            Width="50"
-                                            Height="50"
-                                            Opacity="0.0"
-                                            IsChecked="{Binding IsFavorite}"
-                                            Style="{DynamicResource MetroCircleToggleButtonStyle}">
-                                            <Rectangle Width="20"
-                                            Height="20"
-                                            Fill="White">
-                                                <Rectangle.OpacityMask>
-                                                    <VisualBrush Stretch="Fill">
-                                                        <VisualBrush.Visual>
-                                                            <Canvas x:Name="appbar_heart" 
-                                                                Width="76" 
-                                                                Height="76" 
-                                                                Clip="F1 M 0,0L 76,0L 76,76L 0,76L 0,0">
-                                                                <Path Width="33.4542" 
-                                                                    Height="28.4779" 
-                                                                    Canvas.Left="21.2717" 
-                                                                    Canvas.Top="25.733" 
-                                                                    Stretch="Fill" 
-                                                                    Fill="Red" 
-                                                                    Data="F1 M 52.2716,27.8072C 48.9356,24.164 42.0671,25.7204 38.0992,31.3618C 33.0737,25.3024 27.0713,24.164 23.7257,27.8072C 14.4142,37.9485 34.3451,52.5246 37.9599,54.1634L 38.0438,54.2109L 38.0438,54.1634C 41.6554,52.5246 61.5832,37.9485 52.2716,27.8072 Z "/>
-                                                            </Canvas>
-                                                        </VisualBrush.Visual>
-                                                    </VisualBrush>
-                                                </Rectangle.OpacityMask>
-                                            </Rectangle>
-                                        </ToggleButton>
-                                        <ToggleButton
-                                            x:Name="Seen"
-                                            CommandParameter="{Binding }"
-                                            HorizontalAlignment="Left"
-                                            Width="50"
-                                            Height="50"
-                                            IsChecked="{Binding HasBeenSeen}"
-                                            IsEnabled="False"
-                                            Opacity="0.0"
-                                            Style="{DynamicResource MetroCircleToggleButtonStyle}">
-                                            <Rectangle Width="20"
-                                            Height="20"
-                                            Fill="White">
-                                                <Rectangle.OpacityMask>
-                                                    <VisualBrush Stretch="Fill">
-                                                        <VisualBrush.Visual>
-                                                            <Canvas x:Name="appbar_eye" Width="76" Height="76" Clip="F1 M 0,0L 76,0L 76,76L 0,76L 0,0">
-                                                                <Path Width="42" 
-                                                                    Height="25.8461" 
-                                                                    Canvas.Left="17" 
-                                                                    Canvas.Top="25.0769" 
-                                                                    Stretch="Fill" 
-                                                                    Fill="#FF000000" 
-                                                                    Data="F1 M 38,33.1538C 40.6765,33.1538 42.8462,35.3235 42.8462,38C 42.8462,40.6765 40.6765,42.8461 38,42.8461C 35.3235,42.8461 33.1539,40.6765 33.1539,38C 33.1539,35.3235 35.3236,33.1538 38,33.1538 Z M 38,25.0769C 49.3077,25.0769 59,33.1538 59,38C 59,42.8461 49.3077,50.9231 38,50.9231C 26.6923,50.9231 17,42.8461 17,38C 17,33.1538 26.6923,25.0769 38,25.0769 Z M 38,29.1154C 33.0932,29.1154 29.1154,33.0932 29.1154,38C 29.1154,42.9068 33.0932,46.8846 38,46.8846C 42.9068,46.8846 46.8846,42.9068 46.8846,38C 46.8846,33.0932 42.9068,29.1154 38,29.1154 Z "/>
-                                                            </Canvas>
-                                                        </VisualBrush.Visual>
-                                                    </VisualBrush>
-                                                </Rectangle.OpacityMask>
-                                            </Rectangle>
-                                        </ToggleButton>
-                                    </StackPanel>
+
+                                    <ToggleButton
+                                        Grid.Row="2" 
+                                        Grid.Column="1"
+                                        VerticalAlignment="Center"
+                                        HorizontalAlignment="Right"
+                                        x:Name="Like"
+                                        CommandParameter="{Binding }"
+                                        Command="{Binding DataContext.SetFavoriteMovieCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type tabs:SearchMovies}}}"
+                                        Width="50"
+                                        Height="50"
+                                        Opacity="0.0"
+                                        IsChecked="{Binding IsFavorite}"
+                                        Style="{DynamicResource MetroCircleToggleButtonStyle}">
+                                        <Rectangle Width="20"
+                                        Height="20"
+                                        Fill="White">
+                                            <Rectangle.OpacityMask>
+                                                <VisualBrush Stretch="Fill">
+                                                    <VisualBrush.Visual>
+                                                        <Canvas x:Name="appbar_heart" 
+                                                            Width="76" 
+                                                            Height="76" 
+                                                            Clip="F1 M 0,0L 76,0L 76,76L 0,76L 0,0">
+                                                            <Path Width="33.4542" 
+                                                                Height="28.4779" 
+                                                                Canvas.Left="21.2717" 
+                                                                Canvas.Top="25.733" 
+                                                                Stretch="Fill" 
+                                                                Fill="Red" 
+                                                                Data="F1 M 52.2716,27.8072C 48.9356,24.164 42.0671,25.7204 38.0992,31.3618C 33.0737,25.3024 27.0713,24.164 23.7257,27.8072C 14.4142,37.9485 34.3451,52.5246 37.9599,54.1634L 38.0438,54.2109L 38.0438,54.1634C 41.6554,52.5246 61.5832,37.9485 52.2716,27.8072 Z "/>
+                                                        </Canvas>
+                                                    </VisualBrush.Visual>
+                                                </VisualBrush>
+                                            </Rectangle.OpacityMask>
+                                        </Rectangle>
+                                    </ToggleButton>
+                                    <Rectangle Width="21"
+                                               Grid.Row="0" 
+                                               Grid.Column="1"
+                                               VerticalAlignment="Center"
+                                               HorizontalAlignment="Right"
+                                               x:Name="Seen"
+                                               Height="13"
+                                               Opacity="0.0"
+                                               Fill="White"
+                                               Visibility="{Binding HasBeenSeen, Converter={StaticResource BoolToInverseVisibilityConverter}}">
+                                        <Rectangle.OpacityMask>
+                                            <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_eye}"/>
+                                        </Rectangle.OpacityMask>
+                                    </Rectangle>
                                     <Grid.Triggers>
                                         <EventTrigger RoutedEvent="Grid.MouseEnter">
                                             <EventTrigger.Actions>
@@ -319,22 +310,22 @@
                             </controls:Tile>
                             <TextBlock Name="Title" 
                                        Text="{Binding Title}" 
-                                       Width="200" 
+                                       Width="200"
                                        TextTrimming="CharacterEllipsis" 
                                        FontSize="14" 
                                        HorizontalAlignment="Left"/>
-                            <TextBlock Width="200"
-                                       TextTrimming="CharacterEllipsis"
+                            <TextBlock TextTrimming="CharacterEllipsis"
                                        Foreground="Gray" 
+                                       Width="200"
                                        FontSize="12" 
                                        HorizontalAlignment="Left">
                                 <customControls:MovieGenres Genres="{Binding Genres}"/>
                             </TextBlock>
                             <TextBlock Text="{Binding Year}" 
                                        Foreground="Gray" 
+                                       Width="200"
                                        HorizontalAlignment="Left" 
-                                       FontSize="12"
-                                       Width="200"/>
+                                       FontSize="12"/>
                         </StackPanel>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>

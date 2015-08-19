@@ -18,7 +18,7 @@ namespace Popcorn.Controls
         public static readonly DependencyProperty MaxNumberOfMoviesProperty =
             DependencyProperty.Register("MaxNumberOfMovies",
                 typeof (double), typeof (MoviesNumberSummary),
-                new PropertyMetadata(0.0, OnMaximumNumberOfMoviesChanged));
+                new PropertyMetadata(0.0, OnNumberOfMoviesChanged));
 
         #endregion
 
@@ -30,7 +30,7 @@ namespace Popcorn.Controls
         public static readonly DependencyProperty CurrentNumberOfMoviesProperty =
             DependencyProperty.Register("CurrentNumberOfMovies",
                 typeof (double), typeof (MoviesNumberSummary),
-                new PropertyMetadata(0.0, OnCurrentNumberOfMoviesChanged));
+                new PropertyMetadata(0.0, OnNumberOfMoviesChanged));
 
         #endregion
 
@@ -78,62 +78,38 @@ namespace Popcorn.Controls
 
         #endregion
 
-        #region Method -> OnMaximumNumberOfMoviesChanged
+        #region Method -> OnNumberOfMoviesChanged
 
         /// <summary>
         /// On number of movies changed
         /// </summary>
         /// <param name="d">Dependency object</param>
         /// <param name="e">Event args</param>
-        private static void OnMaximumNumberOfMoviesChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        private static void OnNumberOfMoviesChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var moviesNumberSummary = d as MoviesNumberSummary;
-            var newValue = e.NewValue as double?;
-            if (newValue.HasValue)
-                moviesNumberSummary?.FormatSummaryWithMaximumNumberOfMovies(newValue.Value);
+            moviesNumberSummary?.DisplayMoviesNumberSummary();
         }
 
         #endregion
 
-        #region Method -> OnCurrentNumberOfMoviesChanged
+        #region Method -> DisplayMoviesNumberSummary
 
         /// <summary>
-        /// On number of movies changed
+        /// Display movies summary
         /// </summary>
-        /// <param name="d">Dependency object</param>
-        /// <param name="e">Event args</param>
-        private static void OnCurrentNumberOfMoviesChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        private void DisplayMoviesNumberSummary()
         {
-            var moviesNumberSummary = d as MoviesNumberSummary;
-            var newValue = e.NewValue as double?;
-            if (newValue.HasValue)
-                moviesNumberSummary?.FormatSummaryWithCurrentNumberOfMovies(newValue.Value);
-        }
-
-        #endregion
-
-        #region Method -> FormatSummaryWithMaximumNumberOfMovies
-
-        /// <summary>
-        /// Format summary with the maximum movie's number
-        /// </summary>
-        /// <param name="maxNumberOfMovies">The maximum number of movies</param>
-        private void FormatSummaryWithMaximumNumberOfMovies(double maxNumberOfMovies)
-        {
-            DisplayText.Text = $"{CurrentNumberOfMovies} {LocalizationProviderHelper.GetLocalizedValue<string>("MoviesWord")} {LocalizationProviderHelper.GetLocalizedValue<string>("OfWord")} {maxNumberOfMovies}";
-        }
-
-        #endregion
-
-        #region Method -> FormatSummaryWithCurrentNumberOfMovies
-
-        /// <summary>
-        /// Format summary with the maximum movie's number
-        /// </summary>
-        /// <param name="currentNumberOfMovies">The current number of movies</param>
-        private void FormatSummaryWithCurrentNumberOfMovies(double currentNumberOfMovies)
-        {
-            DisplayText.Text = $"{currentNumberOfMovies} {LocalizationProviderHelper.GetLocalizedValue<string>("MoviesWord")} {LocalizationProviderHelper.GetLocalizedValue<string>("OfWord")} {MaxNumberOfMovies}";
+            if (CurrentNumberOfMovies.Equals(MaxNumberOfMovies))
+            {
+                DisplayText.Text =
+                    $"{CurrentNumberOfMovies} {LocalizationProviderHelper.GetLocalizedValue<string>("MoviesWord")}";
+            }
+            else
+            {
+                DisplayText.Text =
+                    $"{CurrentNumberOfMovies} {LocalizationProviderHelper.GetLocalizedValue<string>("MoviesWord")} {LocalizationProviderHelper.GetLocalizedValue<string>("OfWord")} {MaxNumberOfMovies}";
+            }
         }
 
         #endregion
