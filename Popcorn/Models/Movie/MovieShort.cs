@@ -53,32 +53,32 @@ namespace Popcorn.Models.Movie
 
         #endregion
 
-        #region Property -> IsLiked
+        #region Property -> IsFavorite
 
-        private bool? _isLiked;
+        private bool _isFavorite;
 
         /// <summary>
-        /// Indicate if movie has been liked by the user
+        /// Indicate if movie is favorite
         /// </summary>
-        public bool? IsLiked
+        public bool IsFavorite
         {
-            get { return _isLiked; }
-            set { Set(() => IsLiked, ref _isLiked, value); }
+            get { return _isFavorite; }
+            set { Set(() => IsFavorite, ref _isFavorite, value); }
         }
 
         #endregion
 
-        #region Property -> IsLiked
+        #region Property -> HasBeenSeen
 
-        private bool? _isSeen;
+        private bool _hasBeenSeen;
 
         /// <summary>
         /// Indicate if movie has been seen by the user
         /// </summary>
-        public bool? IsSeen
+        public bool HasBeenSeen
         {
-            get { return _isSeen; }
-            set { Set(() => IsSeen, ref _isSeen, value); }
+            get { return _hasBeenSeen; }
+            set { Set(() => HasBeenSeen, ref _hasBeenSeen, value); }
         }
 
         #endregion

@@ -33,7 +33,7 @@ namespace Popcorn.Models.Movie.Json
         public int Runtime { get; set; }
 
         [JsonProperty("genres")]
-        protected IEnumerable<string> Genres;
+        public IEnumerable<string> Genres;
 
         [JsonProperty("language")]
         public string Language { get; set; }
@@ -63,7 +63,7 @@ namespace Popcorn.Models.Movie.Json
         public string DescriptionIntro { get; set; }
 
         [JsonProperty("description_full")]
-        protected string DescriptionFull;
+        public string DescriptionFull;
 
         [JsonProperty("yt_trailer_code")]
         public string YtTrailerCode { get; set; }

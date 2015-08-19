@@ -6,7 +6,7 @@ namespace Popcorn.Comparers
     /// <summary>
     /// Compare two movies
     /// </summary>
-    public class MovieComparer : IEqualityComparer<MovieShort>
+    public class MovieFullComparer : IEqualityComparer<MovieFull>
     {
         /// <summary>
         /// Compare two movies
@@ -14,7 +14,7 @@ namespace Popcorn.Comparers
         /// <param name="x">First movie</param>
         /// <param name="y">Second movie</param>
         /// <returns>True if both movies are the same, false otherwise</returns>
-        public bool Equals(MovieShort x, MovieShort y)
+        public bool Equals(MovieFull x, MovieFull y)
         {
             //Check whether the compared objects reference the same data.
             if (ReferenceEquals(x, y)) return true;
@@ -31,7 +31,7 @@ namespace Popcorn.Comparers
         /// </summary>
         /// <param name="movie">A movie</param>
         /// <returns>Unique hashcode</returns>
-        public int GetHashCode(MovieShort movie)
+        public int GetHashCode(MovieFull movie)
         {
             //Check whether the object is null
             if (ReferenceEquals(movie, null)) return 0;

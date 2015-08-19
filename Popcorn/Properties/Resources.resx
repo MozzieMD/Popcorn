@@ -225,4 +225,13 @@
   <data name="MoviesWord" xml:space="preserve">
     <value>movies</value>
   </data>
+  <data name="CollectionsLabel" xml:space="preserve">
+    <value>Collections</value>
+  </data>
+  <data name="FavoritesTitleTab" xml:space="preserve">
+    <value>Favorites</value>
+  </data>
+  <data name="SeenTitleTab" xml:space="preserve">
+    <value>Seen</value>
+  </data>
 </root>

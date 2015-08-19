@@ -13,7 +13,7 @@ namespace Popcorn.Models.Movie.Json
         [JsonProperty("data")]
         public MovieFullDeserialized Movie { get; set; }
 
-        [JsonProperty("meta")]
+        [JsonProperty("@meta")]
         public MetaDeserialized Meta { get; set; }
     }
 }

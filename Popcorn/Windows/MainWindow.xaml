@@ -234,6 +234,10 @@
                     <RowDefinition Height="Auto"></RowDefinition>
                     <RowDefinition Height="2.5"></RowDefinition>
                     <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="2.5"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="2.5"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
                 </Grid.RowDefinitions>
                 <TextBlock Text="{lex:LocText MoviesLabel}" 
                        FontSize="14"
@@ -322,6 +326,51 @@
                         </RadioButton>
                     </ListBoxItem>
                 </ListBox>
+                <TextBlock Text="{lex:LocText CollectionsLabel}" 
+                       FontSize="14"
+                       Grid.Row="5"
+                       Foreground="#3c4c55"
+                       Grid.Column="1"
+                       Grid.ColumnSpan="2"></TextBlock>
+                <ListBox Grid.Row="7"
+                         Grid.Column="2"
+                         Visibility="{Binding IsStarting, Converter={StaticResource BoolToVisibilityConverter}}"
+                         Style="{StaticResource ListBoxButtons}">
+                    <ListBoxItem>
+                        <RadioButton Style="{StaticResource FlatButton}"
+                            Height="40"
+                            Command="{Binding SelectFavoritesTab}"
+                            IsChecked="{Binding IsFavoritesTabSelected, Mode=OneWay}"
+                            VerticalAlignment="Center"
+                            HorizontalContentAlignment="Left">
+                            <StackPanel Orientation="Horizontal">
+                                <Rectangle Width="20" Height="18" Fill="White">
+                                    <Rectangle.OpacityMask>
+                                        <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_heart}"/>
+                                    </Rectangle.OpacityMask>
+                                </Rectangle>
+                                <TextBlock Margin="10,0,0,0" Text="{lex:LocText FavoritesTitleTab}" FontSize="16"></TextBlock>
+                            </StackPanel>
+                        </RadioButton>
+                    </ListBoxItem>
+                    <ListBoxItem>
+                        <RadioButton Style="{StaticResource FlatButton}"
+                            Height="40"                            
+                            Command="{Binding SelectSeenTab}"
+                            IsChecked="{Binding IsSeenTabSelected, Mode=OneWay}"
+                            VerticalAlignment="Center"
+                            HorizontalContentAlignment="Left">
+                            <StackPanel Orientation="Horizontal">
+                                <Rectangle Width="20" Height="12" Fill="White">
+                                    <Rectangle.OpacityMask>
+                                        <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_eye}"/>
+                                    </Rectangle.OpacityMask>
+                                </Rectangle>
+                                <TextBlock Margin="10,0,0,0" Text="{lex:LocText SeenTitleTab}" FontSize="16"></TextBlock>
+                            </StackPanel>
+                        </RadioButton>
+                    </ListBoxItem>
+                </ListBox>
             </Grid>
         </Grid>
         <Grid Grid.Column="1"
@@ -366,6 +415,12 @@
                 </DataTemplate>
                 <DataTemplate DataType="{x:Type tabsViewModel:SearchTabViewModel}">
                     <tabsUserControl:SearchMovies Margin="20,0,0,0"/>
+                </DataTemplate>
+                <DataTemplate DataType="{x:Type tabsViewModel:FavoritesTabViewModel}">
+                    <tabsUserControl:FavoritesMovies Margin="20,0,0,0"/>
+                </DataTemplate>
+                <DataTemplate DataType="{x:Type tabsViewModel:SeenTabViewModel}">
+                    <tabsUserControl:SeenMovies Margin="20,0,0,0"/>
                 </DataTemplate>
                 <DataTemplate DataType="{x:Type movieVm:MoviePlayerViewModel}">
                     <movieUc:MoviePlayer/>

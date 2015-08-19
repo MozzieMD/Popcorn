@@ -148,12 +148,12 @@
                                         <ToggleButton
                                             x:Name="Like"
                                             CommandParameter="{Binding }"
-                                            Command="{Binding DataContext.LikeMovieCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type tabs:RecentMovies}}}"
+                                            Command="{Binding DataContext.SetFavoriteMovieCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type tabs:RecentMovies}}}"
                                             HorizontalAlignment="Right"
                                             Width="50"
                                             Height="50"
                                             Opacity="0.0"
-                                            IsChecked="{Binding IsLiked}"
+                                            IsChecked="{Binding IsFavorite}"
                                             Style="{DynamicResource MetroCircleToggleButtonStyle}">
                                             <Rectangle Width="20"
                                             Height="20"
@@ -184,7 +184,7 @@
                                             HorizontalAlignment="Left"
                                             Width="50"
                                             Height="50"
-                                            IsChecked="{Binding IsSeen}"
+                                            IsChecked="{Binding HasBeenSeen}"
                                             IsEnabled="False"
                                             Opacity="0.0"
                                             Style="{DynamicResource MetroCircleToggleButtonStyle}">

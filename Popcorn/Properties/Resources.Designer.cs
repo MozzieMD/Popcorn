@@ -88,6 +88,15 @@ namespace Popcorn.Properties {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à Collections.
+        /// </summary>
+        public static string CollectionsLabel {
+            get {
+                return ResourceManager.GetString("CollectionsLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à You seem to have an internet connection error. Please retry..
         /// </summary>
         public static string ConnectionErrorDescriptionPopup {
@@ -156,6 +165,15 @@ namespace Popcorn.Properties {
         public static string EmptySearchLabel {
             get {
                 return ResourceManager.GetString("EmptySearchLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Favorites.
+        /// </summary>
+        public static string FavoritesTitleTab {
+            get {
+                return ResourceManager.GetString("FavoritesTitleTab", resourceCulture);
             }
         }
         
@@ -327,6 +345,15 @@ namespace Popcorn.Properties {
         public static string SearchTitleTab {
             get {
                 return ResourceManager.GetString("SearchTitleTab", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Seen.
+        /// </summary>
+        public static string SeenTitleTab {
+            get {
+                return ResourceManager.GetString("SeenTitleTab", resourceCulture);
             }
         }
         

@@ -41,7 +41,7 @@ namespace Popcorn.UserControls.Tabs
                 var vm = DataContext as PopularTabViewModel;
                 if (vm != null && !vm.IsLoadingMovies)
                 {
-                    await vm.LoadNextPageAsync();
+                    await vm.LoadMoviesAsync();
                 }
             }
         }

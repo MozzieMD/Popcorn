@@ -17,7 +17,7 @@ namespace Popcorn.ViewModels.Tabs
     /// <summary>
     /// Manage tab controls
     /// </summary>
-    public class TabsViewModel : ViewModelBase, ITab
+    public class TabsViewModel : ViewModelBase
     {
         #region Properties
 
@@ -89,7 +89,16 @@ namespace Popcorn.ViewModels.Tabs
         /// <summary>
         /// Current page number of loaded movies
         /// </summary>
-        protected int Page { get; set; }
+        public int Page { get; protected set; }
+
+        #endregion
+
+        #region Property -> LastPage
+
+        /// <summary>
+        /// Last page number of loaded movies
+        /// </summary>
+        protected int LastPage { get; set; } = int.MaxValue;
 
         #endregion
 
@@ -169,12 +178,12 @@ namespace Popcorn.ViewModels.Tabs
 
         #endregion
 
-        #region Command -> LikeMovieCommand
+        #region Command -> SetFavoriteMovieCommand
 
         /// <summary>
-        /// Command used to like a movie
+        /// Command used to set a movie as favorite
         /// </summary>
-        public RelayCommand<MovieShort> LikeMovieCommand { get; private set; }
+        public RelayCommand<MovieShort> SetFavoriteMovieCommand { get; private set; }
 
         #endregion
 
@@ -220,6 +229,13 @@ namespace Popcorn.ViewModels.Tabs
                         await MovieService.TranslateMovieShortAsync(movie);
                     }
                 });
+
+            Messenger.Default.Register<ChangeFavoriteMovieMessage>(
+                this,
+                async message =>
+                {
+                    await UserService.ComputeMovieHistoryAsync(Movies);
+                });
         }
 
         #endregion
@@ -232,10 +248,25 @@ namespace Popcorn.ViewModels.Tabs
         /// <returns></returns>
         private void RegisterCommands()
         {
-            LikeMovieCommand =
-                new RelayCommand<MovieShort>(async movie => { await UserService.LikeMovieAsync(movie); });
+            SetFavoriteMovieCommand =
+                new RelayCommand<MovieShort>(async movie =>
+                {
+                    await UserService.SetFavoriteMovieAsync(movie);
+                    Messenger.Default.Send(new ChangeFavoriteMovieMessage(movie));
+                });
         }
 
+        #endregion
+
+        #region Method -> LoadMoviesAsync
+
+        /// <summary>
+        /// Load movies
+        /// </summary>
+        public virtual Task LoadMoviesAsync()
+        {
+            return null;
+        }
         #endregion
 
         #region Method -> StopLoadingNextPage

@@ -78,12 +78,12 @@ namespace Popcorn.Services.Language
                 var watch = Stopwatch.StartNew();
                 using (var context = new ApplicationDbContext())
                 {
-                    await context.ApplicationSettings.LoadAsync();
-                    var applicationSettings = await context.ApplicationSettings.FirstOrDefaultAsync();
+                    await context.Settings.LoadAsync();
+                    var applicationSettings = await context.Settings.FirstOrDefaultAsync();
                     if (applicationSettings == null)
                     {
                         await ApplicationService.CreateApplicationSettingsAsync();
-                        applicationSettings = await context.ApplicationSettings.FirstOrDefaultAsync();
+                        applicationSettings = await context.Settings.FirstOrDefaultAsync();
                     }
 
                     var languages = applicationSettings.Languages;
@@ -130,12 +130,12 @@ namespace Popcorn.Services.Language
                 var watch = Stopwatch.StartNew();
                 using (var context = new ApplicationDbContext())
                 {
-                    await context.ApplicationSettings.LoadAsync();
-                    var applicationSettings = await context.ApplicationSettings.FirstOrDefaultAsync();
+                    await context.Settings.LoadAsync();
+                    var applicationSettings = await context.Settings.FirstOrDefaultAsync();
                     if (applicationSettings == null)
                     {
                         await ApplicationService.CreateApplicationSettingsAsync();
-                        applicationSettings = await context.ApplicationSettings.FirstOrDefaultAsync();
+                        applicationSettings = await context.Settings.FirstOrDefaultAsync();
                     }
 
                     var language = applicationSettings.Languages.FirstOrDefault(a => a.IsCurrentLanguage);
@@ -181,12 +181,12 @@ namespace Popcorn.Services.Language
 
                 using (var context = new ApplicationDbContext())
                 {
-                    await context.ApplicationSettings.LoadAsync();
-                    var applicationSettings = await context.ApplicationSettings.FirstOrDefaultAsync();
+                    await context.Settings.LoadAsync();
+                    var applicationSettings = await context.Settings.FirstOrDefaultAsync();
                     if (applicationSettings == null)
                     {
                         await ApplicationService.CreateApplicationSettingsAsync();
-                        applicationSettings = await context.ApplicationSettings.FirstOrDefaultAsync();
+                        applicationSettings = await context.Settings.FirstOrDefaultAsync();
                     }
 
                     var currentLanguage = applicationSettings.Languages.First(a => a.Culture == language.Culture);
@@ -196,7 +196,7 @@ namespace Popcorn.Services.Language
                         lang.IsCurrentLanguage = false;
                     }
 
-                    context.ApplicationSettings.AddOrUpdate(applicationSettings);
+                    context.Settings.AddOrUpdate(applicationSettings);
                     await context.SaveChangesAsync();
                     ChangeLanguage(language);
                 }

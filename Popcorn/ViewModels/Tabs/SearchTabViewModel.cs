@@ -131,6 +131,8 @@ namespace Popcorn.ViewModels.Tabs
                         Movies.Add(movie);
                     }
 
+                    IsLoadingMovies = false;
+
                     await UserService.ComputeMovieHistoryAsync(movies);
                     await MovieService.DownloadCoverImageAsync(movies);
                     if (!LastPageFilterMapping.ContainsKey(searchFilter) && !movies.Any())
@@ -147,6 +149,8 @@ namespace Popcorn.ViewModels.Tabs
                     IsLoadingMovies = false;
                     IsMovieFound = Movies.Any();
                     CurrentNumberOfMovies = Movies.Count();
+                    if (!IsMovieFound)
+                        Page = 0;
                 }
             }
         }

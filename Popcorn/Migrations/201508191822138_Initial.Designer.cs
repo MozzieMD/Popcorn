@@ -13,7 +13,7 @@ namespace Popcorn.Migrations
         
         string IMigrationMetadata.Id
         {
-            get { return "201507151433289_Initial"; }
+            get { return "201508191822138_Initial"; }
         }
         
         string IMigrationMetadata.Source

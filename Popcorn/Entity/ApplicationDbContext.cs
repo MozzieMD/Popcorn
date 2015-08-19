@@ -1,6 +1,6 @@
 ﻿using System.Data.Entity;
-using Popcorn.Entity.Settings;
-using Popcorn.Entity.User;
+using Popcorn.Entity.Application;
+using Popcorn.Entity.Movie;
 
 namespace Popcorn.Entity
 {
@@ -9,7 +9,7 @@ namespace Popcorn.Entity
     /// </summary>
     public class ApplicationDbContext : DbContext
     {
-        public DbSet<ApplicationSettings> ApplicationSettings { get; set; }
-        public DbSet<UserData> UserData { get; set; }
+        public DbSet<Settings> Settings { get; set; }
+        public DbSet<MovieHistory> MovieHistory { get; set; }
     }
 }

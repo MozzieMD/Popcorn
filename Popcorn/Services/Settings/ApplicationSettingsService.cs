@@ -3,7 +3,6 @@ using System.Data.Entity;
 using System.Data.Entity.Migrations;
 using System.Diagnostics;
 using Popcorn.Entity;
-using Popcorn.Entity.Settings;
 using NLog;
 using System.Threading.Tasks;
 
@@ -28,7 +27,7 @@ namespace Popcorn.Services.Settings
         #region Method -> CreateApplicationSettingsAsync
 
         /// <summary>
-        /// Scaffold ApplicationSettings table on database if empty
+        /// Scaffold Settings table on database if empty
         /// </summary>
         public async Task CreateApplicationSettingsAsync()
         {
@@ -52,11 +51,11 @@ namespace Popcorn.Services.Settings
 
             using (var context = new ApplicationDbContext())
             {
-                await context.ApplicationSettings.LoadAsync();
-                var settings = await context.ApplicationSettings.FirstOrDefaultAsync();
+                await context.Settings.LoadAsync();
+                var settings = await context.Settings.FirstOrDefaultAsync();
                 if (settings == null)
                 {
-                    context.ApplicationSettings.AddOrUpdate(new ApplicationSettings
+                    context.Settings.AddOrUpdate(new Entity.Application.Settings
                     {
                         Version = Helpers.Constants.ApplicationVersion,
                         Languages = new List<Entity.Localization.Language>

@@ -19,7 +19,7 @@ namespace Popcorn.ViewModels.Tabs
         /// <summary>
         /// Initializes a new instance of the RecentTabViewModel class.
         /// </summary>
-        private RecentTabViewModel()
+        public RecentTabViewModel()
         {
             RegisterMessages();
             RegisterCommands();
@@ -29,30 +29,6 @@ namespace Popcorn.ViewModels.Tabs
         #endregion
 
         #region Methods
-
-        #region Method -> InitializeAsync
-        /// <summary>
-        /// Load asynchronously the recent movies for the current instance
-        /// </summary>
-        /// <returns>Instance of RecentTabViewModel</returns>
-        private async Task<RecentTabViewModel> InitializeAsync()
-        {
-            await LoadNextPageAsync();
-            return this;
-        }
-        #endregion
-
-        #region Method -> CreateAsync
-        /// <summary>
-        /// Initialize asynchronously an instance of the RecentTabViewModel class
-        /// </summary>
-        /// <returns>Instance of RecentTabViewModel</returns>
-        public static Task<RecentTabViewModel> CreateAsync()
-        {
-            var ret = new RecentTabViewModel();
-            return ret.InitializeAsync();
-        }
-        #endregion
 
         #region Method -> RegisterMessages
 
@@ -79,19 +55,22 @@ namespace Popcorn.ViewModels.Tabs
             {
                 var mainViewModel = SimpleIoc.Default.GetInstance<MainViewModel>();
                 mainViewModel.IsConnectionInError = false;
-                await LoadNextPageAsync();
+                await LoadMoviesAsync();
             });
         }
 
         #endregion
 
-        #region Method -> LoadNextPageAsync
+        #region Method -> LoadMoviesAsync
 
         /// <summary>
         /// Load next page
         /// </summary>
-        public async Task LoadNextPageAsync()
+        public override async Task LoadMoviesAsync()
         {
+            if (Page == LastPage)
+                return;
+
             Page++;
             IsLoadingMovies = true;
             try
@@ -108,6 +87,11 @@ namespace Popcorn.ViewModels.Tabs
                     Movies.Add(movie);
                 }
 
+                if (!movies.Any())
+                    LastPage = Page;
+
+                IsLoadingMovies = false;
+
                 await UserService.ComputeMovieHistoryAsync(movies);
                 await MovieService.DownloadCoverImageAsync(movies);
             }
@@ -120,6 +104,8 @@ namespace Popcorn.ViewModels.Tabs
                 IsLoadingMovies = false;
                 IsMovieFound = Movies.Any();
                 CurrentNumberOfMovies = Movies.Count();
+                if (!IsMovieFound)
+                    Page = 0;
             }
         }
 

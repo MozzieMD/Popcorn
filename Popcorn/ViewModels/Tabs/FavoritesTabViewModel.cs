@@ -1,29 +1,27 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
-using GalaSoft.MvvmLight.Messaging;
-using Popcorn.Helpers;
-using Popcorn.Messaging;
 using GalaSoft.MvvmLight.CommandWpf;
 using GalaSoft.MvvmLight.Ioc;
+using GalaSoft.MvvmLight.Messaging;
+using Popcorn.Comparers;
+using Popcorn.Helpers;
+using Popcorn.Messaging;
 using Popcorn.ViewModels.Main;
 
 namespace Popcorn.ViewModels.Tabs
 {
-    /// <summary>
-    /// The greatest movies tab
-    /// </summary>
-    public sealed class GreatestTabViewModel : TabsViewModel
+    public class FavoritesTabViewModel : TabsViewModel
     {
         #region Constructor
 
         /// <summary>
-        /// Initializes a new instance of the GreatestTabViewModel class.
+        /// Initializes a new instance of the FavoritesTabViewModel class.
         /// </summary>
-        public GreatestTabViewModel()
+        public FavoritesTabViewModel()
         {
             RegisterMessages();
             RegisterCommands();
-            TabName = LocalizationProviderHelper.GetLocalizedValue<string>("GreatestTitleTab");
+            TabName = LocalizationProviderHelper.GetLocalizedValue<string>("FavoritesTitleTab");
         }
 
         #endregion
@@ -39,7 +37,14 @@ namespace Popcorn.ViewModels.Tabs
         {
             Messenger.Default.Register<ChangeLanguageMessage>(
                 this,
-                language => { TabName = LocalizationProviderHelper.GetLocalizedValue<string>("GreatestTitleTab"); });
+                language => { TabName = LocalizationProviderHelper.GetLocalizedValue<string>("FavoritesTitleTab"); });
+
+            Messenger.Default.Register<ChangeFavoriteMovieMessage>(
+                this,
+                async message =>
+                {
+                    await LoadMoviesAsync();
+                });
         }
 
         #endregion
@@ -64,48 +69,36 @@ namespace Popcorn.ViewModels.Tabs
         #region Method -> LoadMoviesAsync
 
         /// <summary>
-        /// Load next page with an optional search parameter
+        /// Load favorites movies
         /// </summary>
         public override async Task LoadMoviesAsync()
         {
-            if (Page == LastPage)
-                return;
-
-            Page++;
             IsLoadingMovies = true;
+            var favoritesMovies = await UserService.GetFavoritesMoviesAsync();
+            var movies = favoritesMovies.ToList();
+            var moviesToAdd = movies.Except(Movies, new MovieShortComparer()).ToList();
+            var moviesToRemove = Movies.Except(movies, new MovieShortComparer()).ToList();
             try
             {
-                var movieResults =
-                    await MovieService.GetTopRatedMoviesAsync(Page,
-                        MaxMoviesPerPage,
-                        CancellationLoadNextPageToken.Token);
-                var movies = movieResults.Item1.ToList();
-                MaxNumberOfMovies = movieResults.Item2;
-
-                foreach (var movie in movies)
+                MaxNumberOfMovies = movies.Count();
+                foreach (var movie in moviesToAdd)
                 {
                     Movies.Add(movie);
                 }
 
-                if (!movies.Any())
-                    LastPage = Page;
+                foreach (var movie in moviesToRemove)
+                {
+                    Movies.Remove(movie);
+                }
 
                 IsLoadingMovies = false;
-
-                await UserService.ComputeMovieHistoryAsync(movies);
-                await MovieService.DownloadCoverImageAsync(movies);
-            }
-            catch
-            {
-                Page--;
+                await MovieService.DownloadCoverImageAsync(moviesToAdd);
             }
             finally
             {
                 IsLoadingMovies = false;
                 IsMovieFound = Movies.Any();
                 CurrentNumberOfMovies = Movies.Count();
-                if (!IsMovieFound)
-                    Page = 0;
             }
         }
 

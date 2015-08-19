@@ -134,12 +134,12 @@ namespace Popcorn.ViewModels.Main
 
         #region Property -> Tabs
 
-        private ObservableCollection<ITab> _tabs = new ObservableCollection<ITab>();
+        private ObservableCollection<TabsViewModel> _tabs = new ObservableCollection<TabsViewModel>();
 
         /// <summary>
         /// Tabs shown into the interface via TabControl
         /// </summary>
-        public ObservableCollection<ITab> Tabs
+        public ObservableCollection<TabsViewModel> Tabs
         {
             get { return _tabs; }
             set { Set(() => Tabs, ref _tabs, value); }
@@ -149,12 +149,12 @@ namespace Popcorn.ViewModels.Main
 
         #region Property -> SelectedTab
 
-        private ITab _selectedTab;
+        private TabsViewModel _selectedTab;
 
         /// <summary>
         /// The selected viewmodel tab via TabControl
         /// </summary>
-        public ITab SelectedTab
+        public TabsViewModel SelectedTab
         {
             get { return _selectedTab; }
             set { Set(() => SelectedTab, ref _selectedTab, value); }
@@ -218,6 +218,36 @@ namespace Popcorn.ViewModels.Main
         {
             get { return _isSearchTabSelected; }
             private set { Set(() => IsSearchTabSelected, ref _isSearchTabSelected, value); }
+        }
+
+        #endregion
+
+        #region Property -> IsFavoritesTabSelected
+
+        private bool _isFavoritesTabSelected;
+
+        /// <summary>
+        /// Indicates if the favorites movies tab is selected
+        /// </summary>
+        public bool IsFavoritesTabSelected
+        {
+            get { return _isFavoritesTabSelected; }
+            private set { Set(() => IsFavoritesTabSelected, ref _isFavoritesTabSelected, value); }
+        }
+
+        #endregion
+
+        #region Property -> IsSeenTabSelected
+
+        private bool _isSeenTabSelected;
+
+        /// <summary>
+        /// Indicates if the seen movies tab is selected
+        /// </summary>
+        public bool IsSeenTabSelected
+        {
+            get { return _isSeenTabSelected; }
+            private set { Set(() => IsSeenTabSelected, ref _isSeenTabSelected, value); }
         }
 
         #endregion
@@ -322,6 +352,24 @@ namespace Popcorn.ViewModels.Main
 
         #endregion
 
+        #region Command -> SelectFavoritesTab
+
+        /// <summary>
+        /// Command used to select the seen movies tab
+        /// </summary>
+        public RelayCommand SelectSeenTab { get; private set; }
+
+        #endregion
+
+        #region Command -> SelectFavoritesTab
+
+        /// <summary>
+        /// Command used to select the favorites movies tab
+        /// </summary>
+        public RelayCommand SelectFavoritesTab { get; private set; }
+
+        #endregion
+
         #region Command -> CloseMoviePageCommand
 
         /// <summary>
@@ -419,15 +467,20 @@ namespace Popcorn.ViewModels.Main
         private async Task InitializeAsync()
         {
             IsStarting = true;
-            Tabs.Add(await PopularTabViewModel.CreateAsync());
-            SelectedTab = Tabs.FirstOrDefault();
+            Tabs.Add(new PopularTabViewModel());
+            SelectedTab = Tabs.First();
+            await SelectedTab.LoadMoviesAsync();
             IsGreatestTabSelected = false;
             IsPopularTabSelected = true;
             IsRecentTabSelected = false;
             IsSearchTabSelected = false;
+            IsFavoritesTabSelected = false;
+            IsSeenTabSelected = false;
             IsStarting = false;
-            Tabs.Add(await GreatestTabViewModel.CreateAsync());
-            Tabs.Add(await RecentTabViewModel.CreateAsync());
+            Tabs.Add(new GreatestTabViewModel());
+            Tabs.Add(new RecentTabViewModel());
+            Tabs.Add(new FavoritesTabViewModel());
+            Tabs.Add(new SeenTabViewModel());
         }
 
         #endregion
@@ -499,7 +552,7 @@ namespace Popcorn.ViewModels.Main
         /// </summary>
         private void RegisterCommands()
         {
-            SelectGreatestTab = new RelayCommand(() =>
+            SelectGreatestTab = new RelayCommand(async () =>
             {
                 if (SelectedTab is GreatestTabViewModel)
                     return;
@@ -513,6 +566,10 @@ namespace Popcorn.ViewModels.Main
                         IsPopularTabSelected = false;
                         IsRecentTabSelected = false;
                         IsSearchTabSelected = false;
+                        IsFavoritesTabSelected = false;
+                        IsSeenTabSelected = false;
+                        if (SelectedTab.Page == 0)
+                            await SelectedTab.LoadMoviesAsync();
                     }
                 }
             });
@@ -527,15 +584,17 @@ namespace Popcorn.ViewModels.Main
                     if (popularTab != null)
                     {
                         SelectedTab = popularTab;
-                        IsGreatestTabSelected = false;
                         IsPopularTabSelected = true;
+                        IsGreatestTabSelected = false;
                         IsRecentTabSelected = false;
                         IsSearchTabSelected = false;
+                        IsFavoritesTabSelected = false;
+                        IsSeenTabSelected = false;
                     }
                 }
             });
 
-            SelectRecentTab = new RelayCommand(() =>
+            SelectRecentTab = new RelayCommand(async () =>
             {
                 if (SelectedTab is RecentTabViewModel)
                     return;
@@ -545,10 +604,14 @@ namespace Popcorn.ViewModels.Main
                     if (recentTab != null)
                     {
                         SelectedTab = recentTab;
+                        IsRecentTabSelected = true;
                         IsGreatestTabSelected = false;
                         IsPopularTabSelected = false;
-                        IsRecentTabSelected = true;
                         IsSearchTabSelected = false;
+                        IsFavoritesTabSelected = false;
+                        IsSeenTabSelected = false;
+                        if (SelectedTab.Page == 0)
+                            await SelectedTab.LoadMoviesAsync();
                     }
                 }
             });
@@ -563,10 +626,56 @@ namespace Popcorn.ViewModels.Main
                     if (searchTab != null)
                     {
                         SelectedTab = searchTab;
+                        IsSearchTabSelected = true;
                         IsGreatestTabSelected = false;
                         IsPopularTabSelected = false;
                         IsRecentTabSelected = false;
-                        IsSearchTabSelected = true;
+                        IsFavoritesTabSelected = false;
+                        IsSeenTabSelected = false;
+                    }
+                }
+            });
+
+            SelectFavoritesTab = new RelayCommand(async () =>
+            {
+                if (SelectedTab is FavoritesTabViewModel)
+                    return;
+                foreach (var tab in Tabs)
+                {
+                    var favoritesTab = tab as FavoritesTabViewModel;
+                    if (favoritesTab != null)
+                    {
+                        SelectedTab = favoritesTab;
+                        IsFavoritesTabSelected = true;
+                        IsGreatestTabSelected = false;
+                        IsPopularTabSelected = false;
+                        IsRecentTabSelected = false;
+                        IsSearchTabSelected = false;
+                        IsSeenTabSelected = false;
+                        if (SelectedTab.Page == 0)
+                            await SelectedTab.LoadMoviesAsync();
+                    }
+                }
+            });
+
+            SelectSeenTab = new RelayCommand(async () =>
+            {
+                if (SelectedTab is SeenTabViewModel)
+                    return;
+                foreach (var tab in Tabs)
+                {
+                    var seenTab = tab as SeenTabViewModel;
+                    if (seenTab != null)
+                    {
+                        SelectedTab = seenTab;
+                        IsSeenTabSelected = true;
+                        IsGreatestTabSelected = false;
+                        IsPopularTabSelected = false;
+                        IsRecentTabSelected = false;
+                        IsSearchTabSelected = false;
+                        IsFavoritesTabSelected = false;
+                        if(SelectedTab.Page == 0)
+                            await SelectedTab.LoadMoviesAsync();
                     }
                 }
             });
@@ -580,8 +689,7 @@ namespace Popcorn.ViewModels.Main
             {
                 foreach (var tab in Tabs)
                 {
-                    var moviesViewModelTab = tab as TabsViewModel;
-                    moviesViewModelTab?.Cleanup();
+                    tab?.Cleanup();
                 }
 
                 ViewModelLocator.Cleanup();

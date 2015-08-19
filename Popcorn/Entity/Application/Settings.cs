@@ -3,12 +3,12 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Popcorn.Entity.Localization;
 
-namespace Popcorn.Entity.Settings
+namespace Popcorn.Entity.Application
 {
     /// <summary>
     /// Represents application's settings as an entity in the database
     /// </summary>
-    public class ApplicationSettings
+    public class Settings
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Key]
