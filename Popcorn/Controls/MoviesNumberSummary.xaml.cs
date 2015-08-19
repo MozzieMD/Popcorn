@@ -102,13 +102,21 @@ namespace Popcorn.Controls
         {
             if (CurrentNumberOfMovies.Equals(MaxNumberOfMovies))
             {
-                DisplayText.Text =
-                    $"{CurrentNumberOfMovies} {LocalizationProviderHelper.GetLocalizedValue<string>("MoviesWord")}";
+                MaxMovies.Visibility = Visibility.Collapsed;
+                CurrentMovies.Visibility = Visibility.Visible;
+
+                CurrentMovies.Text =
+                    $"{CurrentNumberOfMovies}";
             }
             else
             {
-                DisplayText.Text =
-                    $"{CurrentNumberOfMovies} {LocalizationProviderHelper.GetLocalizedValue<string>("MoviesWord")} {LocalizationProviderHelper.GetLocalizedValue<string>("OfWord")} {MaxNumberOfMovies}";
+                MaxMovies.Visibility = Visibility.Visible;
+                CurrentMovies.Visibility = Visibility.Visible;
+
+                CurrentMovies.Text =
+                    $"{CurrentNumberOfMovies}";
+                MaxMovies.Text =
+                    $"{MaxNumberOfMovies}";
             }
         }
 
