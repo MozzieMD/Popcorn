@@ -687,15 +687,20 @@ namespace Popcorn.ViewModels.Main
 
                 ViewModelLocator.Cleanup();
 
-                foreach (var filePath in Directory.GetFiles(Constants.MovieDownloads, "*.*", SearchOption.AllDirectories))
+                if (Directory.Exists(Constants.MovieDownloads))
                 {
-                    try
+                    foreach (
+                        var filePath in Directory.GetFiles(Constants.MovieDownloads, "*.*", SearchOption.AllDirectories)
+                        )
                     {
-                        File.Delete(filePath);
-                    }
-                    catch (Exception ex)
-                    {
-                        Logger.Error(ex.Message);
+                        try
+                        {
+                            File.Delete(filePath);
+                        }
+                        catch (Exception ex)
+                        {
+                            Logger.Error(ex.Message);
+                        }
                     }
                 }
             });

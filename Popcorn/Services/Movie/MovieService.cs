@@ -111,7 +111,7 @@ namespace Popcorn.Services.Movie
             request.AddUrlSegment("segment", "list_movies.json");
             request.AddParameter("limit", limit);
             request.AddParameter("page", page);
-            request.AddParameter("sort_by", "like_count");
+            request.AddParameter("sort_by", "seeds");
 
             var response = await restClient.ExecuteGetTaskAsync(request, ct);
             if (response.ErrorException != null)
@@ -794,7 +794,8 @@ namespace Popcorn.Services.Movie
                 moviesToProcess.ForEachAsync(
                     movie =>
                         DownloadFileHelper.DownloadFileTaskAsync(movie.MediumCoverImage,
-                            Constants.CoverMoviesDirectory + movie.ImdbCode + Constants.ImageFileExtension),
+                            Constants.CoverMoviesDirectory + movie.ImdbCode + Constants.ImageFileExtension,
+                            int.MaxValue),
                     (movie, t) =>
                     {
                         if (t.Item3 == null && !string.IsNullOrEmpty(t.Item2))
