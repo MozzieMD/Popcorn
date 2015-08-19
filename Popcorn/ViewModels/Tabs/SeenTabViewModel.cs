@@ -78,28 +78,23 @@ namespace Popcorn.ViewModels.Tabs
             var movies = favoritesMovies.ToList();
             var moviesToAdd = movies.Except(Movies, new MovieShortComparer()).ToList();
             var moviesToRemove = Movies.Except(movies, new MovieShortComparer()).ToList();
-            try
+            foreach (var movie in moviesToAdd)
             {
-                foreach (var movie in moviesToAdd)
-                {
-                    Movies.Add(movie);
-                }
-
-                foreach (var movie in moviesToRemove)
-                {
-                    Movies.Remove(movie);
-                }
-
-                IsLoadingMovies = false;
-                await MovieService.DownloadCoverImageAsync(moviesToAdd);
+                Movies.Add(movie);
             }
-            finally
+
+            foreach (var movie in moviesToRemove)
             {
-                IsLoadingMovies = false;
-                IsMovieFound = Movies.Any();
-                CurrentNumberOfMovies = Movies.Count();
-                MaxNumberOfMovies = movies.Count();
+                Movies.Remove(movie);
             }
+
+            IsLoadingMovies = false;
+            await MovieService.DownloadCoverImageAsync(moviesToAdd);
+
+            IsLoadingMovies = false;
+            IsMovieFound = Movies.Any();
+            CurrentNumberOfMovies = Movies.Count();
+            MaxNumberOfMovies = movies.Count();
         }
 
         #endregion

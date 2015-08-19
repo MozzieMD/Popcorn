@@ -100,6 +100,8 @@ namespace Popcorn.Controls
         public DownloadMovieProgress()
         {
             InitializeComponent();
+            DisplayText.Text =
+                        $"{LocalizationProviderHelper.GetLocalizedValue<string>("BufferingLabel")} : {Math.Round(DownloadProgress * 50, 0)} % ({DownloadRate} kB/s)";
         }
 
         #endregion

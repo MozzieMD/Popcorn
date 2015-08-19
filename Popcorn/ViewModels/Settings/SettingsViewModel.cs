@@ -12,6 +12,36 @@ namespace Popcorn.ViewModels.Settings
     {
         #region Properties
 
+        #region Property -> DownloadLimit
+
+        private int _downloadLimit;
+
+        /// <summary>
+        /// Download limit
+        /// </summary>
+        public int DownloadLimit
+        {
+            get { return _downloadLimit; }
+            set { Set(() => DownloadLimit, ref _downloadLimit, value); }
+        }
+
+        #endregion
+
+        #region Property -> UploadLimit
+
+        private int _uploadLimit;
+
+        /// <summary>
+        /// Upload limit
+        /// </summary>
+        public int UploadLimit
+        {
+            get { return _uploadLimit; }
+            set { Set(() => UploadLimit, ref _uploadLimit, value); }
+        }
+
+        #endregion
+
         #region Property -> Language
 
         private Language _language;

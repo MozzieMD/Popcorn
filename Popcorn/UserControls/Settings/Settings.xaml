@@ -55,7 +55,8 @@
             </Grid.ColumnDefinitions>
             <TextBlock Grid.Column="0"
                    Text="{lex:LocText DownloadLimitLabel}" />
-            <controls:NumericUpDown Grid.Column="1" Value="0"
+            <controls:NumericUpDown Grid.Column="1" 
+                                    Value="{Binding DownloadLimit}"
                                     Interval="50"
                                     VerticalAlignment="Top"
                                     HorizontalAlignment="Right"
@@ -75,7 +76,7 @@
                    Text="{lex:LocText UploadLimitLabel}" />
             <controls:NumericUpDown 
                 Grid.Column="1"
-                Value="0"
+                Value="{Binding UploadLimit}"
                 Interval="50"
                 VerticalAlignment="Top"
                 HorizontalAlignment="Right"

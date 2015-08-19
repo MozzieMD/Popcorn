@@ -13,6 +13,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Popcorn.Services.Movie;
+using Popcorn.ViewModels.Settings;
 
 namespace Popcorn.ViewModels.Download
 {
@@ -306,7 +307,9 @@ namespace Popcorn.ViewModels.Download
                     var addParams = new AddTorrentParams
                     {
                         SavePath = Constants.MovieDownloads,
-                        Url = torrentUrl
+                        Url = torrentUrl,
+                        DownloadLimit = SimpleIoc.Default.GetInstance<SettingsViewModel>().DownloadLimit*1024,
+                        UploadLimit = SimpleIoc.Default.GetInstance<SettingsViewModel>().UploadLimit*1024
                     };
 
                     var handle = session.AddTorrent(addParams);

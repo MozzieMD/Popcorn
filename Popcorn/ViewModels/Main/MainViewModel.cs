@@ -4,6 +4,7 @@ using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Messaging;
 using GalaSoft.MvvmLight.CommandWpf;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Net;
 using System.Net.Sockets;
 using System.Threading;
@@ -11,6 +12,7 @@ using System.Threading.Tasks;
 using GalaSoft.MvvmLight.Ioc;
 using GalaSoft.MvvmLight.Threading;
 using MahApps.Metro.Controls.Dialogs;
+using NLog;
 using Popcorn.Dialogs;
 using Popcorn.Messaging;
 using Popcorn.Events;
@@ -26,6 +28,15 @@ namespace Popcorn.ViewModels.Main
     /// </summary>
     public class MainViewModel : ViewModelBase
     {
+        #region Logger
+
+        /// <summary>
+        /// Logger of the class
+        /// </summary>
+        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+
+        #endregion
+
         #region Properties
 
         #region Property -> UserService
@@ -693,6 +704,18 @@ namespace Popcorn.ViewModels.Main
                 }
 
                 ViewModelLocator.Cleanup();
+
+                foreach (var filePath in Directory.GetFiles(Constants.MovieDownloads, "*.*", SearchOption.AllDirectories))
+                {
+                    try
+                    {
+                        File.Delete(filePath);
+                    }
+                    catch (Exception ex)
+                    {
+                        Logger.Error(ex.Message);
+                    }
+                }
             });
 
             OpenSettingsCommand = new RelayCommand(() => { IsSettingsFlyoutOpen = true; });
