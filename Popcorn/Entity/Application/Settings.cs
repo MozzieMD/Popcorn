@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Popcorn.Entity.Localization;
@@ -14,7 +15,7 @@ namespace Popcorn.Entity.Application
         [Key]
         public int Id { get; set; }
 
-        public string Version { get; set; }
+        public DateTime CreatedOn { get; set; }
         public virtual ICollection<Language> Languages { get; set; }
     }
 }

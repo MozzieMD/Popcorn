@@ -113,11 +113,6 @@ namespace Popcorn.Helpers
         public const string VideoFileExtension = ".mp4";
 
         /// <summary>
-        /// Version of the application
-        /// </summary>
-        public const string ApplicationVersion = "0.0.1";
-
-        /// <summary>
         /// Url of the server updates
         /// </summary>
         public const string UpdateServerUrl = "https://popcornreleases.blob.core.windows.net/releases";

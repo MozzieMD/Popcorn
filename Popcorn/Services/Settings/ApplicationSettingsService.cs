@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.Migrations;
 using System.Diagnostics;
@@ -57,7 +58,7 @@ namespace Popcorn.Services.Settings
                 {
                     context.Settings.AddOrUpdate(new Entity.Application.Settings
                     {
-                        Version = Helpers.Constants.ApplicationVersion,
+                        CreatedOn = DateTime.Now,
                         Languages = new List<Entity.Localization.Language>
                         {
                             englishLanguage,

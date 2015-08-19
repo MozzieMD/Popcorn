@@ -266,9 +266,9 @@
     <Compile Include="Entity\Movie\Torrent.cs" />
     <Compile Include="Messaging\ChangeFavoriteMovieMessage.cs" />
     <Compile Include="Messaging\ChangeHasBeenSeenMovieMessage.cs" />
-    <Compile Include="Migrations\201508191937353_Initial.cs" />
-    <Compile Include="Migrations\201508191937353_Initial.Designer.cs">
-      <DependentUpon>201508191937353_Initial.cs</DependentUpon>
+    <Compile Include="Migrations\201508192155425_Initial.cs" />
+    <Compile Include="Migrations\201508192155425_Initial.Designer.cs">
+      <DependentUpon>201508192155425_Initial.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Panels\ElasticWrapPanel.cs" />
@@ -551,8 +551,8 @@
     <Resource Include="Resources\Images\stop.png" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201508191937353_Initial.resx">
-      <DependentUpon>201508191937353_Initial.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201508192155425_Initial.resx">
+      <DependentUpon>201508192155425_Initial.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.fr.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>

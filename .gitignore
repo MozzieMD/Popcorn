@@ -85,3 +85,6 @@ Popcorn/Popcorn
 
 # Sonar folder
 .sonar
+
+# Squirrel package
+*.nupkg
