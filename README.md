@@ -1,5 +1,5 @@
 # Popcorn
-Watch movies easier
+Watch movies easier than anywhere with perfect stream -
 
 ![Screenshot1](https://cloud.githubusercontent.com/assets/8962802/9370674/46d0d9dc-46d2-11e5-9627-26db73f56efd.jpg)
 
@@ -37,7 +37,7 @@ Of course yes! It's open-source so feel free to submit pull-request, I promise I
 The solution is built using Visual Studio 2015.
 
 ## Popcorn VS Popcorn Time?
-Well, there's some points.
+Well, there are some points.
 
 * Cross-platform. Popcorn Time is based on Node-WebKit, hence, on NodeJS. Consequently, it's cross-platform. At the opposite, Popcorn is fully built using .NET/C#. So, multi-platform does not come out of the box. However, Mono works well and is aimed to support multi-platform, so that future support for multiple OS is conceivable.
 
