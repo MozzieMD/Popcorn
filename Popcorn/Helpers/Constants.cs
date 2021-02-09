@@ -55,7 +55,7 @@ namespace Popcorn.Helpers
         /// <summary>
         /// Endpoint to YTS
         /// </summary>
-        public const string YtsApiEndpoint = "http://yts.to/api/v2";
+        public const string YtsApiEndpoint = "https://yts.ag/api/v2/";
 
         /// <summary>
         /// Endpoint to Popcorn API
